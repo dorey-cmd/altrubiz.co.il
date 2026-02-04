@@ -1,6 +1,11 @@
 {
     "redirects": [
         {
+            "source": "/zoom",
+            "destination": "https://us06web.zoom.us/j/9725443500#success",
+            "permanent": true
+        },
+        {
             "source": "/:path+",
             "destination": "/",
             "permanent": true
