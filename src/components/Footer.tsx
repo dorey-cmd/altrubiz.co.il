@@ -15,10 +15,10 @@ export const Footer = () => {
                 </p>
 
                 <div className="flex gap-6 mb-6">
-                    <a href="https://altrubiz.co.il/privacy" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-primary transition-colors">
+                    <a href="https://mkt.altrubiz.co.il/terms" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-primary transition-colors">
                         מדיניות פרטיות
                     </a>
-                    <a href="https://altrubiz.co.il/termsofuse" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-primary transition-colors">
+                    <a href="https://mkt.altrubiz.co.il/terms" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-primary transition-colors">
                         תנאי שימוש
                     </a>
                 </div>
