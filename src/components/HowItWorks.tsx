@@ -1,6 +1,7 @@
 
 
 import { motion } from 'framer-motion';
+import { Lightbulb } from 'lucide-react';
 
 const steps = [
     {
@@ -92,12 +93,18 @@ export const HowItWorks = () => {
                                 </p>
 
                                 <motion.div
-                                    whileHover={{ x: -10 }}
-                                    className="bg-red-50 border-r-4 border-red-500 p-4 rounded-l-lg mr-4 md:mr-0 cursor-default"
+                                    whileHover={{ x: -5, y: -2 }}
+                                    className="bg-white/80 backdrop-blur-sm border border-blue-100 shadow-sm p-4 rounded-xl mr-4 md:mr-0 cursor-default relative overflow-hidden group hover:shadow-md transition-all duration-300"
                                 >
-                                    <p className="text-red-700 font-medium">
-                                        ⚠️ {step.pain}
-                                    </p>
+                                    <div className="absolute top-0 right-0 w-1 h-full bg-gradient-to-b from-blue-400 to-indigo-500 rounded-r-xl"></div>
+                                    <div className="flex items-start gap-3">
+                                        <div className="p-1.5 bg-blue-50 text-blue-600 rounded-lg shrink-0 mt-0.5">
+                                            <Lightbulb size={18} strokeWidth={2.5} />
+                                        </div>
+                                        <p className="text-slate-700 font-medium text-base/relaxed">
+                                            {step.pain}
+                                        </p>
+                                    </div>
                                 </motion.div>
                             </div>
                         </motion.div>
