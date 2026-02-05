@@ -6,9 +6,15 @@
             "permanent": true
         },
         {
-            "source": "/:path+",
-            "destination": "/",
+            "source": "/caldorey",
+            "destination": "https://link.altrubiz.co.il/widget/bookings/caldorey",
             "permanent": true
+        }
+    ],
+    "rewrites": [
+        {
+            "source": "/(.*)",
+            "destination": "/index.html"
         }
     ]
 }
