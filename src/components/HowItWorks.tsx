@@ -94,16 +94,24 @@ export const HowItWorks = () => {
 
                                 <motion.div
                                     whileHover={{ x: -5, y: -2 }}
-                                    className="bg-white/80 backdrop-blur-sm border border-blue-100 shadow-sm p-4 rounded-xl mr-4 md:mr-0 cursor-default relative overflow-hidden group hover:shadow-md transition-all duration-300"
+                                    className="relative overflow-hidden p-0.5 rounded-xl mr-4 md:mr-0 group hover:shadow-lg transition-all duration-300"
                                 >
-                                    <div className="absolute top-0 right-0 w-1 h-full bg-gradient-to-b from-blue-400 to-indigo-500 rounded-r-xl"></div>
-                                    <div className="flex items-start gap-3">
-                                        <div className="p-1.5 bg-blue-50 text-blue-600 rounded-lg shrink-0 mt-0.5">
-                                            <Lightbulb size={18} strokeWidth={2.5} />
+                                    {/* Gradient Border */}
+                                    <div className="absolute inset-0 bg-gradient-to-br from-secondary via-primary to-accent opacity-30 group-hover:opacity-100 transition-opacity duration-500 rounded-xl"></div>
+
+                                    {/* Content Container */}
+                                    <div className="relative bg-white/95 backdrop-blur-sm p-4 rounded-[10px] h-full flex items-start gap-4">
+                                        {/* Icon Box */}
+                                        <div className="p-2 bg-gradient-to-br from-amber-100 to-orange-50 text-amber-500 rounded-lg shadow-inner shrink-0 ring-1 ring-amber-200/50">
+                                            <Lightbulb size={20} strokeWidth={2.5} className="drop-shadow-sm" />
                                         </div>
-                                        <p className="text-slate-700 font-medium text-base/relaxed">
+
+                                        <p className="text-slate-700 font-medium text-base/relaxed pt-0.5">
                                             {step.pain}
                                         </p>
+
+                                        {/* Decorative Shine */}
+                                        <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-white/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none rounded-tr-[10px]"></div>
                                     </div>
                                 </motion.div>
                             </div>
