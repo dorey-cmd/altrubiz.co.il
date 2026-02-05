@@ -63,7 +63,7 @@ export const HowItWorks = () => {
                             className={`flex flex-col md:flex-row items-center gap-12 ${idx % 2 !== 0 ? 'md:flex-row-reverse' : ''}`}
                         >
                             {/* Image */}
-                            <div className="w-full md:w-1/2">
+                            <div className="w-full md:w-5/12 max-w-md mx-auto">
                                 <div className="relative group">
                                     <div className="absolute -inset-1 bg-gradient-to-r from-primary to-secondary rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
                                     <img
