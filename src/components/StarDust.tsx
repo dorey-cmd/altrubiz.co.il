@@ -27,7 +27,7 @@ export const StarDust = () => {
         const onMouseMove = (e: MouseEvent) => {
             mouseX = e.clientX;
             mouseY = e.clientY;
-            createParticles(3); // Create a few particles on move
+            createParticles(2); // Reduced frequency for airiness
         };
         window.addEventListener('mousemove', onMouseMove);
 
@@ -43,29 +43,32 @@ export const StarDust = () => {
             constructor() {
                 this.x = mouseX;
                 this.y = mouseY;
-                this.size = Math.random() * 2 + 0.5; // Small dust size
-                this.speedX = Math.random() * 2 - 1;
-                this.speedY = Math.random() * 2 - 1;
+                this.size = Math.random() * 1.5 + 0.5; // Fine pixie dust size
+                this.speedX = (Math.random() - 0.5) * 1.2;
+                this.speedY = (Math.random() - 0.5) * 1.2;
                 this.life = 100;
-                // Gold/Yellowish tint for "Star Dust"
-                this.color = `rgba(255, 215, 0, ${Math.random()})`;
+                // Soft Golden tint
+                this.color = `rgba(255, 190, 0, ${Math.random() * 0.4 + 0.3})`;
             }
 
             update() {
                 this.x += this.speedX;
                 this.y += this.speedY;
-                this.life -= 1.5; // Fade out speed
+                this.life -= 1.0; // Lasts longer for airiness
                 if (this.size > 0.1) this.size -= 0.01;
             }
 
             draw() {
                 if (!ctx) return;
+                ctx.shadowBlur = 2; // Subtle glow
+                ctx.shadowColor = 'rgba(255, 180, 0, 0.3)';
                 ctx.fillStyle = this.color;
                 ctx.globalAlpha = this.life / 100;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.globalAlpha = 1;
+                ctx.shadowBlur = 0;
             }
         }
 
@@ -102,7 +105,7 @@ export const StarDust = () => {
     return (
         <canvas
             ref={canvasRef}
-            className="fixed inset-0 pointer-events-none z-50 text-white mix-blend-screen"
+            className="fixed inset-0 pointer-events-none z-[60]"
         />
     );
 };

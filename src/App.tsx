@@ -6,7 +6,7 @@ import { Features } from './components/Features'
 import { HowItWorks } from './components/HowItWorks'
 import { Benefits, Extras } from './components/Benefits'
 import { Integrations } from './components/Integrations'
-import { Pricing } from './components/Pricing'
+import { PricingNew } from './components/PricingNew'
 import { ContactForm } from './components/ContactForm'
 import { Footer } from './components/Footer'
 import { Spotlight } from './components/Spotlight'
@@ -27,7 +27,7 @@ function App() {
                 <Benefits />
                 <Extras />
                 <Integrations />
-                <Pricing />
+                <PricingNew />
                 <ContactForm />
             </main>
             <Footer />

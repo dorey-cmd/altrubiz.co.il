@@ -16,10 +16,6 @@ export const Header = () => {
                             alt="AltruBiz Logo"
                             className="h-12 md:h-16 w-auto object-contain"
                         />
-                        {/* Text hidden as logo likely contains brand name, keeping span just in case but hidden on all breakpoints if needed, or just standard md:hidden */}
-                        <span className="text-2xl font-bold text-primary md:hidden">
-                            AltruBiz
-                        </span>
                     </a>
 
                     {/* Desktop Navigation */}
