@@ -4,11 +4,12 @@ import App from './App.tsx'
 import './index.css'
 
 // Client-side redirect logic
-if (window.location.pathname === '/zoom') {
+const currentPath = window.location.pathname;
+if (currentPath === '/zoom') {
     window.location.replace('https://us06web.zoom.us/j/9725443500#success');
-} else if (window.location.pathname === '/caldorey') {
+} else if (currentPath === '/caldorey') {
     window.location.replace('https://link.altrubiz.co.il/widget/bookings/caldorey');
-} else if (window.location.pathname !== '/' && window.location.pathname !== '/index.html') {
+} else if (currentPath !== '/' && currentPath !== '/index.html' && currentPath !== '/offer') {
     window.location.replace('/');
 }
 

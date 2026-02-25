@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import CountUp from 'react-countup';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -75,10 +75,10 @@ const COMPARISON_DATA = [
         features: [
             { name: "שעת תמיכה ו-OnBoarding אישית בזום אחד על אחד", pro: "שעה אחת", smart: "3 שעות", power: "3 שעות לחודש (3 חודשים)" },
         ]
-    },
+    }
 ];
 
-export const PricingNew = () => {
+export const PricingOffer = () => {
     const [isYearly, setIsYearly] = useState(true);
     const [showComparison, setShowComparison] = useState(false);
     const prices = isYearly ? PRICES.yearly : PRICES.monthly;
@@ -152,6 +152,11 @@ export const PricingNew = () => {
                         viewport={{ once: true }}
                         className="bg-white rounded-[2rem] shadow-xl p-6 md:p-6 lg:p-7 flex flex-col items-center text-center relative hover:-translate-y-2 transition-transform duration-300 border-2 border-[#22C55E]"
                     >
+                        {/* Sale Badge */}
+                        <div className="absolute -top-3 -right-3 bg-red-600 text-white px-4 py-2 rounded-full text-sm font-black shadow-lg z-20 animate-bounce">
+                            מבצע!
+                        </div>
+
                         <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#22C55E] text-white px-4 py-1 rounded-full text-sm font-bold shadow-md whitespace-nowrap">
                             ניהול המכירות
                         </div>
@@ -162,7 +167,7 @@ export const PricingNew = () => {
                         <div className="flex items-start justify-center gap-1 mb-2 text-[#0F6CBD]">
                             <span className="text-3xl font-bold mt-2">₪</span>
                             <span className="text-6xl font-bold">
-                                <CountUp end={prices.pro} duration={0.5} preserveValue={true} />
+                                <CountUp end={97} duration={0.5} preserveValue={true} />
                             </span>
                         </div>
                         <p className="text-gray-400 text-sm mb-6">+ מע"מ לחודש</p>
@@ -197,7 +202,7 @@ export const PricingNew = () => {
                         </p>
 
                         <a
-                            href={isYearly ? LINKS.pro.year : LINKS.pro.month}
+                            href="https://private.invoice4u.co.il/newsite/he/clearing/public/i4u-clearing?ProductGuid=1e732ce0-ca73-4acb-8044-c5bbd1984817"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="block w-full py-4 text-center rounded-lg font-bold text-white bg-[#22C55E] hover:bg-green-700 transition-colors shadow-lg shadow-green-500/20 text-lg mb-4"
@@ -487,5 +492,3 @@ export const PricingNew = () => {
         </section>
     );
 };
-
-import React from 'react';
