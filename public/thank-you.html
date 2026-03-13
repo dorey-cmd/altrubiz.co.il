@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>תודה רבה על הרשמתך | Altrubiz CRM</title>
+    
+    <!-- Google Fonts: Assistant is widely used in Israeli modern tech sites -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS for rapid styling matching the site character -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#008BFC', /* Main action blue */
+                        primaryHover: '#0070CC',
+                        secondary: '#0F172A', /* Dark navy/indigo for backgrounds and headings */
+                        accent: '#FFB800', /* Gold/Yellow for highlights */
+                        lightBg: '#F8FAFC',
+                    },
+                    fontFamily: {
+                        sans: ['Assistant', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'soft': '0 20px 40px -15px rgba(0,0,0,0.05)',
+                        'glow': '0 0 40px rgba(0, 139, 252, 0.2)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Assistant', sans-serif;
+            background-color: #F8FAFC;
+        }
+        .hero-pattern {
+            background-color: #0F172A;
+            background-image: radial-gradient(circle at top right, rgba(0, 139, 252, 0.15), transparent 40%),
+                              radial-gradient(circle at bottom left, rgba(0, 139, 252, 0.1), transparent 40%);
+        }
+        #stardust-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none; /* Let clicks pass through */
+            z-index: 9999; /* Higher z-index so it runs OVER the content */
+        }
+        .content-wrapper {
+            position: relative;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center hero-pattern text-slate-800">
+    <!-- Canvas for stardust effect -->
+    <canvas id="stardust-canvas"></canvas>
+
+    <!-- Header / Logo container with exact same width/styling structure as the inner card -->
+    <header class="w-full pt-8 pb-4 px-4 flex justify-center items-center content-wrapper">
+        <div class="max-w-lg w-full">
+            <a href="https://altrubiz.co.il" aria-label="Altrubiz Home" class="bg-white/80 backdrop-blur-sm rounded-2xl flex justify-center py-4 shadow-soft transition-all hover:bg-white border border-white/40 block">
+                <img src="https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/688019c09a4c2d4b4398bf3c.png" alt="Altrubiz Logo" class="h-20 md:h-28 object-contain">
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content Card -->
+    <main class="flex-grow flex items-start justify-center w-full px-4 pb-12 content-wrapper">
+        <div class="bg-white rounded-2xl shadow-soft max-w-lg w-full p-8 md:p-12 text-center relative overflow-hidden transform transition-all duration-500 hover:shadow-glow z-10">
+            
+            <!-- Top decorative line -->
+            <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-primary to-accent"></div>
+
+            <!-- Success Icon -->
+            <div class="mx-auto flex items-center justify-center h-20 w-20 rounded-full bg-blue-50 text-primary mb-6">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+            </div>
+
+            <!-- Titles -->
+            <h1 class="text-3xl md:text-4xl font-bold text-secondary mb-2">תודה רבה!</h1>
+            <h2 class="text-lg md:text-xl text-primary font-semibold mb-6">ההרשמה והתשלום התקבלו בהצלחה.</h2>
+
+            <!-- Body Text -->
+            <div class="text-slate-600 space-y-4 mb-8 text-base md:text-lg leading-relaxed">
+                <p>
+                    איזה כיף שהצטרפת אלינו! אנחנו נרגשים לעזור לך להכניס את השיטה לסיסטם ולגדל את העסק הדיגיטלי שלך לממדים חדשים.
+                </p>
+                
+                <div class="bg-slate-50 rounded-xl p-5 border border-slate-100 mt-6 relative">
+                    <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-white px-3 text-slate-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                    <h3 class="font-bold text-secondary text-[1.1rem] mb-2 pt-2">מה הצעד הבא?</h3>
+                    <p class="text-sm md:text-base">
+                        על מנת להמשיך את התהליך ולהתחבר למערכת, <strong>שלחנו אליך ממש עכשיו הודעת אימייל</strong> עם הנחיות להמשיך את התהליך.
+                    </p>
+                    <p class="text-sm mt-3 text-slate-500 font-medium">
+                        חשוב: אם המייל לא מופיע בתיבה הראשית, בדקו גם בתיקיית קידומי המכירות או הספאם.
+                    </p>
+                </div>
+            </div>
+
+            <!-- CTA -->
+            <a href="https://altrubiz.co.il" class="inline-flex items-center justify-center w-full px-6 py-3.5 text-base font-bold text-white transition-all duration-200 bg-primary rounded-full hover:bg-primaryHover hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                חזרה לעמוד הבית
+            </a>
+            
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full text-center py-6 text-slate-400 text-sm content-wrapper">
+        <p>&copy; כל הזכויות שמורות ל-Altrubiz CRM 2026</p>
+    </footer>
+
+    <!-- Stardust JS Logic -->
+    <script>
+        const canvas = document.getElementById('stardust-canvas');
+        const ctx = canvas.getContext('2d');
+        let particlesArray = [];
+        let isMouseMoving = false;
+        let mouseTimeout;
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // Resize canvas on window resize
+        window.addEventListener('resize', function() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        const mouse = {
+            x: null,
+            y: null,
+            radius: 100 // Area of influence
+        }
+
+        window.addEventListener('mousemove', function(event) {
+            mouse.x = event.x;
+            mouse.y = event.y;
+            isMouseMoving = true;
+            
+            clearTimeout(mouseTimeout);
+            mouseTimeout = setTimeout(() => {
+                isMouseMoving = false;
+            }, 100);
+            
+            // Generate particles while moving
+            for(let i=0; i<3; i++) {
+                particlesArray.push(new Particle(mouse.x, mouse.y));
+            }
+        });
+
+        // Add touch support for mobile
+        window.addEventListener('touchmove', function(event) {
+            mouse.x = event.touches[0].clientX;
+            mouse.y = event.touches[0].clientY;
+            isMouseMoving = true;
+            
+            clearTimeout(mouseTimeout);
+            mouseTimeout = setTimeout(() => {
+                isMouseMoving = false;
+            }, 100);
+            
+            for(let i=0; i<2; i++) {
+                particlesArray.push(new Particle(mouse.x, mouse.y));
+            }
+        });
+
+        class Particle {
+            constructor(x, y) {
+                // Determine origin with slight randomness around cursor
+                this.x = x + (Math.random() * 20 - 10);
+                this.y = y + (Math.random() * 20 - 10);
+                this.size = Math.random() * 3 + 1; // Size of "star"
+                // Movement direction and speed
+                this.speedX = Math.random() * 2 - 1; 
+                this.speedY = Math.random() * 2 - 1.5; // Drift upwards slightly
+                // Color choices based on site palette: Primary Blue, Accent Yellow, Light Cyan
+                const colors = ['rgba(0, 139, 252, 0.8)', 'rgba(255, 184, 0, 0.8)', 'rgba(0, 204, 255, 0.6)'];
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.opacity = 1;
+                this.fadeRate = Math.random() * 0.02 + 0.01;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                // Slowly expand and fade out
+                if (this.size > 0.2) this.size -= 0.05;
+                this.opacity -= this.fadeRate;
+            }
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = Math.max(0, this.opacity);
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                // Simple circle for "dustdust" or star
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Optional: add a tiny glow to larger particles
+                if(this.size > 2) {
+                    ctx.shadowBlur = 10;
+                    ctx.shadowColor = this.color;
+                }
+                ctx.restore();
+            }
+        }
+
+        function handleParticles() {
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+                particlesArray[i].draw();
+                
+                // Remove particles that are fully faded or too small
+                if (particlesArray[i].opacity <= 0 || particlesArray[i].size <= 0.2) {
+                    particlesArray.splice(i, 1);
+                    i--;
+                }
+            }
+        }
+
+        // Randomly spawn background floaters even when mouse is still if desired
+        function spawnAmbientParticles() {
+            if(!isMouseMoving && Math.random() < 0.05) {
+                // Spawn somewhere on screen
+                particlesArray.push(new Particle(Math.random() * canvas.width, Math.random() * canvas.height));
+            }
+        }
+
+        function animate() {
+            // Clear trail
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Optional ambient stars
+            // spawnAmbientParticles();
+
+            handleParticles();
+            requestAnimationFrame(animate);
+        }
+        
+        animate();
+    </script>
+</body>
+</html>
