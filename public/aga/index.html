@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Altrubiz Growth Analyzer — בדיקת בריאות עסקית</title>
+  <link rel="icon" type="image/png" href="https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/688019c09a4c2d4b4398bf3c.png"/>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://link.altrubiz.co.il/js/form_embed.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<style>
+/* ── TOKENS ──────────────────────────────── */
+:root{
+  --bg:      #070B15;
+  --card:    rgba(255,255,255,.043);
+  --card-h:  rgba(255,255,255,.074);
+  --bdr:     rgba(255,255,255,.080);
+  --bdr-hi:  rgba(0,216,156,.30);
+  --acc:     #00D89C;
+  --acc2:    #00BE88;
+  --acc-dim: rgba(0,216,156,.10);
+  --acc-glo: rgba(0,216,156,.28);
+  --t1:      #ECF1F8;
+  --t2:      #7C8BA0;
+  --t3:      #36404E;
+  --err:     #FF5F5F;
+  --r1:8px;--r2:13px;--r3:18px;--r4:26px;
+  --font:'Heebo',sans-serif;
+  --ease:cubic-bezier(.4,0,.2,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{direction:rtl;scroll-behavior:smooth}
+body{background:var(--bg);color:var(--t1);font-family:var(--font);-webkit-font-smoothing:antialiased;overflow-x:hidden;line-height:1.55}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--bdr);border-radius:2px}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none}
+input[type=number]{-moz-appearance:textfield}
+
+/* ── LAYOUT ─────────────────────────────── */
+.page{position:relative;z-index:1}
+.w{max-width:780px;margin:0 auto;padding:0 24px}
+section{padding:48px 0}
+
+/* ── BACKGROUND LAYER ───────────────────── */
+.bg-layer{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.012) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.012) 1px,transparent 1px);background-size:60px 60px}
+.orb{position:absolute;border-radius:50%;filter:blur(120px);pointer-events:none}
+.o1{width:800px;height:800px;top:-380px;right:-300px;background:radial-gradient(circle,rgba(0,216,156,.10),transparent 65%);animation:drift 24s ease-in-out infinite}
+.o2{width:600px;height:600px;bottom:-270px;left:-190px;background:radial-gradient(circle,rgba(10,50,200,.07),transparent 65%);animation:drift 30s ease-in-out infinite reverse}
+.o3{width:340px;height:340px;top:44%;left:40%;background:radial-gradient(circle,rgba(0,216,156,.050),transparent 65%);animation:drift 18s ease-in-out infinite;animation-delay:-9s}
+@keyframes drift{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(42px,-28px) scale(1.04)}66%{transform:translate(-28px,42px) scale(.96)}}
+
+/* ── TYPE ───────────────────────────────── */
+.tag{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:.10em;text-transform:uppercase;color:var(--acc);margin-bottom:10px}
+.tag::before{content:'';width:20px;height:2px;background:var(--acc);border-radius:2px;flex-shrink:0}
+.h1{font-size:clamp(36px,7.2vw,78px);font-weight:900;line-height:1.06;letter-spacing:-.03em}
+.h2{font-size:clamp(24px,3.6vw,42px);font-weight:900;line-height:1.12;letter-spacing:-.022em;margin-bottom:10px}
+.lead{font-size:clamp(15px,1.75vw,18px);color:var(--t2);line-height:1.75;max-width:620px}
+.grad{background:linear-gradient(135deg,#00D89C 5%,#00FFD2 54%,#00BE88 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.rv{opacity:0;transform:translateY(20px);transition:opacity .58s var(--ease),transform .58s var(--ease)}
+.rv.on{opacity:1;transform:none}
+
+/* ── BUTTONS ────────────────────────────── */
+.btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--font);font-weight:700;border:none;border-radius:var(--r2);cursor:pointer;outline:none;transition:all .2s var(--ease);position:relative;overflow:hidden;letter-spacing:.01em;white-space:nowrap}
+.btn span,.btn svg{position:relative;z-index:1}
+.btn-g{font-size:16px;padding:15px 34px;background:linear-gradient(135deg,#00D89C,#00BE88);color:#051018;box-shadow:0 4px 24px rgba(0,216,156,.24)}
+.btn-g::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,#00FFD2,#00D89C);opacity:0;transition:opacity .2s ease}
+.btn-g:hover{transform:translateY(-2px);box-shadow:0 8px 34px rgba(0,216,156,.42)}
+.btn-g:hover::after{opacity:1}
+.btn-g:active{transform:none}
+.btn-g.xl{font-size:18px;padding:19px 48px}
+.btn-o{font-size:15px;padding:10px 20px;background:transparent;color:var(--t2);border:1.5px solid var(--bdr)}
+.btn-o:hover{border-color:var(--bdr-hi);color:var(--t1)}
+/* inline text CTA */
+.btn-txt{background:none;border:none;color:var(--acc);font-family:var(--font);font-size:15px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px;padding:0;transition:gap .2s ease}
+.btn-txt:hover{gap:10px}
+
+/* ── STICKY CTA BAR ─────────────────────── */
+.sticky-bar{
+  position:fixed;bottom:0;left:0;right:0;z-index:100;
+  background:rgba(7,11,21,.92);border-top:1px solid var(--bdr-hi);
+  backdrop-filter:blur(16px);
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:12px 28px;
+  transform:translateY(100%);transition:transform .38s var(--ease);
+}
+.sticky-bar.show{transform:translateY(0)}
+.sticky-bar-txt{font-size:15px;color:var(--t2);line-height:1.4}
+.sticky-bar-txt strong{color:var(--t1);font-weight:700}
+@media(max-width:600px){.sticky-bar{flex-direction:column;gap:10px;padding:14px 20px}.sticky-bar-txt{text-align:center}}
+
+/* ── HERO ───────────────────────────────── */
+.hero{min-height:90vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:52px 24px 36px;position:relative;gap:0}
+.hero-inner{width:100%;max-width:780px;display:flex;flex-direction:column;align-items:center;position:relative}
+.hero-logo{width:158px;height:auto;margin-bottom:18px;filter:drop-shadow(0 0 16px rgba(0,216,156,.13));animation:fadeDown .8s var(--ease) both}
+.pill{display:inline-flex;align-items:center;gap:8px;background:var(--acc-dim);border:1px solid var(--bdr-hi);border-radius:100px;padding:6px 17px;font-size:13px;font-weight:600;color:var(--acc);margin-bottom:18px;animation:fadeUp .8s var(--ease) .1s both}
+.pill-dot{width:6px;height:6px;border-radius:50%;background:var(--acc);animation:pulse 2.5s ease infinite;flex-shrink:0}
+.hero-h{animation:fadeUp .85s var(--ease) .18s both;margin-bottom:16px}
+.hero-sub{animation:fadeUp .85s var(--ease) .28s both;margin-bottom:26px;font-size:clamp(16px,1.8vw,18px);color:var(--t2);max-width:500px;line-height:1.75}
+.hero-cta-wrap{animation:fadeUp .85s var(--ease) .36s both;display:flex;flex-direction:column;align-items:center;gap:8px;margin-bottom:32px}
+.hero-micro{font-size:13px;color:var(--t3)}
+
+/* Stats strip */
+.stats-strip{display:flex;align-items:stretch;border:1px solid var(--bdr);border-radius:var(--r3);overflow:hidden;background:var(--card);backdrop-filter:blur(12px);animation:fadeUp .85s var(--ease) .50s both;width:100%}
+.ss{display:flex;flex-direction:column;align-items:center;gap:3px;padding:15px 18px;flex:1;border-right:1px solid var(--bdr)}
+.ss:first-child{border-right:none}
+.ss-n{font-size:20px;font-weight:900;color:var(--acc);line-height:1;letter-spacing:-.02em}
+.ss-l{font-size:12.5px;color:var(--t2);line-height:1.35;text-align:center}
+
+/* Floating badges desktop */
+.fb{position:absolute;background:rgba(9,13,25,.93);border:1px solid var(--bdr-hi);border-radius:var(--r2);padding:10px 15px;backdrop-filter:blur(14px);pointer-events:none;animation:floatB 7s ease-in-out infinite}
+.fb1{left:-140px;top:22%;animation-delay:0s}
+.fb2{right:-140px;top:32%;animation-delay:-3.5s}
+.fb-n{display:block;font-size:18px;font-weight:900;line-height:1;margin-bottom:2px}
+.fb-l{display:block;font-size:11.5px;color:var(--t2);white-space:nowrap}
+@media(max-width:960px){.fb{display:none}}
+@keyframes floatB{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+
+/* Hero bottom arrow nudge */
+.scroll-nudge{display:flex;flex-direction:column;align-items:center;gap:7px;margin-top:28px;animation:fadeUp .85s var(--ease) .65s both;cursor:pointer}
+.nudge-line{width:1px;height:36px;background:linear-gradient(to bottom,transparent,var(--bdr-hi),transparent);animation:nudgePulse 2s ease-in-out infinite}
+.nudge-txt{font-size:11.5px;color:var(--t3);letter-spacing:.07em;text-transform:uppercase}
+@keyframes nudgePulse{0%,100%{opacity:.4;transform:scaleY(1)}50%{opacity:1;transform:scaleY(1.15)}}
+
+/* ── SECTION DIVIDER ────────────────────── */
+.sdiv{width:100%;height:1px;background:var(--bdr)}
+
+/* ── QUESTIONNAIRE ──────────────────────── */
+.q-sec{padding:42px 0 50px}
+.q-card{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r4);padding:34px 38px;position:relative;overflow:hidden;backdrop-filter:blur(18px);margin-top:24px}
+.q-card::before{content:'';position:absolute;top:-65px;right:-65px;width:260px;height:260px;background:radial-gradient(circle,var(--acc-dim),transparent 70%);pointer-events:none}
+/* Progress */
+.prog-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px}
+.prog-l{font-size:14px;color:var(--t2);font-weight:500}
+.prog-v{font-size:14px;color:var(--acc);font-weight:700}
+.prog-track{width:100%;height:3px;background:rgba(255,255,255,.07);border-radius:3px;margin-bottom:34px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,#00D89C,#00BE88);border-radius:3px;transition:width .42s var(--ease);box-shadow:0 0 8px var(--acc-glo)}
+/* Question */
+.q-slide{animation:sldL .32s var(--ease) both}
+@keyframes sldL{from{opacity:0;transform:translateX(-18px)}to{opacity:1;transform:translateX(0)}}
+.q-hdr{display:flex;align-items:center;gap:10px;margin-bottom:7px}
+.q-ico{font-size:21px}
+.q-step{font-size:12.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--acc)}
+.q-txt{font-size:clamp(19px,3.2vw,28px);font-weight:800;line-height:1.22;letter-spacing:-.015em;margin-bottom:24px}
+.inp-w{position:relative}
+.inp-pfx{position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:20px;font-weight:700;color:var(--t2);pointer-events:none;transition:color .2s ease;user-select:none;direction:ltr}
+.inp-w:focus-within .inp-pfx{color:var(--acc)}
+.q-inp{width:100%;background:rgba(255,255,255,.055);border:1.5px solid var(--bdr);border-radius:var(--r2);padding:16px 17px;padding-right:48px;font-family:var(--font);font-size:26px;font-weight:700;color:var(--t1);text-align:right;direction:rtl;transition:all .2s var(--ease);outline:none}
+.q-inp.np{padding-right:17px}
+.q-inp:focus{background:rgba(0,216,156,.05);border-color:var(--acc);box-shadow:0 0 0 3px rgba(0,216,156,.09)}
+.q-inp.er{border-color:var(--err)}
+.q-hint{font-size:14px;color:var(--t3);margin-top:7px;line-height:1.5}
+.q-err{font-size:14px;color:var(--err);margin-top:7px;display:flex;align-items:flex-start;gap:5px;line-height:1.5}
+.q-acts{display:flex;align-items:center;gap:10px;margin-top:20px}
+
+/* ── DASHBOARD ──────────────────────────── */
+.dash{padding:36px 0 68px}
+/* Score banner */
+.score-ban{border-radius:var(--r3);padding:18px 22px;display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:16px;flex-wrap:wrap}
+.score-left{display:flex;align-items:center;gap:16px;flex-wrap:wrap;flex:1}
+.score-grade{width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900;flex-shrink:0;line-height:1}
+.score-tag{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;margin-bottom:2px;opacity:.7}
+.score-title{font-size:16px;font-weight:800;line-height:1.25}
+.score-detail{font-size:13px;margin-top:2px;opacity:.6}
+.score-right{min-width:160px;flex:1;max-width:240px}
+.score-pct-row{display:flex;justify-content:space-between;margin-bottom:5px}
+.score-pct-lbl{font-size:12px;color:var(--t2)}
+.score-pct-val{font-size:16px;font-weight:900;line-height:1}
+.s-track{height:4px;background:rgba(255,255,255,.08);border-radius:4px;overflow:hidden;margin-bottom:4px}
+.s-fill{height:100%;border-radius:4px;transition:width .95s var(--ease)}
+.s-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--t3)}
+/* Metrics row — 4 cards */
+.db-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}
+.db-met{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r2);padding:16px 14px;transition:all .22s var(--ease)}
+.db-met:hover{background:var(--card-h);border-color:var(--bdr-hi)}
+.db-met-ico{font-size:16px;margin-bottom:8px}
+.db-met-lbl{font-size:11px;font-weight:600;color:var(--t2);letter-spacing:.04em;text-transform:uppercase;margin-bottom:5px}
+.db-met-val{font-size:clamp(17px,2.4vw,24px);font-weight:900;line-height:1;background:linear-gradient(135deg,#ECF1F8,#fff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.db-met-val.hi{background:linear-gradient(135deg,#00D89C,#00FFD2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.db-met-sub{font-size:11.5px;color:var(--t3);margin-top:4px}
+/* Simulation block */
+.db-sim{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r3);padding:22px 24px;margin-bottom:12px}
+.db-sim-hdr{font-size:14px;font-weight:800;color:var(--t1);margin-bottom:2px}
+.db-sim-sub{font-size:13px;color:var(--t2);margin-bottom:18px}
+/* Slider */
+.sl-w{margin-bottom:4px}
+.sl-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.sl-lbl{font-size:13px;color:var(--t2)}
+.sl-val{font-size:14px;font-weight:800;color:var(--acc)}
+.sl-inp{width:100%;-webkit-appearance:none;appearance:none;height:5px;border-radius:5px;outline:none;cursor:pointer;direction:ltr;display:block}
+.sl-inp::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,#00D89C,#00BE88);cursor:pointer;box-shadow:0 0 0 4px rgba(0,216,156,.15),0 2px 8px rgba(0,216,156,.38);transition:box-shadow .18s ease}
+.sl-inp::-webkit-slider-thumb:hover{box-shadow:0 0 0 8px rgba(0,216,156,.15),0 3px 14px rgba(0,216,156,.48)}
+.sl-inp::-moz-range-thumb{width:20px;height:20px;border-radius:50%;border:none;background:linear-gradient(135deg,#00D89C,#00BE88)}
+.marks{display:flex;justify-content:space-between;margin-top:7px}
+.mk{font-size:11px;color:var(--t3);text-align:center;transition:color .22s ease}
+.mk.on{color:var(--acc);font-weight:700}
+/* Before/After compare */
+.db-cmp{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
+.db-cmp-box{border-radius:var(--r2);padding:16px;text-align:center}
+.db-cmp-now{background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.07);opacity:.85}
+.db-cmp-pot{background:rgba(0,216,156,.07);border:1px solid rgba(0,216,156,.30);box-shadow:inset 0 0 30px rgba(0,216,156,.05)}
+.db-cmp-lbl{font-size:11px;font-weight:700;color:var(--t2);letter-spacing:.08em;text-transform:uppercase;margin-bottom:7px}
+.db-cmp-pot .db-cmp-lbl{color:var(--acc)}
+.db-cmp-val{font-size:clamp(22px,3.4vw,34px);font-weight:900;letter-spacing:-.03em;line-height:1;background:linear-gradient(135deg,#ECF1F8,#fff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.db-cmp-val.hi{font-size:clamp(26px,4vw,40px);background:linear-gradient(135deg,#00D89C,#00FFD2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.db-cmp-sub{font-size:12px;color:var(--t2);margin-top:6px;line-height:1.55}
+/* Extra badge */
+.db-extra{background:rgba(0,216,156,.10);border:1px solid rgba(0,216,156,.30);border-radius:var(--r2);padding:13px 20px;text-align:center;margin-top:12px;font-size:clamp(15px,2.2vw,19px);font-weight:900;color:var(--acc);letter-spacing:-.01em;box-shadow:0 4px 22px rgba(0,216,156,.10)}
+/* Section separator */
+.db-sep{display:flex;align-items:center;gap:12px;margin:20px 0 14px}
+.db-sep::before,.db-sep::after{content:'';flex:1;height:1px;background:var(--bdr);border-radius:2px}
+.db-sep span{font-size:11px;color:var(--t3);font-weight:600;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
+/* Pain insight */
+.db-pain{display:flex;align-items:flex-start;gap:12px;background:rgba(255,95,95,.055);border:1px solid rgba(255,95,95,.18);border-radius:var(--r2);padding:14px 16px;margin-bottom:12px}
+.db-pain-ico{font-size:20px;flex-shrink:0;margin-top:1px}
+.db-pain-strong{font-size:14px;font-weight:800;display:block;margin-bottom:3px}
+.db-pain-sub{font-size:13px;color:var(--t2);line-height:1.6}
+/* 3-point why */
+.db-why{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+.db-why-item{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r2);padding:15px 14px;transition:all .22s var(--ease)}
+.db-why-item:hover{background:var(--card-h);border-color:var(--bdr-hi)}
+.db-why-dot{width:22px;height:3px;border-radius:3px;margin-bottom:10px}
+.db-why-t{font-size:13.5px;font-weight:800;line-height:1.3;margin-bottom:5px}
+.db-why-b{font-size:12.5px;color:var(--t2);line-height:1.6}
+/* Form */
+.db-form{background:linear-gradient(140deg,rgba(0,216,156,.07),rgba(0,190,136,.015));border:1px solid rgba(0,216,156,.18);border-radius:var(--r3);padding:28px 30px;position:relative;overflow:hidden}
+.db-form::before{content:'';position:absolute;top:-60px;right:-60px;width:260px;height:260px;background:radial-gradient(circle,rgba(0,216,156,.07),transparent 65%);pointer-events:none}
+.db-form-ttl{font-size:clamp(18px,2.6vw,26px);font-weight:900;line-height:1.2;letter-spacing:-.022em;margin-bottom:5px;position:relative;z-index:1}
+.db-form-sub{font-size:14px;color:var(--t2);margin-bottom:20px;line-height:1.65;position:relative;z-index:1}
+/* Form fields */
+.f-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.f-group{display:flex;flex-direction:column;gap:5px}
+.f-group.full{grid-column:1/-1}
+.f-lbl{font-size:12px;font-weight:600;color:var(--t2);letter-spacing:.03em}
+.f-inp{background:rgba(255,255,255,.055);border:1.5px solid var(--bdr);border-radius:var(--r2);padding:11px 14px;font-family:var(--font);font-size:15px;font-weight:500;color:var(--t1);width:100%;outline:none;transition:all .2s var(--ease);direction:rtl}
+.f-inp::placeholder{color:var(--t3)}
+.f-inp:focus{background:rgba(0,216,156,.05);border-color:var(--acc);box-shadow:0 0 0 3px rgba(0,216,156,.09)}
+.f-inp.er{border-color:var(--err)}
+.f-err{font-size:12.5px;color:var(--err);margin-top:8px;display:flex;align-items:center;gap:5px}
+.form-note{font-size:11.5px;color:var(--t3);text-align:center;margin-top:8px}
+.db-trust{display:flex;gap:16px;flex-wrap:wrap;margin-top:10px;justify-content:center}
+.db-trust-i{font-size:12px;color:var(--t2);display:flex;align-items:center;gap:5px}
+.db-trust-i .chk{color:var(--acc);font-weight:800}
+/* Success */
+.form-success{text-align:center;padding:28px 16px;display:flex;flex-direction:column;align-items:center;gap:10px}
+.success-icon{width:54px;height:54px;border-radius:50%;background:rgba(0,216,156,.12);border:1.5px solid rgba(0,216,156,.3);display:flex;align-items:center;justify-content:center;font-size:22px}
+.success-ttl{font-size:20px;font-weight:900;margin-bottom:2px}
+.success-p{font-size:14px;color:var(--t2);line-height:1.7;max-width:360px}
+@media(max-width:700px){
+  .db-metrics{grid-template-columns:1fr 1fr}
+  .db-why{grid-template-columns:1fr}
+  .db-form{padding:20px 18px}
+  .f-row{grid-template-columns:1fr}
+}
+
+/* ── FOOTER ─────────────────────────────── */
+.footer{border-top:1px solid var(--bdr);padding:24px 0;text-align:center}
+.footer-logo{height:24px;filter:brightness(.45);margin-bottom:8px;display:block;margin-inline:auto}
+.footer p{font-size:12.5px;color:var(--t3)}
+.footer a{color:var(--acc);text-decoration:none}
+
+/* ── KEYFRAMES ──────────────────────────── */
+@keyframes fadeUp  {from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse   {0%,100%{opacity:1;transform:scale(1)}50%{opacity:.36;transform:scale(1.5)}}
+@keyframes twinkle {0%,100%{opacity:.1}50%{opacity:1}}
+
+/* ── RESPONSIVE ─────────────────────────── */
+@media(max-width:700px){
+  section{padding:36px 0}
+  .m-grid{grid-template-columns:1fr}
+  .sol-grid{grid-template-columns:1fr}
+  .q-card,.sim-card{padding:24px 18px}
+  .cta-card{padding:34px 20px}
+  .q-acts{flex-direction:column}
+  .q-acts .btn{width:100%;justify-content:center}
+  .stats-strip{flex-direction:column}
+  .ss{border-right:none;border-top:1px solid var(--bdr)}
+  .ss:first-child{border-top:none}
+  .trust{gap:12px}
+  .score-ban{flex-direction:column}
+  .score-right{max-width:100%;width:100%}
+}
+@media(max-width:440px){.w{padding:0 14px}}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+/* ═══════════════════════════════════════════
+   UTILS
+═══════════════════════════════════════════ */
+const { useState, useEffect, useRef, useMemo } = React;
+
+const fmtCur = n => (n===null||n===undefined||isNaN(n)) ? '—' : '₪'+Math.round(n).toLocaleString('he-IL');
+const fmtPct = n => (n===null||n===undefined||isNaN(n)) ? '—' : (n*100).toFixed(1)+'%';
+const fmtNum = n => (n===null||n===undefined||isNaN(n)) ? '—' : Math.round(n).toLocaleString('he-IL');
+
+/* RTL: forward = ← (left), backward = → (right) */
+const Lft = ({s=16}) => (
+  <svg width={s} height={s} viewBox="0 0 16 16" fill="none" style={{flexShrink:0}}>
+    <path d="M12 8H4M4 8L8 4M4 8L8 12" stroke="currentColor" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
+const Rgt = ({s=14}) => (
+  <svg width={s} height={s} viewBox="0 0 16 16" fill="none" style={{flexShrink:0}}>
+    <path d="M4 8H12M12 8L8 4M12 8L8 12" stroke="currentColor" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
+
+/* ═══════════════════════════════════════════
+   HOOKS
+═══════════════════════════════════════════ */
+function useInView(t=0.1){
+  const ref=useRef(null);
+  const [v,setV]=useState(false);
+  useEffect(()=>{
+    const el=ref.current;if(!el)return;
+    const obs=new IntersectionObserver(([e])=>{if(e.isIntersecting)setV(true)},{threshold:t});
+    obs.observe(el);return()=>obs.disconnect();
+  },[]);
+  return [ref,v];
+}
+function useCounter(target,dur=980,run=true){
+  const [val,setVal]=useState(0);
+  useEffect(()=>{
+    if(!run||target===null||target===undefined)return;
+    let raf,t0=null;
+    const step=ts=>{
+      if(!t0)t0=ts;
+      const p=Math.min((ts-t0)/dur,1);
+      setVal(target*(1-Math.pow(1-p,3)));
+      if(p<1)raf=requestAnimationFrame(step);else setVal(target);
+    };
+    raf=requestAnimationFrame(step);return()=>cancelAnimationFrame(raf);
+  },[target,run]);
+  return val;
+}
+
+/* ═══════════════════════════════════════════
+   STARDUST PARTICLES — multi-layer
+   Inspired by altrubiz.co.il canvas effect:
+   - layer 1: tiny dust (50 pts, white, slow drift)
+   - layer 2: twinkling stars (30 pts, teal glow, pulse)
+   - layer 3: larger glowing orbs (8 pts, occasional bright burst)
+═══════════════════════════════════════════ */
+const Stardust = () => {
+  const cvs = useRef(null);
+  useEffect(()=>{
+    const c=cvs.current, ctx=c.getContext('2d');
+    let raf;
+    const sz=()=>{c.width=innerWidth;c.height=innerHeight;};
+    sz(); addEventListener('resize',sz);
+
+    /* Mouse tracking */
+    const mouse={x:innerWidth/2, y:innerHeight/2, active:false};
+    const onMove=e=>{mouse.x=e.clientX;mouse.y=e.clientY;mouse.active=true;};
+    addEventListener('mousemove',onMove);
+
+    /* Layer 1 — dust particles */
+    const dust=Array.from({length:65},()=>({
+      x:Math.random()*innerWidth, y:Math.random()*innerHeight,
+      r:Math.random()*.7+.15,
+      vx:(Math.random()-.5)*.14, vy:(Math.random()-.5)*.14,
+      ox:Math.random()*.14-(Math.random()*.07), oy:Math.random()*.14-(Math.random()*.07),
+      o:Math.random()*.3+.05,
+      color:'255,255,255',
+    }));
+
+    /* Layer 2 — twinkling teal stars */
+    const stars=Array.from({length:38},()=>({
+      x:Math.random()*innerWidth, y:Math.random()*innerHeight,
+      r:Math.random()*.9+.3,
+      vx:(Math.random()-.5)*.10, vy:(Math.random()-.5)*.10,
+      ox:(Math.random()-.5)*.10, oy:(Math.random()-.5)*.10,
+      phase:Math.random()*Math.PI*2,
+      speed:Math.random()*.012+.006,
+      baseO:Math.random()*.22+.06,
+      color:'0,216,156',
+    }));
+
+    /* Layer 3 — rare glowing orbs */
+    const orbs=Array.from({length:8},()=>({
+      x:Math.random()*innerWidth, y:Math.random()*innerHeight,
+      r:Math.random()*1.8+.8,
+      vx:(Math.random()-.5)*.06, vy:(Math.random()-.5)*.06,
+      ox:(Math.random()-.5)*.06, oy:(Math.random()-.5)*.06,
+      phase:Math.random()*Math.PI*2,
+      speed:Math.random()*.008+.004,
+      baseO:Math.random()*.18+.04,
+    }));
+
+    let frame=0;
+    const ATTRACT_RADIUS=220, ATTRACT_FORCE_DUST=0.018, ATTRACT_FORCE_STAR=0.012, ATTRACT_FORCE_ORB=0.006;
+
+    const applyMouse=(p,force,resetVx,resetVy)=>{
+      if(!mouse.active)return;
+      const dx=mouse.x-p.x, dy=mouse.y-p.y;
+      const dist=Math.sqrt(dx*dx+dy*dy);
+      if(dist<ATTRACT_RADIUS&&dist>1){
+        const str=force*(1-dist/ATTRACT_RADIUS);
+        p.vx+=dx/dist*str;
+        p.vy+=dy/dist*str;
+      }
+      /* gentle drift back toward natural velocity */
+      p.vx+=(resetVx-p.vx)*0.008;
+      p.vy+=(resetVy-p.vy)*0.008;
+      /* speed cap */
+      const spd=Math.sqrt(p.vx*p.vx+p.vy*p.vy);
+      if(spd>2.2){p.vx=p.vx/spd*2.2;p.vy=p.vy/spd*2.2;}
+    };
+
+    const draw=()=>{
+      ctx.clearRect(0,0,c.width,c.height);
+      frame++;
+
+      /* dust */
+      dust.forEach(p=>{
+        applyMouse(p,ATTRACT_FORCE_DUST,p.ox,p.oy);
+        p.x+=p.vx; p.y+=p.vy;
+        if(p.x<0)p.x=c.width; if(p.x>c.width)p.x=0;
+        if(p.y<0)p.y=c.height; if(p.y>c.height)p.y=0;
+        ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        ctx.fillStyle=`rgba(${p.color},${p.o})`; ctx.fill();
+      });
+
+      /* twinkling stars */
+      stars.forEach(p=>{
+        applyMouse(p,ATTRACT_FORCE_STAR,p.ox,p.oy);
+        p.x+=p.vx; p.y+=p.vy; p.phase+=p.speed;
+        if(p.x<0)p.x=c.width; if(p.x>c.width)p.x=0;
+        if(p.y<0)p.y=c.height; if(p.y>c.height)p.y=0;
+        const o=p.baseO+Math.sin(p.phase)*p.baseO*.85;
+        const g=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*4);
+        g.addColorStop(0,`rgba(${p.color},${o})`);
+        g.addColorStop(1,`rgba(${p.color},0)`);
+        ctx.beginPath(); ctx.arc(p.x,p.y,p.r*4,0,Math.PI*2);
+        ctx.fillStyle=g; ctx.fill();
+        ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        ctx.fillStyle=`rgba(${p.color},${Math.min(o*2.2,1)})`; ctx.fill();
+      });
+
+      /* glowing orbs */
+      orbs.forEach(p=>{
+        applyMouse(p,ATTRACT_FORCE_ORB,p.ox,p.oy);
+        p.x+=p.vx; p.y+=p.vy; p.phase+=p.speed;
+        if(p.x<0)p.x=c.width; if(p.x>c.width)p.x=0;
+        if(p.y<0)p.y=c.height; if(p.y>c.height)p.y=0;
+        const o=p.baseO+Math.sin(p.phase)*p.baseO*.9;
+        const g=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*7);
+        g.addColorStop(0,`rgba(0,216,156,${o})`);
+        g.addColorStop(.4,`rgba(0,216,156,${o*.3})`);
+        g.addColorStop(1,'rgba(0,216,156,0)');
+        ctx.beginPath(); ctx.arc(p.x,p.y,p.r*7,0,Math.PI*2);
+        ctx.fillStyle=g; ctx.fill();
+        ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        ctx.fillStyle=`rgba(200,255,240,${Math.min(o*3,1)})`; ctx.fill();
+      });
+
+      /* shooting star every ~420 frames */
+      if(frame%420===0){
+        const sx=Math.random()*c.width*.7;
+        const sy=Math.random()*c.height*.4;
+        ctx.beginPath();
+        ctx.moveTo(sx,sy); ctx.lineTo(sx+Math.random()*80+40,sy+Math.random()*20-10);
+        ctx.strokeStyle='rgba(200,255,240,.45)';
+        ctx.lineWidth=.8; ctx.stroke();
+      }
+
+      raf=requestAnimationFrame(draw);
+    };
+    draw();
+    return()=>{cancelAnimationFrame(raf);removeEventListener('resize',sz);removeEventListener('mousemove',onMove);};
+  },[]);
+  return <canvas ref={cvs} style={{position:'fixed',inset:0,pointerEvents:'none',zIndex:0,opacity:1}}/>;
+};
+
+const BgOrbs = () => (
+  <div className="bg-layer">
+    <div className="bg-grid"/>
+    <div className="orb o1"/><div className="orb o2"/><div className="orb o3"/>
+  </div>
+);
+
+/* ═══════════════════════════════════════════
+   STICKY CTA BAR
+═══════════════════════════════════════════ */
+const StickyBar = ({show, onStart}) => (
+  <div className={`sticky-bar${show?' show':''}`}>
+    <div className="sticky-bar-txt">
+      <strong>פרסום רץ, כסף יוצא — </strong>
+      עוד לא בדקת כמה נשאר בדרך
+    </div>
+    <button className="btn btn-g" style={{fontSize:14,padding:'11px 24px'}} onClick={onStart}>
+      <span>לבדיקה חינמית</span>
+      <Lft s={14}/>
+    </button>
+  </div>
+);
+
+/* ═══════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════ */
+const Hero = ({onStart, stickyRef}) => (
+  <section className="hero" ref={stickyRef}>
+    <div className="hero-inner">
+      <div className="fb fb1">
+        <span className="fb-n">73%</span>
+        <span className="fb-l">מהלידים לא נסגרים</span>
+      </div>
+      <div className="fb fb2">
+        <span className="fb-n" style={{color:'#00D89C'}}>×4</span>
+        <span className="fb-l">שיפור ממוצע אפשרי</span>
+      </div>
+      <img src="https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/688019c09a4c2d4b4398bf3c.png"
+        alt="Altrubiz" className="hero-logo"
+        onError={e=>{e.target.style.display='none';}}/>
+
+      <div className="pill">
+        <span className="pill-dot"/>
+        <span>Altrubiz Growth Analyzer</span>
+      </div>
+
+      <div className="hero-h">
+        <h1 className="h1">
+          הפרסום רץ.<br/>
+          הכסף יוצא.<br/>
+          <span className="grad">עסקאות — נעלמות.</span>
+        </h1>
+      </div>
+
+      <p className="hero-sub">
+        בדיקה חינמית של 2 דקות שחושפת בדיוק כמה כסף
+        יוצא בלי לחזור — ומה ניתן לשנות עוד השבוע
+      </p>
+
+      <div className="hero-cta-wrap">
+        <button className="btn btn-g" style={{fontSize:17,padding:'17px 40px'}} onClick={onStart}>
+          <span>לגלות עכשיו — חינם</span>
+          <Lft s={18}/>
+        </button>
+        <p className="hero-micro">ללא הרשמה · ללא כרטיס אשראי · 4 שאלות בלבד</p>
+      </div>
+
+      <div className="stats-strip">
+        <div className="ss"><span className="ss-n">73%</span><span className="ss-l">מהלידים לא הופכים לעסקאות</span></div>
+        <div className="ss"><span className="ss-n">₪2.4M</span><span className="ss-l">הפסד שנתי ממוצע מלידים שלא מנוהלים</span></div>
+        <div className="ss"><span className="ss-n">×2–4</span><span className="ss-l">שיפור ממוצע לאחר תהליך נכון</span></div>
+      </div>
+
+      <div className="scroll-nudge" onClick={onStart}>
+        <div className="nudge-line"/>
+        <span className="nudge-txt">לבדיקה</span>
+      </div>
+    </div>
+  </section>
+);
+
+/* ═══════════════════════════════════════════
+   QUESTIONNAIRE
+═══════════════════════════════════════════ */
+const QS = [
+  {key:'adSpend',          prefix:'₪',  ico:'💰', q:'כמה הושקע על פרסום החודש?',      hint:'סכום כולל — גוגל, פייסבוק, אינסטגרם, TikTok'},
+  {key:'leads',            prefix:null, ico:'📨', q:'כמה פניות (לידים) נכנסו?',        hint:'כל מי שיצר קשר או השאיר פרטים דרך הפרסום'},
+  {key:'closedDeals',      prefix:null, ico:'🤝', q:'כמה עסקאות נסגרו בפועל?',         hint:'רק מי ששילם — לא "כמעט", לא "בקרוב"'},
+  {key:'averageDealValue', prefix:'₪',  ico:'💎', q:'שווי עסקה ממוצעת?',               hint:'ממוצע הכנסה מכל לקוח חדש'},
+];
+
+function Questionnaire({onComplete, qRef}){
+  const [step,setStep]=useState(0);
+  const [data,setData]=useState({adSpend:'',leads:'',closedDeals:'',averageDealValue:''});
+  const [err,setErr]=useState('');
+  const inputRef=useRef(null);
+
+  useEffect(()=>{const t=setTimeout(()=>inputRef.current?.focus(),70);return()=>clearTimeout(t);},[step]);
+
+  const q=QS[step], total=QS.length;
+  const validate=()=>{
+    const n=Number(data[q.key]);
+    if(!data[q.key]||isNaN(n)||n<=0){setErr('יש להכניס מספר חיובי');return false;}
+    if(q.key==='closedDeals'&&n>Number(data.leads)){
+      setErr(`מספר העסקאות (${fmtNum(n)}) אינו יכול לעלות על מספר הפניות (${fmtNum(Number(data.leads))})`);return false;
+    }
+    setErr('');return true;
+  };
+  const next=()=>{if(!validate())return;step<total-1?(setStep(s=>s+1),setErr('')):onComplete(data);};
+  const back=()=>{setStep(s=>s-1);setErr('');};
+  const change=v=>{setData(d=>({...d,[q.key]:v}));setErr('');};
+  const ok=!!(data[q.key]&&Number(data[q.key])>0);
+  const pct=((step+1)/total)*100;
+
+  return (
+    <section className="q-sec" ref={qRef}>
+      <div className="w">
+        <p className="tag">הבדיקה</p>
+        <h2 className="h2">4 מספרים שחושפים <span className="grad">את כל האמת</span></h2>
+        <p className="lead" style={{marginBottom:0,fontSize:15}}>
+          מהנתונים שלך בלבד — לא תחושות, לא ניחושים
+        </p>
+
+        <div className="q-card">
+          <div className="prog-row">
+            <span className="prog-l">שלב {step+1} מתוך {total}</span>
+            <span className="prog-v">{Math.round(pct)}%</span>
+          </div>
+          <div className="prog-track"><div className="prog-fill" style={{width:`${pct}%`}}/></div>
+
+          <div className="q-slide" key={step}>
+            <div className="q-hdr">
+              <span className="q-ico">{q.ico}</span>
+              <span className="q-step">שאלה {step+1}</span>
+            </div>
+            <h3 className="q-txt">{q.q}</h3>
+            <div className="inp-w">
+              {q.prefix&&<span className="inp-pfx">{q.prefix}</span>}
+              <input ref={inputRef} type="number"
+                className={`q-inp${q.prefix?'':' np'}${err?' er':''}`}
+                value={data[q.key]} onChange={e=>change(e.target.value)}
+                onKeyDown={e=>e.key==='Enter'&&next()}
+                placeholder="0" min="0"/>
+            </div>
+            {err?<div className="q-err">⚠ {err}</div>:<div className="q-hint">{q.hint}</div>}
+            <div className="q-acts">
+              {/* Back = appears on RIGHT in RTL */}
+              {step>0&&<button className="btn btn-o" onClick={back}><Rgt s={13}/><span>חזרה</span></button>}
+              {/* Next = appears on LEFT in RTL */}
+              <button className="btn btn-g" style={{fontSize:15,padding:'12px 26px',opacity:ok?1:.4}}
+                onClick={next} disabled={!ok}>
+                <span>{step===total-1?'לתוצאות שלי':'שאלה הבאה'}</span>
+                <Lft s={14}/>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ═══════════════════════════════════════════
+   HEALTH SCORE
+═══════════════════════════════════════════ */
+function calcScore(c){
+  if(c<.02)return Math.round(c/.02*34);
+  if(c<.05)return Math.round(34+(c-.02)/.03*21);
+  if(c<.10)return Math.round(55+(c-.05)/.05*20);
+  if(c<.20)return Math.round(75+(c-.10)/.10*14);
+  return Math.min(89+Math.round((c-.20)/.20*11),100);
+}
+function ScoreBanner({conv,inV}){
+  const score=useMemo(()=>calcScore(conv),[conv]);
+  const anim=useCounter(score,1050,inV);
+  const disp=Math.round(anim);
+  let clr,bg,grade,verdict;
+  if(score<34){clr='#FF5F5F';bg='rgba(255,95,95,.08)';grade='F';verdict='ביצועים נמוכים מאוד — נדרש שיפור מיידי';}
+  else if(score<55){clr='#FFA04A';bg='rgba(255,160,74,.08)';grade='D';verdict='מתחת לממוצע — פוטנציאל גדול שלא מנוצל';}
+  else if(score<75){clr='#FFD44A';bg='rgba(255,212,74,.07)';grade='C';verdict='ממוצע — אפשר לעשות הרבה יותר';}
+  else if(score<88){clr='#7BC47E';bg='rgba(123,196,126,.08)';grade='B';verdict='מעל הממוצע — עדיין יש לאן לצמוח';}
+  else{clr='#00D89C';bg='rgba(0,216,156,.08)';grade='A';verdict='ביצועים גבוהים — שמרו על המומנטום';}
+  const rgb=clr.startsWith('#')?`${parseInt(clr.slice(1,3),16)},${parseInt(clr.slice(3,5),16)},${parseInt(clr.slice(5,7),16)}`:clr;
+  const bdr=`rgba(${rgb},.22)`;
+  return(
+    <div className="score-ban" style={{background:bg,border:`1px solid ${bdr}`}}>
+      <div className="score-left">
+        <div className="score-grade" style={{background:bg,border:`2px solid ${bdr}`,color:clr}}>{grade}</div>
+        <div className="score-info">
+          <div className="score-tag" style={{color:clr}}>ציון בריאות עסקית</div>
+          <div className="score-title">{verdict}</div>
+          <div className="score-detail">
+            המרה נוכחית: <strong style={{color:clr}}>{fmtPct(conv)}</strong>
+            {' '}· ממוצע בשוק: <strong style={{color:'var(--t2)'}}>5%</strong>
+          </div>
+        </div>
+      </div>
+      <div className="score-right">
+        <div className="score-pct-row">
+          <span className="score-pct-lbl">ציון</span>
+          <span className="score-pct-val" style={{color:clr}}>{disp}<span style={{fontSize:11,fontWeight:400,opacity:.55}}>/100</span></span>
+        </div>
+        <div className="s-track">
+          <div className="s-fill" style={{width:`${anim}%`,background:`linear-gradient(90deg,${clr}77,${clr})`}}/>
+        </div>
+        <div className="s-labels"><span>0</span><span>50</span><span>100</span></div>
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════
+   MINI METRIC CARD
+═══════════════════════════════════════════ */
+function MiniCard({icon,label,value,sub,hi,inV,delay='0s'}){
+  return(
+    <div className="mm" style={{opacity:inV?1:0,transform:inV?'none':'translateY(12px)',transition:`all .48s var(--ease) ${delay}`}}>
+      <div className="mm-ico">{icon}</div>
+      <div className="mm-l">{label}</div>
+      <div className={`mm-v${hi?' hi':''}`}>{value}</div>
+      {sub&&<div className="mm-s">{sub}</div>}
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════
+   BAR CHART
+═══════════════════════════════════════════ */
+function BarChart({current,simulated}){
+  const [ref,inV]=useInView(.05);
+  const inited=useRef(false);
+  const [an,setAn]=useState({c:0,s:0});
+  const mx=Math.max(current,simulated,1);
+  const cP=(current/mx)*100, sP=(simulated/mx)*100;
+  useEffect(()=>{
+    if(!inV||inited.current)return; inited.current=true;
+    let raf,t0=null;
+    const go=ts=>{if(!t0)t0=ts;const p=Math.min((ts-t0)/800,1);const e=1-Math.pow(1-p,3);setAn({c:cP*e,s:sP*e});if(p<1)raf=requestAnimationFrame(go);};
+    raf=requestAnimationFrame(go);return()=>cancelAnimationFrame(raf);
+  },[inV]);
+  useEffect(()=>{if(inited.current)setAn({c:cP,s:sP});},[cP,sP]);
+  const W=300,H=155,bw=68,gap=50;
+  const x1=32,x2=x1+bw+gap;
+  const curH=H*an.c/100,simH=H*an.s/100;
+  const extra=simulated-current,midX=x1+bw+gap/2;
+  return(
+    <div ref={ref}>
+      <div className="chart-hdr">
+        <div className="chart-ttl">מחזור חודשי — עכשיו מול הפוטנציאל</div>
+        <div className="chart-sub">הסכום הירוק הוא ההכנסה שניתן להניב מאותו תקציב</div>
+      </div>
+      <div style={{display:'flex',justifyContent:'center'}}>
+        <svg viewBox={`0 0 ${W} ${H+42}`} style={{width:'100%',maxWidth:330}} dir="ltr">
+          <defs>
+            <linearGradient id="gC" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="rgba(255,255,255,.22)"/>
+              <stop offset="100%" stopColor="rgba(255,255,255,.04)"/>
+            </linearGradient>
+            <linearGradient id="gS" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#00D89C"/>
+              <stop offset="100%" stopColor="#00BE88" stopOpacity=".55"/>
+            </linearGradient>
+            <filter id="gw"><feGaussianBlur stdDeviation="3.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          </defs>
+          {[33,66].map(p=><line key={p} x1="0" y1={H-H*p/100} x2={W} y2={H-H*p/100} stroke="rgba(255,255,255,.04)" strokeWidth="1" strokeDasharray="4 4"/>)}
+          <line x1="0" y1={H} x2={W} y2={H} stroke="rgba(255,255,255,.07)"/>
+          {curH>0&&<rect x={x1} y={H-curH} width={bw} height={curH} rx="6" fill="url(#gC)" opacity=".75"/>}
+          {simH>0&&<rect x={x2} y={H-simH} width={bw} height={simH} rx="6" fill="url(#gS)" filter="url(#gw)"/>}
+          {extra>0&&simH>curH+8&&(
+            <>
+              <line x1={x1+bw} y1={H-curH} x2={midX-2} y2={H-curH} stroke="rgba(0,216,156,.22)" strokeWidth="1" strokeDasharray="3 3"/>
+              <line x1={x2} y1={H-simH} x2={midX-2} y2={H-simH} stroke="rgba(0,216,156,.22)" strokeWidth="1" strokeDasharray="3 3"/>
+              <line x1={midX} y1={H-simH+5} x2={midX} y2={H-curH-5} stroke="rgba(0,216,156,.42)" strokeWidth="1.5"/>
+              <path d={`M${midX-4},${H-simH+11} L${midX},${H-simH+4} L${midX+4},${H-simH+11}`} stroke="rgba(0,216,156,.52)" strokeWidth="1.5" fill="none"/>
+              <path d={`M${midX-4},${H-curH-11} L${midX},${H-curH-4} L${midX+4},${H-curH-11}`} stroke="rgba(0,216,156,.52)" strokeWidth="1.5" fill="none"/>
+              <rect x={midX-26} y={H-(curH+simH)/2-11} width="52" height="21" rx="4" fill="rgba(0,216,156,.14)"/>
+              <text x={midX} y={H-(curH+simH)/2+5} textAnchor="middle" fill="#00D89C" fontSize="10" fontFamily="Heebo,sans-serif" fontWeight="800">+{fmtCur(extra)}</text>
+            </>
+          )}
+          {curH>3&&<text x={x1+bw/2} y={H-curH-7} textAnchor="middle" fill="#7C8BA0" fontSize="10.5" fontFamily="Heebo,sans-serif" fontWeight="600">{fmtCur(current)}</text>}
+          {simH>3&&<text x={x2+bw/2} y={H-simH-7} textAnchor="middle" fill="#00D89C" fontSize="10.5" fontFamily="Heebo,sans-serif" fontWeight="700">{fmtCur(simulated)}</text>}
+          <text x={x1+bw/2} y={H+18} textAnchor="middle" fill="#36404E" fontSize="11.5" fontFamily="Heebo,sans-serif">עכשיו</text>
+          <text x={x2+bw/2} y={H+18} textAnchor="middle" fill="#7C8BA0" fontSize="11.5" fontFamily="Heebo,sans-serif">הפוטנציאל</text>
+        </svg>
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════
+   SIMULATION
+═══════════════════════════════════════════ */
+const MARKS=[{v:1.0,l:'עכשיו'},{v:1.5,l:'×1.5'},{v:2.0,l:'×2'},{v:3.0,l:'×3'},{v:5.0,l:'×5'}];
+
+/* ═══════════════════════════════════════════
+   DASHBOARD — הכל בכרטיס אחד
+═══════════════════════════════════════════ */
+const WEBHOOK='https://services.leadconnectorhq.com/hooks/O8tlYEQIUn4z3qPCt1FX/webhook-trigger/fd797638-866b-479b-9599-c64505bc2677';
+
+function Dashboard({data,mult,setMult}){
+  const ad=+data.adSpend,l=+data.leads,d=+data.closedDeals,av=+data.averageDealValue;
+  const conv=l>0?d/l:0,cpl=l>0?ad/l:0,cpd=d>0?ad/d:0,rev=d*av;
+  const wasted=l-d,wastedMoney=wasted*cpl;
+  const simConv=Math.min(conv*mult,1),simDeals=Math.round(l*simConv),simRev=simDeals*av,extra=simRev-rev;
+  const deltaPct=rev>0?Math.round(((simRev-rev)/rev)*100):0;
+  const score=calcScore(conv);
+  const pct=((mult-1)/4)*100;
+  const active=MARKS.reduce((b,m,i)=>mult>=m.v-.05?i:b,0);
+  const [ref,inV]=useInView(.03);
+  const [fields,setFields]=useState({name:'',phone:'',email:''});
+  const [err,setErr]=useState('');
+  const [status,setStatus]=useState('idle');
+  const set=(k,v)=>{setFields(f=>({...f,[k]:v}));setErr('');};
+  const validate=()=>{
+    if(!fields.name.trim())return setErr('נא להכניס שם'),false;
+    if(!fields.phone.trim()||!/^[\d\s\+\-\(\)]{7,}$/.test(fields.phone))return setErr('נא להכניס מספר טלפון תקין'),false;
+    if(!fields.email.trim()||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email))return setErr('נא להכניס כתובת מייל תקינה'),false;
+    return true;
+  };
+  const submit=async()=>{
+    if(!validate())return;
+    setStatus('loading');
+    const payload={
+      name:fields.name.trim(),phone:fields.phone.trim(),email:fields.email.trim(),
+      ad_spend:ad,leads_count:l,closed_deals:d,avg_deal_value:av,
+      conversion_rate_pct:parseFloat((conv*100).toFixed(2)),
+      cost_per_lead:l>0?Math.round(ad/l):0,cost_per_deal:d>0?Math.round(ad/d):0,current_revenue:rev,
+      simulation_multiplier:mult,simulation_multiplier_label:`×${mult.toFixed(1)}`,
+      simulated_conversion_pct:parseFloat((simConv*100).toFixed(2)),
+      simulated_deals:simDeals,simulated_revenue:simRev,extra_revenue_monthly:extra,
+      submitted_at:new Date().toISOString(),source:'Altrubiz Growth Analyzer',
+    };
+    try{
+      const res=await fetch(WEBHOOK,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+      if(res.ok||res.status===200)setStatus('success');
+      else{setErr('שליחה נכשלה ('+res.status+') — נסו שוב');setStatus('idle');}
+    }catch(e){setErr('בעיית תקשורת — נסו שוב');setStatus('idle');}
+  };
+  return(
+    <section className="dash" ref={ref}
+      style={{opacity:inV?1:0,transform:inV?'none':'translateY(18px)',transition:'all .55s var(--ease)'}}>
+      <div className="w">
+        <p className="tag">הניתוח שלך</p>
+        <h2 className="h2" style={{marginBottom:16}}>
+          {score>=75?<>אתם במסלול הנכון — <span className="grad">יש עוד לאן לצמוח</span></>
+          :score>=55?<>יש כאן פוטנציאל — <span className="grad">שעדיין לא מנוצל</span></>
+          :<>זה המצב כרגע — <span className="grad">אפשר לשנות אותו</span></>}
+        </h2>
+
+        {/* ── 1. SCORE ── */}
+        <ScoreBanner conv={conv} inV={inV}/>
+
+        {/* ── 2. METRICS ── */}
+        <div className="db-sep"><span>המספרים שלך</span></div>
+        <div className="db-metrics">
+          {[
+            {ico:'📊',lbl:'המרה',        val:fmtPct(conv),  sub:`${fmtNum(d)} מתוך ${fmtNum(l)}`,  hi:true},
+            {ico:'🎯',lbl:'עלות לפנייה', val:fmtCur(cpl),   sub:'לכל פנייה'},
+            {ico:'💼',lbl:'עלות לעסקה',  val:fmtCur(cpd),   sub:'מחיר לקוח חדש'},
+            {ico:'💰',lbl:'מחזור החודש', val:fmtCur(rev),   sub:'הכנסות שנסגרו', hi:true},
+          ].map((m,i)=>(
+            <div key={i} className="db-met"
+              style={{opacity:inV?1:0,transform:inV?'none':'translateY(12px)',transition:`all .48s var(--ease) ${.05+i*.07}s`}}>
+              <div className="db-met-ico">{m.ico}</div>
+              <div className="db-met-lbl">{m.lbl}</div>
+              <div className={`db-met-val${m.hi?' hi':''}`}>{m.val}</div>
+              <div className="db-met-sub">{m.sub}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* ── 3. SIMULATION ── */}
+        <div className="db-sep"><span>הסימולציה</span></div>
+        <div className="db-sim">
+          <div className="db-sim-hdr">🎚 כמה יותר אפשר לסגור — עם אותו תקציב?</div>
+          <div className="db-sim-sub">הזזת הסליידר מעדכנת את כל הנתונים בזמן אמת</div>
+          <div className="sl-w">
+            <div className="sl-top">
+              <span className="sl-lbl">שיפור אחוז ההמרה</span>
+              <span className="sl-val">{mult===1.0?'מצב נוכחי':`×${mult.toFixed(1)} שיפור`}</span>
+            </div>
+            <input type="range" className="sl-inp" min="1" max="5" step="0.1" value={mult}
+              onChange={e=>setMult(+e.target.value)}
+              style={{background:`linear-gradient(to right,#00D89C ${pct}%,rgba(255,255,255,.1) ${pct}%)`}}/>
+            <div className="marks">{MARKS.map((m,i)=><span key={i} className={`mk${i===active?' on':''}`}>{m.l}</span>)}</div>
+          </div>
+          <div className="db-cmp">
+            <div className="db-cmp-box db-cmp-now">
+              <div className="db-cmp-lbl">היום</div>
+              <div className="db-cmp-val">{fmtCur(rev)}</div>
+              <div className="db-cmp-sub">{fmtNum(d)} עסקאות · {fmtPct(conv)} המרה</div>
+            </div>
+            <div className="db-cmp-box db-cmp-pot">
+              <div className="db-cmp-lbl">עם שיפור ×{mult.toFixed(1)}</div>
+              <div className="db-cmp-val hi">{fmtCur(simRev)}</div>
+              <div className="db-cmp-sub">{fmtNum(simDeals)} עסקאות · {fmtPct(simConv)} המרה</div>
+            </div>
+          </div>
+          {extra>0&&<div className="db-extra">⬆ תוספת חודשית אפשרית: +{fmtCur(extra)}{deltaPct>0?` (+${deltaPct}%)`:''}</div>}
+        </div>
+
+        {/* ── 4. PAIN INSIGHT ── */}
+        {wasted>0&&(
+          <div className="db-pain">
+            <span className="db-pain-ico">💸</span>
+            <div>
+              <strong className="db-pain-strong">{fmtNum(wasted)} פניות לא הניבו עסקאות — כ-{fmtCur(wastedMoney)} שהלכו לאיבוד</strong>
+              <div className="db-pain-sub">זו לא בעיה של פרסום. זו בעיה של מה שקורה <em>אחרי</em> שהפנייה נכנסת.</div>
+            </div>
+          </div>
+        )}
+
+        {/* ── 5. WHY ── */}
+        <div className="db-why">
+          {[
+            {clr:'#FF5F5F',t:'הפנייה נכנסת — ואז נעלמת',   b:'בלי תהליך סגירה, רוב הפניות יוצאות לאיבוד. לא בגלל הפרסום.'},
+            {clr:'#FFD44A',t:'יותר תקציב לא יפתור את זה',  b:'שיפור של 30% בהמרה שווה יותר מהכפלת תקציב.'},
+            {clr:'#00D89C',t:'תוצאות מדידות תוך 90 יום',  b:'לקוחות מדווחים על ×2–4 בסגירות — מאותו תקציב.'},
+          ].map((c,i)=>(
+            <div key={i} className="db-why-item"
+              style={{opacity:inV?1:0,transform:inV?'none':'translateY(10px)',transition:`all .46s var(--ease) ${.28+i*.07}s`}}>
+              <div className="db-why-dot" style={{background:c.clr}}/>
+              <div className="db-why-t">{c.t}</div>
+              <div className="db-why-b">{c.b}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* ── 6. FORM ── */}
+        <div className="db-sep"><span>הצעד הבא</span></div>
+        <div className="db-form" id="form-anchor">
+          {status==='success'?(
+            <div className="form-success">
+              <div className="success-icon">✓</div>
+              <div>
+                <div className="success-ttl">קיבלנו! מדברים בקרוב.</div>
+                <p className="success-p">הפרטים התקבלו. ניצור קשר תוך 24 שעות עם תוכנית פעולה ממוקדת.</p>
+              </div>
+            </div>
+          ):(
+            <>
+              <p className="tag" style={{marginBottom:6,position:'relative',zIndex:1}}>הצעד הבא</p>
+              <div className="db-form-ttl">
+                {extra>0
+                  ?<>+{fmtCur(extra)} בחודש —<br/><span className="grad">רק אם תפעלו עכשיו.</span></>
+                  :<>כל יום בלי תהליך —<br/><span className="grad">עוד לידים נופלים.</span></>}
+              </div>
+              <div className="db-form-sub">השאירו פרטים ונחזור אליכם תוך 24 שעות עם תוכנית פעולה ממוקדת.<br/><strong>ללא עלות. ללא התחייבות.</strong></div>
+              <div style={{position:'relative',zIndex:1}}>
+                <div style={{ position: 'relative', width: '100%', minHeight: '387px' }}>
+                  <iframe
+                    src="https://link.altrubiz.co.il/widget/form/mhEc2xXsjh3IJ6P2KdN3"
+                    style={{width:'100%',height:'100%',border:'none',borderRadius:'3px'}}
+                    id="inline-mhEc2xXsjh3IJ6P2KdN3" 
+                    data-layout="{'id':'INLINE'}"
+                    data-trigger-type="alwaysShow"
+                    data-trigger-value=""
+                    data-activation-type="alwaysActivated"
+                    data-activation-value=""
+                    data-deactivation-type="neverDeactivate"
+                    data-deactivation-value=""
+                    data-form-name="AGA"
+                    data-height="387"
+                    data-layout-iframe-id="inline-mhEc2xXsjh3IJ6P2KdN3"
+                    data-form-id="mhEc2xXsjh3IJ6P2KdN3"
+                    title="AGA"
+                  />
+                </div>
+                <div className="db-trust">
+                  <span className="db-trust-i"><span className="chk">✓</span> חינם לחלוטין</span>
+                  <span className="db-trust-i"><span className="chk">✓</span> ללא התחייבות</span>
+                  <span className="db-trust-i"><span className="chk">✓</span> תגובה תוך 24 שעות</span>
+                </div>
+                <p className="form-note">הפרטים שמורים אצלנו ולא יועברו לצד שלישי</p>
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ═══════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════ */
+const Footer=()=>(
+  <footer className="footer">
+    <div className="w">
+      <img src="https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/688019c09a4c2d4b4398bf3c.png"
+        alt="Altrubiz" className="footer-logo" onError={e=>{e.target.style.display='none';}}/>
+      <p>© 2024 <a href="https://altrubiz.co.il" target="_blank" rel="noopener noreferrer">Altrubiz</a> · בדיקת בריאות עסקית לפרסום ולמכירות</p>
+    </div>
+  </footer>
+);
+
+/* ═══════════════════════════════════════════
+   APP
+═══════════════════════════════════════════ */
+function App(){
+  const [phase,setPhase]=useState('hero');
+  const [fd,setFD]=useState(null);
+  const [mult,setMult]=useState(1.5);
+  const [showSticky,setShowSticky]=useState(false);
+  const qRef=useRef(null),dashRef=useRef(null),heroRef=useRef(null);
+
+  /* Show sticky bar once hero scrolls out of view */
+  useEffect(()=>{
+    const obs=new IntersectionObserver(([e])=>setShowSticky(!e.isIntersecting),{threshold:0.1});
+    if(heroRef.current)obs.observe(heroRef.current);
+    return()=>obs.disconnect();
+  },[]);
+
+  const go=(ref,d=140)=>setTimeout(()=>ref.current?.scrollIntoView({behavior:'smooth',block:'start'}),d);
+  const start=()=>{setPhase('q');go(qRef,110);};
+  const complete=data=>{setFD(data);setPhase('done');go(dashRef,150);};
+
+  const showQ  =['q','done'].includes(phase);
+  const showAll=phase==='done';
+
+  return(
+    <div className="page">
+      <BgOrbs/>
+      <Stardust/>
+      <StickyBar show={showSticky&&phase==='hero'} onStart={start}/>
+      <Hero onStart={start} stickyRef={heroRef}/>
+      <div className="sdiv"/>
+      {showQ&&<Questionnaire onComplete={complete} qRef={qRef}/>}
+      {showAll&&fd&&(
+        <div ref={dashRef}>
+          <Dashboard data={fd} mult={mult} setMult={setMult}/>
+        </div>
+      )}
+      <Footer/>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
