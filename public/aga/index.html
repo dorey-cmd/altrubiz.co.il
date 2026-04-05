@@ -8,7 +8,6 @@
   <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <script src="https://link.altrubiz.co.il/js/form_embed.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
@@ -930,25 +929,32 @@ function Dashboard({data,mult,setMult}){
               </div>
               <div className="db-form-sub">השאירו פרטים ונחזור אליכם תוך 24 שעות עם תוכנית פעולה ממוקדת.<br/><strong>ללא עלות. ללא התחייבות.</strong></div>
               <div style={{position:'relative',zIndex:1}}>
-                <div style={{ position: 'relative', width: '100%', minHeight: '387px' }}>
-                  <iframe
-                    src="https://link.altrubiz.co.il/widget/form/mhEc2xXsjh3IJ6P2KdN3"
-                    style={{width:'100%',height:'100%',border:'none',borderRadius:'3px'}}
-                    id="inline-mhEc2xXsjh3IJ6P2KdN3" 
-                    data-layout="{'id':'INLINE'}"
-                    data-trigger-type="alwaysShow"
-                    data-trigger-value=""
-                    data-activation-type="alwaysActivated"
-                    data-activation-value=""
-                    data-deactivation-type="neverDeactivate"
-                    data-deactivation-value=""
-                    data-form-name="AGA"
-                    data-height="387"
-                    data-layout-iframe-id="inline-mhEc2xXsjh3IJ6P2KdN3"
-                    data-form-id="mhEc2xXsjh3IJ6P2KdN3"
-                    title="AGA"
-                  />
+                <div className="f-row">
+                  <div className="f-group">
+                    <label className="f-lbl">שם מלא</label>
+                    <input className={`f-inp${err&&!fields.name.trim()?' er':''}`} type="text"
+                      placeholder="ישראל ישראלי" value={fields.name} onChange={e=>set('name',e.target.value)}/>
+                  </div>
+                  <div className="f-group">
+                    <label className="f-lbl">טלפון</label>
+                    <input className={`f-inp${err&&(!fields.phone.trim()||!/^[\d\s\+\-\(\)]{7,}$/.test(fields.phone))?' er':''}`}
+                      type="tel" placeholder="050-000-0000" value={fields.phone}
+                      onChange={e=>set('phone',e.target.value)} dir="ltr"/>
+                  </div>
+                  <div className="f-group full">
+                    <label className="f-lbl">כתובת מייל</label>
+                    <input className={`f-inp${err&&(!fields.email.trim()||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email))?' er':''}`}
+                      type="email" placeholder="name@company.com" value={fields.email}
+                      onChange={e=>set('email',e.target.value)} dir="ltr"/>
+                  </div>
                 </div>
+                {err&&<div className="f-err">⚠ {err}</div>}
+                <button className="btn btn-g"
+                  style={{width:'100%',fontSize:16,padding:'14px 28px',justifyContent:'center',marginTop:12,opacity:status==='loading'?.6:1}}
+                  onClick={submit} disabled={status==='loading'}>
+                  <span>{status==='loading'?'שולח...':'כן, אני רוצה'}</span>
+                  {status!=='loading'&&<Lft s={16}/>}
+                </button>
                 <div className="db-trust">
                   <span className="db-trust-i"><span className="chk">✓</span> חינם לחלוטין</span>
                   <span className="db-trust-i"><span className="chk">✓</span> ללא התחייבות</span>
