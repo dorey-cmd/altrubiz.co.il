@@ -909,7 +909,7 @@ function Dashboard({data,mult,setMult}){
         </div>
 
         {/* ── 6. FORM ── */}
-        <div className="db-sep"><span>הצעד הבא</span></div>
+        <div className="db-sep"><span>קחו את הצעד הבא.</span></div>
         <div className="db-form" id="form-anchor">
           {status==='success'?(
             <div className="form-success">
@@ -921,13 +921,13 @@ function Dashboard({data,mult,setMult}){
             </div>
           ):(
             <>
-              <p className="tag" style={{marginBottom:6,position:'relative',zIndex:1}}>הצעד הבא</p>
+              <p className="tag" style={{marginBottom:6,position:'relative',zIndex:1}}>קחו את הצעד הבא.</p>
               <div className="db-form-ttl">
                 {extra>0
-                  ?<>+{fmtCur(extra)} בחודש —<br/><span className="grad">רק אם תפעלו עכשיו.</span></>
-                  :<>כל יום בלי תהליך —<br/><span className="grad">עוד לידים נופלים.</span></>}
+                  ?<>+{fmtCur(extra)} בחודש — <span className="grad">רק אם תפעלו עכשיו.</span></>
+                  :<>כל יום בלי תהליך — <span className="grad">עוד לידים נופלים.</span></>}
               </div>
-              <div className="db-form-sub">השאירו פרטים ונחזור אליכם תוך 24 שעות עם תוכנית פעולה ממוקדת.<br/><strong>ללא עלות. ללא התחייבות.</strong></div>
+              <div className="db-form-sub">לתוכנית ממוקדת לך, השאירו פרטים עכשיו.<br/><strong>ללא עלות. ללא התחייבות.</strong></div>
               <div style={{position:'relative',zIndex:1}}>
                 <div className="f-row">
                   <div className="f-group">
