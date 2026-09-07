@@ -105,9 +105,10 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({ article, onNavigate })
         return () => observer.disconnect();
     }, [article]);
 
+    const totalActions = article.sections.filter(s => s.actionNumber).length;
     const activeSection = article.sections.find(s => s.id === activeSectionId);
     const activeLabel = activeSection?.actionNumber 
-        ? `פעולה ${activeSection.actionNumber}/10` 
+        ? `פעולה ${activeSection.actionNumber}${totalActions > 0 ? `/${totalActions}` : ''}` 
         : activeSection?.isTenMinuteTest 
             ? 'מבחן 10 הדקות' 
             : activeSectionId === 'article-faqs' 
@@ -266,7 +267,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({ article, onNavigate })
                     <div className="flex items-center justify-between gap-3 mb-3">
                         <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-emerald-100 text-emerald-800 text-xs sm:text-sm font-black border border-emerald-200 shadow-xs">
                             <Zap size={14} className="fill-emerald-600 text-emerald-600" />
-                            <span>פעולה 0{section.actionNumber} מתוך 10</span>
+                            <span>פעולה 0{section.actionNumber}{totalActions > 0 ? ` מתוך ${totalActions}` : ''}</span>
                         </span>
                         <a 
                             href="#article-toc"
@@ -484,6 +485,60 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({ article, onNavigate })
                     )
                 )}
 
+                {/* Quick Win in fallback section */}
+                {section.quickWin && (
+                    <div className="bg-gradient-to-br from-amber-50/90 via-emerald-50/70 to-teal-50/90 border-2 border-emerald-300/80 rounded-2xl p-5 sm:p-7 mb-6 shadow-sm">
+                        <div className="flex items-center gap-2.5 text-emerald-900 font-black text-base sm:text-lg mb-2">
+                            <div className="w-8 h-8 rounded-lg bg-emerald-500 text-white flex items-center justify-center shadow-sm flex-shrink-0">
+                                <Zap className="w-5 h-5 fill-white" />
+                            </div>
+                            <span>{section.quickWin.title || 'מה אפשר לעשות עכשיו? (Quick Win)'}</span>
+                        </div>
+                        <p className="text-slate-900 font-semibold text-base sm:text-lg leading-relaxed">
+                            {section.quickWin.text}
+                        </p>
+                    </div>
+                )}
+
+                {/* Section Image in fallback section */}
+                {section.image && (
+                    <figure className="my-8 rounded-2xl overflow-hidden border border-slate-200/90 shadow-md bg-white">
+                        {section.image.layout === 'side' ? (
+                            <div className="grid grid-cols-1 md:grid-cols-2 items-center">
+                                <img 
+                                    src={section.image.src} 
+                                    alt={section.image.alt} 
+                                    loading="lazy" 
+                                    className="w-full h-full min-h-[260px] max-h-[340px] object-cover" 
+                                />
+                                <div className="p-6 bg-slate-50/90 flex flex-col justify-center h-full">
+                                    <div className="text-xs uppercase tracking-wider font-extrabold text-primary mb-2 flex items-center gap-1.5">
+                                        <Sparkles size={14} />
+                                        <span>תובנה מעשית מהשטח</span>
+                                    </div>
+                                    <p className="text-slate-800 text-base leading-relaxed font-medium">
+                                        {section.image.caption || section.image.alt}
+                                    </p>
+                                </div>
+                            </div>
+                        ) : (
+                            <>
+                                <img 
+                                    src={section.image.src} 
+                                    alt={section.image.alt} 
+                                    loading="lazy" 
+                                    className="w-full aspect-video object-cover" 
+                                />
+                                {section.image.caption && (
+                                    <figcaption className="p-3.5 sm:p-4 text-center text-xs sm:text-sm text-slate-600 bg-slate-50 border-t border-slate-100 font-medium">
+                                        💡 {section.image.caption}
+                                    </figcaption>
+                                )}
+                            </>
+                        )}
+                    </figure>
+                )}
+
                 {/* Section Callout if not negative list */}
                 {section.callout && !isNegativeList && renderCallout(section.callout)}
 
@@ -619,7 +674,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({ article, onNavigate })
                                 <div className="flex items-center justify-between gap-3 mb-4 pb-3 border-b border-slate-100">
                                     <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
                                         <Compass className="text-primary w-5 h-5" />
-                                        <span>תוכן המדריך: 10 פעולות לבחירה מיידית</span>
+                                        <span>{totalActions > 0 ? `תוכן המדריך: ${totalActions} שלבים לפעולה מיידית` : 'תוכן המדריך: ניווט מהיר בין הסעיפים'}</span>
                                     </h2>
                                     <span className="text-xs text-slate-500 font-medium hidden sm:inline">
                                         לחצו לקפיצה ישירה לסעיף
@@ -789,7 +844,10 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({ article, onNavigate })
                                     </button>
 
                                     <a
-                                        href="https://wa.me/972544350000?text=%D7%94%D7%99%D7%99%2C%20%D7%A7%D7%A8%D7%90%D7%AA%D7%99%20%D7%90%D7%AA%20%D7%94%D7%9E%D7%93%D7%A8%D7%99%D7%9A%20%D7%A2%D7%9C%2010%20%D7%A4%D7%A2%D7%95%D7%9C%D7%95%D7%AA%20Quick%20Win%20%D7%95%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%94%D7%AA%D7%99%D7%99%D7%A2%D7%A5"
+                                        href={article.cta?.whatsappText 
+                                            ? `https://wa.me/972544350000?text=${encodeURIComponent(article.cta.whatsappText)}`
+                                            : `https://wa.me/972544350000?text=${encodeURIComponent(`היי, קראתי את המאמר "${article.title}" ב-AltruBiz ואשמח להתייעץ`)}`
+                                        }
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-slate-950 font-extrabold px-6 py-3.5 rounded-xl shadow-lg transition-all text-base"
@@ -820,7 +878,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({ article, onNavigate })
                                     <span>תוכן הפעולות</span>
                                 </div>
                                 <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800">
-                                    10 פעולות
+                                    {totalActions > 0 ? `${totalActions} שלבים` : 'סעיפי תוכן'}
                                 </span>
                             </div>
 
