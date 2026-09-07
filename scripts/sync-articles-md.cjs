@@ -85,6 +85,10 @@ function buildMarkdownFromArticle(article) {
                 parts.push(`> ⚡ **Quick Win (מה אפשר לעשות עכשיו):** ${section.quickWin.text}\n`);
             }
 
+            if (section.breakRoutine) {
+                parts.push(`> 📸 **שוברים שגרה:** *${section.breakRoutine.scene}*\n> 💡 *כיתוב: ${section.breakRoutine.caption}*\n`);
+            }
+
             if (section.callout) {
                 const calloutPrefix = section.callout.type === 'danger' ? '⛔' : 
                                       section.callout.type === 'warning' ? '⚠️' : 

@@ -334,8 +334,8 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({ article, onNavigate })
                         </div>
                     )}
 
-                    {/* Atmospheric Image */}
-                    {section.image && (
+                    {/* Atmospheric Image or Break Routine Visual Card */}
+                    {section.image ? (
                         <figure className="my-8 rounded-2xl overflow-hidden border border-slate-200/90 shadow-md bg-white">
                             {section.image.layout === 'side' ? (
                                 <div className="grid grid-cols-1 md:grid-cols-2 items-center">
@@ -371,7 +371,23 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({ article, onNavigate })
                                 </>
                             )}
                         </figure>
-                    )}
+                    ) : section.breakRoutine ? (
+                        <div className="my-8 rounded-2xl overflow-hidden border-2 border-amber-200/90 bg-gradient-to-br from-amber-50/90 via-orange-50/60 to-amber-100/60 p-6 sm:p-7 shadow-sm">
+                            <div className="flex items-center gap-2 text-amber-900 text-xs sm:text-sm font-black mb-3">
+                                <span className="p-1.5 rounded-lg bg-amber-200/90 text-amber-950 shadow-xs">
+                                    <Sparkles size={16} />
+                                </span>
+                                <span>📸 שוברים שגרה</span>
+                            </div>
+                            <div className="bg-white/85 backdrop-blur-xs border border-amber-200/80 rounded-xl p-4 sm:p-5 mb-3 text-slate-800 text-base sm:text-lg font-medium leading-relaxed italic shadow-xs">
+                                "{section.breakRoutine.scene}"
+                            </div>
+                            <div className="inline-flex items-center gap-2 bg-amber-900 text-amber-50 font-bold text-xs sm:text-sm px-3.5 py-1.5 rounded-xl shadow-xs">
+                                <span>💡 כיתוב:</span>
+                                <span className="font-extrabold">{section.breakRoutine.caption}</span>
+                            </div>
+                        </div>
+                    ) : null}
 
                     {/* Return link to TOC */}
                     <div className="flex justify-end pt-2">
