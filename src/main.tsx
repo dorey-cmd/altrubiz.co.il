@@ -9,7 +9,13 @@ if (currentPath === '/zoom') {
     window.location.replace('https://us06web.zoom.us/j/9725443500#success');
 } else if (currentPath === '/caldorey') {
     window.location.replace('https://link.altrubiz.co.il/widget/bookings/caldorey');
-} else if (currentPath !== '/' && currentPath !== '/index.html' && currentPath !== '/offer') {
+} else if (
+    currentPath !== '/' && 
+    currentPath !== '/index.html' && 
+    currentPath !== '/offer' && 
+    currentPath !== '/about' &&
+    !currentPath.startsWith('/articles')
+) {
     window.location.replace('/');
 }
 

@@ -1,3 +1,42 @@
+# Robots.txt for AltruBiz (https://altrubiz.co.il/)
+
+# Default crawlers
 User-agent: *
 Allow: /
+Disallow: /offer
+Disallow: /thank-you.html
+
+# Search Engine Crawlers
+User-agent: Googlebot
+Allow: /
+Disallow: /offer
+
+User-agent: Bingbot
+Allow: /
+Disallow: /offer
+
+# AI Search & Answer Engine Bots
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /offer
+
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /offer
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /offer
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /offer
+
+User-agent: Applebot-Extended
+Allow: /
+Disallow: /offer
+
+# Sitemaps and AI manifests
 Sitemap: https://altrubiz.co.il/sitemap.xml
+# LLM Discovery: https://altrubiz.co.il/llms.txt
+# LLM Full Knowledge Base: https://altrubiz.co.il/llms-full.txt

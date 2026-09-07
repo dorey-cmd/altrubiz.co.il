@@ -6,13 +6,19 @@
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="apple-touch-icon" href="/favicon.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Altrubiz CRM | המערכת המושלמת לניהול העסק</title>
+  <title>Altrubiz CRM | להכניס את השיטה לסיסטם - אוטומציה ובינה מלאכותית</title>
+
+  <!-- Geographic and Language Meta -->
+  <meta http-equiv="content-language" content="he" />
+  <meta name="geo.region" content="IL" />
+  <meta name="geo.placename" content="Israel" />
 
   <!-- SEO Meta Tags -->
   <meta name="description"
-    content="Altrubiz CRM - המערכת המושלמת לניהול העסק הדיגיטלי. אוטומציה, ניהול לידים, בוטים חכמים וניהול קשרי לקוחות במקום אחד." />
-  <meta name="keywords" content="CRM, ניהול עסק, אוטומציה, בינה מלאכותית, ניהול לידים, בוטים, וואטסאפ לעסקים" />
-  <meta name="author" content="Altrubiz" />
+    content="Altrubiz CRM - המערכת המושלמת לניהול העסק הדיגיטלי. אוטומציה עסקית, ניהול לידים, בוטים חכמים מבוססי AI, וחיבורי WhatsApp Business במקום אחד." />
+  <meta name="keywords" content="CRM, ניהול עסק, אוטומציה, בינה מלאכותית, ניהול לידים, בוטים, וואטסאפ לעסקים, WhatsApp Business API" />
+  <meta name="author" content="AltruBiz" />
+  <link rel="canonical" href="https://altrubiz.co.il/" />
 
   <!-- Open Graph / Facebook / WhatsApp -->
   <meta property="og:type" content="website" />
@@ -31,36 +37,111 @@
   <meta property="twitter:image"
     content="https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/688019c09a4c2d4b4398bf3c.png" />
 
-  <!-- AI Optimization (JSON-LD) -->
+  <!-- Base Entity Structured Data (Schema.org Graph) -->
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
-      "name": "Altrubiz CRM",
-      "headline": "Altrubiz CRM - המערכת המושלמת לניהול העסק",
-      "applicationCategory": "BusinessApplication",
-      "operatingSystem": "Web",
-      "description": "מערכת CRM מתקדמת המשלבת אוטומציה, בינה מלאכותית וניהול רב-ערוצי לעסקים דיגיטליים.",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "ILS",
-        "availability": "https://schema.org/OnlineOnly"
-      },
-      "publisher": {
-        "@type": "Organization",
-        "name": "Altrubiz",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/688019c09a4c2d4b4398bf3c.png"
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://altrubiz.co.il/#organization",
+          "name": "AltruBiz",
+          "alternateName": ["אלטרוביז", "AltruBiz CRM"],
+          "url": "https://altrubiz.co.il/",
+          "logo": {
+            "@type": "ImageObject",
+            "@id": "https://altrubiz.co.il/#logo",
+            "url": "https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/688019c09a4c2d4b4398bf3c.png"
+          },
+          "description": "חברת טכנולוגיה ישראלית המספקת מערכת CRM מתקדמת, פתרונות אוטומציה עסקית, אינטגרציות WhatsApp ובוטים חכמים לעסקים דיגיטליים.",
+          "telephone": "+972-54-435-0000",
+          "areaServed": "IL",
+          "knowsLanguage": ["he", "en"],
+          "sameAs": [
+            "https://app.altrubiz.com/",
+            "https://mkt.altrubiz.co.il/terms"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://altrubiz.co.il/#website",
+          "url": "https://altrubiz.co.il/",
+          "name": "AltruBiz CRM",
+          "publisher": {
+            "@id": "https://altrubiz.co.il/#organization"
+          },
+          "inLanguage": "he-IL"
+        },
+        {
+          "@type": "SoftwareApplication",
+          "@id": "https://altrubiz.co.il/#software",
+          "name": "AltruBiz CRM",
+          "applicationCategory": "BusinessApplication",
+          "operatingSystem": "Web, Cloud",
+          "description": "מערכת CRM מתקדמת לניהול לידים, אוטומציה עסקית, חיבורי WhatsApp ובוטים חכמים ללא הגבלת משתמשים ורשומות.",
+          "url": "https://altrubiz.co.il/",
+          "publisher": {
+            "@id": "https://altrubiz.co.il/#organization"
+          }
         }
-      }
+      ]
     }
   </script>
 </head>
 
 <body>
-  <div id="root"></div>
+  <!-- Root container with semantic fallback HTML for non-JS crawlers and search bots -->
+  <div id="root">
+    <header style="padding: 20px; text-align: center; border-bottom: 1px solid #eee;">
+      <nav aria-label="ניווט ראשי">
+        <a href="/">דף הבית</a> |
+        <a href="/#benefits">יתרונות</a> |
+        <a href="/#how-it-works">איך זה עובד</a> |
+        <a href="/#why-altrubiz">למה אלטרוביז?</a> |
+        <a href="/#pricing">מחירים</a> |
+        <a href="/#faq">שאלות נפוצות</a> |
+        <a href="/about">אודות AltruBiz</a> |
+        <a href="/articles">מרכז ידע ומאמרים</a>
+      </nav>
+    </header>
+
+    <main style="max-width: 900px; margin: 0 auto; padding: 40px 20px; line-height: 1.7;">
+      <h1>אלטרוביז CRM — להכניס את השיטה לסיסטם</h1>
+      <p>
+        AltruBiz CRM היא מערכת מתקדמת לניהול קשרי לקוחות (CRM), אוטומציה עסקית וחיבורי תקשורת רב-ערוציים המיועדת לעסקים בישראל.
+        המערכת מרכזת לידים מכל המקורות, מפעילה מסרים אוטומטיים בוואטסאפ (WhatsApp) ובמייל, ומפעילה בוטים חכמים מבוססי AI לתיאום פגישות ומענה סביב השעון.
+      </p>
+
+      <h2>יכולות מרכזיות</h2>
+      <ul>
+        <li><strong>משתמשים ורשומות ללא הגבלה:</strong> מודל תמחור ללא תוספת תשלום לפי עובד או משתמש.</li>
+        <li><strong>חיבור WhatsApp ואוטומציות:</strong> שליחת הודעות תגובה אוטומטיות, תבניות מאושרות, וניהול שיחות מרוכז.</li>
+        <li><strong>בוטים מבוססי בינה מלאכותית:</strong> מענה חכם ללקוחות וקביעת פגישות ביומן בשיחה טבעית 24/7.</li>
+        <li><strong>קליטת לידים אוטומטית:</strong> אינטגרציה לפייסבוק לידס, אינסטגרם, גוגל, דפי נחיתה וטפסים.</li>
+        <li><strong>דשבורדים ודוחות בזמן אמת:</strong> מעקב ביצועים, יחסי המרה ותוצאות קמפיינים.</li>
+      </ul>
+
+      <h2>מסלולי שירות</h2>
+      <ul>
+        <li><strong>Pro (₪297/חודש):</strong> תשתית CRM מלאה, משתמשים ללא הגבלה, יומנים וניהול לידים.</li>
+        <li><strong>Smart (₪497/חודש):</strong> אינטגרציית WhatsApp, פאנלים שיווקיים, קליטת לידים מפייסבוק ואוטומציות סושיאל.</li>
+        <li><strong>Power (₪747/חודש):</strong> בוטים AI חכמים, קביעת פגישות ביומן דרך וואטסאפ ב-AI, וחיבורי API מתקדמים.</li>
+      </ul>
+
+      <h2>מרכז ידע ומדריכים</h2>
+      <p>
+        קראו את המדריך המקצועי:
+        <a href="/articles/whatsapp-messaging-guidelines">המלצות לשימוש נכון ובטוח בדיוור WhatsApp באמצעות AltruBiz</a>
+        (או בגרסת <a href="/articles/whatsapp-messaging-guidelines.md">Markdown ל-LLM</a>).
+      </p>
+
+      <h2>פרטי התקשרות</h2>
+      <p>
+        וואטסאפ: <a href="https://wa.me/972544350000">+972-54-435-0000</a> |
+        כניסה למערכת: <a href="https://app.altrubiz.com/">app.altrubiz.com</a>
+      </p>
+    </main>
+  </div>
   <script type="module" src="/src/main.tsx"></script>
 </body>
 

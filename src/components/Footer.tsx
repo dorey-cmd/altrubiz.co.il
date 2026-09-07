@@ -1,30 +1,91 @@
+import React from 'react';
 
+interface FooterProps {
+    onNavigate?: (path: string) => void;
+}
 
-export const Footer = () => {
+export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
+    const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+        if (onNavigate && href.startsWith('/')) {
+            e.preventDefault();
+            onNavigate(href);
+        }
+    };
+
     return (
-        <footer id="footer" className="py-12 bg-white text-center border-t border-gray-100" dir="rtl">
+        <footer id="footer" className="py-14 bg-white text-center border-t border-gray-100" dir="rtl">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center">
-                <img
-                    className="h-12 w-auto mb-6"
-                    src="https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/688019c09a4c2d4b4398bf3c.png"
-                    alt="לוגו אלטרוביז CRM"
-                />
+                <a 
+                    href="/" 
+                    onClick={(e) => handleLinkClick(e, '/')}
+                    className="hover:opacity-80 transition-opacity mb-6 inline-block"
+                >
+                    <img
+                        className="h-12 w-auto"
+                        src="https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/688019c09a4c2d4b4398bf3c.png"
+                        alt="לוגו אלטרוביז CRM"
+                    />
+                </a>
 
-                <p className="text-gray-600 mb-6 font-medium">
-                    אלטרוביז CRM. כל מה שצריך כדי להכניס את השיטה לסיסטם.
+                <p className="text-gray-600 mb-6 font-medium max-w-md">
+                    אלטרוביז CRM. כל מה שצריך כדי להכניס את השיטה לסיסטם — בוטים, אוטומציות וחיבורי WhatsApp חכמים.
                 </p>
 
-                <div className="flex gap-6 mb-6">
-                    <a href="https://mkt.altrubiz.co.il/terms" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-primary transition-colors">
+                {/* Navigation and Resources links */}
+                <div className="flex flex-wrap justify-center items-center gap-x-6 gap-y-3 mb-6 text-sm">
+                    <a 
+                        href="/about" 
+                        onClick={(e) => handleLinkClick(e, '/about')}
+                        className="text-gray-600 hover:text-primary transition-colors font-medium"
+                    >
+                        אודות AltruBiz
+                    </a>
+                    <span className="text-gray-300 hidden sm:inline">•</span>
+                    <a 
+                        href="/#faq" 
+                        onClick={(e) => handleLinkClick(e, '/#faq')}
+                        className="text-gray-600 hover:text-primary transition-colors"
+                    >
+                        שאלות נפוצות
+                    </a>
+                    <span className="text-gray-300 hidden sm:inline">•</span>
+                    <a 
+                        href="/articles" 
+                        onClick={(e) => handleLinkClick(e, '/articles')}
+                        className="text-primary font-semibold hover:underline"
+                    >
+                        מרכז ידע ומאמרים
+                    </a>
+                    <span className="text-gray-300 hidden sm:inline">•</span>
+                    <a 
+                        href="/articles/whatsapp-messaging-guidelines" 
+                        onClick={(e) => handleLinkClick(e, '/articles/whatsapp-messaging-guidelines')}
+                        className="text-gray-600 hover:text-primary transition-colors"
+                    >
+                        מדריך דיוור WhatsApp ו-Meta
+                    </a>
+                    <span className="text-gray-300 hidden sm:inline">•</span>
+                    <a 
+                        href="https://mkt.altrubiz.co.il/terms" 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="text-gray-500 hover:text-primary transition-colors"
+                    >
                         מדיניות פרטיות
                     </a>
-                    <a href="https://mkt.altrubiz.co.il/terms" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-primary transition-colors">
+                    <span className="text-gray-300 hidden sm:inline">•</span>
+                    <a 
+                        href="https://mkt.altrubiz.co.il/terms" 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="text-gray-500 hover:text-primary transition-colors"
+                    >
                         תנאי שימוש
                     </a>
                 </div>
 
-                <p className="text-gray-400 text-sm">
-                    © AltruBiz CRM
+                <p className="text-gray-400 text-xs">
+                    © AltruBiz CRM. כל הזכויות שמורות.
                 </p>
             </div>
         </footer>
