@@ -72,4 +72,20 @@
     <priority>0.7</priority>
   </url>
 
+  <!-- Article: missed-call-text-back-guide -->
+  <url>
+    <loc>https://altrubiz.co.il/articles/missed-call-text-back-guide</loc>
+    <lastmod>2025-02-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Plaintext Markdown mirror for LLM: missed-call-text-back-guide -->
+  <url>
+    <loc>https://altrubiz.co.il/articles/missed-call-text-back-guide.md</loc>
+    <lastmod>2026-09-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
 </urlset>
