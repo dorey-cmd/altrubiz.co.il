@@ -116,61 +116,80 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate }) => {
                         {filteredArticles.map((article: Article) => (
                             <div 
                                 key={article.slug}
-                                className="group relative bg-white border border-slate-200/90 hover:border-secondary/40 rounded-3xl p-6 sm:p-8 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
+                                className="group relative bg-white border border-slate-200/90 hover:border-secondary/40 rounded-3xl p-5 sm:p-7 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col md:flex-row gap-6 md:gap-8 items-stretch"
                             >
-                                <div>
-                                    <div className="flex flex-wrap items-center gap-2.5 mb-3">
-                                        <span className="px-3 py-1 text-xs font-bold rounded-full bg-cyan-50 text-secondary border border-cyan-100">
-                                            {article.category}
-                                        </span>
-                                        <span className="flex items-center gap-1 text-xs text-slate-500 font-medium">
-                                            <Clock size={12} className="text-slate-400" />
-                                            {article.readTime}
-                                        </span>
-                                        <span className="text-xs text-slate-400">
-                                            • {new Date(article.datePublished).toLocaleDateString('he-IL', { year: 'numeric', month: 'short', day: 'numeric' })}
-                                        </span>
-                                    </div>
-
-                                    <h2 className="text-xl sm:text-2xl font-black text-slate-900 group-hover:text-secondary transition-colors mb-3 leading-snug">
-                                        <button 
-                                            onClick={() => onNavigate(`/articles/${article.slug}`)}
-                                            className="text-right hover:underline"
-                                        >
-                                            {article.title}
-                                        </button>
-                                    </h2>
-
-                                    <p className="text-slate-600 text-sm sm:text-base leading-relaxed mb-4">
-                                        {article.description}
-                                    </p>
-
-                                    {/* Tags */}
-                                    <div className="flex flex-wrap items-center gap-1.5 mb-6">
-                                        {article.tags.map(tag => (
-                                            <span key={tag} className="inline-flex items-center gap-1 text-[11px] font-medium text-slate-600 bg-slate-100 px-2.5 py-0.5 rounded-lg">
-                                                <Tag size={10} className="text-slate-400" />
-                                                {tag}
-                                            </span>
-                                        ))}
-                                    </div>
-                                </div>
-
-                                {/* Card Bottom Container with Author & Creative Action Button in Biz Cyan */}
-                                <div className="pt-5 mt-2 border-t border-slate-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                                    <div className="flex items-center gap-2.5 text-xs text-slate-500 font-medium">
-                                        <span className="font-bold text-slate-800">{article.author.name}</span>
-                                        <span>•</span>
-                                        <span>{article.author.role}</span>
-                                    </div>
-
-                                    <button
+                                {/* Cover Image Container */}
+                                {article.coverImage && (
+                                    <div 
                                         onClick={() => onNavigate(`/articles/${article.slug}`)}
-                                        className="w-full sm:w-auto group/btn inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 rounded-2xl bg-secondary hover:bg-[#009cd7] active:scale-[0.98] text-white text-xs sm:text-sm font-black shadow-md shadow-secondary/25 hover:shadow-lg hover:shadow-secondary/35 transition-all duration-200"
+                                        className="w-full md:w-64 lg:w-72 flex-shrink-0 cursor-pointer overflow-hidden rounded-2xl bg-slate-100 shadow-xs relative aspect-video md:aspect-auto min-h-[190px]"
                                     >
-                                        <span>{article.cardCta || 'למעבר למדריך המלא'}</span>
-                                        <ArrowLeft size={15} className="transition-transform duration-200 group-hover/btn:-translate-x-1" />
-                                    </button>
+                                        <img 
+                                            src={article.coverImage.src} 
+                                            alt={article.coverImage.alt} 
+                                            loading="lazy"
+                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                        />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                                    </div>
+                                )}
+
+                                {/* Content Container */}
+                                <div className="flex-1 flex flex-col justify-between">
+                                    <div>
+                                        <div className="flex flex-wrap items-center gap-2.5 mb-3">
+                                            <span className="px-3 py-1 text-xs font-bold rounded-full bg-cyan-50 text-secondary border border-cyan-100">
+                                                {article.category}
+                                            </span>
+                                            <span className="flex items-center gap-1 text-xs text-slate-500 font-medium">
+                                                <Clock size={12} className="text-slate-400" />
+                                                {article.readTime}
+                                            </span>
+                                            <span className="text-xs text-slate-400">
+                                                • {new Date(article.datePublished).toLocaleDateString('he-IL', { year: 'numeric', month: 'short', day: 'numeric' })}
+                                            </span>
+                                        </div>
+
+                                        <h2 className="text-xl sm:text-2xl font-black text-slate-900 group-hover:text-secondary transition-colors mb-3 leading-snug">
+                                            <button 
+                                                onClick={() => onNavigate(`/articles/${article.slug}`)}
+                                                className="text-right hover:underline"
+                                            >
+                                                {article.title}
+                                            </button>
+                                        </h2>
+
+                                        <p className="text-slate-600 text-sm sm:text-base leading-relaxed mb-4">
+                                            {article.description}
+                                        </p>
+
+                                        {/* Tags */}
+                                        <div className="flex flex-wrap items-center gap-1.5 mb-5">
+                                            {article.tags.map(tag => (
+                                                <span key={tag} className="inline-flex items-center gap-1 text-[11px] font-medium text-slate-600 bg-slate-100 px-2.5 py-0.5 rounded-lg">
+                                                    <Tag size={10} className="text-slate-400" />
+                                                    {tag}
+                                                </span>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    {/* Card Bottom Container with Author & Creative Action Button in Biz Cyan */}
+                                    <div className="pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mt-auto">
+                                        <div className="flex items-center gap-2.5 text-xs text-slate-500 font-medium">
+                                            <span className="font-bold text-slate-800">{article.author.name}</span>
+                                            <span>•</span>
+                                            <span>{article.author.role}</span>
+                                        </div>
+
+                                        <button
+                                            onClick={() => onNavigate(`/articles/${article.slug}`)}
+                                            className="w-full sm:w-auto group/btn inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 rounded-2xl bg-secondary hover:bg-[#009cd7] active:scale-[0.98] text-white text-xs sm:text-sm font-black shadow-md shadow-secondary/25 hover:shadow-lg hover:shadow-secondary/35 transition-all duration-200"
+                                        >
+                                            <span>{article.cardCta || 'למעבר למדריך המלא'}</span>
+                                            <ArrowLeft size={15} className="transition-transform duration-200 group-hover/btn:-translate-x-1" />
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         ))}

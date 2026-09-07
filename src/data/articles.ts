@@ -58,6 +58,10 @@ export interface Article {
     keyTakeaway: string;
     heroBadge?: string;
     cardCta?: string;
+    coverImage?: {
+        src: string;
+        alt: string;
+    };
     interactiveTheme?: boolean;
     cta?: {
         title: string;
@@ -101,6 +105,10 @@ export const ARTICLES: Article[] = [
         heroSummary: 'WhatsApp הוא כלי מצוין לתקשורת עם לקוחות, אך הוא ערוץ שנמצא בשליטה מלאה של Meta. המטרה שלנו ב-AltruBiz היא לסייע בשימוש אחראי במערכת ולהקטין ככל האפשר את הסיכון לאי נעימויות מול Meta.',
         keyTakeaway: 'מומלץ לשלוח הודעות WhatsApp אך ורק לאנשים שמכירים את העסק, מצפים לשמוע ממנו ונתנו הסכמה מתאימה לקבל הודעות ב-WhatsApp. אם עולה השאלה "האם האנשים האלה באמת יצפו לקבל מאיתנו את ההודעה הזאת?" ויש ספק - עדיף לא לשלוח.',
         cardCta: 'לכללי הברזל לשמירה על מספר הוואטסאפ שלכם',
+        coverImage: {
+            src: '/images/articles/smart-routing-switch.jpg',
+            alt: 'שימוש נכון ובטוח בדיוור וניתוב הודעות WhatsApp לעסקים'
+        },
         sections: [
             {
                 id: 'meta-rules-overview',
@@ -268,6 +276,10 @@ export const ARTICLES: Article[] = [
         keyTakeaway: 'אין צורך לבנות את כל הסיסטם בבת אחת: מתחילים מפעולה אחת ברשימה שפותרת את צוואר הבקבוק הכי כואב בעסק כבר היום. מפעילים אותה בתוך 10 דקות, ורק לאחר שרואים תוצאה ומדידה מתקדמים לשלב הבא.',
         heroBadge: 'לא צריך ללמוד את כל המערכת - מתחילים מ-Quick Win אחד',
         cardCta: 'עכשיו בואו נראה איך זה קורה כשיש מערכת',
+        coverImage: {
+            src: '/images/articles/quick-win-speed-lead.jpg',
+            alt: '10 פעולות מהירות ב-CRM שמייצרות תוצאות מיידיות'
+        },
         interactiveTheme: true,
         cta: {
             title: 'לא בטוחים מאיזה Quick Win להתחיל בעסק שלכם?',
@@ -518,6 +530,10 @@ export const ARTICLES: Article[] = [
         keyTakeaway: 'אוטומציה טובה אינה נמדדת במספר ההודעות או במורכבות התרשימים, אלא ברגע קטן שבו משהו קורה מיד: הליד מקבל אישור אנושי, הצוות מקבל התראה ממוקדת, ויש אפשרות עצמאית לקבוע פגישה – גם בזמן שאתם בפגישה אחרת.',
         heroBadge: 'מדריך מהיר לקליטת לידים',
         cardCta: 'איך סוגרים עסקאות ב-5 הדקות הראשונות?',
+        coverImage: {
+            src: '/images/articles/lead-waiting-doorbell.jpg',
+            alt: 'ליד שהשאיר פרטים וממתין למענה מהיר ב-5 הדקות הראשונות'
+        },
         interactiveTheme: true,
         cta: {
             title: 'רוצים לבנות תהליך קליטת לידים מושלם ב-AltruBiz?',
@@ -779,6 +795,10 @@ export const ARTICLES: Article[] = [
         keyTakeaway: 'רשת ביטחון אוטומטית לשיחות שלא נענו (Missed Call Text Back) אינה מחליפה אתכם ברובוט – היא פשוט מונעת מהלקוח לחזור לגוגל ולפנות למתחרה הבא בזמן שאתם עסוקים.',
         heroBadge: 'מדריך שיחות שלא נענו',
         cardCta: 'איך להחזיר שיחה שלא נענתה ולהציל את הליד?',
+        coverImage: {
+            src: '/images/articles/missed-call-relay-race.jpg',
+            alt: 'הצלת שיחות שלא נענו ומניעת זליגת לקוחות למתחרים'
+        },
         interactiveTheme: true,
         cta: {
             title: 'רוצים להפסיק לאבד שיחות שלא נענו בעסק?',
@@ -1038,6 +1058,10 @@ export const ARTICLES: Article[] = [
         keyTakeaway: 'טבלה מצוינת בלשמור מידע ולארגן נתונים. פייפליין ב-CRM נועד לנהל תהליך עבודה ומערכת יחסים לאורך זמן – כך שבכל רגע נתון ברור מה הצעד הבא עם כל ליד ואיפה הכסף תקוע.',
         heroBadge: 'מדריך מעבר מ-Excel ל-Pipeline',
         cardCta: 'בואו לגלות איך מעבירים את האקסל לפייפליין חי',
+        coverImage: {
+            src: '/images/articles/excel-shrugging-manager.jpg',
+            alt: 'מעבר מניהול לידים באקסל לפייפליין מכירות חזותי'
+        },
         interactiveTheme: true,
         cta: {
             title: 'רוצים לראות את תהליך המכירה שלכם במקום לנחש בטבלאות?',
@@ -1296,6 +1320,10 @@ export const ARTICLES: Article[] = [
         keyTakeaway: 'עסק מצליח לא מתנהל על הזיכרון של אנשים. כשלכל לקוח יש כרטיס אחד עם הקשר ברור והיסטוריה מתועדת, גם שיחה שהתקיימה לפני חודש ממשיכה בטבעיות בדיוק מהנקודה שבה היא נעצרה.',
         heroBadge: 'מדריך מעשי לזיכרון ארגוני',
         cardCta: 'איך להפוך את ה-CRM לזיכרון המרכזי של העסק?',
+        coverImage: {
+            src: '/images/articles/read-the-room-robot.jpg',
+            alt: 'הפיכת ה-CRM לזיכרון המרכזי של העסק ששומר כל פרט ושיחה'
+        },
         interactiveTheme: true,
         cta: {
             title: 'רוצים שהעסק שלכם יזכור כל לקוח וכל פרט?',
