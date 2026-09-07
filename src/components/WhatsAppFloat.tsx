@@ -13,7 +13,7 @@ export const WhatsAppFloat = () => {
             </div>
             <img
                 src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
-                alt="WhatsApp"
+                alt="אייקון וואטסאפ - יצירת קשר מהירה עם צוות AltruBiz CRM בוואטסאפ"
                 className="w-[45px] h-[45px] rounded-full shadow-lg group-hover:scale-110 transition-transform"
             />
         </a>

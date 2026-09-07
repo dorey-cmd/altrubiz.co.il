@@ -29,7 +29,7 @@ export const Header = ({ onNavigate }: HeaderProps) => {
                     >
                         <img
                             src="https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/688019c09a4c2d4b4398bf3c.png"
-                            alt="AltruBiz Logo"
+                            alt="לוגו AltruBiz CRM - מערכת לניהול לקוחות, אוטומציה עסקית וחיבור WhatsApp חכם"
                             className="h-12 md:h-16 w-auto object-contain"
                         />
                     </a>

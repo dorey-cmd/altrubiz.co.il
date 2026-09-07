@@ -1,19 +1,19 @@
 import { motion } from 'framer-motion';
 
 const logos = [
-    { src: "https://storage.googleapis.com/msgsndr/knES3eSWYIsc5YSZ3YLl/media/67af641f237ce2563df82508.png", alt: "WhatsApp" },
-    { src: "https://storage.googleapis.com/msgsndr/knES3eSWYIsc5YSZ3YLl/media/67ab96a579284bbe3b6a77ac.png", alt: "Facebook" },
-    { src: "https://storage.googleapis.com/msgsndr/knES3eSWYIsc5YSZ3YLl/media/67ab96a5ee6da9160435043f.png", alt: "Instagram" },
-    { src: "https://storage.googleapis.com/msgsndr/knES3eSWYIsc5YSZ3YLl/media/67ab96a537d82f92fceb7e3d.png", alt: "LinkedIn" },
-    { src: "https://storage.googleapis.com/msgsndr/knES3eSWYIsc5YSZ3YLl/media/67ab96a506eacd595072e016.png", alt: "TikTok" },
-    { src: "https://storage.googleapis.com/msgsndr/knES3eSWYIsc5YSZ3YLl/media/67ab96a54325e150f16636dc.png", alt: "Google" },
-    { src: "https://storage.googleapis.com/msgsndr/knES3eSWYIsc5YSZ3YLl/media/67abd58650fb000ed8851f30.png", alt: "Zapier" },
-    { src: "https://storage.googleapis.com/msgsndr/knES3eSWYIsc5YSZ3YLl/media/67ab96a534b29a2b24ca6434.png", alt: "Slack" },
-    { src: "https://storage.googleapis.com/msgsndr/knES3eSWYIsc5YSZ3YLl/media/67ab96a506eacd2a0b72e015.png", alt: "Printful" },
-    { src: "https://storage.googleapis.com/msgsndr/knES3eSWYIsc5YSZ3YLl/media/67ab96a5ee6da9493235043e.png", alt: "Stripe" },
-    { src: "https://storage.googleapis.com/msgsndr/knES3eSWYIsc5YSZ3YLl/media/67ab96a5ee6da9500a35043d.png", alt: "Shopify" },
-    { src: "https://storage.googleapis.com/msgsndr/knES3eSWYIsc5YSZ3YLl/media/67ab96a534b29a1b3eca6435.png", alt: "WooCommerce" },
-    { src: "https://storage.googleapis.com/msgsndr/knES3eSWYIsc5YSZ3YLl/media/67ab96a5f3bda8b1b50e5c3e.png", alt: "Google Business Profile" }
+    { src: "https://storage.googleapis.com/msgsndr/knES3eSWYIsc5YSZ3YLl/media/67af641f237ce2563df82508.png", alt: "אינטגרציית WhatsApp Business עם AltruBiz CRM" },
+    { src: "https://storage.googleapis.com/msgsndr/knES3eSWYIsc5YSZ3YLl/media/67ab96a579284bbe3b6a77ac.png", alt: "חיבור קמפיינים ולידים מפייסבוק (Facebook Leads) ל-CRM" },
+    { src: "https://storage.googleapis.com/msgsndr/knES3eSWYIsc5YSZ3YLl/media/67ab96a5ee6da9160435043f.png", alt: "חיבור לידים והודעות מאינסטגרם (Instagram) ל-CRM" },
+    { src: "https://storage.googleapis.com/msgsndr/knES3eSWYIsc5YSZ3YLl/media/67ab96a537d82f92fceb7e3d.png", alt: "חיבור לידים מ-LinkedIn ל-CRM" },
+    { src: "https://storage.googleapis.com/msgsndr/knES3eSWYIsc5YSZ3YLl/media/67ab96a506eacd595072e016.png", alt: "חיבור קמפיינים ולידים מ-TikTok ל-CRM" },
+    { src: "https://storage.googleapis.com/msgsndr/knES3eSWYIsc5YSZ3YLl/media/67ab96a54325e150f16636dc.png", alt: "חיבור Google Ads ויומני פגישות ל-CRM" },
+    { src: "https://storage.googleapis.com/msgsndr/knES3eSWYIsc5YSZ3YLl/media/67abd58650fb000ed8851f30.png", alt: "אינטגרציית Zapier לאוטומציה עסקית" },
+    { src: "https://storage.googleapis.com/msgsndr/knES3eSWYIsc5YSZ3YLl/media/67ab96a534b29a2b24ca6434.png", alt: "אינטגרציית Slack להתראות צוות מ-CRM" },
+    { src: "https://storage.googleapis.com/msgsndr/knES3eSWYIsc5YSZ3YLl/media/67ab96a506eacd2a0b72e015.png", alt: "אינטגרציית Printful למסחר אלקטרוני" },
+    { src: "https://storage.googleapis.com/msgsndr/knES3eSWYIsc5YSZ3YLl/media/67ab96a5ee6da9493235043e.png", alt: "סליקת אשראי ותשלומים באמצעות Stripe" },
+    { src: "https://storage.googleapis.com/msgsndr/knES3eSWYIsc5YSZ3YLl/media/67ab96a5ee6da9500a35043d.png", alt: "חיבור חנות Shopify לניהול לקוחות ב-CRM" },
+    { src: "https://storage.googleapis.com/msgsndr/knES3eSWYIsc5YSZ3YLl/media/67ab96a534b29a1b3eca6435.png", alt: "חיבור חנות WooCommerce ל-CRM" },
+    { src: "https://storage.googleapis.com/msgsndr/knES3eSWYIsc5YSZ3YLl/media/67ab96a5f3bda8b1b50e5c3e.png", alt: "ניהול ביקורות וכרטיס עסק ב-Google Business Profile" }
 ];
 
 export const Integrations = () => {

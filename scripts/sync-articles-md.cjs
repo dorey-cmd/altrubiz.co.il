@@ -54,6 +54,10 @@ function buildMarkdownFromArticle(article) {
         parts.push(`*${article.subtitle}*\n`);
     }
 
+    if (article.coverImage) {
+        parts.push(`![${article.coverImage.alt}](${article.coverImage.src})\n`);
+    }
+
     if (article.heroSummary) {
         parts.push(`## תקציר ומטרה\n\n${article.heroSummary}\n`);
     }
@@ -83,6 +87,13 @@ function buildMarkdownFromArticle(article) {
 
             if (section.quickWin) {
                 parts.push(`> ⚡ **Quick Win (מה אפשר לעשות עכשיו):** ${section.quickWin.text}\n`);
+            }
+
+            if (section.image) {
+                parts.push(`![${section.image.alt}](${section.image.src})\n`);
+                if (section.image.caption) {
+                    parts.push(`*💡 ${section.image.caption}*\n`);
+                }
             }
 
             if (section.breakRoutine) {

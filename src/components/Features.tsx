@@ -93,7 +93,7 @@ export const Features = () => {
 
                             <img
                                 src={feature.icon}
-                                alt={`אייקון ${feature.title}`}
+                                alt={`אייקון תכונה: ${feature.title} - ${feature.desc} במערכת AltruBiz CRM`}
                                 className="w-20 h-20 mb-6 object-contain group-hover:scale-110 transition-transform duration-300 relative z-10"
                             />
 

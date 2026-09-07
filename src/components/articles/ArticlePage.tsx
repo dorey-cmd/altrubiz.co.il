@@ -669,6 +669,17 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({ article, onNavigate })
                     {/* Primary Content Column */}
                     <div className="min-w-0 max-w-4xl mx-auto lg:mx-0 w-full">
                         
+                        {/* Article Cover Image */}
+                        {article.coverImage && (
+                            <figure className="mb-10 rounded-3xl overflow-hidden border border-slate-200/90 shadow-md bg-white">
+                                <img 
+                                    src={article.coverImage.src} 
+                                    alt={article.coverImage.alt} 
+                                    className="w-full aspect-[21/9] sm:aspect-[2.2/1] object-cover" 
+                                />
+                            </figure>
+                        )}
+
                         {/* Intro summary box */}
                         {article.heroSummary && (
                             <div className="bg-gradient-to-br from-blue-50/80 via-white to-sky-50/80 border border-blue-100/80 rounded-2xl p-6 sm:p-8 mb-10 shadow-sm">

@@ -23,7 +23,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                     <img
                         className="h-12 w-auto"
                         src="https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/688019c09a4c2d4b4398bf3c.png"
-                        alt="לוגו אלטרוביז CRM"
+                        alt="לוגו אלטרוביז CRM - מערכת לניהול לקוחות, שיווק ואוטומציה עסקית"
                     />
                 </a>
 

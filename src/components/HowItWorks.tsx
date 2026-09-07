@@ -68,7 +68,7 @@ export const HowItWorks = () => {
                                     <div className="absolute -inset-1 bg-gradient-to-r from-primary to-secondary rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
                                     <img
                                         src={step.img}
-                                        alt={`שלב ${step.title}`}
+                                        alt={`שלב ${step.num}: ${step.title} - ${step.desc} במערכת AltruBiz CRM`}
                                         className="relative w-full h-auto rounded-2xl shadow-xl hover:scale-[1.02] transition-transform duration-500 bg-white"
                                     />
                                 </div>
