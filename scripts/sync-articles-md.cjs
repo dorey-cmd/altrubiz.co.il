@@ -71,10 +71,18 @@ function buildMarkdownFromArticle(article) {
                 parts.push(`*${section.subtitle}*\n`);
             }
 
+            if (section.problem) {
+                parts.push(`> ❌ **הבעיה בעסק:** ${section.problem}\n`);
+            }
+
             if (section.content && Array.isArray(section.content)) {
                 for (const p of section.content) {
                     parts.push(`${p}\n`);
                 }
+            }
+
+            if (section.quickWin) {
+                parts.push(`> ⚡ **Quick Win (מה אפשר לעשות עכשיו):** ${section.quickWin.text}\n`);
             }
 
             if (section.callout) {
@@ -129,25 +137,13 @@ for (const article of articles) {
         const existingContent = fs.readFileSync(mdPath, 'utf8');
         const frontmatterMatch = existingContent.match(/^---\r?\n([\s\S]*?)\r?\n---(\r?\n[\s\S]*)$/);
 
-        if (!frontmatterMatch) {
-            // No valid frontmatter: regenerate with existing body or full article
-            const newContent = generateFrontmatter(article) + existingContent.trimStart();
-            fs.writeFileSync(mdPath, newContent, 'utf8');
-            console.log(`\x1b[33m⚡ [UPDATED] Fixed frontmatter in:\x1b[0m public/articles/${article.slug}.md`);
+        const generatedContent = buildMarkdownFromArticle(article);
+        if (existingContent.trim() !== generatedContent.trim()) {
+            fs.writeFileSync(mdPath, generatedContent, 'utf8');
+            console.log(`\x1b[33m⚡ [UPDATED] Synced markdown body & metadata:\x1b[0m public/articles/${article.slug}.md`);
             updatedCount++;
         } else {
-            const body = frontmatterMatch[2];
-            const newFrontmatter = generateFrontmatter(article).trim();
-            const currentFrontmatter = `---\n${frontmatterMatch[1]}\n---`;
-
-            // If frontmatter differs meaningfully, update it
-            if (newFrontmatter !== currentFrontmatter) {
-                fs.writeFileSync(mdPath, `${newFrontmatter}\n${body.trimStart()}`, 'utf8');
-                console.log(`\x1b[33m⚡ [UPDATED] Synced frontmatter metadata:\x1b[0m public/articles/${article.slug}.md`);
-                updatedCount++;
-            } else {
-                upToDateCount++;
-            }
+            upToDateCount++;
         }
     }
 }

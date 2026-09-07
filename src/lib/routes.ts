@@ -48,7 +48,7 @@ export const STATIC_ROUTES_REGISTRY: Record<string, RouteConfig> = {
     '/about': {
         path: '/about',
         title: 'אודות AltruBiz (אלטרוביז) | CRM, אוטומציות ובוטים מבוססי AI',
-        description: 'הכירו את AltruBiz: חברת תוכנה ישראלית המפתחת מערכת CRM מתקדמת, אינטגרציות WhatsApp Business ובוטים חכמים לקביעת פגישות בעברית מלאה.',
+        description: 'היכרות עם AltruBiz: חברת תוכנה ישראלית המפתחת מערכת CRM מתקדמת, אינטגרציות WhatsApp Business ובוטים חכמים לקביעת פגישות בעברית מלאה.',
         keywords: ['אודות אלטרוביז', 'AltruBiz CRM', 'תוכנת CRM ישראלית', 'אוטומציה עסקית בישראל'],
         canonicalUrl: `${BASE_CANONICAL_DOMAIN}/about`,
         schemaType: 'AboutPage',

@@ -94,7 +94,7 @@ export const PricingNew = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div className="text-center mb-16">
                     <h2 className="text-4xl md:text-5xl font-bold text-[#1E293B] mb-10">
-                        בחרו את החבילה המושלמת עבורכם
+                        בחירת החבילה המושלמת עבורכם
                     </h2>
 
                     <div className="flex flex-col items-center justify-center" dir="ltr">
@@ -168,7 +168,7 @@ export const PricingNew = () => {
                         <p className="text-gray-400 text-sm mb-6">+ מע"מ לחודש</p>
 
                         <p className="text-[#1E293B] font-bold mb-8 px-2 min-h-[64px] flex items-center justify-center leading-tight text-lg">
-                            ניהול הלידים עד המכירה – בצורה מסודרת וברורה
+                            ניהול הלידים עד המכירה - בצורה מסודרת וברורה
                         </p>
 
                         <div className="w-full h-px bg-gray-100 mb-8"></div>
@@ -176,7 +176,7 @@ export const PricingNew = () => {
                         <ul className="space-y-4 mb-8 flex-grow w-full text-right px-2">
                             <li className="flex items-start gap-3 text-base text-gray-600">
                                 <span className="mt-1 text-green-500 font-bold"><CheckIcon className="w-6 h-6" /></span>
-                                <span>כל הלידים במקום אחד – בלי בלגן, בלי אקסלים, בלי פתקים</span>
+                                <span>כל הלידים במקום אחד - בלי בלגן, בלי אקסלים, בלי פתקים</span>
                             </li>
                             <li className="flex items-start gap-3 text-base text-gray-600">
                                 <span className="mt-1 text-green-500 font-bold"><CheckIcon className="w-6 h-6" /></span>
@@ -237,7 +237,7 @@ export const PricingNew = () => {
                         <ul className="space-y-4 mb-8 flex-grow w-full text-right px-2">
                             <li className="flex items-start gap-3 text-base text-gray-600">
                                 <span className="mt-1 text-[#F59E0B] font-bold"><CheckIcon className="w-6 h-6" /></span>
-                                <span>כל מה שיש ב-PRO – ועוד שכבת שיווק עוצמתית מעליו</span>
+                                <span>כל מה שיש ב-PRO - ועוד שכבת שיווק עוצמתית מעליו</span>
                             </li>
                             <li className="flex items-start gap-3 text-base text-gray-600">
                                 <span className="mt-1 text-[#F59E0B] font-bold"><CheckIcon className="w-6 h-6" /></span>
@@ -262,7 +262,7 @@ export const PricingNew = () => {
                         </ul>
 
                         <p className="text-[#F59E0B] text-base font-bold mb-8 px-2">
-                            זו כבר לא רק מערכת לניהול לידים – זו מכונה שמייצרת אותם.
+                            זו כבר לא רק מערכת לניהול לידים - זו מכונה שמייצרת אותם.
                         </p>
 
                         <a
@@ -299,7 +299,7 @@ export const PricingNew = () => {
                         <p className="text-gray-400 text-sm mb-6">+ מע"מ לחודש</p>
 
                         <p className="text-[#1E293B] font-bold mb-8 px-2 min-h-[64px] flex items-center justify-center leading-tight text-lg">
-                            המערכת הופכת לעמוד השדרה ומנוע הצמיחה של העסק – בשילוב AI
+                            המערכת הופכת לעמוד השדרה ומנוע הצמיחה של העסק - בשילוב AI
                         </p>
 
                         <div className="w-full h-px bg-gray-100 mb-8"></div>
@@ -328,7 +328,7 @@ export const PricingNew = () => {
                         </ul>
 
                         <p className="text-[#DC2626] text-base font-bold mb-8 px-2">
-                            זו לא עוד חבילה. זו קפיצת מדרגה תודעתית – תשתית של שליטה וסקייל אמיתי.
+                            זו לא עוד חבילה. זו קפיצת מדרגה תודעתית - תשתית של שליטה וסקייל אמיתי.
                         </p>
 
                         <a
@@ -348,7 +348,7 @@ export const PricingNew = () => {
                         onClick={() => setShowComparison(!showComparison)}
                         className="inline-flex items-center gap-2 px-8 py-4 bg-white border-2 border-[#1E293B] text-[#1E293B] font-bold rounded-full hover:bg-slate-50 transition-all shadow-md group"
                     >
-                        {showComparison ? 'הסתר השוואת תכונות' : 'השווה את כל התכונות'}
+                        {showComparison ? 'הסתרת השוואת תכונות' : 'השוואת כל התכונות'}
                         <motion.span animate={{ rotate: showComparison ? 180 : 0 }}>
                             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />

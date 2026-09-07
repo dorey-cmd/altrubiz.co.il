@@ -94,7 +94,7 @@ export const Header = ({ onNavigate }: HeaderProps) => {
                             <Button variant="ghost" size="sm" className="text-gray-600 hover:text-primary">התחברות</Button>
                         </a>
                         <a href="/#pricing" onClick={(e) => handleLinkClick(e, '/#pricing')}>
-                            <Button variant="primary" size="sm">התחל עכשיו</Button>
+                            <Button variant="primary" size="sm">מתחילים עכשיו</Button>
                         </a>
                     </div>
 
@@ -171,7 +171,7 @@ export const Header = ({ onNavigate }: HeaderProps) => {
                                 <Button variant="ghost" className="justify-start text-gray-600 w-full">התחברות</Button>
                             </a>
                             <a href="/#pricing" onClick={(e) => handleLinkClick(e, '/#pricing')}>
-                                <Button variant="primary" className="justify-center w-full">התחל עכשיו</Button>
+                                <Button variant="primary" className="justify-center w-full">מתחילים עכשיו</Button>
                             </a>
                         </div>
                     </div>

@@ -1,4 +1,4 @@
-# AltruBiz CRM — מידע עובדתי מלא (Full Entity & Technical Overview)
+# AltruBiz CRM - מידע עובדתי מלא (Full Entity & Technical Overview)
 
 ## 1. פרופיל הארגון (Organization Profile)
 - **שם רשמי:** AltruBiz (אלטרוביז)

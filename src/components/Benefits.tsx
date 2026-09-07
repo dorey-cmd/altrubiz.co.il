@@ -61,7 +61,7 @@ export const Benefits = () => {
                         href="#pricing"
                         className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white bg-primary rounded-full hover:bg-blue-700 transition-colors shadow-lg hover:shadow-xl hover:-translate-y-1"
                     >
-                        לחבילות אלטרוביז לפי הצורך שלך
+                        לבחירת החבילה המתאימה לעסק
                     </a>
                 </div>
             </div>

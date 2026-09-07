@@ -54,7 +54,7 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate }) => {
                     מדריכים, תובנות ומאמרים מקצועיים
                 </h1>
                 <p className="max-w-2xl mx-auto text-base sm:text-lg text-slate-600 leading-relaxed mb-8">
-                    כל מה שצריך לדעת על אוטומציה עסקית, חיבורי WhatsApp Business, שיווק אחראי ומדיניות פלטפורמות — כדי להכניס את השיטה לסיסטם.
+                    כל מה שצריך לדעת על אוטומציה עסקית, חיבורי WhatsApp Business, שיווק אחראי ומדיניות פלטפורמות - כדי להכניס את השיטה לסיסטם.
                 </p>
 
                 {/* Filter and Search Bar */}
@@ -93,7 +93,7 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate }) => {
                     <div className="text-center py-16 bg-white rounded-3xl border border-gray-200 p-8">
                         <FileText className="w-12 h-12 text-gray-300 mx-auto mb-3" />
                         <h3 className="text-lg font-bold text-gray-700">לא נמצאו מאמרים התואמים לחיפוש</h3>
-                        <p className="text-sm text-gray-500 mt-1">נסו מילת חיפוש אחרת או אפסו את הסינון.</p>
+                        <p className="text-sm text-gray-500 mt-1">אפשר לנסות מילת חיפוש אחרת או לאפס את הסינון.</p>
                         <button
                             onClick={() => { setSearchQuery(''); setSelectedCategory('all'); }}
                             className="mt-4 text-xs font-bold text-primary hover:underline"
@@ -159,7 +159,7 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate }) => {
                                         className="w-full md:w-auto"
                                     >
                                         <Button variant="primary" size="sm" className="w-full md:w-auto flex items-center justify-center gap-1.5 text-xs font-bold py-2.5 px-5">
-                                            <span>קרא את המאמר</span>
+                                            <span>לקריאת המאמר</span>
                                             <ArrowLeft size={14} />
                                         </Button>
                                     </button>

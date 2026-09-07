@@ -28,7 +28,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                 </a>
 
                 <p className="text-gray-600 mb-6 font-medium max-w-md">
-                    אלטרוביז CRM. כל מה שצריך כדי להכניס את השיטה לסיסטם — בוטים, אוטומציות וחיבורי WhatsApp חכמים.
+                    אלטרוביז CRM. כל מה שצריך כדי להכניס את השיטה לסיסטם - בוטים, אוטומציות וחיבורי WhatsApp חכמים.
                 </p>
 
                 {/* Navigation and Resources links */}

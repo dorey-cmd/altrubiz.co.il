@@ -17,12 +17,22 @@ Welcome to the **AltruBiz CRM** codebase (`altrubiz.co.il`).
 
 Any new page, article, or route created in this repository must automatically inherit and comply with the 26 mandatory standards documented in [`.agents/rules/geo-llm-readiness.md`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/rules/geo-llm-readiness.md).
 
+
 ### Enforcement Pipeline:
 - **Build Pre-requisite**: `npm run build` automatically triggers `npm run prebuild`, which:
   1. `npm run articles:sync-md`: Generates & syncs plaintext Markdown mirrors (`public/articles/${slug}.md`) for all articles.
   2. `npm run sitemap:generate`: Dynamically updates `public/sitemap.xml` directly from `src/lib/routes.ts`.
   3. `npm run test:geo`: Audits 40+ criteria across routes, canonicals, robots.txt, schema graph, headings, and authorship.
 - **Strict Hard Gate**: If any test fails, the build halts immediately with exit code 1. **Zero violations are allowed to deploy.**
+
+---
+
+## 2.1 Mandatory Copywriting Standard: Unisex / Gender-Neutral Phrasing
+All text, buttons, titles, calls to action, guides, and UI labels across the website must be written in a natural, gender-neutral (Unisex) style.
+- **Strict prohibition**: Never use gender slashes (e.g. `קרא/י`, `הצטרף/י`, `לחץ/י`).
+- **Natural Hebrew phrasing**: Use infinitives (`להתחיל עכשיו`, `לקריאת המאמר`), nominal forms (`השארת פרטים`, `השוואת תכונות`), impersonal expressions (`מה אפשר לעשות עכשיו?`), or collective phrasing (`ברוכים הבאים`, `דברו איתנו`).
+- Full specification: [`.agents/rules/unisex-copy-standard.md`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/rules/unisex-copy-standard.md).
+
 
 ---
 

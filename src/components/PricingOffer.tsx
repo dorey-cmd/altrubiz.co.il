@@ -94,7 +94,7 @@ export const PricingOffer = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div className="text-center mb-16">
                     <h2 className="text-4xl md:text-5xl font-bold text-[#1E293B] mb-10">
-                        בחרו את החבילה המושלמת עבורכם
+                        בחירת החבילה המושלמת עבורכם
                     </h2>
 
                     <div className="flex flex-col items-center justify-center" dir="ltr">
@@ -173,7 +173,7 @@ export const PricingOffer = () => {
                         <p className="text-gray-400 text-sm mb-6">+ מע"מ לחודש</p>
 
                         <p className="text-[#1E293B] font-bold mb-8 px-2 min-h-[64px] flex items-center justify-center leading-tight text-lg">
-                            ניהול הלידים עד המכירה – בצורה מסודרת וברורה
+                            ניהול הלידים עד המכירה - בצורה מסודרת וברורה
                         </p>
 
                         <div className="w-full h-px bg-gray-100 mb-8"></div>
@@ -181,7 +181,7 @@ export const PricingOffer = () => {
                         <ul className="space-y-4 mb-8 flex-grow w-full text-right px-2">
                             <li className="flex items-start gap-3 text-base text-gray-600">
                                 <span className="mt-1 text-green-500 font-bold"><CheckIcon className="w-6 h-6" /></span>
-                                <span>כל הלידים במקום אחד – בלי בלגן, בלי אקסלים, בלי פתקים</span>
+                                <span>כל הלידים במקום אחד - בלי בלגן, בלי אקסלים, בלי פתקים</span>
                             </li>
                             <li className="flex items-start gap-3 text-base text-gray-600">
                                 <span className="mt-1 text-green-500 font-bold"><CheckIcon className="w-6 h-6" /></span>
@@ -242,7 +242,7 @@ export const PricingOffer = () => {
                         <ul className="space-y-4 mb-8 flex-grow w-full text-right px-2">
                             <li className="flex items-start gap-3 text-base text-gray-600">
                                 <span className="mt-1 text-[#F59E0B] font-bold"><CheckIcon className="w-6 h-6" /></span>
-                                <span>כל מה שיש ב-PRO – ועוד שכבת שיווק עוצמתית מעליו</span>
+                                <span>כל מה שיש ב-PRO - ועוד שכבת שיווק עוצמתית מעליו</span>
                             </li>
                             <li className="flex items-start gap-3 text-base text-gray-600">
                                 <span className="mt-1 text-[#F59E0B] font-bold"><CheckIcon className="w-6 h-6" /></span>
@@ -267,7 +267,7 @@ export const PricingOffer = () => {
                         </ul>
 
                         <p className="text-[#F59E0B] text-base font-bold mb-8 px-2">
-                            זו כבר לא רק מערכת לניהול לידים – זו מכונה שמייצרת אותם.
+                            זו כבר לא רק מערכת לניהול לידים - זו מכונה שמייצרת אותם.
                         </p>
 
                         <a
@@ -304,7 +304,7 @@ export const PricingOffer = () => {
                         <p className="text-gray-400 text-sm mb-6">+ מע"מ לחודש</p>
 
                         <p className="text-[#1E293B] font-bold mb-8 px-2 min-h-[64px] flex items-center justify-center leading-tight text-lg">
-                            המערכת הופכת לעמוד השדרה ומנוע הצמיחה של העסק – בשילוב AI
+                            המערכת הופכת לעמוד השדרה ומנוע הצמיחה של העסק - בשילוב AI
                         </p>
 
                         <div className="w-full h-px bg-gray-100 mb-8"></div>
@@ -333,7 +333,7 @@ export const PricingOffer = () => {
                         </ul>
 
                         <p className="text-[#DC2626] text-base font-bold mb-8 px-2">
-                            זו לא עוד חבילה. זו קפיצת מדרגה תודעתית – תשתית של שליטה וסקייל אמיתי.
+                            זו לא עוד חבילה. זו קפיצת מדרגה תודעתית - תשתית של שליטה וסקייל אמיתי.
                         </p>
 
                         <a

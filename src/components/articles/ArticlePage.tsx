@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
     Calendar, 
     Clock, 
@@ -13,7 +13,13 @@ import {
     ChevronLeft, 
     Sparkles,
     HelpCircle,
-    Info
+    Info,
+    Zap,
+    ArrowUp,
+    ChevronDown,
+    Compass,
+    X,
+    MessageCircle
 } from 'lucide-react';
 import { Article, ArticleSection } from '../../data/articles';
 import { Button } from '../ui/Button';
@@ -26,6 +32,9 @@ interface ArticlePageProps {
 
 export const ArticlePage: React.FC<ArticlePageProps> = ({ article, onNavigate }) => {
     const [copiedLink, setCopiedLink] = useState(false);
+    const [activeSectionId, setActiveSectionId] = useState<string>(article.sections[0]?.id || '');
+    const [showMobileJump, setShowMobileJump] = useState(false);
+    const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
 
     const breadcrumbItems = [
         { name: 'דף הבית', path: '/' },
@@ -43,6 +52,67 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({ article, onNavigate })
         const text = encodeURIComponent(`${article.title}\n\n${window.location.href}`);
         window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
     };
+
+    const scrollToSection = (id: string) => {
+        const elem = document.getElementById(id);
+        if (elem) {
+            elem.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            window.history.replaceState(null, '', `#${id}`);
+        }
+        setIsMobileDrawerOpen(false);
+    };
+
+    // Track scroll for mobile jump button & active section observer
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY > 450) {
+                setShowMobileJump(true);
+            } else {
+                setShowMobileJump(false);
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
+    // IntersectionObserver for scrollspy active state
+    useEffect(() => {
+        const observedIds = article.sections.map(s => s.id);
+        if (article.faqs && article.faqs.length > 0) {
+            observedIds.push('article-faqs');
+        }
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        setActiveSectionId(entry.target.id);
+                    }
+                });
+            },
+            {
+                rootMargin: '-15% 0px -60% 0px',
+                threshold: 0
+            }
+        );
+
+        observedIds.forEach((id) => {
+            const el = document.getElementById(id);
+            if (el) observer.observe(el);
+        });
+
+        return () => observer.disconnect();
+    }, [article]);
+
+    const activeSection = article.sections.find(s => s.id === activeSectionId);
+    const activeLabel = activeSection?.actionNumber 
+        ? `פעולה ${activeSection.actionNumber}/10` 
+        : activeSection?.isTenMinuteTest 
+            ? 'מבחן 10 הדקות' 
+            : activeSectionId === 'article-faqs' 
+                ? 'שאלות נפוצות' 
+                : 'תוכן המאמר';
 
     const renderCallout = (callout: NonNullable<ArticleSection['callout']>) => {
         if (callout.type === 'danger') {
@@ -127,6 +197,200 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({ article, onNavigate })
             );
         }
 
+        // Special styling for "The 10-Minute Test"
+        if (section.isTenMinuteTest) {
+            return (
+                <section key={section.id} id={section.id} className="scroll-mt-28">
+                    <div className="bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-3xl p-6 sm:p-10 shadow-2xl relative overflow-hidden border border-indigo-500/30">
+                        <div className="absolute top-0 left-0 w-80 h-80 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none" />
+                        <div className="relative z-10">
+                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/40 text-xs sm:text-sm font-black mb-4">
+                                <Clock size={16} />
+                                <span>עקרון ברזל לבחירת אוטומציה</span>
+                            </div>
+                            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black mb-3 text-white">
+                                {section.title}
+                            </h2>
+                            {section.subtitle && (
+                                <p className="text-indigo-200 text-base sm:text-lg mb-6">
+                                    {section.subtitle}
+                                </p>
+                            )}
+
+                            {section.content && (
+                                <div className="space-y-4 text-slate-200 text-base sm:text-lg leading-relaxed mb-6">
+                                    {section.content.map((para, pIdx) => (
+                                        <p key={pIdx}>
+                                            {para}
+                                        </p>
+                                    ))}
+                                </div>
+                            )}
+
+                            {section.callout && (
+                                <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-5 sm:p-6 text-white">
+                                    <div className="flex items-center gap-2 text-amber-300 font-bold text-base mb-2">
+                                        <Sparkles size={20} />
+                                        <span>{section.callout.title}</span>
+                                    </div>
+                                    <p className="text-slate-100 text-base sm:text-lg font-medium leading-relaxed">
+                                        {section.callout.text}
+                                    </p>
+                                </div>
+                            )}
+
+                            <div className="flex justify-end mt-6 pt-4 border-t border-white/10">
+                                <a 
+                                    href="#article-toc"
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        scrollToSection('article-toc');
+                                    }}
+                                    className="inline-flex items-center gap-1.5 text-xs text-slate-300 hover:text-white transition-colors py-1 px-3 rounded-lg hover:bg-white/10"
+                                >
+                                    <ArrowUp size={14} />
+                                    <span>חזרה לתוכן העניינים ↑</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            );
+        }
+
+        // Action Section (Quick Wins)
+        if (section.actionNumber) {
+            return (
+                <section key={section.id} id={section.id} className="scroll-mt-28 bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-8 shadow-sm transition-shadow hover:shadow-md">
+                    {/* Action Number Badge */}
+                    <div className="flex items-center justify-between gap-3 mb-3">
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-emerald-100 text-emerald-800 text-xs sm:text-sm font-black border border-emerald-200 shadow-xs">
+                            <Zap size={14} className="fill-emerald-600 text-emerald-600" />
+                            <span>פעולה 0{section.actionNumber} מתוך 10</span>
+                        </span>
+                        <a 
+                            href="#article-toc"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                scrollToSection('article-toc');
+                            }}
+                            className="inline-flex items-center gap-1 text-xs text-slate-400 hover:text-primary transition-colors py-1 px-2.5 rounded-lg hover:bg-slate-50"
+                            title="חזרה לתוכן העניינים"
+                        >
+                            <ArrowUp size={13} />
+                            <span className="hidden sm:inline">לתוכן העניינים</span>
+                        </a>
+                    </div>
+
+                    {/* H2 Title */}
+                    <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mb-2">
+                        {section.title}
+                    </h2>
+
+                    {/* Subtitle */}
+                    {section.subtitle && (
+                        <p className="text-slate-600 text-sm sm:text-base mb-6 font-normal">
+                            {section.subtitle}
+                        </p>
+                    )}
+
+                    {/* The Problem Box */}
+                    {section.problem && (
+                        <div className="bg-rose-50/80 border-r-4 border-rose-500 rounded-l-2xl p-4 sm:p-5 mb-6 text-slate-800">
+                            <div className="flex items-center gap-2 text-rose-700 font-extrabold text-sm sm:text-base mb-1">
+                                <AlertTriangle className="w-4 h-4 flex-shrink-0" />
+                                <span>הבעיה בעסק:</span>
+                            </div>
+                            <p className="text-slate-700 text-base leading-relaxed font-medium">
+                                {section.problem}
+                            </p>
+                        </div>
+                    )}
+
+                    {/* Content Paragraphs */}
+                    {section.content && section.content.length > 0 && (
+                        <div className="space-y-4 text-slate-700 mb-6 text-base sm:text-lg">
+                            {section.content.map((para, pIdx) => (
+                                <p key={pIdx} className="leading-relaxed">
+                                    {para}
+                                </p>
+                            ))}
+                        </div>
+                    )}
+
+                    {/* Highlighted Quick Win Component */}
+                    {section.quickWin && (
+                        <div className="bg-gradient-to-br from-amber-50/90 via-emerald-50/70 to-teal-50/90 border-2 border-emerald-300/80 rounded-2xl p-5 sm:p-7 mb-6 shadow-sm">
+                            <div className="flex items-center gap-2.5 text-emerald-900 font-black text-base sm:text-lg mb-2">
+                                <div className="w-8 h-8 rounded-lg bg-emerald-500 text-white flex items-center justify-center shadow-sm flex-shrink-0">
+                                    <Zap className="w-5 h-5 fill-white" />
+                                </div>
+                                <span>{section.quickWin.title || 'מה אפשר לעשות עכשיו? (Quick Win)'}</span>
+                            </div>
+                            <p className="text-slate-900 font-semibold text-base sm:text-lg leading-relaxed">
+                                {section.quickWin.text}
+                            </p>
+                        </div>
+                    )}
+
+                    {/* Atmospheric Image */}
+                    {section.image && (
+                        <figure className="my-8 rounded-2xl overflow-hidden border border-slate-200/90 shadow-md bg-white">
+                            {section.image.layout === 'side' ? (
+                                <div className="grid grid-cols-1 md:grid-cols-2 items-center">
+                                    <img 
+                                        src={section.image.src} 
+                                        alt={section.image.alt} 
+                                        loading="lazy" 
+                                        className="w-full h-full min-h-[260px] max-h-[340px] object-cover" 
+                                    />
+                                    <div className="p-6 bg-slate-50/90 flex flex-col justify-center h-full">
+                                        <div className="text-xs uppercase tracking-wider font-extrabold text-primary mb-2 flex items-center gap-1.5">
+                                            <Sparkles size={14} />
+                                            <span>תובנה מעשית מהשטח</span>
+                                        </div>
+                                        <p className="text-slate-800 text-base leading-relaxed font-medium">
+                                            {section.image.caption || section.image.alt}
+                                        </p>
+                                    </div>
+                                </div>
+                            ) : (
+                                <>
+                                    <img 
+                                        src={section.image.src} 
+                                        alt={section.image.alt} 
+                                        loading="lazy" 
+                                        className="w-full aspect-video object-cover" 
+                                    />
+                                    {section.image.caption && (
+                                        <figcaption className="p-3.5 sm:p-4 text-center text-xs sm:text-sm text-slate-600 bg-slate-50 border-t border-slate-100 font-medium">
+                                            💡 {section.image.caption}
+                                        </figcaption>
+                                    )}
+                                </>
+                            )}
+                        </figure>
+                    )}
+
+                    {/* Return link to TOC */}
+                    <div className="flex justify-end pt-2">
+                        <a 
+                            href="#article-toc"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                scrollToSection('article-toc');
+                            }}
+                            className="inline-flex items-center gap-1.5 text-xs text-slate-500 hover:text-primary transition-colors py-1 px-2.5 rounded-lg hover:bg-slate-100 font-medium"
+                        >
+                            <ArrowUp size={13} />
+                            <span>חזרה לתוכן העניינים ↑</span>
+                        </a>
+                    </div>
+                </section>
+            );
+        }
+
+        // Standard Article Section Fallback
         const isNegativeList = section.id.includes('not-to-do') || section.id.includes('mistakes') || section.id.includes('forbidden');
 
         return (
@@ -159,7 +423,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({ article, onNavigate })
                     </div>
                 )}
 
-                {/* Ordered Items (numbered cards or grid) */}
+                {/* Ordered Items */}
                 {section.orderedItems && section.orderedItems.length > 0 && (
                     section.id.includes('checklist') ? (
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
@@ -251,9 +515,12 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({ article, onNavigate })
     };
 
     return (
-        <article className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50 text-slate-900 pt-24 pb-20 font-sans" dir="rtl">
-            {/* Top Reading Progress & Breadcrumbs */}
-            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
+        <article className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50 text-slate-900 pt-24 pb-20 font-sans relative" dir="rtl">
+            {/* Top Anchor for back to top buttons */}
+            <div id="article-top" className="absolute top-0 left-0 w-full h-px pointer-events-none -mt-24" />
+
+            {/* Breadcrumbs */}
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
                 <Breadcrumbs items={breadcrumbItems} onNavigate={onNavigate} />
             </div>
 
@@ -272,6 +539,14 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({ article, onNavigate })
                         {new Date(article.datePublished).toLocaleDateString('he-IL', { year: 'numeric', month: 'long', day: 'numeric' })}
                     </span>
                 </div>
+
+                {/* Hero Badge if present */}
+                {article.heroBadge && (
+                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-gradient-to-r from-amber-100 to-amber-50 text-amber-950 border border-amber-300 font-extrabold text-sm sm:text-base shadow-sm mb-5">
+                        <Zap className="w-5 h-5 text-amber-600 fill-amber-500 flex-shrink-0" />
+                        <span>{article.heroBadge}</span>
+                    </div>
+                )}
 
                 <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 tracking-tight leading-[1.25] mb-6">
                     {article.title}
@@ -316,138 +591,427 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({ article, onNavigate })
                 </div>
             </header>
 
-            {/* Main Content Layout */}
-            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                {/* Intro summary box */}
-                {article.heroSummary && (
-                    <div className="bg-gradient-to-br from-blue-50/80 via-white to-sky-50/80 border border-blue-100/80 rounded-2xl p-6 sm:p-8 mb-10 shadow-sm">
-                        <div className="flex items-start gap-3">
-                            <Sparkles className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
-                            <div>
-                                <h2 className="text-base font-bold text-slate-900 mb-2">רקע ומטרת המדריך</h2>
-                                <p className="text-slate-700 text-base sm:text-lg leading-relaxed">
-                                    {article.heroSummary}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                )}
-
-                {/* Table of Contents */}
-                {article.sections && article.sections.length > 0 && (
-                    <div className="bg-white border border-gray-200 rounded-2xl p-6 mb-12 shadow-sm">
-                        <h3 className="text-base font-bold text-slate-900 mb-3 flex items-center gap-2">
-                            <span>תוכן עניינים מקוצר</span>
-                        </h3>
-                        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
-                            {article.sections.map((section, sIdx) => (
-                                <li key={section.id}>
-                                    <a 
-                                        href={`#${section.id}`}
-                                        className="flex items-center gap-2 text-slate-600 hover:text-primary transition-colors py-1 px-2 rounded-lg hover:bg-slate-50"
-                                    >
-                                        <span className="w-5 h-5 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center text-xs font-bold flex-shrink-0">
-                                            {sIdx + 1}
-                                        </span>
-                                        <span className="truncate">{section.title}</span>
-                                    </a>
-                                </li>
-                            ))}
-                            {article.faqs && article.faqs.length > 0 && (
-                                <li>
-                                    <a 
-                                        href="#article-faqs"
-                                        className="flex items-center gap-2 text-slate-600 hover:text-primary transition-colors py-1 px-2 rounded-lg hover:bg-slate-50"
-                                    >
-                                        <span className="w-5 h-5 rounded-full bg-blue-100 text-primary flex items-center justify-center text-xs font-bold flex-shrink-0">
-                                            ?
-                                        </span>
-                                        <span className="truncate">שאלות נפוצות ותשובות</span>
-                                    </a>
-                                </li>
-                            )}
-                        </ul>
-                    </div>
-                )}
-
-                {/* Key Takeaway Highlight (Golden Rule Callout) */}
-                {article.keyTakeaway && (
-                    <div id="rule-of-thumb-highlight" className="relative overflow-hidden bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-400 text-slate-950 p-6 sm:p-8 rounded-2xl shadow-xl shadow-amber-500/10 mb-14 border border-yellow-300">
-                        <div className="relative z-10">
-                            <div className="inline-flex items-center gap-2 bg-black/10 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-3">
-                                ⭐ עיקרון מוביל (Key Takeaway)
-                            </div>
-                            <h2 className="text-2xl sm:text-3xl font-black mb-4 leading-snug">
-                                {article.keyTakeaway}
-                            </h2>
-                            <div className="bg-white/85 backdrop-blur-sm p-4 rounded-xl text-slate-900 font-medium text-base sm:text-lg leading-relaxed border border-white/50">
-                                אם אתם מסתכלים על רשימת נמענים ושואלים:
-                                <div className="font-bold text-amber-950 my-1 italic">
-                                    &quot;האם האנשים האלה באמת יצפו לקבל מאיתנו את ההודעה הזאת?&quot;
-                                </div>
-                                ואתם לא בטוחים בתשובה — <span className="font-black text-rose-700 underline decoration-rose-400">עדיף לא לשלוח.</span>
-                            </div>
-                        </div>
-                    </div>
-                )}
-
-                {/* Article Body Sections */}
-                <div className="space-y-14 text-slate-800 leading-relaxed text-base sm:text-lg">
-                    {article.sections.map((section, idx) => renderSection(section, idx))}
-
-                    {/* Frequently Asked Questions (FAQ Section) */}
-                    {article.faqs && article.faqs.length > 0 && (
-                        <section id="article-faqs" className="scroll-mt-28">
-                            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-6 pb-2 border-b border-gray-200 flex items-center gap-2">
-                                <HelpCircle className="text-primary" />
-                                <span>שאלות נפוצות ותשובות מעשיות</span>
-                            </h2>
-                            <div className="space-y-4">
-                                {article.faqs.map((faq, idx) => (
-                                    <div key={idx} className="bg-white border border-gray-200 rounded-2xl p-5 sm:p-6 shadow-sm hover:shadow-md transition-shadow">
-                                        <h3 className="font-bold text-lg text-slate-900 mb-2">
-                                            {faq.question}
-                                        </h3>
-                                        <p className="text-slate-700 text-base leading-relaxed">
-                                            {faq.answer}
+            {/* Main Article Container with Desktop Two-Column Layout */}
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="lg:grid lg:grid-cols-[1fr_300px] xl:grid-cols-[1fr_320px] gap-10 items-start">
+                    
+                    {/* Primary Content Column */}
+                    <div className="min-w-0 max-w-4xl mx-auto lg:mx-0 w-full">
+                        
+                        {/* Intro summary box */}
+                        {article.heroSummary && (
+                            <div className="bg-gradient-to-br from-blue-50/80 via-white to-sky-50/80 border border-blue-100/80 rounded-2xl p-6 sm:p-8 mb-10 shadow-sm">
+                                <div className="flex items-start gap-3">
+                                    <Sparkles className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
+                                    <div>
+                                        <h2 className="text-base font-bold text-slate-900 mb-2">רקע ומטרת המדריך</h2>
+                                        <p className="text-slate-700 text-base sm:text-lg leading-relaxed">
+                                            {article.heroSummary}
                                         </p>
                                     </div>
-                                ))}
+                                </div>
                             </div>
-                        </section>
-                    )}
-                </div>
+                        )}
 
-                {/* Bottom CTA to AltruBiz */}
-                <div className="mt-16 bg-gradient-to-r from-dark to-slate-900 text-white rounded-3xl p-8 sm:p-10 text-center shadow-xl relative overflow-hidden">
-                    <div className="relative z-10 max-w-2xl mx-auto">
-                        <h3 className="text-2xl sm:text-3xl font-bold mb-3 text-white">
-                            רוצים להכניס שיטה ואוטומציה לתקשורת בעסק שלכם?
-                        </h3>
-                        <p className="text-slate-300 text-sm sm:text-base mb-6">
-                            מערכת AltruBiz CRM מאפשרת לכם לנהל שיחות, תבניות, לידים ובוטים חכמים בצורה מסודרת, מקצועית ובטוחה.
-                        </p>
-                        <div className="flex flex-wrap items-center justify-center gap-4">
+                        {/* Top Table of Contents Grid (Hero Anchor Hub) */}
+                        {article.sections && article.sections.length > 0 && (
+                            <nav id="article-toc" aria-label="תוכן עניינים מהיר" className="bg-white border border-gray-200 rounded-3xl p-6 sm:p-8 mb-12 shadow-sm">
+                                <div className="flex items-center justify-between gap-3 mb-4 pb-3 border-b border-slate-100">
+                                    <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+                                        <Compass className="text-primary w-5 h-5" />
+                                        <span>תוכן המדריך: 10 פעולות לבחירה מיידית</span>
+                                    </h2>
+                                    <span className="text-xs text-slate-500 font-medium hidden sm:inline">
+                                        לחצו לקפיצה ישירה לסעיף
+                                    </span>
+                                </div>
+
+                                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-sm">
+                                    {article.sections.map((section, sIdx) => (
+                                        <li key={section.id}>
+                                            <a 
+                                                href={`#${section.id}`}
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    scrollToSection(section.id);
+                                                }}
+                                                className={`flex items-start gap-2.5 p-2.5 rounded-xl transition-all ${
+                                                    activeSectionId === section.id 
+                                                        ? 'bg-primary/10 text-primary font-bold border border-primary/20' 
+                                                        : 'text-slate-700 hover:text-primary hover:bg-slate-50 border border-transparent'
+                                                }`}
+                                            >
+                                                {section.actionNumber ? (
+                                                    <span className={`w-6 h-6 rounded-lg flex items-center justify-center text-xs font-black flex-shrink-0 ${
+                                                        activeSectionId === section.id 
+                                                            ? 'bg-primary text-white' 
+                                                            : 'bg-emerald-100 text-emerald-800'
+                                                    }`}>
+                                                        0{section.actionNumber}
+                                                    </span>
+                                                ) : section.isTenMinuteTest ? (
+                                                    <span className="w-6 h-6 rounded-lg bg-indigo-100 text-indigo-800 flex items-center justify-center text-xs font-black flex-shrink-0">
+                                                        ⏱️
+                                                    </span>
+                                                ) : (
+                                                    <span className="w-6 h-6 rounded-lg bg-slate-100 text-slate-600 flex items-center justify-center text-xs font-bold flex-shrink-0">
+                                                        {sIdx + 1}
+                                                    </span>
+                                                )}
+                                                <span className="text-xs sm:text-sm leading-tight pt-0.5">
+                                                    {section.title}
+                                                </span>
+                                            </a>
+                                        </li>
+                                    ))}
+
+                                    {article.faqs && article.faqs.length > 0 && (
+                                        <li>
+                                            <a 
+                                                href="#article-faqs"
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    scrollToSection('article-faqs');
+                                                }}
+                                                className={`flex items-start gap-2.5 p-2.5 rounded-xl transition-all ${
+                                                    activeSectionId === 'article-faqs' 
+                                                        ? 'bg-primary/10 text-primary font-bold border border-primary/20' 
+                                                        : 'text-slate-700 hover:text-primary hover:bg-slate-50 border border-transparent'
+                                                }`}
+                                            >
+                                                <span className="w-6 h-6 rounded-lg bg-blue-100 text-primary flex items-center justify-center text-xs font-black flex-shrink-0">
+                                                    ?
+                                                </span>
+                                                <span className="text-xs sm:text-sm leading-tight pt-0.5">
+                                                    שאלות נפוצות ותשובות מעשיות (FAQ)
+                                                </span>
+                                            </a>
+                                        </li>
+                                    )}
+                                </ul>
+                            </nav>
+                        )}
+
+                        {/* Key Takeaway Highlight */}
+                        {article.keyTakeaway && (
+                            <div id="rule-of-thumb-highlight" className="relative overflow-hidden bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-400 text-slate-950 p-6 sm:p-8 rounded-3xl shadow-xl shadow-amber-500/10 mb-14 border border-yellow-300">
+                                <div className="relative z-10">
+                                    <div className="inline-flex items-center gap-2 bg-black/10 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-3">
+                                        ⭐ עיקרון מוביל (Key Takeaway)
+                                    </div>
+                                    <h2 className="text-2xl sm:text-3xl font-black mb-4 leading-snug">
+                                        {article.keyTakeaway}
+                                    </h2>
+                                    <div className="bg-white/90 backdrop-blur-sm p-4 sm:p-5 rounded-2xl text-slate-900 font-medium text-base sm:text-lg leading-relaxed border border-white/50">
+                                        {article.interactiveTheme ? (
+                                            <div>
+                                                <span>אין צורך לנסות להפעיל את כל 10 הפעולות בבת אחת. </span>
+                                                <span className="font-extrabold text-amber-950">מומלץ להתחיל מפעולה אחת בלבד </span>
+                                                <span>שפותרת את המכשול הכי מתסכל בעסק השבוע. לאחר שהיא עובדת בצורה חלקה ומייצרת שקט נפשי, מתקדמים לפעולה הבאה.</span>
+                                            </div>
+                                        ) : (
+                                            <div>
+                                                אם אתם מסתכלים על רשימת נמענים ושואלים:
+                                                <div className="font-bold text-amber-950 my-1 italic">
+                                                    &quot;האם האנשים האלה באמת יצפו לקבל מאיתנו את ההודעה הזאת?&quot;
+                                                </div>
+                                                ואתם לא בטוחים בתשובה - <span className="font-black text-rose-700 underline decoration-rose-400">עדיף לא לשלוח.</span>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Article Body Sections */}
+                        <div className="space-y-12 text-slate-800 leading-relaxed text-base sm:text-lg">
+                            {article.sections.map((section, idx) => renderSection(section, idx))}
+
+                            {/* Frequently Asked Questions */}
+                            {article.faqs && article.faqs.length > 0 && (
+                                <section id="article-faqs" className="scroll-mt-28 bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-8 shadow-sm">
+                                    <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-6 pb-2 border-b border-gray-200 flex items-center gap-2">
+                                        <HelpCircle className="text-primary" />
+                                        <span>שאלות נפוצות ותשובות מעשיות</span>
+                                    </h2>
+                                    <div className="space-y-4">
+                                        {article.faqs.map((faq, idx) => (
+                                            <div key={idx} className="bg-slate-50/70 border border-gray-200/80 rounded-2xl p-5 sm:p-6 shadow-xs hover:shadow-sm transition-shadow">
+                                                <h3 className="font-bold text-lg text-slate-900 mb-2">
+                                                    {faq.question}
+                                                </h3>
+                                                <p className="text-slate-700 text-base leading-relaxed">
+                                                    {faq.answer}
+                                                </p>
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <div className="flex justify-end pt-4">
+                                        <a 
+                                            href="#article-toc"
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                scrollToSection('article-toc');
+                                            }}
+                                            className="inline-flex items-center gap-1.5 text-xs text-slate-500 hover:text-primary transition-colors py-1 px-2.5 rounded-lg hover:bg-slate-100 font-medium"
+                                        >
+                                            <ArrowUp size={13} />
+                                            <span>חזרה לתוכן העניינים ↑</span>
+                                        </a>
+                                    </div>
+                                </section>
+                            )}
+                        </div>
+
+                        {/* Bottom CTA to AltruBiz */}
+                        <div className="mt-16 bg-gradient-to-r from-slate-900 via-dark to-slate-900 text-white rounded-3xl p-8 sm:p-12 text-center shadow-2xl relative overflow-hidden border border-slate-800">
+                            <div className="absolute top-0 right-0 w-80 h-80 bg-primary/20 rounded-full blur-3xl pointer-events-none" />
+                            <div className="relative z-10 max-w-2xl mx-auto">
+                                <h3 className="text-2xl sm:text-3xl md:text-4xl font-black mb-4 text-white">
+                                    {article.cta ? article.cta.title : 'רוצים להכניס שיטה ואוטומציה לתקשורת בעסק שלכם?'}
+                                </h3>
+                                <p className="text-slate-300 text-base sm:text-lg mb-8 leading-relaxed">
+                                    {article.cta ? article.cta.description : 'מערכת AltruBiz CRM מאפשרת לכם לנהל שיחות, תבניות, לידים ובוטים חכמים בצורה מסודרת, מקצועית ובטוחה.'}
+                                </p>
+                                <div className="flex flex-wrap items-center justify-center gap-4">
+                                    <button
+                                        onClick={() => {
+                                            if (article.cta?.buttonLink.startsWith('/#')) {
+                                                onNavigate(article.cta.buttonLink);
+                                            } else {
+                                                onNavigate('/#pricing');
+                                            }
+                                        }}
+                                    >
+                                        <Button variant="primary" size="lg" className="font-bold text-base px-6 py-3.5 shadow-lg shadow-primary/25">
+                                            {article.cta ? article.cta.buttonText : 'מתחילים עכשיו עם AltruBiz'}
+                                        </Button>
+                                    </button>
+
+                                    <a
+                                        href="https://wa.me/972544350000?text=%D7%94%D7%99%D7%99%2C%20%D7%A7%D7%A8%D7%90%D7%AA%D7%99%20%D7%90%D7%AA%20%D7%94%D7%9E%D7%93%D7%A8%D7%99%D7%9A%20%D7%A2%D7%9C%2010%20%D7%A4%D7%A2%D7%95%D7%9C%D7%95%D7%AA%20Quick%20Win%20%D7%95%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%94%D7%AA%D7%99%D7%99%D7%A2%D7%A5"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-slate-950 font-extrabold px-6 py-3.5 rounded-xl shadow-lg transition-all text-base"
+                                    >
+                                        <MessageCircle size={18} />
+                                        <span>{article.cta?.whatsappText || 'דברו איתנו בוואטסאפ'}</span>
+                                    </a>
+
+                                    <button
+                                        onClick={() => onNavigate('/articles')}
+                                        className="inline-flex items-center gap-2 text-white/80 hover:text-white px-5 py-3.5 rounded-xl border border-white/20 hover:border-white/40 transition-colors text-sm font-medium"
+                                    >
+                                        <ChevronLeft size={16} />
+                                        <span>חזרה למרכז המאמרים</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    {/* Desktop Sticky Table of Contents Sidebar */}
+                    <aside className="hidden lg:block sticky top-28 space-y-4">
+                        <nav aria-label="תוכן עניינים דביק" className="bg-white/95 backdrop-blur-md border border-slate-200/90 rounded-3xl p-5 shadow-sm">
+                            <div className="flex items-center justify-between gap-2 pb-3 mb-3 border-b border-slate-100">
+                                <div className="flex items-center gap-2 font-black text-slate-900 text-sm">
+                                    <Compass size={18} className="text-primary" />
+                                    <span>תוכן הפעולות</span>
+                                </div>
+                                <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800">
+                                    10 פעולות
+                                </span>
+                            </div>
+
+                            <div className="space-y-1 max-h-[calc(100vh-14rem)] overflow-y-auto pl-1 pr-0.5 custom-scrollbar">
+                                {article.sections.map((sec) => {
+                                    const isActive = activeSectionId === sec.id;
+                                    return (
+                                        <a
+                                            key={sec.id}
+                                            href={`#${sec.id}`}
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                scrollToSection(sec.id);
+                                            }}
+                                            className={`flex items-start gap-2 p-2 rounded-xl text-xs transition-all ${
+                                                isActive 
+                                                    ? 'bg-primary/10 text-primary font-bold border-r-4 border-primary shadow-xs' 
+                                                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                                            }`}
+                                        >
+                                            {sec.actionNumber ? (
+                                                <span className={`w-5 h-5 rounded-md flex items-center justify-center font-black flex-shrink-0 text-[10px] ${
+                                                    isActive ? 'bg-primary text-white' : 'bg-slate-100 text-slate-600'
+                                                }`}>
+                                                    0{sec.actionNumber}
+                                                </span>
+                                            ) : sec.isTenMinuteTest ? (
+                                                <span className="w-5 h-5 rounded-md bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold flex-shrink-0 text-[10px]">
+                                                    ⏱️
+                                                </span>
+                                            ) : (
+                                                <span className="w-5 h-5 rounded-md bg-slate-100 text-slate-500 flex items-center justify-center font-bold flex-shrink-0 text-[10px]">
+                                                    •
+                                                </span>
+                                            )}
+                                            <span className="line-clamp-2 leading-snug pt-0.5">
+                                                {sec.title}
+                                            </span>
+                                        </a>
+                                    );
+                                })}
+
+                                {article.faqs && article.faqs.length > 0 && (
+                                    <a
+                                        href="#article-faqs"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            scrollToSection('article-faqs');
+                                        }}
+                                        className={`flex items-start gap-2 p-2 rounded-xl text-xs transition-all ${
+                                            activeSectionId === 'article-faqs' 
+                                                ? 'bg-primary/10 text-primary font-bold border-r-4 border-primary shadow-xs' 
+                                                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                                        }`}
+                                    >
+                                        <span className="w-5 h-5 rounded-md bg-blue-100 text-primary flex items-center justify-center font-bold flex-shrink-0 text-[10px]">
+                                            ?
+                                        </span>
+                                        <span className="leading-snug pt-0.5">
+                                            שאלות נפוצות (FAQ)
+                                        </span>
+                                    </a>
+                                )}
+                            </div>
+
+                            <div className="pt-3 mt-3 border-t border-slate-100">
+                                <button
+                                    onClick={() => {
+                                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                                        window.history.replaceState(null, '', window.location.pathname);
+                                    }}
+                                    className="w-full flex items-center justify-center gap-1.5 py-2 px-3 text-xs text-slate-500 hover:text-primary hover:bg-slate-50 rounded-xl transition-colors font-semibold"
+                                >
+                                    <ArrowUp size={13} />
+                                    <span>חזרה לראש המאמר</span>
+                                </button>
+                            </div>
+                        </nav>
+                    </aside>
+
+                </div>
+            </div>
+
+            {/* Mobile Floating Sticky Pill */}
+            {showMobileJump && (
+                <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 lg:hidden max-w-[90vw]">
+                    <button
+                        onClick={() => setIsMobileDrawerOpen(true)}
+                        className="flex items-center gap-2 px-4 sm:px-5 py-3 bg-slate-900/95 text-white rounded-full shadow-2xl backdrop-blur-md border border-white/20 text-xs sm:text-sm font-bold active:scale-95 transition-all"
+                    >
+                        <Compass size={17} className="text-amber-400 flex-shrink-0" />
+                        <span className="truncate max-w-[180px] sm:max-w-[240px]">
+                            קפיצה לפעולה: {activeLabel}
+                        </span>
+                        <ChevronDown size={15} className="text-slate-300 flex-shrink-0" />
+                    </button>
+                </div>
+            )}
+
+            {/* Mobile Bottom-Sheet Drawer */}
+            {isMobileDrawerOpen && (
+                <div className="fixed inset-0 z-50 lg:hidden flex flex-col justify-end bg-black/60 backdrop-blur-xs">
+                    <div 
+                        className="fixed inset-0"
+                        onClick={() => setIsMobileDrawerOpen(false)}
+                    />
+                    <div className="relative z-10 bg-white rounded-t-3xl max-h-[82vh] flex flex-col p-5 shadow-2xl border-t border-slate-200 animate-in slide-in-from-bottom duration-200">
+                        <div className="flex items-center justify-between pb-3 border-b border-slate-200 mb-2">
+                            <div className="flex items-center gap-2 font-extrabold text-slate-900 text-base">
+                                <Compass size={20} className="text-primary" />
+                                <span>בחירת פעולה לקפיצה מהירה</span>
+                            </div>
+                            <button
+                                onClick={() => setIsMobileDrawerOpen(false)}
+                                className="p-1.5 rounded-full hover:bg-slate-100 text-slate-500"
+                                aria-label="סגירת תפריט פעולות"
+                            >
+                                <X size={20} />
+                            </button>
+                        </div>
+
+                        <div className="overflow-y-auto space-y-2 py-2 flex-1 pr-1">
+                            {article.sections.map((sec) => {
+                                const isActive = activeSectionId === sec.id;
+                                return (
+                                    <button
+                                        key={sec.id}
+                                        onClick={() => scrollToSection(sec.id)}
+                                        className={`w-full text-right flex items-start gap-3 p-3 rounded-2xl transition-colors ${
+                                            isActive 
+                                                ? 'bg-primary/10 text-primary font-bold border border-primary/20' 
+                                                : 'text-slate-800 hover:bg-slate-50'
+                                        }`}
+                                    >
+                                        {sec.actionNumber ? (
+                                            <span className={`w-7 h-7 rounded-xl flex items-center justify-center font-black flex-shrink-0 text-xs ${
+                                                isActive ? 'bg-primary text-white' : 'bg-emerald-100 text-emerald-800'
+                                            }`}>
+                                                0{sec.actionNumber}
+                                            </span>
+                                        ) : sec.isTenMinuteTest ? (
+                                            <span className="w-7 h-7 rounded-xl bg-indigo-100 text-indigo-800 flex items-center justify-center font-black flex-shrink-0 text-xs">
+                                                ⏱️
+                                            </span>
+                                        ) : (
+                                            <span className="w-7 h-7 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center font-bold flex-shrink-0 text-xs">
+                                                •
+                                            </span>
+                                        )}
+                                        <div className="text-xs sm:text-sm leading-tight pt-1">
+                                            {sec.title}
+                                        </div>
+                                    </button>
+                                );
+                            })}
+
+                            {article.faqs && article.faqs.length > 0 && (
+                                <button
+                                    onClick={() => scrollToSection('article-faqs')}
+                                    className={`w-full text-right flex items-start gap-3 p-3 rounded-2xl transition-colors ${
+                                        activeSectionId === 'article-faqs' 
+                                            ? 'bg-primary/10 text-primary font-bold border border-primary/20' 
+                                            : 'text-slate-800 hover:bg-slate-50'
+                                    }`}
+                                >
+                                    <span className="w-7 h-7 rounded-xl bg-blue-100 text-primary flex items-center justify-center font-black flex-shrink-0 text-xs">
+                                        ?
+                                    </span>
+                                    <div className="text-xs sm:text-sm leading-tight pt-1">
+                                        שאלות נפוצות ותשובות מעשיות (FAQ)
+                                    </div>
+                                </button>
+                            )}
+                        </div>
+
+                        <div className="pt-3 border-t border-slate-100">
                             <button
                                 onClick={() => {
-                                    onNavigate('/#pricing');
+                                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                                    setIsMobileDrawerOpen(false);
                                 }}
+                                className="w-full py-2.5 bg-slate-100 text-slate-700 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5"
                             >
-                                <Button variant="primary" size="lg" className="font-bold">
-                                    התחילו עכשיו עם AltruBiz
-                                </Button>
-                            </button>
-                            <button
-                                onClick={() => onNavigate('/articles')}
-                                className="inline-flex items-center gap-2 text-white/80 hover:text-white px-5 py-3 rounded-lg border border-white/20 hover:border-white/40 transition-colors text-sm font-medium"
-                            >
-                                <ChevronLeft size={16} />
-                                <span>חזרה למרכז המאמרים</span>
+                                <ArrowUp size={14} />
+                                <span>חזרה לראש המאמר</span>
                             </button>
                         </div>
                     </div>
                 </div>
-            </div>
+            )}
         </article>
     );
 };
+

@@ -25,7 +25,7 @@ export const Hero = () => {
                 poster="https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/6893869aeedaf87c98bf84d1.png"
             >
                 <source src="https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/689697da649372e6d7d2b32d.mp4" type="video/mp4" />
-                הדפדפן שלך לא תומך בווידיאו
+                הדפדפן אינו תומך בניגון וידאו
             </video>
 
             {/* Overlay */}

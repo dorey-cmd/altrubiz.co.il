@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Altrubiz Growth Analyzer — בדיקת בריאות עסקית</title>
+  <title>Altrubiz Growth Analyzer - בדיקת בריאות עסקית</title>
   <link rel="icon" type="image/png" href="https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/688019c09a4c2d4b4398bf3c.png"/>
   <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
@@ -174,7 +174,7 @@ section{padding:48px 0}
 .s-track{height:4px;background:rgba(255,255,255,.08);border-radius:4px;overflow:hidden;margin-bottom:4px}
 .s-fill{height:100%;border-radius:4px;transition:width .95s var(--ease)}
 .s-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--t3)}
-/* Metrics row — 4 cards */
+/* Metrics row - 4 cards */
 .db-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}
 .db-met{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r2);padding:16px 14px;transition:all .22s var(--ease)}
 .db-met:hover{background:var(--card-h);border-color:var(--bdr-hi)}
@@ -297,9 +297,9 @@ section{padding:48px 0}
 ═══════════════════════════════════════════ */
 const { useState, useEffect, useRef, useMemo } = React;
 
-const fmtCur = n => (n===null||n===undefined||isNaN(n)) ? '—' : '₪'+Math.round(n).toLocaleString('he-IL');
-const fmtPct = n => (n===null||n===undefined||isNaN(n)) ? '—' : (n*100).toFixed(1)+'%';
-const fmtNum = n => (n===null||n===undefined||isNaN(n)) ? '—' : Math.round(n).toLocaleString('he-IL');
+const fmtCur = n => (n===null||n===undefined||isNaN(n)) ? '-' : '₪'+Math.round(n).toLocaleString('he-IL');
+const fmtPct = n => (n===null||n===undefined||isNaN(n)) ? '-' : (n*100).toFixed(1)+'%';
+const fmtNum = n => (n===null||n===undefined||isNaN(n)) ? '-' : Math.round(n).toLocaleString('he-IL');
 
 /* RTL: forward = ← (left), backward = → (right) */
 const Lft = ({s=16}) => (
@@ -343,7 +343,7 @@ function useCounter(target,dur=980,run=true){
 }
 
 /* ═══════════════════════════════════════════
-   STARDUST PARTICLES — multi-layer
+   STARDUST PARTICLES - multi-layer
    Inspired by altrubiz.co.il canvas effect:
    - layer 1: tiny dust (50 pts, white, slow drift)
    - layer 2: twinkling stars (30 pts, teal glow, pulse)
@@ -362,7 +362,7 @@ const Stardust = () => {
     const onMove=e=>{mouse.x=e.clientX;mouse.y=e.clientY;mouse.active=true;};
     addEventListener('mousemove',onMove);
 
-    /* Layer 1 — dust particles */
+    /* Layer 1 - dust particles */
     const dust=Array.from({length:65},()=>({
       x:Math.random()*innerWidth, y:Math.random()*innerHeight,
       r:Math.random()*.7+.15,
@@ -372,7 +372,7 @@ const Stardust = () => {
       color:'255,255,255',
     }));
 
-    /* Layer 2 — twinkling teal stars */
+    /* Layer 2 - twinkling teal stars */
     const stars=Array.from({length:38},()=>({
       x:Math.random()*innerWidth, y:Math.random()*innerHeight,
       r:Math.random()*.9+.3,
@@ -384,7 +384,7 @@ const Stardust = () => {
       color:'0,216,156',
     }));
 
-    /* Layer 3 — rare glowing orbs */
+    /* Layer 3 - rare glowing orbs */
     const orbs=Array.from({length:8},()=>({
       x:Math.random()*innerWidth, y:Math.random()*innerHeight,
       r:Math.random()*1.8+.8,
@@ -493,7 +493,7 @@ const BgOrbs = () => (
 const StickyBar = ({show, onStart}) => (
   <div className={`sticky-bar${show?' show':''}`}>
     <div className="sticky-bar-txt">
-      <strong>פרסום רץ, כסף יוצא — </strong>
+      <strong>פרסום רץ, כסף יוצא - </strong>
       עוד לא בדקת כמה נשאר בדרך
     </div>
     <button className="btn btn-g" style={{fontSize:14,padding:'11px 24px'}} onClick={onStart}>
@@ -530,18 +530,18 @@ const Hero = ({onStart, stickyRef}) => (
         <h1 className="h1">
           הפרסום רץ.<br/>
           הכסף יוצא.<br/>
-          <span className="grad">עסקאות — נעלמות.</span>
+          <span className="grad">עסקאות - נעלמות.</span>
         </h1>
       </div>
 
       <p className="hero-sub">
         בדיקה חינמית של 2 דקות שחושפת בדיוק כמה כסף
-        יוצא בלי לחזור — ומה ניתן לשנות עוד השבוע
+        יוצא בלי לחזור - ומה ניתן לשנות עוד השבוע
       </p>
 
       <div className="hero-cta-wrap">
         <button className="btn btn-g" style={{fontSize:17,padding:'17px 40px'}} onClick={onStart}>
-          <span>לגלות עכשיו — חינם</span>
+          <span>לגלות עכשיו - חינם</span>
           <Lft s={18}/>
         </button>
         <p className="hero-micro">ללא הרשמה · ללא כרטיס אשראי · 4 שאלות בלבד</p>
@@ -550,7 +550,7 @@ const Hero = ({onStart, stickyRef}) => (
       <div className="stats-strip">
         <div className="ss"><span className="ss-n">73%</span><span className="ss-l">מהלידים לא הופכים לעסקאות</span></div>
         <div className="ss"><span className="ss-n">₪2.4M</span><span className="ss-l">הפסד שנתי ממוצע מלידים שלא מנוהלים</span></div>
-        <div className="ss"><span className="ss-n">×2–4</span><span className="ss-l">שיפור ממוצע לאחר תהליך נכון</span></div>
+        <div className="ss"><span className="ss-n">×2-4</span><span className="ss-l">שיפור ממוצע לאחר תהליך נכון</span></div>
       </div>
 
       <div className="scroll-nudge" onClick={onStart}>
@@ -565,9 +565,9 @@ const Hero = ({onStart, stickyRef}) => (
    QUESTIONNAIRE
 ═══════════════════════════════════════════ */
 const QS = [
-  {key:'adSpend',          prefix:'₪',  ico:'💰', q:'כמה הושקע על פרסום החודש?',      hint:'סכום כולל — גוגל, פייסבוק, אינסטגרם, TikTok'},
+  {key:'adSpend',          prefix:'₪',  ico:'💰', q:'כמה הושקע על פרסום החודש?',      hint:'סכום כולל - גוגל, פייסבוק, אינסטגרם, TikTok'},
   {key:'leads',            prefix:null, ico:'📨', q:'כמה פניות (לידים) נכנסו?',        hint:'כל מי שיצר קשר או השאיר פרטים דרך הפרסום'},
-  {key:'closedDeals',      prefix:null, ico:'🤝', q:'כמה עסקאות נסגרו בפועל?',         hint:'רק מי ששילם — לא "כמעט", לא "בקרוב"'},
+  {key:'closedDeals',      prefix:null, ico:'🤝', q:'כמה עסקאות נסגרו בפועל?',         hint:'רק מי ששילם - לא "כמעט", לא "בקרוב"'},
   {key:'averageDealValue', prefix:'₪',  ico:'💎', q:'שווי עסקה ממוצעת?',               hint:'ממוצע הכנסה מכל לקוח חדש'},
 ];
 
@@ -600,7 +600,7 @@ function Questionnaire({onComplete, qRef}){
         <p className="tag">הבדיקה</p>
         <h2 className="h2">4 מספרים שחושפים <span className="grad">את כל האמת</span></h2>
         <p className="lead" style={{marginBottom:0,fontSize:15}}>
-          מהנתונים שלך בלבד — לא תחושות, לא ניחושים
+          מהנתונים שלך בלבד - לא תחושות, לא ניחושים
         </p>
 
         <div className="q-card">
@@ -657,11 +657,11 @@ function ScoreBanner({conv,inV}){
   const anim=useCounter(score,1050,inV);
   const disp=Math.round(anim);
   let clr,bg,grade,verdict;
-  if(score<34){clr='#FF5F5F';bg='rgba(255,95,95,.08)';grade='F';verdict='ביצועים נמוכים מאוד — נדרש שיפור מיידי';}
-  else if(score<55){clr='#FFA04A';bg='rgba(255,160,74,.08)';grade='D';verdict='מתחת לממוצע — פוטנציאל גדול שלא מנוצל';}
-  else if(score<75){clr='#FFD44A';bg='rgba(255,212,74,.07)';grade='C';verdict='ממוצע — אפשר לעשות הרבה יותר';}
-  else if(score<88){clr='#7BC47E';bg='rgba(123,196,126,.08)';grade='B';verdict='מעל הממוצע — עדיין יש לאן לצמוח';}
-  else{clr='#00D89C';bg='rgba(0,216,156,.08)';grade='A';verdict='ביצועים גבוהים — שמרו על המומנטום';}
+  if(score<34){clr='#FF5F5F';bg='rgba(255,95,95,.08)';grade='F';verdict='ביצועים נמוכים מאוד - נדרש שיפור מיידי';}
+  else if(score<55){clr='#FFA04A';bg='rgba(255,160,74,.08)';grade='D';verdict='מתחת לממוצע - פוטנציאל גדול שלא מנוצל';}
+  else if(score<75){clr='#FFD44A';bg='rgba(255,212,74,.07)';grade='C';verdict='ממוצע - אפשר לעשות הרבה יותר';}
+  else if(score<88){clr='#7BC47E';bg='rgba(123,196,126,.08)';grade='B';verdict='מעל הממוצע - עדיין יש לאן לצמוח';}
+  else{clr='#00D89C';bg='rgba(0,216,156,.08)';grade='A';verdict='ביצועים גבוהים - שמרו על המומנטום';}
   const rgb=clr.startsWith('#')?`${parseInt(clr.slice(1,3),16)},${parseInt(clr.slice(3,5),16)},${parseInt(clr.slice(5,7),16)}`:clr;
   const bdr=`rgba(${rgb},.22)`;
   return(
@@ -728,7 +728,7 @@ function BarChart({current,simulated}){
   return(
     <div ref={ref}>
       <div className="chart-hdr">
-        <div className="chart-ttl">מחזור חודשי — עכשיו מול הפוטנציאל</div>
+        <div className="chart-ttl">מחזור חודשי - עכשיו מול הפוטנציאל</div>
         <div className="chart-sub">הסכום הירוק הוא ההכנסה שניתן להניב מאותו תקציב</div>
       </div>
       <div style={{display:'flex',justifyContent:'center'}}>
@@ -775,7 +775,7 @@ function BarChart({current,simulated}){
 const MARKS=[{v:1.0,l:'עכשיו'},{v:1.5,l:'×1.5'},{v:2.0,l:'×2'},{v:3.0,l:'×3'},{v:5.0,l:'×5'}];
 
 /* ═══════════════════════════════════════════
-   DASHBOARD — הכל בכרטיס אחד
+   DASHBOARD - הכל בכרטיס אחד
 ═══════════════════════════════════════════ */
 const WEBHOOK='https://services.leadconnectorhq.com/hooks/O8tlYEQIUn4z3qPCt1FX/webhook-trigger/fd797638-866b-479b-9599-c64505bc2677';
 
@@ -815,25 +815,25 @@ function Dashboard({data,mult,setMult}){
     try{
       const res=await fetch(WEBHOOK,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
       if(res.ok||res.status===200)setStatus('success');
-      else{setErr('שליחה נכשלה ('+res.status+') — נסו שוב');setStatus('idle');}
-    }catch(e){setErr('בעיית תקשורת — נסו שוב');setStatus('idle');}
+      else{setErr('שליחה נכשלה ('+res.status+') - נסו שוב');setStatus('idle');}
+    }catch(e){setErr('בעיית תקשורת - נסו שוב');setStatus('idle');}
   };
   return(
     <section className="dash" ref={ref}
       style={{opacity:inV?1:0,transform:inV?'none':'translateY(18px)',transition:'all .55s var(--ease)'}}>
       <div className="w">
-        <p className="tag">הניתוח שלך</p>
+        <p className="tag">תוצאות הניתוח</p>
         <h2 className="h2" style={{marginBottom:16}}>
-          {score>=75?<>אתם במסלול הנכון — <span className="grad">יש עוד לאן לצמוח</span></>
-          :score>=55?<>יש כאן פוטנציאל — <span className="grad">שעדיין לא מנוצל</span></>
-          :<>זה המצב כרגע — <span className="grad">אפשר לשנות אותו</span></>}
+          {score>=75?<>אתם במסלול הנכון - <span className="grad">יש עוד לאן לצמוח</span></>
+          :score>=55?<>יש כאן פוטנציאל - <span className="grad">שעדיין לא מנוצל</span></>
+          :<>זה המצב כרגע - <span className="grad">אפשר לשנות אותו</span></>}
         </h2>
 
         {/* ── 1. SCORE ── */}
         <ScoreBanner conv={conv} inV={inV}/>
 
         {/* ── 2. METRICS ── */}
-        <div className="db-sep"><span>המספרים שלך</span></div>
+        <div className="db-sep"><span>נתוני העסק</span></div>
         <div className="db-metrics">
           {[
             {ico:'📊',lbl:'המרה',        val:fmtPct(conv),  sub:`${fmtNum(d)} מתוך ${fmtNum(l)}`,  hi:true},
@@ -854,7 +854,7 @@ function Dashboard({data,mult,setMult}){
         {/* ── 3. SIMULATION ── */}
         <div className="db-sep"><span>הסימולציה</span></div>
         <div className="db-sim">
-          <div className="db-sim-hdr">🎚 כמה יותר אפשר לסגור — עם אותו תקציב?</div>
+          <div className="db-sim-hdr">🎚 כמה יותר אפשר לסגור - עם אותו תקציב?</div>
           <div className="db-sim-sub">הזזת הסליידר מעדכנת את כל הנתונים בזמן אמת</div>
           <div className="sl-w">
             <div className="sl-top">
@@ -886,7 +886,7 @@ function Dashboard({data,mult,setMult}){
           <div className="db-pain">
             <span className="db-pain-ico">💸</span>
             <div>
-              <strong className="db-pain-strong">{fmtNum(wasted)} פניות לא הניבו עסקאות — כ-{fmtCur(wastedMoney)} שהלכו לאיבוד</strong>
+              <strong className="db-pain-strong">{fmtNum(wasted)} פניות לא הניבו עסקאות - כ-{fmtCur(wastedMoney)} שהלכו לאיבוד</strong>
               <div className="db-pain-sub">זו לא בעיה של פרסום. זו בעיה של מה שקורה <em>אחרי</em> שהפנייה נכנסת.</div>
             </div>
           </div>
@@ -895,9 +895,9 @@ function Dashboard({data,mult,setMult}){
         {/* ── 5. WHY ── */}
         <div className="db-why">
           {[
-            {clr:'#FF5F5F',t:'הפנייה נכנסת — ואז נעלמת',   b:'בלי תהליך סגירה, רוב הפניות יוצאות לאיבוד. לא בגלל הפרסום.'},
+            {clr:'#FF5F5F',t:'הפנייה נכנסת - ואז נעלמת',   b:'בלי תהליך סגירה, רוב הפניות יוצאות לאיבוד. לא בגלל הפרסום.'},
             {clr:'#FFD44A',t:'יותר תקציב לא יפתור את זה',  b:'שיפור של 30% בהמרה שווה יותר מהכפלת תקציב.'},
-            {clr:'#00D89C',t:'תוצאות מדידות תוך 90 יום',  b:'לקוחות מדווחים על ×2–4 בסגירות — מאותו תקציב.'},
+            {clr:'#00D89C',t:'תוצאות מדידות תוך 90 יום',  b:'לקוחות מדווחים על ×2-4 בסגירות - מאותו תקציב.'},
           ].map((c,i)=>(
             <div key={i} className="db-why-item"
               style={{opacity:inV?1:0,transform:inV?'none':'translateY(10px)',transition:`all .46s var(--ease) ${.28+i*.07}s`}}>
@@ -921,13 +921,13 @@ function Dashboard({data,mult,setMult}){
             </div>
           ):(
             <>
-              <p className="tag" style={{marginBottom:6,position:'relative',zIndex:1}}>קחו את הצעד הבא.</p>
+              <p className="tag" style={{marginBottom:6,position:'relative',zIndex:1}}>הצעד הבא</p>
               <div className="db-form-ttl">
                 {extra>0
-                  ?<>+{fmtCur(extra)} בחודש — <span className="grad">רק אם תפעלו עכשיו.</span></>
-                  :<>כל יום בלי תהליך — <span className="grad">עוד לידים נופלים.</span></>}
+                  ?<>+{fmtCur(extra)} בחודש - <span className="grad">במעבר לפעולה עכשיו.</span></>
+                  :<>כל יום בלי תהליך - <span className="grad">עוד לידים נופלים.</span></>}
               </div>
-              <div className="db-form-sub">לתוכנית ממוקדת לך, השאירו פרטים עכשיו.<br/><strong>ללא עלות. ללא התחייבות.</strong></div>
+              <div className="db-form-sub">לקבלת תוכנית ממוקדת לעסק, מילוי פרטים כאן:<br/><strong>ללא עלות. ללא התחייבות.</strong></div>
               <div style={{position:'relative',zIndex:1}}>
                 <div className="f-row">
                   <div className="f-group">

@@ -13,7 +13,7 @@ export const ContactForm = () => {
                         השארת <span className="text-primary">פרטים</span>
                     </h2>
                     <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-                        רוצים לשמוע עוד? השאירו פרטים ונחזור אליכם בהקדם.
+                        רוצים לשמוע עוד? במילוי פרטים קצר נחזור אליכם בהקדם.
                     </p>
                 </div>
 
