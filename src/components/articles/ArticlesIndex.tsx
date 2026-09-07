@@ -8,8 +8,6 @@ import {
     FileText 
 } from 'lucide-react';
 import { ARTICLES, Article } from '../../data/articles';
-import { Button } from '../ui/Button';
-
 import { Breadcrumbs } from '../common/Breadcrumbs';
 
 interface ArticlesIndexProps {
@@ -106,23 +104,23 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate }) => {
                         {filteredArticles.map((article: Article) => (
                             <div 
                                 key={article.slug}
-                                className="group relative bg-white border border-gray-200 hover:border-primary/40 rounded-3xl p-6 sm:p-8 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col md:flex-row gap-6 items-start justify-between"
+                                className="group relative bg-white border border-slate-200/90 hover:border-primary/40 rounded-3xl p-6 sm:p-8 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
                             >
-                                <div className="flex-1">
+                                <div>
                                     <div className="flex flex-wrap items-center gap-2.5 mb-3">
-                                        <span className="px-3 py-1 text-xs font-semibold rounded-full bg-blue-50 text-primary border border-blue-100">
+                                        <span className="px-3 py-1 text-xs font-bold rounded-full bg-blue-50 text-primary border border-blue-100">
                                             {article.category}
                                         </span>
-                                        <span className="flex items-center gap-1 text-xs text-gray-500">
-                                            <Clock size={12} className="text-gray-400" />
+                                        <span className="flex items-center gap-1 text-xs text-slate-500 font-medium">
+                                            <Clock size={12} className="text-slate-400" />
                                             {article.readTime}
                                         </span>
-                                        <span className="text-xs text-gray-400">
+                                        <span className="text-xs text-slate-400">
                                             • {new Date(article.datePublished).toLocaleDateString('he-IL', { year: 'numeric', month: 'short', day: 'numeric' })}
                                         </span>
                                     </div>
 
-                                    <h2 className="text-xl sm:text-2xl font-bold text-slate-900 group-hover:text-primary transition-colors mb-3">
+                                    <h2 className="text-xl sm:text-2xl font-black text-slate-900 group-hover:text-primary transition-colors mb-3 leading-snug">
                                         <button 
                                             onClick={() => onNavigate(`/articles/${article.slug}`)}
                                             className="text-right hover:underline"
@@ -136,32 +134,30 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate }) => {
                                     </p>
 
                                     {/* Tags */}
-                                    <div className="flex flex-wrap items-center gap-1.5 mb-4">
+                                    <div className="flex flex-wrap items-center gap-1.5 mb-6">
                                         {article.tags.map(tag => (
-                                            <span key={tag} className="inline-flex items-center gap-1 text-[11px] text-gray-500 bg-gray-100 px-2.5 py-0.5 rounded-md">
-                                                <Tag size={10} className="text-gray-400" />
+                                            <span key={tag} className="inline-flex items-center gap-1 text-[11px] font-medium text-slate-600 bg-slate-100 px-2.5 py-0.5 rounded-lg">
+                                                <Tag size={10} className="text-slate-400" />
                                                 {tag}
                                             </span>
                                         ))}
                                     </div>
+                                </div>
 
-                                    <div className="flex items-center gap-3 text-xs text-gray-500">
-                                        <span className="font-semibold text-gray-800">{article.author.name}</span>
+                                {/* Card Bottom Container with Author & Creative Action Button */}
+                                <div className="pt-5 mt-2 border-t border-slate-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                                    <div className="flex items-center gap-2.5 text-xs text-slate-500 font-medium">
+                                        <span className="font-bold text-slate-800">{article.author.name}</span>
                                         <span>•</span>
                                         <span>{article.author.role}</span>
                                     </div>
-                                </div>
 
-                                {/* Actions on Card */}
-                                <div className="flex items-center w-full md:w-auto flex-shrink-0 pt-4 md:pt-0 border-t md:border-t-0 border-gray-100">
                                     <button
                                         onClick={() => onNavigate(`/articles/${article.slug}`)}
-                                        className="w-full md:w-auto"
+                                        className="w-full sm:w-auto group/btn inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 rounded-2xl bg-primary hover:bg-primary/95 text-white text-xs sm:text-sm font-black shadow-sm hover:shadow-md transition-all duration-200"
                                     >
-                                        <Button variant="primary" size="sm" className="w-full md:w-auto flex items-center justify-center gap-1.5 text-xs font-bold py-2.5 px-5">
-                                            <span>לקריאת המאמר</span>
-                                            <ArrowLeft size={14} />
-                                        </Button>
+                                        <span>{article.cardCta || 'למעבר למדריך המלא'}</span>
+                                        <ArrowLeft size={15} className="transition-transform duration-200 group-hover/btn:-translate-x-1" />
                                     </button>
                                 </div>
                             </div>
