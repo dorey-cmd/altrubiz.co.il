@@ -14,7 +14,19 @@ interface ArticlesIndexProps {
     onNavigate: (path: string) => void;
 }
 
+// Fisher-Yates shuffle to randomize articles order on each page visit
+const shuffleArray = <T,>(array: T[]): T[] => {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+};
+
 export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate }) => {
+    // Randomize articles on each page entry/mount
+    const [shuffledArticles] = useState<Article[]>(() => shuffleArray(ARTICLES));
     const [selectedCategory, setSelectedCategory] = useState<string>('all');
     const [searchQuery, setSearchQuery] = useState<string>('');
 
@@ -25,7 +37,7 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate }) => {
 
     const categories = ['all', ...Array.from(new Set(ARTICLES.map(a => a.category)))];
 
-    const filteredArticles = ARTICLES.filter(article => {
+    const filteredArticles = shuffledArticles.filter(article => {
         const matchesCategory = selectedCategory === 'all' || article.category === selectedCategory;
         const matchesSearch = 
             article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -43,7 +55,7 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate }) => {
                     <Breadcrumbs items={breadcrumbItems} onNavigate={onNavigate} />
                 </div>
 
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 text-primary text-xs sm:text-sm font-semibold mb-4 border border-blue-100">
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-50 text-secondary text-xs sm:text-sm font-bold mb-4 border border-cyan-100 shadow-xs">
                     <BookOpen size={16} />
                     <span>מאגר הידע והתכנים של AltruBiz</span>
                 </div>
@@ -62,7 +74,7 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate }) => {
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         placeholder="חיפוש מאמר או נושא..."
-                        className="w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-white text-slate-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary text-sm shadow-sm"
+                        className="w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-white text-slate-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-secondary focus:border-secondary text-sm shadow-sm"
                     />
 
                     {categories.length > 1 && (
@@ -71,9 +83,9 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate }) => {
                                 <button
                                     key={cat}
                                     onClick={() => setSelectedCategory(cat)}
-                                    className={`px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
+                                    className={`px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all ${
                                         selectedCategory === cat
-                                            ? 'bg-primary text-white shadow-sm'
+                                            ? 'bg-secondary text-white shadow-md shadow-secondary/20'
                                             : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-200'
                                     }`}
                                 >
@@ -94,7 +106,7 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate }) => {
                         <p className="text-sm text-gray-500 mt-1">אפשר לנסות מילת חיפוש אחרת או לאפס את הסינון.</p>
                         <button
                             onClick={() => { setSearchQuery(''); setSelectedCategory('all'); }}
-                            className="mt-4 text-xs font-bold text-primary hover:underline"
+                            className="mt-4 text-xs font-bold text-secondary hover:underline"
                         >
                             איפוס חיפוש
                         </button>
@@ -104,11 +116,11 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate }) => {
                         {filteredArticles.map((article: Article) => (
                             <div 
                                 key={article.slug}
-                                className="group relative bg-white border border-slate-200/90 hover:border-primary/40 rounded-3xl p-6 sm:p-8 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
+                                className="group relative bg-white border border-slate-200/90 hover:border-secondary/40 rounded-3xl p-6 sm:p-8 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
                             >
                                 <div>
                                     <div className="flex flex-wrap items-center gap-2.5 mb-3">
-                                        <span className="px-3 py-1 text-xs font-bold rounded-full bg-blue-50 text-primary border border-blue-100">
+                                        <span className="px-3 py-1 text-xs font-bold rounded-full bg-cyan-50 text-secondary border border-cyan-100">
                                             {article.category}
                                         </span>
                                         <span className="flex items-center gap-1 text-xs text-slate-500 font-medium">
@@ -120,7 +132,7 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate }) => {
                                         </span>
                                     </div>
 
-                                    <h2 className="text-xl sm:text-2xl font-black text-slate-900 group-hover:text-primary transition-colors mb-3 leading-snug">
+                                    <h2 className="text-xl sm:text-2xl font-black text-slate-900 group-hover:text-secondary transition-colors mb-3 leading-snug">
                                         <button 
                                             onClick={() => onNavigate(`/articles/${article.slug}`)}
                                             className="text-right hover:underline"
@@ -144,7 +156,7 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate }) => {
                                     </div>
                                 </div>
 
-                                {/* Card Bottom Container with Author & Creative Action Button */}
+                                {/* Card Bottom Container with Author & Creative Action Button in Biz Cyan */}
                                 <div className="pt-5 mt-2 border-t border-slate-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                                     <div className="flex items-center gap-2.5 text-xs text-slate-500 font-medium">
                                         <span className="font-bold text-slate-800">{article.author.name}</span>
@@ -154,7 +166,7 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate }) => {
 
                                     <button
                                         onClick={() => onNavigate(`/articles/${article.slug}`)}
-                                        className="w-full sm:w-auto group/btn inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 rounded-2xl bg-primary hover:bg-primary/95 text-white text-xs sm:text-sm font-black shadow-sm hover:shadow-md transition-all duration-200"
+                                        className="w-full sm:w-auto group/btn inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 rounded-2xl bg-secondary hover:bg-[#009cd7] active:scale-[0.98] text-white text-xs sm:text-sm font-black shadow-md shadow-secondary/25 hover:shadow-lg hover:shadow-secondary/35 transition-all duration-200"
                                     >
                                         <span>{article.cardCta || 'למעבר למדריך המלא'}</span>
                                         <ArrowLeft size={15} className="transition-transform duration-200 group-hover/btn:-translate-x-1" />
