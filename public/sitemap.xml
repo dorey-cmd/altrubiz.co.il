@@ -184,4 +184,20 @@
     <priority>0.7</priority>
   </url>
 
+  <!-- Article: crm-adoption-thursday-test-guide -->
+  <url>
+    <loc>https://altrubiz.co.il/articles/crm-adoption-thursday-test-guide</loc>
+    <lastmod>2026-09-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Plaintext Markdown mirror for LLM: crm-adoption-thursday-test-guide -->
+  <url>
+    <loc>https://altrubiz.co.il/articles/crm-adoption-thursday-test-guide.md</loc>
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
 </urlset>
