@@ -29,6 +29,9 @@ export interface RouteConfig {
     alternateMarkdown?: string;
     breadcrumbs?: RouteBreadcrumb[];
     article?: Article;
+    ogImage?: string;
+    ogTitle?: string;
+    ogDescription?: string;
 }
 
 export const BASE_CANONICAL_DOMAIN = 'https://altrubiz.co.il';
@@ -91,6 +94,11 @@ export const STATIC_ROUTES_REGISTRY: Record<string, RouteConfig> = {
  */
 export function buildArticleRouteConfig(article: Article): RouteConfig {
     const articlePath = `/articles/${article.slug}`;
+    const absoluteOgImage = article.coverImage?.src 
+        ? (article.coverImage.src.startsWith('http') ? article.coverImage.src : `${BASE_CANONICAL_DOMAIN}${article.coverImage.src}`)
+        : `${BASE_CANONICAL_DOMAIN}/images/articles/read-the-room-robot.jpg`;
+    const smartOgDescription = article.keyTakeaway || article.heroSummary || article.description;
+
     return {
         path: articlePath,
         title: article.seoTitle || `${article.title} | AltruBiz CRM`,
@@ -102,6 +110,9 @@ export function buildArticleRouteConfig(article: Article): RouteConfig {
         sitemapPriority: 0.9,
         sitemapChangeFreq: 'monthly',
         alternateMarkdown: article.markdownUrl || `${articlePath}.md`,
+        ogImage: absoluteOgImage,
+        ogTitle: `${article.title} | AltruBiz CRM`,
+        ogDescription: smartOgDescription,
         breadcrumbs: [
             { name: 'דף הבית', path: '/' },
             { name: 'מרכז ידע ומאמרים', path: '/articles' },

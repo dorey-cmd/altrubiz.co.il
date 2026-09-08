@@ -85,17 +85,32 @@ export const SEOHead: React.FC<SEOHeadProps> = ({ routeConfig, article, faqs }) 
 
         // 6. Open Graph & Social Cards
         const isArticle = routeConfig.schemaType === 'TechArticle' || routeConfig.schemaType === 'Article';
+        const defaultOgImage = 'https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/688019c09a4c2d4b4398bf3c.png';
+        const ogImage = routeConfig.ogImage || (article?.coverImage?.src ? (article.coverImage.src.startsWith('http') ? article.coverImage.src : `${BASE_CANONICAL_DOMAIN}${article.coverImage.src}`) : defaultOgImage);
+        const ogTitle = routeConfig.ogTitle || (article?.title ? `${article.title} | AltruBiz CRM` : routeConfig.title);
+        const ogDescription = routeConfig.ogDescription || article?.keyTakeaway || article?.heroSummary || routeConfig.description;
+
         setMeta('property', 'og:type', isArticle ? 'article' : 'website');
-        setMeta('property', 'og:title', routeConfig.title);
-        setMeta('property', 'og:description', routeConfig.description);
+        setMeta('property', 'og:title', ogTitle);
+        setMeta('property', 'og:description', ogDescription);
         setMeta('property', 'og:url', routeConfig.canonicalUrl);
         setMeta('property', 'og:site_name', 'AltruBiz CRM');
         setMeta('property', 'og:locale', 'he_IL');
+        setMeta('property', 'og:image', ogImage);
+        setMeta('property', 'og:image:width', '1200');
+        setMeta('property', 'og:image:height', '630');
+        if (article?.coverImage?.alt) {
+            setMeta('property', 'og:image:alt', article.coverImage.alt);
+        }
 
         // Twitter Cards
         setMeta('name', 'twitter:card', 'summary_large_image');
-        setMeta('name', 'twitter:title', routeConfig.title);
-        setMeta('name', 'twitter:description', routeConfig.description);
+        setMeta('name', 'twitter:title', ogTitle);
+        setMeta('name', 'twitter:description', ogDescription);
+        setMeta('name', 'twitter:image', ogImage);
+        if (article?.coverImage?.alt) {
+            setMeta('name', 'twitter:image:alt', article.coverImage.alt);
+        }
 
         // 7. Context-Appropriate Schema.org Graph with Stable @id References
         const graph: object[] = [

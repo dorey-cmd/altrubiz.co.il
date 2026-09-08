@@ -2,9 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { 
     Calendar, 
     Clock, 
-    Share2, 
-    Check, 
-    Copy, 
     CheckCircle2, 
     XCircle, 
     AlertTriangle, 
@@ -24,6 +21,7 @@ import {
 import { Article, ArticleSection } from '../../data/articles';
 import { Button } from '../ui/Button';
 import { Breadcrumbs } from '../common/Breadcrumbs';
+import { SocialShareBar } from './SocialShareBar';
 
 interface ArticlePageProps {
     article: Article;
@@ -31,7 +29,6 @@ interface ArticlePageProps {
 }
 
 export const ArticlePage: React.FC<ArticlePageProps> = ({ article, onNavigate }) => {
-    const [copiedLink, setCopiedLink] = useState(false);
     const [activeSectionId, setActiveSectionId] = useState<string>(article.sections[0]?.id || '');
     const [showMobileJump, setShowMobileJump] = useState(false);
     const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
@@ -41,17 +38,6 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({ article, onNavigate })
         { name: 'מרכז ידע ומאמרים', path: '/articles' },
         { name: article.title, path: `/articles/${article.slug}` }
     ];
-
-    const handleCopyLink = () => {
-        navigator.clipboard.writeText(window.location.href);
-        setCopiedLink(true);
-        setTimeout(() => setCopiedLink(false), 2500);
-    };
-
-    const handleShareWhatsApp = () => {
-        const text = encodeURIComponent(`${article.title}\n\n${window.location.href}`);
-        window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
-    };
 
     const scrollToSection = (id: string) => {
         const elem = document.getElementById(id);
@@ -641,24 +627,16 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({ article, onNavigate })
                         </div>
                     </div>
 
-                    {/* Action buttons */}
-                    <div className="flex flex-wrap items-center gap-2">
-                        <button
-                            onClick={handleCopyLink}
-                            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors"
-                        >
-                            {copiedLink ? <Check size={14} className="text-emerald-600" /> : <Copy size={14} />}
-                            <span>{copiedLink ? 'הקישור הועתק!' : 'העתק קישור'}</span>
-                        </button>
-
-                        <button
-                            onClick={handleShareWhatsApp}
-                            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-[#25D366]/10 text-[#075E54] hover:bg-[#25D366]/20 transition-colors"
-                        >
-                            <Share2 size={14} />
-                            <span>שתף בוואטסאפ</span>
-                        </button>
-                    </div>
+                    {/* Social Share Bar in Header */}
+                    <SocialShareBar
+                        title={article.title}
+                        description={article.description}
+                        keyTakeaway={article.keyTakeaway}
+                        heroSummary={article.heroSummary}
+                        slug={article.slug}
+                        coverImage={article.coverImage}
+                        variant="header"
+                    />
                 </div>
             </header>
 
@@ -808,6 +786,17 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({ article, onNavigate })
                         {/* Article Body Sections */}
                         <div className="space-y-12 text-slate-800 leading-relaxed text-base sm:text-lg">
                             {article.sections.map((section, idx) => renderSection(section, idx))}
+
+                            {/* Featured Social Share Card */}
+                            <SocialShareBar
+                                title={article.title}
+                                description={article.description}
+                                keyTakeaway={article.keyTakeaway}
+                                heroSummary={article.heroSummary}
+                                slug={article.slug}
+                                coverImage={article.coverImage}
+                                variant="featured"
+                            />
 
                             {/* Frequently Asked Questions */}
                             {article.faqs && article.faqs.length > 0 && (
