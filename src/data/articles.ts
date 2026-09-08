@@ -1849,7 +1849,7 @@ export const ARTICLES: Article[] = [
                 ]
             },
             {
-                id: 'remember-vs-think',
+                id: 'remember-think',
                 actionNumber: 3,
                 title: '3. הפרידו בין "צריך לזכור" לבין "צריך לחשוב"',
                 subtitle: 'חלוקה חכמה בין שיקול דעת אנושי לבין פעולות אוטומטיות של המערכת',
@@ -1861,7 +1861,7 @@ export const ARTICLES: Article[] = [
                 ]
             },
             {
-                id: 'actionable-task',
+                id: 'task',
                 actionNumber: 4,
                 title: '4. משימה טובה צריכה להגיד מה לעשות',
                 subtitle: 'ההבדל בין משימה מעורפלת לבין משימה שמניעה לפעולה מיידית',
@@ -1877,7 +1877,7 @@ export const ARTICLES: Article[] = [
                 }
             },
             {
-                id: 'simple-reminder',
+                id: 'reminder',
                 actionNumber: 5,
                 title: '5. מתי תזכורת מספיקה?',
                 subtitle: 'לא כל תהליך דורש אוטומציה מורכבת: לפעמים משימה פשוטה היא הפתרון הנכון',
@@ -1899,7 +1899,7 @@ export const ARTICLES: Article[] = [
                 }
             },
             {
-                id: 'automated-followup',
+                id: 'automation',
                 actionNumber: 6,
                 title: '6. מתי כן כדאי להפוך Follow-up לאוטומטי?',
                 subtitle: 'זיהוי דפוסים חוזרים שחוזרים על עצמם שוב ושוב לאורך תהליך המכירה',
@@ -1923,7 +1923,7 @@ export const ARTICLES: Article[] = [
                 ]
             },
             {
-                id: 'stop-condition',
+                id: 'stop',
                 actionNumber: 8,
                 title: '8. הלקוח ענה? עצרו מיד את הרצף',
                 subtitle: 'הגדרת תנאי עצירה חכמים שמונעים מבוכה ותקלות מול לקוחות',
@@ -1935,7 +1935,7 @@ export const ARTICLES: Article[] = [
                 ]
             },
             {
-                id: 'today-screen',
+                id: 'today',
                 actionNumber: 9,
                 title: '9. בנו לעצמכם מסך "מה אני צריך לעשות היום?"',
                 subtitle: 'פתיחת יום העבודה בביצוע ממוקד במקום בחיפושים מתישים',
