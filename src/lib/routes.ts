@@ -94,9 +94,7 @@ export const STATIC_ROUTES_REGISTRY: Record<string, RouteConfig> = {
  */
 export function buildArticleRouteConfig(article: Article): RouteConfig {
     const articlePath = `/articles/${article.slug}`;
-    const absoluteOgImage = article.coverImage?.src 
-        ? (article.coverImage.src.startsWith('http') ? article.coverImage.src : `${BASE_CANONICAL_DOMAIN}${article.coverImage.src}`)
-        : `${BASE_CANONICAL_DOMAIN}/images/articles/read-the-room-robot.jpg`;
+    const absoluteOgImage = `${BASE_CANONICAL_DOMAIN}/images/articles/og/${article.slug}.jpg`;
     const smartOgDescription = article.keyTakeaway || article.heroSummary || article.description;
 
     return {

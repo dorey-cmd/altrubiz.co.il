@@ -15,6 +15,37 @@ User-agent: Bingbot
 Allow: /
 Disallow: /offer
 
+# Social Media & Messaging Preview Crawlers (Facebook, Instagram, LinkedIn, Twitter/X, WhatsApp, TikTok, Slack, Discord)
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Facebot
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: WhatsApp
+Allow: /
+
+User-agent: TelegramBot
+Allow: /
+
+User-agent: Slackbot
+Allow: /
+
+User-agent: Discordbot
+Allow: /
+
+User-agent: Pinterest
+Allow: /
+
+User-agent: ByteSpider
+Allow: /
+
 # AI Search & Answer Engine Bots
 User-agent: OAI-SearchBot
 Allow: /
