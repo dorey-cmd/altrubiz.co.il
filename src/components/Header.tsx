@@ -89,7 +89,14 @@ export const Header = ({ onNavigate }: HeaderProps) => {
                     </nav>
 
                     {/* CTA Buttons */}
-                    <div className="hidden md:flex items-center gap-4">
+                    <div className="hidden md:flex items-center gap-3">
+                        <a 
+                            href="/#contact" 
+                            onClick={(e) => handleLinkClick(e, '/#contact')}
+                            className="text-gray-700 hover:text-primary text-sm font-semibold px-3 py-1.5 rounded-lg hover:bg-blue-50/60 transition-colors cursor-pointer"
+                        >
+                            קביעת פגישה
+                        </a>
                         <a href="https://app.altrubiz.com/" target="_blank" rel="noopener noreferrer">
                             <Button variant="ghost" size="sm" className="text-gray-600 hover:text-primary">התחברות</Button>
                         </a>
@@ -164,6 +171,13 @@ export const Header = ({ onNavigate }: HeaderProps) => {
                         >
                             <BookOpen size={16} />
                             <span>מרכז ידע ומאמרים</span>
+                        </a>
+                        <a 
+                            href="/#contact" 
+                            onClick={(e) => handleLinkClick(e, '/#contact')}
+                            className="block px-3 py-2 text-slate-800 font-bold hover:text-primary hover:bg-blue-50 rounded-md"
+                        >
+                            קביעת פגישה / יצירת קשר
                         </a>
 
                         <div className="mt-4 flex flex-col gap-3 px-3">

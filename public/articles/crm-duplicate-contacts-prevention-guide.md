@@ -5,7 +5,7 @@ slug: "crm-duplicate-contacts-prevention-guide"
 canonical_url: "https://altrubiz.co.il/articles/crm-duplicate-contacts-prevention-guide"
 published_date: "2026-09-09"
 modified_date: "2026-09-09"
-author: "דורי"
+author: "צוות AltruBiz"
 category: "מדריכים וניהול לקוחות"
 tags: ["מניעת כפילויות","אנשי קשר ב-CRM","Deduplication","ניהול דאטה","כרטיס לקוח","AltruBiz CRM"]
 ---

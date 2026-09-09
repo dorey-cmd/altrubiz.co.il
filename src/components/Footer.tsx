@@ -34,6 +34,14 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                 {/* Navigation and Resources links */}
                 <div className="flex flex-wrap justify-center items-center gap-x-6 gap-y-3 mb-6 text-sm">
                     <a 
+                        href="/#contact" 
+                        onClick={(e) => handleLinkClick(e, '/#contact')}
+                        className="text-gray-600 hover:text-primary transition-colors font-medium"
+                    >
+                        יצירת קשר וקביעת פגישה
+                    </a>
+                    <span className="text-gray-300 hidden sm:inline">•</span>
+                    <a 
                         href="/about" 
                         onClick={(e) => handleLinkClick(e, '/about')}
                         className="text-gray-600 hover:text-primary transition-colors font-medium"

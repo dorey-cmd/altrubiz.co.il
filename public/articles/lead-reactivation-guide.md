@@ -5,7 +5,7 @@ slug: "lead-reactivation-guide"
 canonical_url: "https://altrubiz.co.il/articles/lead-reactivation-guide"
 published_date: "2026-09-09"
 modified_date: "2026-09-09"
-author: "דורי"
+author: "צוות AltruBiz"
 category: "מדריכים וניהול לידים"
 tags: ["החייאת לידים","Reactivation","לידים קרים","אופטימיזציית מכירות","AltruBiz CRM"]
 ---

@@ -1,0 +1,124 @@
+import React, { useEffect } from 'react';
+import { X, MessageCircle, Sparkles } from 'lucide-react';
+
+interface ContactModalProps {
+    isOpen: boolean;
+    onClose: () => void;
+    title?: string;
+    subtitle?: string;
+    whatsappPrefill?: string;
+}
+
+export const ContactModal: React.FC<ContactModalProps> = ({
+    isOpen,
+    onClose,
+    title = 'קביעת פגישה: איך זה יכול לעבוד אצלכם בעסק',
+    subtitle = 'נשמח להכיר את הפעילות שלכם, להבין איפה מתבזבז זמן או איפה לידים מתפספסים, ולהראות איך AltruBiz מייצרת סדר ואוטומציה מותאמת.',
+    whatsappPrefill = 'שלום צוות AltruBiz, אשמח לתאם פגישה ולבדוק איך זה יכול לעבוד אצלנו בעסק'
+}) => {
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'Escape' && isOpen) {
+                onClose();
+            }
+        };
+
+        if (isOpen) {
+            document.body.style.overflow = 'hidden';
+            window.addEventListener('keydown', handleKeyDown);
+        } else {
+            document.body.style.overflow = '';
+        }
+
+        return () => {
+            document.body.style.overflow = '';
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [isOpen, onClose]);
+
+    if (!isOpen) return null;
+
+    return (
+        <div 
+            className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-4 overflow-y-auto"
+            dir="rtl"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="contact-modal-title"
+        >
+            {/* Dark Backdrop with Blur */}
+            <div 
+                className="fixed inset-0 bg-slate-950/75 backdrop-blur-sm transition-opacity animate-in fade-in duration-200"
+                onClick={onClose}
+            />
+
+            {/* Modal Dialog Content */}
+            <div className="relative z-10 w-full max-w-2xl bg-white rounded-3xl shadow-2xl border border-slate-200/90 overflow-hidden flex flex-col my-auto max-h-[94vh] animate-in zoom-in-95 duration-200">
+                {/* Accent Top Bar */}
+                <div className="h-1.5 bg-gradient-to-r from-primary via-blue-500 to-amber-400 w-full" />
+
+                {/* Header */}
+                <div className="p-5 sm:p-6 pb-4 border-b border-slate-100 flex items-start justify-between gap-4 bg-slate-50/70">
+                    <div className="space-y-1.5">
+                        <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-blue-50 text-primary text-xs font-bold border border-blue-100">
+                            <Sparkles size={13} className="text-amber-500" />
+                            <span>תיאום שיחה ובדיקת התאמה</span>
+                        </div>
+                        <h2 
+                            id="contact-modal-title"
+                            className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight leading-tight"
+                        >
+                            {title}
+                        </h2>
+                        <p className="text-slate-600 text-xs sm:text-sm leading-relaxed max-w-xl">
+                            {subtitle}
+                        </p>
+                    </div>
+
+                    <button
+                        onClick={onClose}
+                        className="p-2 rounded-2xl hover:bg-slate-200/70 text-slate-400 hover:text-slate-700 transition-colors flex-shrink-0"
+                        aria-label="סגירת חלונית"
+                    >
+                        <X size={20} />
+                    </button>
+                </div>
+
+                {/* Form Container (Homepage Iframe) */}
+                <div className="p-3 sm:p-5 overflow-y-auto flex-1 bg-white">
+                    <div className="bg-slate-50/50 rounded-2xl p-1 border border-slate-100 h-[560px] sm:h-[590px]">
+                        <iframe
+                            src="https://link.altrubiz.co.il/widget/form/QAHIbtkoD9k8JUIs8uKD"
+                            style={{ width: '100%', height: '100%', border: 'none', borderRadius: '12px' }}
+                            id="modal-inline-QAHIbtkoD9k8JUIs8uKD"
+                            data-layout="{'id':'INLINE'}"
+                            data-trigger-type="alwaysShow"
+                            data-activation-type="alwaysActivated"
+                            data-deactivation-type="neverDeactivate"
+                            data-form-name="קביעת פגישה באתר"
+                            data-height="557"
+                            data-form-id="QAHIbtkoD9k8JUIs8uKD"
+                            title="קביעת פגישה באתר"
+                        />
+                    </div>
+                </div>
+
+                {/* Footer Bar: WhatsApp Fast Channel */}
+                <div className="p-4 sm:px-6 bg-slate-50 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs sm:text-sm">
+                    <div className="text-slate-500 text-center sm:text-right">
+                        מעדיפים לשוחח ישירות? צוות AltruBiz זמין עבורכם
+                    </div>
+                    <a
+                        href={`https://wa.me/972544350000?text=${encodeURIComponent(whatsappPrefill)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-slate-950 font-bold px-4 py-2 rounded-xl transition-all shadow-sm flex-shrink-0"
+                    >
+                        <MessageCircle size={16} />
+                        <span>פנייה ישירה בוואטסאפ</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    );
+};

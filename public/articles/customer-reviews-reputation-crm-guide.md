@@ -5,7 +5,7 @@ slug: "customer-reviews-reputation-crm-guide"
 canonical_url: "https://altrubiz.co.il/articles/customer-reviews-reputation-crm-guide"
 published_date: "2026-09-09"
 modified_date: "2026-09-09"
-author: "דורי"
+author: "צוות AltruBiz"
 category: "מוניטין ואוטומציה"
 tags: ["ביקורות גוגל","ניהול מוניטין","אוטומציה","שירות לקוחות","Google Business Profile"]
 ---

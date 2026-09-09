@@ -19,11 +19,29 @@ import { AboutPage } from './components/AboutPage'
 import { SEOHead } from './components/common/SEOHead'
 import { getArticleBySlug } from './data/articles'
 import { getRouteConfig } from './lib/routes'
+import { ContactModal } from './components/common/ContactModal'
 
 function App() {
     const [path, setPath] = useState(window.location.pathname);
+    const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+
+    const handleOpenContactModal = useCallback(() => {
+        setIsContactModalOpen(true);
+    }, []);
+
+    const handleCloseContactModal = useCallback(() => {
+        setIsContactModalOpen(false);
+    }, []);
 
     const handleNavigate = useCallback((targetPath: string) => {
+        // If requesting contact form while not on homepage, open the styled popup modal
+        if (targetPath === '/#contact' || targetPath === '#contact') {
+            if (window.location.pathname !== '/') {
+                setIsContactModalOpen(true);
+                return;
+            }
+        }
+
         // If hash on home page, handle scroll or navigate
         if (targetPath.startsWith('/#')) {
             if (window.location.pathname !== '/') {
@@ -81,7 +99,7 @@ function App() {
             {/* Page Views */}
             {isAbout ? (
                 <main className="relative z-10">
-                    <AboutPage onNavigate={handleNavigate} />
+                    <AboutPage onNavigate={handleNavigate} onOpenContactModal={handleOpenContactModal} />
                 </main>
             ) : isArticlesIndex ? (
                 <main className="relative z-10">
@@ -89,7 +107,11 @@ function App() {
                 </main>
             ) : isArticlePage && currentArticle ? (
                 <main className="relative z-10">
-                    <ArticlePage article={currentArticle} onNavigate={handleNavigate} />
+                    <ArticlePage 
+                        article={currentArticle} 
+                        onNavigate={handleNavigate} 
+                        onOpenContactModal={handleOpenContactModal}
+                    />
                 </main>
             ) : (
                 <main className="relative z-10 transition-colors">
@@ -107,6 +129,10 @@ function App() {
             )}
 
             <Footer onNavigate={handleNavigate} />
+            <ContactModal 
+                isOpen={isContactModalOpen} 
+                onClose={handleCloseContactModal} 
+            />
         </div>
     )
 }

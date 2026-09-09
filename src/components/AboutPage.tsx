@@ -16,9 +16,10 @@ import { Breadcrumbs } from './common/Breadcrumbs';
 
 interface AboutPageProps {
     onNavigate: (path: string) => void;
+    onOpenContactModal?: () => void;
 }
 
-export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
+export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onOpenContactModal }) => {
     const breadcrumbItems = [
         { name: 'דף הבית', path: '/' },
         { name: 'אודות AltruBiz', path: '/about' }
@@ -199,9 +200,23 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
                                 <Calendar className="w-5 h-5 text-primary" />
                                 <div>
                                     <div className="text-xs text-slate-400">תיאום פגישת היכרות והדגמה</div>
-                                    <a href="https://link.altrubiz.co.il/widget/bookings/caldorey" target="_blank" rel="noopener noreferrer" className="text-white font-bold hover:underline">
-                                        לקביעת פגישה ביומן
-                                    </a>
+                                    <div className="flex flex-wrap items-center gap-2">
+                                        <a href="https://link.altrubiz.co.il/widget/bookings/caldorey" target="_blank" rel="noopener noreferrer" className="text-white font-bold hover:underline">
+                                            לקביעת פגישה ביומן
+                                        </a>
+                                        {onOpenContactModal && (
+                                            <>
+                                                <span className="text-slate-500">|</span>
+                                                <button 
+                                                    type="button" 
+                                                    onClick={onOpenContactModal}
+                                                    className="text-amber-400 hover:text-amber-300 font-bold hover:underline cursor-pointer"
+                                                >
+                                                    השארת פרטים בטופס
+                                                </button>
+                                            </>
+                                        )}
+                                    </div>
                                 </div>
                             </div>
                         </div>

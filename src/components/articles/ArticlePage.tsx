@@ -26,9 +26,10 @@ import { SocialShareBar } from './SocialShareBar';
 interface ArticlePageProps {
     article: Article;
     onNavigate: (path: string) => void;
+    onOpenContactModal?: () => void;
 }
 
-export const ArticlePage: React.FC<ArticlePageProps> = ({ article, onNavigate }) => {
+export const ArticlePage: React.FC<ArticlePageProps> = ({ article, onNavigate, onOpenContactModal }) => {
     const [activeSectionId, setActiveSectionId] = useState<string>(article.sections[0]?.id || '');
     const [showMobileJump, setShowMobileJump] = useState(false);
     const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
@@ -839,40 +840,45 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({ article, onNavigate })
                             <div className="absolute top-0 right-0 w-80 h-80 bg-primary/20 rounded-full blur-3xl pointer-events-none" />
                             <div className="relative z-10 max-w-2xl mx-auto">
                                 <h3 className="text-2xl sm:text-3xl md:text-4xl font-black mb-4 text-white">
-                                    {article.cta ? article.cta.title : 'רוצים להכניס שיטה ואוטומציה לתקשורת בעסק שלכם?'}
+                                    {article.cta ? article.cta.title : 'רוצים לבדוק איך זה יכול לעבוד אצלכם בעסק?'}
                                 </h3>
                                 <p className="text-slate-300 text-base sm:text-lg mb-8 leading-relaxed">
-                                    {article.cta ? article.cta.description : 'מערכת AltruBiz CRM מאפשרת לכם לנהל שיחות, תבניות, לידים ובוטים חכמים בצורה מסודרת, מקצועית ובטוחה.'}
+                                    {article.cta ? article.cta.description : 'צוות AltruBiz יסייע לכם לחבר את התהליכים, הלידים והאוטומציה העסקית בצורה מותאמת אישית לפעילות שלכם.'}
                                 </p>
                                 <div className="flex flex-wrap items-center justify-center gap-4">
                                     <button
+                                        type="button"
                                         onClick={() => {
-                                            if (article.cta?.buttonLink.startsWith('/#')) {
+                                            if (onOpenContactModal) {
+                                                onOpenContactModal();
+                                            } else if (article.cta?.buttonLink.startsWith('/#')) {
                                                 onNavigate(article.cta.buttonLink);
                                             } else {
-                                                onNavigate('/#pricing');
+                                                onNavigate('/#contact');
                                             }
                                         }}
                                     >
-                                        <Button variant="primary" size="lg" className="font-bold text-base px-6 py-3.5 shadow-lg shadow-primary/25">
-                                            {article.cta ? article.cta.buttonText : 'מתחילים עכשיו עם AltruBiz'}
+                                        <Button variant="primary" size="lg" className="font-bold text-base px-6 py-3.5 shadow-lg shadow-primary/25 flex items-center gap-2">
+                                            <Calendar size={18} />
+                                            <span>{article.cta ? article.cta.buttonText : 'קביעת פגישה: איך זה יכול לעבוד אצלכם בעסק'}</span>
                                         </Button>
                                     </button>
 
                                     <a
                                         href={article.cta?.whatsappText 
                                             ? `https://wa.me/972544350000?text=${encodeURIComponent(article.cta.whatsappText)}`
-                                            : `https://wa.me/972544350000?text=${encodeURIComponent(`היי, קראתי את המאמר "${article.title}" ב-AltruBiz ואשמח להתייעץ`)}`
+                                            : `https://wa.me/972544350000?text=${encodeURIComponent(`שלום צוות AltruBiz, קראתי את המאמר "${article.title}" ואשמח לבדוק איך זה יכול לעבוד אצלנו בעסק`)}`
                                         }
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-slate-950 font-extrabold px-6 py-3.5 rounded-xl shadow-lg transition-all text-base"
                                     >
                                         <MessageCircle size={18} />
-                                        <span>{article.cta?.whatsappText || 'דברו איתנו בוואטסאפ'}</span>
+                                        <span>התייעצות מהירה בוואטסאפ</span>
                                     </a>
 
                                     <button
+                                        type="button"
                                         onClick={() => onNavigate('/articles')}
                                         className="inline-flex items-center gap-2 text-white/80 hover:text-white px-5 py-3.5 rounded-xl border border-white/20 hover:border-white/40 transition-colors text-sm font-medium"
                                     >

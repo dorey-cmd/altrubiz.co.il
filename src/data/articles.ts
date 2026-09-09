@@ -290,9 +290,9 @@ export const ARTICLES: Article[] = [
         cta: {
             title: 'לא בטוחים מאיזה Quick Win להתחיל בעסק שלכם?',
             description: 'אין צורך לדעת מראש איזו אוטומציה לבנות. מספיק להגדיר מה חוזר על עצמו בעסק, איפה לידים מתפספסים ומה גוזל הכי הרבה זמן – וצוות AltruBiz יסייע באפיון ה-Quick Win המדויק שיתחיל לעבוד עבור העסק כבר השבוע.',
-            buttonText: 'שיחת התייעצות קצרה וללא התחייבות',
+            buttonText: 'קביעת פגישה: איך זה יכול לעבוד אצלכם בעסק',
             buttonLink: '/#contact',
-            whatsappText: 'דברו איתנו ישירות בוואטסאפ'
+            whatsappText: 'שלום צוות AltruBiz, קראתי את המאמר על Quick Wins ואשמח לבדוק איך זה יכול לעבוד אצלנו בעסק'
         },
         sections: [
             {
@@ -543,10 +543,10 @@ export const ARTICLES: Article[] = [
         interactiveTheme: true,
         cta: {
             title: 'רוצים לבנות תהליך קליטת לידים מושלם ב-AltruBiz?',
-            description: 'תוך 15 דקות תוכלו לחבר מענה מיידי בוואטסאפ, התראה ישירה לטלפון שלכם ויומן פגישות דיגיטלי שמקדם לקוחות גם כשאתם לא פנויים.',
-            buttonText: 'להתחלת עבודה עם AltruBiz',
-            buttonLink: '/#pricing',
-            whatsappText: 'היי, קראתי את המדריך על 5 הדקות הראשונות של הליד ואשמח ליישם את זה אצלנו'
+            description: 'תוך 15 דקות תוכלו לחבר מענה מיידי בוואטסאפ, התראה ישירה לטלפון ויומן פגישות דיגיטלי שמקדם לקוחות גם כשאתם לא פנויים.',
+            buttonText: 'קביעת פגישה: איך זה יכול לעבוד אצלכם בעסק',
+            buttonLink: '/#contact',
+            whatsappText: 'שלום צוות AltruBiz, קראתי את המדריך על 5 הדקות הראשונות של הליד ואשמח לבדוק איך זה יכול לעבוד אצלנו בעסק'
         },
         sections: [
             {
@@ -809,9 +809,9 @@ export const ARTICLES: Article[] = [
         cta: {
             title: 'רוצים להפסיק לאבד שיחות שלא נענו בעסק?',
             description: 'ב-AltruBiz CRM תוכלו להגדיר תגובת וואטסאפ מיידית לשיחה שלא נענתה, לתאם פגישות ביומן ולסגור את החור הזה עוד היום.',
-            buttonText: 'להתחלת עבודה עם AltruBiz',
-            buttonLink: '/#pricing',
-            whatsappText: 'היי, קראתי את המדריך על שיחות שלא נענו ואשמח ליישם Missed Call Text Back אצלנו'
+            buttonText: 'קביעת פגישה: איך זה יכול לעבוד אצלכם בעסק',
+            buttonLink: '/#contact',
+            whatsappText: 'שלום צוות AltruBiz, קראתי את המדריך על שיחות שלא נענו ואשמח לבדוק איך זה יכול לעבוד אצלנו בעסק'
         },
         sections: [
             {
@@ -1072,9 +1072,9 @@ export const ARTICLES: Article[] = [
         cta: {
             title: 'רוצים לראות את תהליך המכירה שלכם במקום לנחש בטבלאות?',
             description: 'ב-AltruBiz CRM תוכלו להקים פייפליין מותאם אישית ב-10 דקות, להעביר את הלידים הפעילים ולדעת תמיד למי חוזרים היום.',
-            buttonText: 'להתחלת עבודה עם AltruBiz',
-            buttonLink: '/#pricing',
-            whatsappText: 'היי, קראתי את המדריך על מעבר מאקסל לפייפליין ואשמח להתייעץ לגבי העסק שלנו'
+            buttonText: 'קביעת פגישה: איך זה יכול לעבוד אצלכם בעסק',
+            buttonLink: '/#contact',
+            whatsappText: 'שלום צוות AltruBiz, קראתי את המדריך על מעבר מאקסל לפייפליין ואשמח לבדוק איך זה יכול לעבוד אצלנו בעסק'
         },
         sections: [
             {
@@ -1319,8 +1319,8 @@ export const ARTICLES: Article[] = [
         dateModified: '2026-09-09',
         readTime: '9 דקות קריאה',
         author: {
-            name: 'דורי',
-            role: 'מייסד AltruBiz | מומחה סיסטם, CRM ואוטומציה עסקית'
+            name: 'צוות AltruBiz',
+            role: 'מומחי מערכות CRM ואוטומציה עסקית'
         },
         canonicalUrl: 'https://altrubiz.co.il/articles/business-memory-crm-guide',
         markdownUrl: 'https://altrubiz.co.il/articles/business-memory-crm-guide.md',
@@ -1336,9 +1336,9 @@ export const ARTICLES: Article[] = [
         cta: {
             title: 'רוצים שהעסק שלכם יזכור כל לקוח וכל פרט?',
             description: 'בואו להפוך את AltruBiz לזיכרון המרכזי של העסק: כרטיס לקוח חכם, סיכומי שיחות אוטומטיים ושקט נפשי מלא גם כשהצוות בחופש.',
-            buttonText: 'להתחלת התנסות חינם ב-AltruBiz',
-            buttonLink: '/#pricing',
-            whatsappText: 'היי דורי, קראתי את המאמר על הזיכרון של העסק ואשמח לשמוע איך AltruBiz שומרת על הידע אצלנו'
+            buttonText: 'קביעת פגישה: איך זה יכול לעבוד אצלכם בעסק',
+            buttonLink: '/#contact',
+            whatsappText: 'שלום צוות AltruBiz, קראתי את המאמר על הזיכרון של העסק ואשמח לבדוק איך זה יכול לעבוד אצלנו בעסק'
         },
         sections: [
             {
@@ -1492,7 +1492,7 @@ export const ARTICLES: Article[] = [
                 content: [
                     'יש עוד סוג של ידע שנתקע אצל אנשים: איך העסק עובד.',
                     'איך מזכים לקוח? איך פותחים פרויקט? מה עושים אם תשלום נכשל? איך משנים פגישה? איזו חבילה כוללת מה? איך מטפלים בתלונה? מה מדיניות הביטול?',
-                    'אם כל שאלה כזאת מגיעה לאותו אדם: "רונית, איך עושים...?" – רונית היא לא רק עובדת. רונית היא מנוע חיפוש. וזה לא Scale.',
+                    'אם כל שאלה כזאת מגעיה לאותו אדם: "רונית, איך עושים...?" – רונית היא לא רק עובדת. רונית היא מנוע חיפוש. וזה לא Scale.',
                     'Knowledge Base טוב מאפשר להפוך ידע שחוזר על עצמו למשהו שאפשר למצוא. ואז אפשר להשתמש בו פעמיים: לעובדים, וללקוחות. ואפילו שלוש פעמים: גם AI יכול להשתמש בידע מסודר כדי לתת תשובות טובות יותר.'
                 ]
             },
@@ -1590,8 +1590,8 @@ export const ARTICLES: Article[] = [
         dateModified: '2026-09-09',
         readTime: '7 דקות קריאה',
         author: {
-            name: 'דורי',
-            role: 'מומחה מערכות CRM ואוטומציה עסקית'
+            name: 'צוות AltruBiz',
+            role: 'מומחי מערכות CRM ואוטומציה עסקית'
         },
         canonicalUrl: 'https://altrubiz.co.il/articles/lead-reactivation-guide',
         markdownUrl: 'https://altrubiz.co.il/articles/lead-reactivation-guide.md',
@@ -1607,8 +1607,9 @@ export const ARTICLES: Article[] = [
         cta: {
             title: 'רוצים להחזיר לחיים עשרות לידים שמחכים באקסל?',
             description: 'בואו לבנות תהליך Reactivation אוטומטי ומסודר ב-AltruBiz CRM ולהפוך לידים רדומים לעסקאות סגורות.',
-            buttonText: 'להתחלת התנסות חינם ב-AltruBiz',
-            buttonLink: '/#pricing'
+            buttonText: 'קביעת פגישה: איך זה יכול לעבוד אצלכם בעסק',
+            buttonLink: '/#contact',
+            whatsappText: 'שלום צוות AltruBiz, קראתי את המאמר על החייאת לידים ואשמח לבדוק איך זה יכול לעבוד אצלנו בעסק'
         },
         sections: [
             {
@@ -1806,8 +1807,8 @@ export const ARTICLES: Article[] = [
         dateModified: '2026-09-09',
         readTime: '7 דקות קריאה',
         author: {
-            name: 'דורי',
-            role: 'מומחה מערכות CRM ואוטומציה עסקית'
+            name: 'צוות AltruBiz',
+            role: 'מומחי מערכות CRM ואוטומציה עסקית'
         },
         canonicalUrl: 'https://altrubiz.co.il/articles/follow-up-tasks-crm-guide',
         markdownUrl: 'https://altrubiz.co.il/articles/follow-up-tasks-crm-guide.md',
@@ -1823,8 +1824,9 @@ export const ARTICLES: Article[] = [
         cta: {
             title: 'רוצים להפסיק לזכור הכל בראש ולישון בשקט?',
             description: 'בואו לרכז את כל הפולואפים והמשימות במקום אחד מסודר ב-AltruBiz CRM, כדי שאף לקוח לא יישכח לעולם.',
-            buttonText: 'להתחלת התנסות חינם ב-AltruBiz',
-            buttonLink: '/#pricing'
+            buttonText: 'קביעת פגישה: איך זה יכול לעבוד אצלכם בעסק',
+            buttonLink: '/#contact',
+            whatsappText: 'שלום צוות AltruBiz, קראתי את המאמר על ניהול פולואפ ומשימות ואשמח לבדוק איך זה יכול לעבוד אצלנו בעסק'
         },
         sections: [
             {
@@ -2012,8 +2014,8 @@ export const ARTICLES: Article[] = [
         dateModified: '2026-09-09',
         readTime: '6 דקות קריאה',
         author: {
-            name: 'דורי',
-            role: 'מומחה מערכות CRM ואוטומציה עסקית'
+            name: 'צוות AltruBiz',
+            role: 'מומחי מערכות CRM ואוטומציה עסקית'
         },
         canonicalUrl: 'https://altrubiz.co.il/articles/automated-meeting-scheduling-guide',
         markdownUrl: 'https://altrubiz.co.il/articles/automated-meeting-scheduling-guide.md',
@@ -2029,8 +2031,9 @@ export const ARTICLES: Article[] = [
         cta: {
             title: 'רוצים לחסוך 50 שעות בשנה על תיאום פגישות?',
             description: 'בואו לחבר יומן פגישות דיגיטלי וחכם ל-AltruBiz CRM, לשלוח קישור זמינות אישי ולסגור פגישות בלי מאמץ.',
-            buttonText: 'להתחלת התנסות חינם ב-AltruBiz',
-            buttonLink: '/#pricing'
+            buttonText: 'קביעת פגישה: איך זה יכול לעבוד אצלכם בעסק',
+            buttonLink: '/#contact',
+            whatsappText: 'שלום צוות AltruBiz, קראתי את המאמר על תיאום פגישות חכם ואשמח לבדוק איך זה יכול לעבוד אצלנו בעסק'
         },
         sections: [
             {
@@ -2218,8 +2221,8 @@ export const ARTICLES: Article[] = [
         dateModified: '2026-09-09',
         readTime: '8 דקות קריאה',
         author: {
-            name: 'דורי',
-            role: 'מומחה מערכות CRM ואוטומציה עסקית'
+            name: 'צוות AltruBiz',
+            role: 'מומחי מערכות CRM ואוטומציה עסקית'
         },
         canonicalUrl: 'https://altrubiz.co.il/articles/crm-duplicate-contacts-prevention-guide',
         markdownUrl: 'https://altrubiz.co.il/articles/crm-duplicate-contacts-prevention-guide.md',
@@ -2235,8 +2238,9 @@ export const ARTICLES: Article[] = [
         cta: {
             title: 'רוצים להבטיח דאטה נקייה וכרטיס אחד לכל לקוח?',
             description: 'בואו להגדיר כללי זיהוי חכמים ומניעת כפילויות ב-AltruBiz CRM, וליהנות מתמונת לקוח שלמה ומדויקת.',
-            buttonText: 'להתחלת התנסות חינם ב-AltruBiz',
-            buttonLink: '/#pricing'
+            buttonText: 'קביעת פגישה: איך זה יכול לעבוד אצלכם בעסק',
+            buttonLink: '/#contact',
+            whatsappText: 'שלום צוות AltruBiz, קראתי את המאמר על מניעת כפילויות ואשמח לבדוק איך זה יכול לעבוד אצלנו בעסק'
         },
         sections: [
             {
@@ -2444,8 +2448,8 @@ export const ARTICLES: Article[] = [
         dateModified: '2026-09-09',
         readTime: '9 דקות קריאה',
         author: {
-            name: 'דורי',
-            role: 'מומחה מערכות CRM ואוטומציה עסקית'
+            name: 'צוות AltruBiz',
+            role: 'מומחי מערכות CRM ואוטומציה עסקית'
         },
         canonicalUrl: 'https://altrubiz.co.il/articles/crm-adoption-thursday-test-guide',
         markdownUrl: 'https://altrubiz.co.il/articles/crm-adoption-thursday-test-guide.md',
@@ -2461,8 +2465,9 @@ export const ARTICLES: Article[] = [
         cta: {
             title: 'רוצים להטמיע CRM שהצוות שלכם יאהב לעבוד איתו?',
             description: 'בואו להכיר מערכת פשוטה, ברורה וממוקדת תוצאות ב-AltruBiz CRM – בלי סרבול ובלי לחזור לאקסל ביום חמישי.',
-            buttonText: 'להתחלת התנסות חינם ב-AltruBiz',
-            buttonLink: '/#pricing'
+            buttonText: 'קביעת פגישה: איך זה יכול לעבוד אצלכם בעסק',
+            buttonLink: '/#contact',
+            whatsappText: 'שלום צוות AltruBiz, קראתי את המאמר על הטמעת CRM ואשמח לבדוק איך זה יכול לעבוד אצלנו בעסק'
         },
         sections: [
             {
@@ -2683,8 +2688,8 @@ export const ARTICLES: Article[] = [
         dateModified: '2026-09-09',
         readTime: '9 דקות',
         author: {
-            name: 'דורי',
-            role: 'מייסד AltruBiz | מומחה סיסטם, CRM ואוטומציה עסקית'
+            name: 'צוות AltruBiz',
+            role: 'מומחי מערכות CRM ואוטומציה עסקית'
         },
         canonicalUrl: 'https://altrubiz.co.il/articles/customer-reviews-reputation-crm-guide',
         markdownUrl: 'https://altrubiz.co.il/articles/customer-reviews-reputation-crm-guide.md',
@@ -2700,9 +2705,9 @@ export const ARTICLES: Article[] = [
         cta: {
             title: 'רוצים שכל לקוח מרוצה יקבל בקשת ביקורת ברגע המדויק?',
             description: 'עם AltruBiz CRM מחברים את סיום השירות או הפרויקט לשליחת הודעת וואטסאפ אישית וידידותית עם קישור ישיר לביקורת בגוגל – באפס מאמץ ידני.',
-            buttonText: 'להפעלת מנגנון ביקורות ב-AltruBiz',
-            buttonLink: '/#pricing',
-            whatsappText: 'היי דורי, קראתי את המאמר על מנגנון הביקורות ואשמח לחבר את AltruBiz לאיסוף ביקורות בעסק'
+            buttonText: 'קביעת פגישה: איך זה יכול לעבוד אצלכם בעסק',
+            buttonLink: '/#contact',
+            whatsappText: 'שלום צוות AltruBiz, קראתי את המאמר על מנגנון הביקורות ואשמח לבדוק איך זה יכול לעבוד אצלנו בעסק'
         },
         sections: [
             {
@@ -2958,8 +2963,8 @@ export const ARTICLES: Article[] = [
         dateModified: '2026-09-09',
         readTime: '8 דקות קריאה',
         author: {
-            name: 'דורי',
-            role: 'מייסד AltruBiz | מומחה סיסטם, CRM ואוטומציה עסקית'
+            name: 'צוות AltruBiz',
+            role: 'מומחי מערכות CRM ואוטומציה עסקית'
         },
         canonicalUrl: 'https://altrubiz.co.il/articles/preventing-meeting-no-shows-guide',
         markdownUrl: 'https://altrubiz.co.il/articles/preventing-meeting-no-shows-guide.md',
@@ -2975,9 +2980,9 @@ export const ARTICLES: Article[] = [
         cta: {
             title: 'רוצים להבטיח שפגישות שנקבעות ביומן באמת יתקיימו?',
             description: 'עם AltruBiz CRM מחברים את יומן הפגישות לאישור מיידי, תזכורות WhatsApp מתוזמנות, שינוי מועד עצמאי ו-Recovery אוטומטי במקרה של היעדרות.',
-            buttonText: 'להפעלת מנגנון פגישות חכם ב-AltruBiz',
-            buttonLink: '/#pricing',
-            whatsappText: 'היי דורי, קראתי את המאמר על מניעת No-Show ואשמח לחבר את AltruBiz לניהול הפגישות בעסק'
+            buttonText: 'קביעת פגישה: איך זה יכול לעבוד אצלכם בעסק',
+            buttonLink: '/#contact',
+            whatsappText: 'שלום צוות AltruBiz, קראתי את המאמר על מניעת No-Show ואשמח לבדוק איך זה יכול לעבוד אצלנו בעסק'
         },
         sections: [
             {
