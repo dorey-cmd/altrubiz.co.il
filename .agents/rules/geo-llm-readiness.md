@@ -49,7 +49,7 @@ Every new or materially modified public/indexable page must satisfy the followin
 13. **Consistent Entity IDs**: All Schema entities must use stable URI identifiers (`#organization`, `#website`, `#software`, `#article`, `#breadcrumb`).
 14. **Breadcrumbs**: Hierarchical visual breadcrumbs on page and corresponding Schema `BreadcrumbList`.
 15. **Contextual Internal Links**: Descriptive anchor text linking back to related articles, home, or services (no vague "click here").
-16. **Author Attribution**: Clearly identified author/publisher with entity relationship (e.g. `צוות AltruBiz`, linked to Organization `#organization`).
+16. **Author Attribution**: Clearly identified author/publisher strictly at company/team entity level (`צוות AltruBiz`, `אנחנו`, `נציג של אלטרוביז`, `AltruBiz`, linked to Organization `#organization`). Never use individual personal names (strictly no `דורי` / Dori).
 17. **datePublished & dateModified**: Explicit ISO 8601 publication and modification timestamps on all editorial and article pages.
 18. **Clear Factual Statements**: Direct, unambiguous declarative statements suitable for quote and synthesis.
 19. **Extractable Answer Passages**: Self-contained answers to core questions positioned under clear headings.
@@ -59,7 +59,7 @@ Every new or materially modified public/indexable page must satisfy the followin
 23. **Accessibility**: RTL support (`dir="rtl"`, `lang="he"`), semantic HTML5 tags, high color contrast, accessible buttons, and ARIA labels.
 24. **Mobile Compatibility**: Fully responsive layout across all breakpoints (mobile, tablet, desktop).
 25. **Page Performance**: Fast load times, lightweight assets, lazy-loaded offscreen media.
-26. **Analytics & Conversion Integrity**: Preserve conversion CTAs (e.g. WhatsApp buttons, contact forms, pricing tables) without degrading speed or SEO.
+26. **Analytics & Conversion Integrity**: Preserve conversion CTAs centered on meeting scheduling to see how it can work in the business ("קביעת פגישה למטרת איך זה יכול לעבוד אצלכם בעסק"). When off-homepage, always trigger the styled popup `ContactModal` without disrupting reader context. Support direct WhatsApp inquiry to `צוות AltruBiz`.
 
 ---
 

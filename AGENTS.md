@@ -42,6 +42,28 @@ All image `alt` attributes must describe what the image represents in the contex
 
 ---
 
+## 2.3 Mandatory Brand Attribution Standard: Zero Personal Names (Strict "No Dori" Policy)
+All copywriting, metadata, authorships, guides, WhatsApp templates, and customer-facing materials must attribute expertise and communication strictly to the company/brand or team.
+- **Strict prohibition**: Never use the name `דורי` (or `Dori` / `בעלולי`) anywhere on the site, in articles, or in code. There is NO individual Dori attribution currently on the website.
+- **Mandatory brand phrasing**: Always attribute to:
+  - `צוות אלטרוביז` / `צוות AltruBiz` (e.g., in article author objects: `name: 'צוות AltruBiz'`, `role: 'מומחי מערכות CRM ואוטומציה עסקית'`)
+  - `אנחנו`
+  - `נציג של אלטרוביז` / `נציגי אלטרוביז`
+  - `אלטרוביז` / `AltruBiz`
+- **WhatsApp prefilled messages**: When crafting WhatsApp inquiry links, always address the team respectfully (e.g., `שלום צוות AltruBiz, קראתי את המאמר... ואשמח לבדוק איך זה יכול לעבוד אצלנו בעסק`).
+
+---
+
+## 2.4 Mandatory Call to Action (CTA) Standard: Meeting Scheduling & Lead Modal
+The primary conversion goal of every article, guide, and informational page across the site is booking an introductory/fit meeting or leaving details:
+- **Core CTA Theme**: **קביעת פגישה למטרת איך זה יכול לעבוד אצלכם בעסק** (or "בדיקת התאמה לעסק שלכם", "יצירת קשר והשארת פרטים").
+- **Behavioral UX Rule (Off-Homepage vs. Homepage)**:
+  - **When NOT on the homepage** (e.g. in articles, about page, or other subpages): clicking any contact or meeting CTA button must open the styled modal popup ([`ContactModal.tsx`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/src/components/common/ContactModal.tsx)), which embeds the official homepage lead capture form (`https://link.altrubiz.co.il/widget/form/QAHIbtkoD9k8JUIs8uKD`). This preserves reader flow and prevents disruptive page reloads or harsh redirects.
+  - **When on the homepage**: clicking the CTA smoothly scrolls down to `#contact` (the in-page lead capture form section).
+- **Secondary CTA**: Direct WhatsApp consultation (`"התייעצות מהירה בוואטסאפ"` with prefilled message to `צוות AltruBiz`).
+
+---
+
 ## 3. Route & Page Creation Architecture (Single Source of Truth)
 
 ### Adding a Static Page:
@@ -73,6 +95,7 @@ All image `alt` attributes must describe what the image represents in the contex
 - [`src/components/common/Breadcrumbs.tsx`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/src/components/common/Breadcrumbs.tsx): Visual and semantic breadcrumb navigation.
 - [`src/components/common/AuthorBox.tsx`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/src/components/common/AuthorBox.tsx): E-E-A-T standardized author card.
 - [`src/components/common/AnswerBox.tsx`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/src/components/common/AnswerBox.tsx): Highlighted, self-contained answer passage for LLMs.
+- [`src/components/common/ContactModal.tsx`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/src/components/common/ContactModal.tsx): Styled meeting scheduling & lead capture modal popup.
 - [`src/components/articles/ArticlePage.tsx`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/src/components/articles/ArticlePage.tsx): Dynamic article layout.
 
 ---

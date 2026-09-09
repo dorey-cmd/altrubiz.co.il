@@ -113,12 +113,20 @@ for (const art of articlesList) {
         reportPass(`Article "${art.slug}" has valid description (${art.description.length} chars)`);
     }
 
-    // Check author attribution
+    // Check author attribution (Must be brand/team, strictly forbidden: "דורי")
     const authorName = typeof art.author === 'object' ? art.author?.name : art.author;
     if (authorName) {
-        reportPass(`Article "${art.slug}" author declared: "${authorName}"`);
+        if (authorName.includes('דורי') || authorName.toLowerCase().includes('dori')) {
+            reportFail(`Article "${art.slug}" contains forbidden personal name in author: "${authorName}". Must be brand/team attribution (e.g. "צוות AltruBiz")!`, true);
+        } else {
+            reportPass(`Article "${art.slug}" author declared: "${authorName}"`);
+        }
     } else {
         reportFail(`Article "${art.slug}" is missing author attribution!`, true);
+    }
+
+    if (art.cta?.whatsappText && (art.cta.whatsappText.includes('דורי') || art.cta.whatsappText.toLowerCase().includes('dori'))) {
+        reportFail(`Article "${art.slug}" cta.whatsappText contains forbidden personal name "דורי"!`, true);
     }
 
     // Check dates

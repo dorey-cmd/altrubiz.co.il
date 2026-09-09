@@ -9,4 +9,6 @@ See [AGENTS.md](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/AGENTS.md) 
 4. **LLM Mirrors**: When creating or modifying articles, run `npm run articles:sync-md` (or run `npm run build` which runs it automatically).
 5. **Always Unisex Phrasing**: All copy, buttons, and UI must be naturally gender-neutral without slashes (no `קרא/י` etc.). See [`.agents/rules/unisex-copy-standard.md`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/rules/unisex-copy-standard.md).
 6. **Always Business-Oriented Alt-Texts**: Never describe image art mediums (no `פלסטלינה`, `איור` וכו'). Alt texts must faithfully reflect search terms, business situations, or CRM mechanisms.
+7. **Strict Brand Attribution (No Personal Names)**: Never mention `דורי`, `Dori`, or individual person names. Strictly use `צוות אלטרוביז` / `צוות AltruBiz`, `אנחנו`, `נציג של אלטרוביז`, `אלטרוביז` / `AltruBiz`.
+8. **Standardized CTA & ContactModal**: The primary CTA is "קביעת פגישה למטרת איך זה יכול לעבוד אצלכם בעסק". When off the homepage, contact/booking CTAs must always trigger the styled `ContactModal` popup without taking the user out of context.
 
