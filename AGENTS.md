@@ -33,6 +33,12 @@ All text, buttons, titles, calls to action, guides, and UI labels across the web
 - **Natural Hebrew phrasing**: Use infinitives (`להתחיל עכשיו`, `לקריאת המאמר`), nominal forms (`השארת פרטים`, `השוואת תכונות`), impersonal expressions (`מה אפשר לעשות עכשיו?`), or collective phrasing (`ברוכים הבאים`, `דברו איתנו`).
 - Full specification: [`.agents/rules/unisex-copy-standard.md`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/rules/unisex-copy-standard.md).
 
+---
+
+## 2.2 Mandatory Image Alt-Text Standard: Search-Intent & Business Context
+All image `alt` attributes must describe what the image represents in the context of user search intent, business pain points, or CRM solutions.
+- **Strict prohibition**: Never describe the artistic medium or styling (e.g. never write `פלסטלינה`, `איור תלת ממדי`, `דמות פלסטלינה`). The site is not about art mediums.
+- **Correct phrasing**: Describe the business situation or CRM mechanism (e.g., `לקוח שמצלצל ולא עונים לו בטלפון ומענה לשיחות שלא נענו ב-CRM`, `מעבר מניהול לידים באקסל לפייפליין מכירות חזותי`).
 
 ---
 
