@@ -5,7 +5,7 @@ slug: "automated-meeting-scheduling-guide"
 canonical_url: "https://altrubiz.co.il/articles/automated-meeting-scheduling-guide"
 published_date: "2026-09-09"
 modified_date: "2026-09-09"
-author: "דורי בעלולי"
+author: "דורי"
 category: "מדריכים ואוטומציה עסקית"
 tags: ["תיאום פגישות","יומן דיגיטלי","קביעת פגישות ב-CRM","חיסכון בזמן","AltruBiz CRM"]
 ---

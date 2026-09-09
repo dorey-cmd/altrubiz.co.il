@@ -5,7 +5,7 @@ slug: "preventing-meeting-no-shows-guide"
 canonical_url: "https://altrubiz.co.il/articles/preventing-meeting-no-shows-guide"
 published_date: "2026-09-09"
 modified_date: "2026-09-09"
-author: "דורי בעלולי"
+author: "דורי"
 category: "ניהול יומן ואוטומציה"
 tags: ["פגישות זום","מניעת No-Show","יומן דיגיטלי","תזכורות אוטומטיות","CRM","AltruBiz"]
 ---

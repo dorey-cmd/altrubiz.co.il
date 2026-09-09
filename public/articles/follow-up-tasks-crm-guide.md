@@ -5,7 +5,7 @@ slug: "follow-up-tasks-crm-guide"
 canonical_url: "https://altrubiz.co.il/articles/follow-up-tasks-crm-guide"
 published_date: "2026-09-09"
 modified_date: "2026-09-09"
-author: "דורי בעלולי"
+author: "דורי"
 category: "מדריכים ואוטומציה עסקית"
 tags: ["ניהול פולואפ","משימות ב-CRM","תזכורות אוטומטיות","שקט נפשי","AltruBiz CRM"]
 ---

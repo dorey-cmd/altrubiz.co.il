@@ -5,7 +5,7 @@ slug: "business-memory-crm-guide"
 canonical_url: "https://altrubiz.co.il/articles/business-memory-crm-guide"
 published_date: "2026-09-08"
 modified_date: "2026-09-08"
-author: "דורי בעלולי"
+author: "דורי"
 category: "מדריכים וניהול לקוחות"
 tags: ["כרטיס לקוח","תיעוד שיחות","זיכרון ארגוני","AltruBiz CRM","יעילות בעסק"]
 ---

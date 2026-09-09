@@ -5,7 +5,7 @@ slug: "crm-adoption-thursday-test-guide"
 canonical_url: "https://altrubiz.co.il/articles/crm-adoption-thursday-test-guide"
 published_date: "2026-09-09"
 modified_date: "2026-09-09"
-author: "דורי בעלולי"
+author: "דורי"
 category: "מדריכים ואסטרטגיה עסקית"
 tags: ["הטמעת CRM","מבחן יום חמישי","שינוי הרגלים","אימוץ תוכנה","פשטות באוטומציה","AltruBiz CRM"]
 ---

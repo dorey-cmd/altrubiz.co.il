@@ -1317,7 +1317,7 @@ export const ARTICLES: Article[] = [
         dateModified: '2026-09-08',
         readTime: '7 דקות קריאה',
         author: {
-            name: 'דורי בעלולי',
+            name: 'דורי',
             role: 'מומחה מערכות CRM ואוטומציה עסקית'
         },
         canonicalUrl: 'https://altrubiz.co.il/articles/business-memory-crm-guide',
@@ -1577,7 +1577,7 @@ export const ARTICLES: Article[] = [
         dateModified: '2026-09-09',
         readTime: '7 דקות קריאה',
         author: {
-            name: 'דורי בעלולי',
+            name: 'דורי',
             role: 'מומחה מערכות CRM ואוטומציה עסקית'
         },
         canonicalUrl: 'https://altrubiz.co.il/articles/lead-reactivation-guide',
@@ -1793,7 +1793,7 @@ export const ARTICLES: Article[] = [
         dateModified: '2026-09-09',
         readTime: '7 דקות קריאה',
         author: {
-            name: 'דורי בעלולי',
+            name: 'דורי',
             role: 'מומחה מערכות CRM ואוטומציה עסקית'
         },
         canonicalUrl: 'https://altrubiz.co.il/articles/follow-up-tasks-crm-guide',
@@ -1999,7 +1999,7 @@ export const ARTICLES: Article[] = [
         dateModified: '2026-09-09',
         readTime: '6 דקות קריאה',
         author: {
-            name: 'דורי בעלולי',
+            name: 'דורי',
             role: 'מומחה מערכות CRM ואוטומציה עסקית'
         },
         canonicalUrl: 'https://altrubiz.co.il/articles/automated-meeting-scheduling-guide',
@@ -2205,7 +2205,7 @@ export const ARTICLES: Article[] = [
         dateModified: '2026-09-09',
         readTime: '8 דקות קריאה',
         author: {
-            name: 'דורי בעלולי',
+            name: 'דורי',
             role: 'מומחה מערכות CRM ואוטומציה עסקית'
         },
         canonicalUrl: 'https://altrubiz.co.il/articles/crm-duplicate-contacts-prevention-guide',
@@ -2431,7 +2431,7 @@ export const ARTICLES: Article[] = [
         dateModified: '2026-09-09',
         readTime: '9 דקות קריאה',
         author: {
-            name: 'דורי בעלולי',
+            name: 'דורי',
             role: 'מומחה מערכות CRM ואוטומציה עסקית'
         },
         canonicalUrl: 'https://altrubiz.co.il/articles/crm-adoption-thursday-test-guide',
@@ -2670,7 +2670,7 @@ export const ARTICLES: Article[] = [
         dateModified: '2026-09-09',
         readTime: '9 דקות',
         author: {
-            name: 'דורי בעלולי',
+            name: 'דורי',
             role: 'מייסד AltruBiz | מומחה סיסטם, CRM ואוטומציה עסקית'
         },
         canonicalUrl: 'https://altrubiz.co.il/articles/customer-reviews-reputation-crm-guide',
@@ -2945,7 +2945,7 @@ export const ARTICLES: Article[] = [
         dateModified: '2026-09-09',
         readTime: '8 דקות קריאה',
         author: {
-            name: 'דורי בעלולי',
+            name: 'דורי',
             role: 'מייסד AltruBiz | מומחה סיסטם, CRM ואוטומציה עסקית'
         },
         canonicalUrl: 'https://altrubiz.co.il/articles/preventing-meeting-no-shows-guide',
