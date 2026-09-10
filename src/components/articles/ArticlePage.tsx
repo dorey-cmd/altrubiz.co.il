@@ -16,7 +16,9 @@ import {
     ChevronDown,
     Compass,
     X,
-    MessageCircle
+    MessageCircle,
+    Copy,
+    Quote
 } from 'lucide-react';
 import { Article, ArticleSection } from '../../data/articles';
 import { Button } from '../ui/Button';
@@ -26,10 +28,21 @@ import { SocialShareBar } from './SocialShareBar';
 interface ArticlePageProps {
     article: Article;
     onNavigate: (path: string) => void;
-    onOpenContactModal?: () => void;
+    onOpenContactModal?: (options?: {
+        title?: string;
+        subtitle?: string;
+        badge?: string;
+        whatsappPrefill?: string;
+    }) => void;
+    onOpenPricingModal?: () => void;
 }
 
-export const ArticlePage: React.FC<ArticlePageProps> = ({ article, onNavigate, onOpenContactModal }) => {
+export const ArticlePage: React.FC<ArticlePageProps> = ({ 
+    article, 
+    onNavigate, 
+    onOpenContactModal,
+    onOpenPricingModal 
+}) => {
     const [activeSectionId, setActiveSectionId] = useState<string>(article.sections[0]?.id || '');
     const [showMobileJump, setShowMobileJump] = useState(false);
     const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
@@ -150,6 +163,224 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({ article, onNavigate, o
     };
 
     const renderInlineCta = (inlineCta: NonNullable<ArticleSection['inlineCta']>) => {
+        const variant = inlineCta.variant || 'box';
+
+        // 1. Subtle Inline Strip / Banner (e.g. asking a question directly via WhatsApp or quick fit check)
+        if (variant === 'strip') {
+            const isWhatsApp = inlineCta.ctaType === 'whatsapp' || !inlineCta.ctaType;
+            return (
+                <div className="my-8 bg-gradient-to-r from-blue-50/90 via-indigo-50/50 to-slate-50 border border-blue-200/80 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xs">
+                    <div className="flex items-center gap-3.5">
+                        <div className="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center flex-shrink-0">
+                            {isWhatsApp ? <MessageCircle size={20} className="text-[#25D366]" /> : <Sparkles size={20} className="text-primary" />}
+                        </div>
+                        <div>
+                            <p className="text-slate-900 text-sm sm:text-base font-bold leading-snug">
+                                {inlineCta.title}
+                            </p>
+                            {inlineCta.description && (
+                                <p className="text-xs sm:text-sm text-slate-600 mt-0.5 font-normal">
+                                    {inlineCta.description}
+                                </p>
+                            )}
+                        </div>
+                    </div>
+
+                    <div className="flex items-center gap-2 flex-shrink-0 w-full sm:w-auto justify-end">
+                        {isWhatsApp ? (
+                            <a
+                                href={`https://wa.me/972544350000?text=${encodeURIComponent(
+                                    inlineCta.whatsappText || `שלום צוות AltruBiz, קראתי את המאמר "${article.title}" ואשמח להתייעץ.`
+                                )}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-slate-950 font-extrabold px-4 py-2.5 rounded-xl shadow-xs transition-all text-xs sm:text-sm"
+                            >
+                                <MessageCircle size={15} />
+                                <span>{inlineCta.buttonText || 'פנייה ישירה בוואטסאפ'}</span>
+                            </a>
+                        ) : (
+                            <Button
+                                variant="primary"
+                                size="sm"
+                                className="w-full sm:w-auto font-bold text-xs sm:text-sm px-4 py-2.5"
+                                onClick={() => {
+                                    if (onOpenContactModal) {
+                                        onOpenContactModal({
+                                            title: inlineCta.title,
+                                            subtitle: inlineCta.description,
+                                            badge: inlineCta.badge || 'בדיקת התאמה'
+                                        });
+                                    } else {
+                                        onNavigate('/#contact');
+                                    }
+                                }}
+                            >
+                                <span>{inlineCta.buttonText || 'בדיקת התאמה ←'}</span>
+                            </Button>
+                        )}
+                    </div>
+                </div>
+            );
+        }
+
+        // 2. Quote & Quick Share Card
+        if (variant === 'quote-share') {
+            const quoteText = inlineCta.quote || inlineCta.title;
+            const articleUrl = typeof window !== 'undefined' ? window.location.href : `https://altrubiz.co.il/articles/${article.slug}`;
+            const whatsappShareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(
+                `💡 "${quoteText}"\n\nמתוך המאמר: *${article.title}*\n${articleUrl}`
+            )}`;
+
+            return (
+                <div className="my-10 bg-gradient-to-br from-amber-50/90 via-orange-50/40 to-yellow-50/70 border-2 border-amber-200/90 rounded-3xl p-6 sm:p-7 shadow-sm">
+                    <div className="flex items-center justify-between gap-2 mb-3">
+                        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-200/80 text-amber-900 text-xs font-black">
+                            <Quote size={13} className="text-amber-800" />
+                            <span>{inlineCta.badge || 'תובנה ששווה לשתף'}</span>
+                        </div>
+                        <span className="text-[11px] text-slate-500 font-medium">שיתוף מהיר</span>
+                    </div>
+
+                    <blockquote className="text-slate-900 text-base sm:text-lg font-black leading-relaxed mb-3 italic">
+                        &quot;{quoteText}&quot;
+                    </blockquote>
+
+                    {inlineCta.description && (
+                        <p className="text-slate-700 text-xs sm:text-sm mb-5 leading-relaxed">
+                            {inlineCta.description}
+                        </p>
+                    )}
+
+                    <div className="flex flex-wrap items-center gap-3 pt-3 border-t border-amber-200/70">
+                        <a
+                            href={whatsappShareUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-slate-950 font-extrabold px-4 py-2.5 rounded-xl shadow-xs transition-all text-xs sm:text-sm"
+                        >
+                            <MessageCircle size={16} />
+                            <span>{inlineCta.buttonText || 'שיתוף בוואטסאפ'}</span>
+                        </a>
+
+                        <button
+                            type="button"
+                            onClick={async () => {
+                                try {
+                                    await navigator.clipboard.writeText(`${quoteText}\n\n${articleUrl}`);
+                                    alert('הציטוט והקישור הועתקו בהצלחה!');
+                                } catch {
+                                    // fallback
+                                }
+                            }}
+                            className="inline-flex items-center gap-1.5 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 font-bold px-3.5 py-2.5 rounded-xl transition-all text-xs sm:text-sm"
+                        >
+                            <Copy size={14} />
+                            <span>העתקת תובנה וקישור</span>
+                        </button>
+                    </div>
+                </div>
+            );
+        }
+
+        // 3. Prominent Editorial Text Callout / Link
+        if (variant === 'text-link') {
+            return (
+                <div className="my-8 bg-slate-50 hover:bg-blue-50/70 border-r-4 border-primary rounded-l-2xl p-4 sm:p-5 transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs">
+                    <div className="text-slate-800 text-sm sm:text-base">
+                        <span className="font-bold text-slate-900">{inlineCta.title} </span>
+                        {inlineCta.description && (
+                            <span className="text-slate-600 font-normal">{inlineCta.description}</span>
+                        )}
+                    </div>
+                    <button
+                        type="button"
+                        onClick={() => {
+                            if (inlineCta.ctaType === 'pricing') {
+                                if (onOpenPricingModal) onOpenPricingModal();
+                                else onNavigate('/#pricing');
+                            } else {
+                                if (onOpenContactModal) {
+                                    onOpenContactModal({
+                                        title: inlineCta.title,
+                                        subtitle: inlineCta.description,
+                                        badge: inlineCta.badge || 'בדיקת התאמה'
+                                    });
+                                } else {
+                                    onNavigate('/#contact');
+                                }
+                            }
+                        }}
+                        className="inline-flex items-center gap-1.5 text-primary hover:text-secondary font-black text-sm flex-shrink-0 transition-colors group cursor-pointer"
+                    >
+                        <span>{inlineCta.buttonText || 'לשיחת בדיקת התאמה ←'}</span>
+                        <ChevronLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
+                    </button>
+                </div>
+            );
+        }
+
+        // 4. Pricing Trigger Card (Transparency in pricing & subscription)
+        if (variant === 'pricing') {
+            return (
+                <div className="my-10 relative overflow-hidden bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-3xl p-6 sm:p-8 shadow-xl border border-indigo-500/30">
+                    <div className="absolute top-0 right-0 w-72 h-72 bg-primary/20 rounded-full blur-3xl pointer-events-none" />
+                    <div className="relative z-10">
+                        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-400/20 text-emerald-300 border border-emerald-400/40 text-xs font-black mb-3">
+                            <Sparkles size={14} className="text-emerald-400" />
+                            <span>{inlineCta.badge || 'שקיפות מלאה – חבילות ומחירים'}</span>
+                        </div>
+                        <h3 className="text-xl sm:text-2xl font-black mb-2 text-white leading-snug">
+                            {inlineCta.title}
+                        </h3>
+                        {inlineCta.description && (
+                            <p className="text-slate-300 text-sm sm:text-base leading-relaxed mb-6 max-w-2xl font-normal">
+                                {inlineCta.description}
+                            </p>
+                        )}
+                        <div className="flex flex-wrap items-center gap-3">
+                            <Button
+                                variant="primary"
+                                size="md"
+                                className="font-bold text-sm sm:text-base px-5 py-3 shadow-lg shadow-primary/30 flex items-center gap-2"
+                                onClick={() => {
+                                    if (onOpenPricingModal) {
+                                        onOpenPricingModal();
+                                    } else {
+                                        onNavigate('/#pricing');
+                                    }
+                                }}
+                            >
+                                <Zap size={16} className="fill-white" />
+                                <span>{inlineCta.buttonText || 'צפייה בחבילות ובמחירים (Popup)'}</span>
+                            </Button>
+
+                            <Button
+                                variant="secondary"
+                                size="md"
+                                className="font-bold text-sm sm:text-base px-4 py-3 bg-white/10 hover:bg-white/20 text-white border border-white/20 flex items-center gap-2"
+                                onClick={() => {
+                                    if (onOpenContactModal) {
+                                        onOpenContactModal({
+                                            title: 'קביעת שיחת התאמה: איך זה יכול לעבוד אצלכם בעסק',
+                                            subtitle: 'נשמח להכיר את הפעילות ולהתאים את המענה המדויק.',
+                                            badge: 'בדיקת התאמה'
+                                        });
+                                    } else {
+                                        onNavigate('/#contact');
+                                    }
+                                }}
+                            >
+                                <Calendar size={16} />
+                                <span>{inlineCta.secondaryButtonText || 'בדיקת התאמה לפעילות שלכם'}</span>
+                            </Button>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // 5. Rich In-Content Milestone Box (Default / 'box')
         return (
             <div className="my-10 relative overflow-hidden bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-3xl p-6 sm:p-8 shadow-xl border border-indigo-500/30">
                 <div className="absolute top-0 right-0 w-72 h-72 bg-primary/20 rounded-full blur-3xl pointer-events-none" />
@@ -163,9 +394,11 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({ article, onNavigate, o
                     <h3 className="text-xl sm:text-2xl font-black mb-2 text-white leading-snug">
                         {inlineCta.title}
                     </h3>
-                    <p className="text-slate-300 text-sm sm:text-base leading-relaxed mb-6 max-w-2xl">
-                        {inlineCta.description}
-                    </p>
+                    {inlineCta.description && (
+                        <p className="text-slate-300 text-sm sm:text-base leading-relaxed mb-6 max-w-2xl font-normal">
+                            {inlineCta.description}
+                        </p>
+                    )}
                     <div className="flex flex-wrap items-center gap-3">
                         <Button
                             variant="primary"
@@ -173,14 +406,18 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({ article, onNavigate, o
                             className="font-bold text-sm sm:text-base px-5 py-3 shadow-lg shadow-primary/30 flex items-center gap-2"
                             onClick={() => {
                                 if (onOpenContactModal) {
-                                    onOpenContactModal();
+                                    onOpenContactModal({
+                                        title: inlineCta.title,
+                                        subtitle: inlineCta.description,
+                                        badge: inlineCta.badge || 'קביעת פגישה'
+                                    });
                                 } else {
                                     onNavigate('/#contact');
                                 }
                             }}
                         >
                             <Calendar size={16} />
-                            <span>{inlineCta.buttonText}</span>
+                            <span>{inlineCta.buttonText || 'קביעת פגישה ביומן'}</span>
                         </Button>
 
                         <a
@@ -192,7 +429,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({ article, onNavigate, o
                             className="inline-flex items-center gap-2 bg-[#25D366]/20 hover:bg-[#25D366]/30 text-emerald-300 border border-emerald-500/40 hover:border-emerald-400 font-bold px-4 py-3 rounded-xl transition-all text-xs sm:text-sm"
                         >
                             <MessageCircle size={16} className="text-[#25D366]" />
-                            <span>התייעצות מהירה בוואטסאפ</span>
+                            <span>{inlineCta.secondaryButtonText || 'התייעצות מהירה בוואטסאפ'}</span>
                         </a>
                     </div>
                 </div>
@@ -936,6 +1173,21 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({ article, onNavigate, o
 
                                     <button
                                         type="button"
+                                        onClick={() => {
+                                            if (onOpenPricingModal) {
+                                                onOpenPricingModal();
+                                            } else {
+                                                onNavigate('/#pricing');
+                                            }
+                                        }}
+                                        className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white font-bold px-5 py-3.5 rounded-xl border border-white/20 transition-all text-base shadow-sm"
+                                    >
+                                        <Zap size={18} className="text-amber-400 fill-amber-400" />
+                                        <span>צפייה בחבילות ומחירים</span>
+                                    </button>
+
+                                    <button
+                                        type="button"
                                         onClick={() => onNavigate('/articles')}
                                         className="inline-flex items-center gap-2 text-white/80 hover:text-white px-5 py-3.5 rounded-xl border border-white/20 hover:border-white/40 transition-colors text-sm font-medium"
                                     >
@@ -1079,6 +1331,21 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({ article, onNavigate, o
                                         <MessageCircle size={14} className="text-[#25D366]" />
                                         <span>התייעצות בוואטסאפ</span>
                                     </a>
+
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                            if (onOpenPricingModal) {
+                                                onOpenPricingModal();
+                                            } else {
+                                                onNavigate('/#pricing');
+                                            }
+                                        }}
+                                        className="w-full text-center text-[11px] text-slate-400 hover:text-white pt-1.5 transition-colors font-medium flex items-center justify-center gap-1 cursor-pointer"
+                                    >
+                                        <Zap size={11} className="text-amber-400 fill-amber-400" />
+                                        <span>רוצים לבדוק חבילות ומחירים? לחצו כאן</span>
+                                    </button>
                                 </div>
                             </div>
                         </div>

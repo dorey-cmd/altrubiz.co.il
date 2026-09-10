@@ -6,6 +6,7 @@ interface ContactModalProps {
     onClose: () => void;
     title?: string;
     subtitle?: string;
+    badge?: string;
     whatsappPrefill?: string;
 }
 
@@ -14,6 +15,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({
     onClose,
     title = 'קביעת פגישה: איך זה יכול לעבוד אצלכם בעסק',
     subtitle = 'נשמח להכיר את הפעילות שלכם, להבין איפה מתבזבז זמן או איפה לידים מתפספסים, ולהראות איך AltruBiz מייצרת סדר ואוטומציה מותאמת.',
+    badge = 'תיאום שיחה ובדיקת התאמה',
     whatsappPrefill = 'שלום צוות AltruBiz, אשמח לתאם פגישה ולבדוק איך זה יכול לעבוד אצלנו בעסק'
 }) => {
     useEffect(() => {
@@ -62,7 +64,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({
                     <div className="space-y-1.5">
                         <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-blue-50 text-primary text-xs font-bold border border-blue-100">
                             <Sparkles size={13} className="text-amber-500" />
-                            <span>תיאום שיחה ובדיקת התאמה</span>
+                            <span>{badge}</span>
                         </div>
                         <h2 
                             id="contact-modal-title"

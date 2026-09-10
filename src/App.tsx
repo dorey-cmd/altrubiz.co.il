@@ -20,17 +20,40 @@ import { SEOHead } from './components/common/SEOHead'
 import { getArticleBySlug } from './data/articles'
 import { getRouteConfig } from './lib/routes'
 import { ContactModal } from './components/common/ContactModal'
+import { PricingModal } from './components/common/PricingModal'
+
+interface ContactModalOptions {
+    title?: string;
+    subtitle?: string;
+    badge?: string;
+    whatsappPrefill?: string;
+}
 
 function App() {
     const [path, setPath] = useState(window.location.pathname);
     const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+    const [contactModalOptions, setContactModalOptions] = useState<ContactModalOptions | null>(null);
+    const [isPricingModalOpen, setIsPricingModalOpen] = useState(false);
 
-    const handleOpenContactModal = useCallback(() => {
+    const handleOpenContactModal = useCallback((options?: ContactModalOptions) => {
+        if (options) {
+            setContactModalOptions(options);
+        } else {
+            setContactModalOptions(null);
+        }
         setIsContactModalOpen(true);
     }, []);
 
     const handleCloseContactModal = useCallback(() => {
         setIsContactModalOpen(false);
+    }, []);
+
+    const handleOpenPricingModal = useCallback(() => {
+        setIsPricingModalOpen(true);
+    }, []);
+
+    const handleClosePricingModal = useCallback(() => {
+        setIsPricingModalOpen(false);
     }, []);
 
     const handleNavigate = useCallback((targetPath: string) => {
@@ -111,6 +134,7 @@ function App() {
                         article={currentArticle} 
                         onNavigate={handleNavigate} 
                         onOpenContactModal={handleOpenContactModal}
+                        onOpenPricingModal={handleOpenPricingModal}
                     />
                 </main>
             ) : (
@@ -132,6 +156,19 @@ function App() {
             <ContactModal 
                 isOpen={isContactModalOpen} 
                 onClose={handleCloseContactModal} 
+                title={contactModalOptions?.title}
+                subtitle={contactModalOptions?.subtitle}
+                badge={contactModalOptions?.badge}
+                whatsappPrefill={contactModalOptions?.whatsappPrefill}
+            />
+            <PricingModal
+                isOpen={isPricingModalOpen}
+                onClose={handleClosePricingModal}
+                onOpenContactModal={() => handleOpenContactModal({
+                    title: 'קביעת שיחת התאמה לבחירת חבילה',
+                    subtitle: 'נשמח להכיר את הפעילות שלכם ולהתאים את החבילה והאוטומציות המדויקות ביותר.',
+                    badge: 'בדיקת התאמה לחבילה'
+                })}
             />
         </div>
     )

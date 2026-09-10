@@ -11,4 +11,5 @@ See [AGENTS.md](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/AGENTS.md) 
 6. **Always Business-Oriented Alt-Texts**: Never describe image art mediums (no `פלסטלינה`, `איור` וכו'). Alt texts must faithfully reflect search terms, business situations, or CRM mechanisms.
 7. **Strict Brand Attribution (No Personal Names)**: Never mention `דורי`, `Dori`, or individual person names. Strictly use `צוות אלטרוביז` / `צוות AltruBiz`, `אנחנו`, `נציג של אלטרוביז`, `אלטרוביז` / `AltruBiz`.
 8. **Standardized CTA & ContactModal**: The primary CTA is "קביעת פגישה למטרת איך זה יכול לעבוד אצלכם בעסק". When off the homepage, contact/booking CTAs must always trigger the styled `ContactModal` popup without taking the user out of context.
+9. **Strategic CTA Distribution (5-Tier Format)**: In long articles, strategically distribute varied CTAs (`strip`, `quote-share`, `text-link`, `pricing`, `box`) with at least 2 sections spacing. Never repeat identical CTAs. See [`.agents/rules/article-cta-standard.md`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/rules/article-cta-standard.md).
 

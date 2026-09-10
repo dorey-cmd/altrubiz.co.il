@@ -64,6 +64,18 @@ The primary conversion goal of every article, guide, and informational page acro
 
 ---
 
+## 2.5 Mandatory Strategic CTA Distribution Standard: 5-Tier Format
+All long articles and guides must strategically distribute varied, non-repetitive CTAs across the reading flow:
+1. `variant: 'strip'` (Subtle inline strip / banner): Early direct question via WhatsApp.
+2. `variant: 'quote-share'` (Quote & Share Bar): Middle milestone high-value quote with 1-click WhatsApp/link share.
+3. `variant: 'text-link'` (Prominent editorial text link): Pointing to a quick fit/consultation conversation without disruption.
+4. `variant: 'pricing'` (Pricing trigger card): Transparent pricing exploration opening the popup `PricingModal` without leaving the article.
+5. `variant: 'box'` (Rich milestone box): Meeting booking modal + WhatsApp.
+- **Rule of spacing**: At least 2 sections between any two CTAs.
+- Full specification: [`.agents/rules/article-cta-standard.md`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/rules/article-cta-standard.md).
+
+---
+
 ## 3. Route & Page Creation Architecture (Single Source of Truth)
 
 ### Adding a Static Page:
