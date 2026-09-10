@@ -18,9 +18,12 @@ import {
     X,
     MessageCircle,
     Copy,
-    Quote
+    Quote,
+    Layers,
+    ArrowLeft
 } from 'lucide-react';
 import { Article, ArticleSection } from '../../data/articles';
+import { getParentHubForArticle } from '../../data/knowledgeGraph';
 import { Button } from '../ui/Button';
 import { Breadcrumbs } from '../common/Breadcrumbs';
 import { SocialShareBar } from './SocialShareBar';
@@ -47,9 +50,12 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
     const [showMobileJump, setShowMobileJump] = useState(false);
     const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
 
+    const parentHub = getParentHubForArticle(article.slug);
+
     const breadcrumbItems = [
         { name: 'דף הבית', path: '/' },
-        { name: 'מרכז ידע ומאמרים', path: '/articles' },
+        { name: 'מרכז ידע', path: '/articles' },
+        ...(parentHub ? [{ name: parentHub.title, path: parentHub.url }] : []),
         { name: article.title, path: `/articles/${article.slug}` }
     ];
 
@@ -878,6 +884,17 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
 
             {/* Article Header */}
             <header className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+                {parentHub && (
+                    <div 
+                        onClick={() => onNavigate(parentHub.url)}
+                        className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold bg-amber-50 hover:bg-amber-100/90 text-amber-900 border border-amber-300/80 cursor-pointer transition-all mb-4 group shadow-2xs"
+                    >
+                        <Layers size={13} className="text-amber-600" />
+                        <span>שייך למרכז ידע ואבחון: <strong>{parentHub.title}</strong></span>
+                        <ArrowLeft size={13} className="text-amber-700 group-hover:translate-x-[-3px] transition-transform mr-1" />
+                    </div>
+                )}
+
                 <div className="flex flex-wrap items-center gap-2.5 mb-4">
                     <span className="px-3.5 py-1 text-xs font-semibold rounded-full bg-blue-100 text-primary border border-blue-200">
                         {article.category}
@@ -1185,6 +1202,17 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                         <Zap size={18} className="text-amber-400 fill-amber-400" />
                                         <span>צפייה בחבילות ומחירים</span>
                                     </button>
+
+                                    {parentHub && (
+                                        <button
+                                            type="button"
+                                            onClick={() => onNavigate(parentHub.url)}
+                                            className="inline-flex items-center gap-2 bg-amber-400 hover:bg-amber-300 text-slate-950 font-black px-5 py-3.5 rounded-xl transition-all text-sm sm:text-base shadow-sm"
+                                        >
+                                            <Layers size={16} />
+                                            <span>למרכז האבחון: {parentHub.title}</span>
+                                        </button>
+                                    )}
 
                                     <button
                                         type="button"

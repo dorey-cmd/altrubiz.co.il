@@ -5,9 +5,11 @@ import {
     ArrowLeft, 
     Sparkles, 
     Tag, 
-    FileText 
+    FileText,
+    Layers 
 } from 'lucide-react';
 import { ARTICLES, Article } from '../../data/articles';
+import { getAllHubs } from '../../data/knowledgeGraph';
 import { Breadcrumbs } from '../common/Breadcrumbs';
 
 interface ArticlesIndexProps {
@@ -29,6 +31,7 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate }) => {
     const [shuffledArticles] = useState<Article[]>(() => shuffleArray(ARTICLES));
     const [selectedCategory, setSelectedCategory] = useState<string>('all');
     const [searchQuery, setSearchQuery] = useState<string>('');
+    const hubs = getAllHubs();
 
     const breadcrumbItems = [
         { name: 'דף הבית', path: '/' },
@@ -96,6 +99,68 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate }) => {
                     )}
                 </div>
             </div>
+
+            {/* Knowledge Topology & Pain Hubs Showcase */}
+            {searchQuery === '' && selectedCategory === 'all' && hubs.length > 0 && (
+                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
+                    <div className="bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 rounded-3xl p-6 sm:p-10 text-white shadow-xl relative overflow-hidden border border-indigo-500/25">
+                        <div className="absolute top-0 right-0 w-96 h-96 bg-primary/20 rounded-full blur-3xl pointer-events-none" />
+                        <div className="relative z-10">
+                            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+                                <div>
+                                    <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/30 text-xs font-black mb-3">
+                                        <Layers size={14} />
+                                        <span>טופולוגיית ידע עסקית (Pain & Topic Hubs)</span>
+                                    </div>
+                                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-white">
+                                        באיזה אתגר עסקי נתמקד היום?
+                                    </h2>
+                                    <p className="text-slate-300 text-sm sm:text-base mt-2 max-w-2xl font-normal leading-relaxed">
+                                        במקום מאמרים מבודדים, הידע ב-AltruBiz מאורגן סביב בעיות עסקיות אמיתיות: אבחון מקיף, תסמינים בשטח, צעדים מעשיים ופתרונות מערכתיים.
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* Hubs Cards Grid */}
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                {hubs.map((hub) => (
+                                    <div 
+                                        key={hub.slug}
+                                        onClick={() => onNavigate(hub.url)}
+                                        className="group bg-white/10 hover:bg-white/[0.16] border border-white/15 hover:border-amber-400/60 rounded-2xl p-6 transition-all duration-300 cursor-pointer flex flex-col justify-between backdrop-blur-md shadow-sm hover:shadow-2xl hover:-translate-y-1"
+                                    >
+                                        <div>
+                                            <div className="flex items-center justify-between gap-2 mb-3.5">
+                                                <span className={`text-[11px] font-bold px-3 py-1 rounded-full ${
+                                                    hub.nodeType === 'pain_hub' 
+                                                        ? 'bg-rose-500/25 text-rose-200 border border-rose-400/40' 
+                                                        : 'bg-emerald-500/25 text-emerald-200 border border-emerald-400/40'
+                                                }`}>
+                                                    {hub.nodeType === 'pain_hub' ? 'מרכז אבחון כאב עסקי' : 'מדריך מקיף וקונספט ידע (Micro Hub)'}
+                                                </span>
+                                                <span className="text-xs text-slate-300 font-medium">
+                                                    {hub.relatedArticleSlugs?.length || 5} מאמרים מקושרים
+                                                </span>
+                                            </div>
+                                            <h3 className="text-lg sm:text-xl font-black text-white group-hover:text-amber-300 transition-colors mb-2 leading-snug">
+                                                {hub.title}
+                                            </h3>
+                                            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed line-clamp-3 mb-4 font-normal">
+                                                {hub.description}
+                                            </p>
+                                        </div>
+
+                                        <div className="pt-4 border-t border-white/10 flex items-center justify-between text-xs sm:text-sm font-bold text-amber-300 group-hover:text-amber-200">
+                                            <span>כניסה למרכז האבחון והפתרון</span>
+                                            <ArrowLeft size={16} className="group-hover:translate-x-[-4px] transition-transform" />
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {/* Articles Grid / List */}
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
