@@ -119,6 +119,10 @@ function buildMarkdownFromArticle(article) {
                 }
                 parts.push('');
             }
+
+            if (section.inlineCta) {
+                parts.push(`> 🎯 **${section.inlineCta.title}**\n> ${section.inlineCta.description}\n> [${section.inlineCta.buttonText}](https://altrubiz.co.il/#contact)\n`);
+            }
         }
     }
 

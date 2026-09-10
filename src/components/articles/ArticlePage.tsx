@@ -149,6 +149,57 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({ article, onNavigate, o
         );
     };
 
+    const renderInlineCta = (inlineCta: NonNullable<ArticleSection['inlineCta']>) => {
+        return (
+            <div className="my-10 relative overflow-hidden bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-3xl p-6 sm:p-8 shadow-xl border border-indigo-500/30">
+                <div className="absolute top-0 right-0 w-72 h-72 bg-primary/20 rounded-full blur-3xl pointer-events-none" />
+                <div className="relative z-10">
+                    {inlineCta.badge && (
+                        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/40 text-xs font-black mb-3">
+                            <Sparkles size={14} />
+                            <span>{inlineCta.badge}</span>
+                        </div>
+                    )}
+                    <h3 className="text-xl sm:text-2xl font-black mb-2 text-white leading-snug">
+                        {inlineCta.title}
+                    </h3>
+                    <p className="text-slate-300 text-sm sm:text-base leading-relaxed mb-6 max-w-2xl">
+                        {inlineCta.description}
+                    </p>
+                    <div className="flex flex-wrap items-center gap-3">
+                        <Button
+                            variant="primary"
+                            size="md"
+                            className="font-bold text-sm sm:text-base px-5 py-3 shadow-lg shadow-primary/30 flex items-center gap-2"
+                            onClick={() => {
+                                if (onOpenContactModal) {
+                                    onOpenContactModal();
+                                } else {
+                                    onNavigate('/#contact');
+                                }
+                            }}
+                        >
+                            <Calendar size={16} />
+                            <span>{inlineCta.buttonText}</span>
+                        </Button>
+
+                        <a
+                            href={`https://wa.me/972544350000?text=${encodeURIComponent(
+                                inlineCta.whatsappText || `שלום צוות AltruBiz, קראתי את המאמר "${article.title}" ואשמח לבדוק איך זה יכול לעבוד אצלנו בעסק`
+                            )}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 bg-[#25D366]/20 hover:bg-[#25D366]/30 text-emerald-300 border border-emerald-500/40 hover:border-emerald-400 font-bold px-4 py-3 rounded-xl transition-all text-xs sm:text-sm"
+                        >
+                            <MessageCircle size={16} className="text-[#25D366]" />
+                            <span>התייעצות מהירה בוואטסאפ</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        );
+    };
+
     const renderSection = (section: ArticleSection, idx: number) => {
         // Special styling for legal & policy liability sections
         const isDarkPolicy = section.id.includes('liability') || section.id.includes('policy-and-liability');
@@ -376,6 +427,9 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({ article, onNavigate, o
                         </div>
                     ) : null}
 
+                    {/* Inline Contextual CTA */}
+                    {section.inlineCta && renderInlineCta(section.inlineCta)}
+
                     {/* Return link to TOC */}
                     <div className="flex justify-end pt-2">
                         <a 
@@ -544,6 +598,9 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({ article, onNavigate, o
 
                 {/* Section Callout if not negative list */}
                 {section.callout && !isNegativeList && renderCallout(section.callout)}
+
+                {/* Inline Contextual CTA */}
+                {section.inlineCta && renderInlineCta(section.inlineCta)}
 
                 {/* External policy links for official resources section */}
                 {section.id.includes('official') && (
@@ -979,6 +1036,52 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({ article, onNavigate, o
                                 </button>
                             </div>
                         </nav>
+
+                        {/* Sticky Desktop Sidebar CTA Card */}
+                        <div className="bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 text-white rounded-3xl p-5 shadow-xl border border-slate-800 relative overflow-hidden">
+                            <div className="absolute top-0 right-0 w-36 h-36 bg-primary/25 rounded-full blur-2xl pointer-events-none" />
+                            <div className="relative z-10 space-y-2.5">
+                                <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/30 text-[11px] font-bold">
+                                    <Sparkles size={12} />
+                                    <span>בדיקת התאמה לעסק</span>
+                                </div>
+                                <h4 className="font-extrabold text-sm text-white leading-snug">
+                                    רוצים לראות איך זה עובד אצלכם?
+                                </h4>
+                                <p className="text-xs text-slate-300 leading-relaxed">
+                                    נמפה תהליך אחד בעסק ונראה איך לפשט אותו עם AltruBiz CRM.
+                                </p>
+                                <div className="pt-1 space-y-2">
+                                    <Button
+                                        variant="primary"
+                                        size="sm"
+                                        className="w-full font-bold text-xs py-2.5 shadow-md shadow-primary/25 flex items-center justify-center gap-1.5"
+                                        onClick={() => {
+                                            if (onOpenContactModal) {
+                                                onOpenContactModal();
+                                            } else {
+                                                onNavigate('/#contact');
+                                            }
+                                        }}
+                                    >
+                                        <Calendar size={14} />
+                                        <span>קביעת פגישה לבדיקת התאמה</span>
+                                    </Button>
+                                    <a
+                                        href={article.cta?.whatsappText 
+                                            ? `https://wa.me/972544350000?text=${encodeURIComponent(article.cta.whatsappText)}`
+                                            : `https://wa.me/972544350000?text=${encodeURIComponent(`שלום צוות AltruBiz, קראתי את המאמר "${article.title}" ואשמח לבדוק איך זה יכול לעבוד אצלנו בעסק`)}`
+                                        }
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="w-full flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-slate-200 border border-white/10 text-xs font-semibold transition-colors"
+                                    >
+                                        <MessageCircle size={14} className="text-[#25D366]" />
+                                        <span>התייעצות בוואטסאפ</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                     </aside>
 
                 </div>
@@ -1076,13 +1179,29 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({ article, onNavigate, o
                             )}
                         </div>
 
-                        <div className="pt-3 border-t border-slate-100">
+                        <div className="pt-3 border-t border-slate-100 space-y-2">
+                            <Button
+                                variant="primary"
+                                size="md"
+                                className="w-full font-bold text-xs sm:text-sm py-3 shadow-md shadow-primary/25 flex items-center justify-center gap-2"
+                                onClick={() => {
+                                    setIsMobileDrawerOpen(false);
+                                    if (onOpenContactModal) {
+                                        onOpenContactModal();
+                                    } else {
+                                        onNavigate('/#contact');
+                                    }
+                                }}
+                            >
+                                <Calendar size={16} />
+                                <span>קביעת פגישה לבדיקת התאמה</span>
+                            </Button>
                             <button
                                 onClick={() => {
                                     window.scrollTo({ top: 0, behavior: 'smooth' });
                                     setIsMobileDrawerOpen(false);
                                 }}
-                                className="w-full py-2.5 bg-slate-100 text-slate-700 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5"
+                                className="w-full py-2 bg-slate-100 text-slate-700 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5"
                             >
                                 <ArrowUp size={14} />
                                 <span>חזרה לראש המאמר</span>
