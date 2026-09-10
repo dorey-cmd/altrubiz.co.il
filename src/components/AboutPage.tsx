@@ -56,131 +56,149 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onOpenContactM
                         <span>מה אנחנו עושים ומה המומחיות שלנו</span>
                     </h2>
 
-                    <div className="space-y-4 text-slate-700 text-base sm:text-lg leading-relaxed">
+                    <div className="space-y-4 text-slate-700 text-base sm:text-lg leading-relaxed mb-8">
                         <p>
                             עסקים רבים מאבדים לקוחות לא בגלל היעדר פניות, אלא בגלל היעדר סיסטם מסודר: לידים שמתפספסים בין טפסים, פניות שלא נענות בזמן, מעקב ידני מסורבל, והיעדר אחידות בתהליך המכירה.
                         </p>
                         <p>
-                            <strong>AltruBiz CRM</strong> פותחה במיוחד כדי לגשר על הפער הזה. המערכת מרכזת את כל הפעילות העסקית תחת קורת גג אחת - החל מקליטת לידים אוטומטית מכל פלטפורמה (פייסבוק, אינסטגרם, גוגל, אתרי אינטרנט), דרך טיפוח מיידי בוואטסאפ ובמייל, ועד לבוטים חכמים שקובעים פגישות ביומן ומנהלים תהליכי שירות ומכירה 24/7.
+                            ב-AltruBiz אנחנו מתמחים בבניית תשתית עסקית שלמה: החל מחיבור ערוצי התקשורת (בדגש על וואטסאפ רשמי), דרך ניהול הפייפליין והאוטומציות, ועד להטמעה מעשית שהצוות באמת משתמש בה ביומיום.
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8 pt-8 border-t border-gray-100">
-                        <div className="bg-slate-50 rounded-2xl p-5 border border-slate-100">
-                            <h3 className="font-bold text-slate-900 mb-2 flex items-center gap-2">
-                                <MessageSquare className="w-5 h-5 text-primary" />
-                                <span>תקשורת WhatsApp חכמה</span>
-                            </h3>
-                            <p className="text-sm text-slate-600">
-                                אוטומציות דיוור, הודעות תגובה מהירות ושיחות מרוכזות בממשק אחיד התואם למדיניות Meta.
-                            </p>
+                    {/* Deep-Linked Rubrics Grid */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-8 border-t border-gray-100">
+                        {/* Rubric 1: Lost Leads */}
+                        <div className="bg-slate-50 hover:bg-blue-50/40 rounded-2xl p-6 border border-slate-200/80 transition-all flex flex-col justify-between group">
+                            <div>
+                                <h3 className="font-bold text-slate-900 mb-2.5 flex items-center gap-2 text-lg">
+                                    <ShieldCheck className="w-5 h-5 text-primary" />
+                                    <span>עצירת בריחת לידים</span>
+                                </h3>
+                                <p className="text-sm text-slate-600 leading-relaxed mb-4">
+                                    מרכוז כל הפניות מכל המקורות, מניעת כפילויות, טיפול בשיחות שלא נענו ומעקב רציף אחר כל שלב בפייפליין המכירות.
+                                </p>
+                            </div>
+                            <a 
+                                href="/topics/lost-leads"
+                                onClick={(e) => { e.preventDefault(); onNavigate('/topics/lost-leads'); }}
+                                className="text-xs font-bold text-primary group-hover:text-blue-700 flex items-center gap-1 mt-auto pt-3 border-t border-slate-200/60"
+                            >
+                                <span>למדריך האבחון המלא לבריחת לידים</span>
+                                <span>←</span>
+                            </a>
                         </div>
 
-                        <div className="bg-slate-50 rounded-2xl p-5 border border-slate-100">
-                            <h3 className="font-bold text-slate-900 mb-2 flex items-center gap-2">
-                                <Layers className="w-5 h-5 text-primary" />
-                                <span>משתמשים ורשומות ללא הגבלה</span>
-                            </h3>
-                            <p className="text-sm text-slate-600">
-                                מודל רישוי הוגן: אין תשלום לפי עובד או כמות נתונים. כל המסלולים כוללים משתמשים בלתי מוגבלים.
-                            </p>
+                        {/* Rubric 2: WhatsApp CRM */}
+                        <div className="bg-slate-50 hover:bg-blue-50/40 rounded-2xl p-6 border border-slate-200/80 transition-all flex flex-col justify-between group">
+                            <div>
+                                <h3 className="font-bold text-slate-900 mb-2.5 flex items-center gap-2 text-lg">
+                                    <MessageSquare className="w-5 h-5 text-primary" />
+                                    <span>תקשורת WhatsApp חכמה</span>
+                                </h3>
+                                <p className="text-sm text-slate-600 leading-relaxed mb-4">
+                                    חיבור רשמי ל-WhatsApp Cloud API, שליחת תבניות מאושרות, תזכורות אוטומטיות לפגישות ותיעוד מלא של ההתכתבות בכרטיס הלקוח.
+                                </p>
+                            </div>
+                            <a 
+                                href="/topics/whatsapp-in-crm"
+                                onClick={(e) => { e.preventDefault(); onNavigate('/topics/whatsapp-in-crm'); }}
+                                className="text-xs font-bold text-primary group-hover:text-blue-700 flex items-center gap-1 mt-auto pt-3 border-t border-slate-200/60"
+                            >
+                                <span>למדריך המקיף לוואטסאפ ב-CRM</span>
+                                <span>←</span>
+                            </a>
                         </div>
 
-                        <div className="bg-slate-50 rounded-2xl p-5 border border-slate-100">
-                            <h3 className="font-bold text-slate-900 mb-2 flex items-center gap-2">
-                                <ShieldCheck className="w-5 h-5 text-primary" />
-                                <span>מותאם לשוק הישראלי</span>
-                            </h3>
-                            <p className="text-sm text-slate-600">
-                                ממשק מלא בעברית (RTL), התאמה ליומנים מקומיים, ועמידה בחוקי התקשורת והספאם.
-                            </p>
+                        {/* Rubric 3: Speed to Lead */}
+                        <div className="bg-slate-50 hover:bg-blue-50/40 rounded-2xl p-6 border border-slate-200/80 transition-all flex flex-col justify-between group">
+                            <div>
+                                <h3 className="font-bold text-slate-900 mb-2.5 flex items-center gap-2 text-lg">
+                                    <CheckCircle2 className="w-5 h-5 text-primary" />
+                                    <span>מענה ב-5 הדקות הראשונות</span>
+                                </h3>
+                                <p className="text-sm text-slate-600 leading-relaxed mb-4">
+                                    אוטומציות מענה מיידי שמבטיחות שכל ליד חדש מקבל התייחסות מכבדת ואישית בדקות שבהן כוונת הרכישה שלו נמצאת בשיא.
+                                </p>
+                            </div>
+                            <a 
+                                href="/articles/lead-first-5-minutes-guide"
+                                onClick={(e) => { e.preventDefault(); onNavigate('/articles/lead-first-5-minutes-guide'); }}
+                                className="text-xs font-bold text-primary group-hover:text-blue-700 flex items-center gap-1 mt-auto pt-3 border-t border-slate-200/60"
+                            >
+                                <span>לקריאת המדריך למענה מהיר</span>
+                                <span>←</span>
+                            </a>
+                        </div>
+
+                        {/* Rubric 4: Unified Inbox */}
+                        <div className="bg-slate-50 hover:bg-blue-50/40 rounded-2xl p-6 border border-slate-200/80 transition-all flex flex-col justify-between group">
+                            <div>
+                                <h3 className="font-bold text-slate-900 mb-2.5 flex items-center gap-2 text-lg">
+                                    <Layers className="w-5 h-5 text-primary" />
+                                    <span>תיבת הודעות אחודה (Inbox)</span>
+                                </h3>
+                                <p className="text-sm text-slate-600 leading-relaxed mb-4">
+                                    ריכוז כל הודעות הוואטסאפ, האינסטגרם, הפייסבוק, ה-SMS והמייל תחת ממשק אחד – בלי לאבד הקשר ובלי לזגזג בין מכשירים.
+                                </p>
+                            </div>
+                            <a 
+                                href="/articles/omnichannel-communication-unified-inbox-crm-guide"
+                                onClick={(e) => { e.preventDefault(); onNavigate('/articles/omnichannel-communication-unified-inbox-crm-guide'); }}
+                                className="text-xs font-bold text-primary group-hover:text-blue-700 flex items-center gap-1 mt-auto pt-3 border-t border-slate-200/60"
+                            >
+                                <span>למדריך התקשורת הרב-ערוצית</span>
+                                <span>←</span>
+                            </a>
+                        </div>
+
+                        {/* Rubric 5: Sales Adoption */}
+                        <div className="bg-slate-50 hover:bg-blue-50/40 rounded-2xl p-6 border border-slate-200/80 transition-all flex flex-col justify-between group">
+                            <div>
+                                <h3 className="font-bold text-slate-900 mb-2.5 flex items-center gap-2 text-lg">
+                                    <Building2 className="w-5 h-5 text-primary" />
+                                    <span>אימוץ CRM בצוות המכירות</span>
+                                </h3>
+                                <p className="text-sm text-slate-600 leading-relaxed mb-4">
+                                    ממשק פשוט ומהיר שמסיר חיכוך מאנשי המכירות, כדי שהם יעדכנו את הסטטוסים בזמן אמת ולא ינהלו עסקאות במחברות ובראש.
+                                </p>
+                            </div>
+                            <a 
+                                href="/articles/salespeople-hate-crm-adoption-guide"
+                                onClick={(e) => { e.preventDefault(); onNavigate('/articles/salespeople-hate-crm-adoption-guide'); }}
+                                className="text-xs font-bold text-primary group-hover:text-blue-700 flex items-center gap-1 mt-auto pt-3 border-t border-slate-200/60"
+                            >
+                                <span>למדריך אימוץ ה-CRM במכירות</span>
+                                <span>←</span>
+                            </a>
+                        </div>
+
+                        {/* Rubric 6: Unlimited Users */}
+                        <div className="bg-slate-50 hover:bg-blue-50/40 rounded-2xl p-6 border border-slate-200/80 transition-all flex flex-col justify-between group">
+                            <div>
+                                <h3 className="font-bold text-slate-900 mb-2.5 flex items-center gap-2 text-lg">
+                                    <Award className="w-5 h-5 text-primary" />
+                                    <span>משתמשים ללא הגבלה</span>
+                                </h3>
+                                <p className="text-sm text-slate-600 leading-relaxed mb-4">
+                                    מודל רישוי הוגן המאפשר לכל הצוות לעבוד על אותה מערכת ללא תוספת תשלום פר משתמש, כדי שהעסק יוכל לגדול בחופשיות.
+                                </p>
+                            </div>
+                            <a 
+                                href="/#pricing"
+                                onClick={(e) => { e.preventDefault(); onNavigate('/#pricing'); }}
+                                className="text-xs font-bold text-primary group-hover:text-blue-700 flex items-center gap-1 mt-auto pt-3 border-t border-slate-200/60"
+                            >
+                                <span>לצפייה במסלולים ובתמחור</span>
+                                <span>←</span>
+                            </a>
                         </div>
                     </div>
                 </section>
 
-                {/* 2. Products & Services */}
-                <section className="bg-white border border-gray-200 rounded-3xl p-6 sm:p-10 shadow-sm">
-                    <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-6 flex items-center gap-3">
-                        <span className="w-9 h-9 rounded-xl bg-blue-100 text-primary flex items-center justify-center text-base font-bold">2</span>
-                        <span>מוצרים ומסלולי שירות</span>
-                    </h2>
-
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div className="border border-gray-200 rounded-2xl p-6 flex flex-col justify-between">
-                            <div>
-                                <div className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">מסלול בסיסי</div>
-                                <h3 className="text-xl font-bold text-slate-900 mb-1">AltruBiz Pro</h3>
-                                <div className="text-2xl font-black text-primary mb-4">₪297 <span className="text-xs font-normal text-gray-500">/ לחודש</span></div>
-                                <p className="text-sm text-slate-600 mb-4 leading-relaxed">
-                                    תשתית CRM מלאה לניהול לידים, יומנים מתוזמנים, טפסים, דפי נחיתה ופייפליין מכירות.
-                                </p>
-                            </div>
-                            <div className="text-xs text-emerald-700 font-semibold bg-emerald-50 p-2.5 rounded-lg">
-                                ✓ משתמשים ורשומות ללא הגבלה
-                            </div>
-                        </div>
-
-                        <div className="border-2 border-primary rounded-2xl p-6 flex flex-col justify-between relative bg-blue-50/20 shadow-md">
-                            <div>
-                                <div className="text-xs font-bold text-primary uppercase tracking-wider mb-2">הנבחר ביותר</div>
-                                <h3 className="text-xl font-bold text-slate-900 mb-1">AltruBiz Smart</h3>
-                                <div className="text-2xl font-black text-primary mb-4">₪497 <span className="text-xs font-normal text-gray-500">/ לחודש</span></div>
-                                <p className="text-sm text-slate-600 mb-4 leading-relaxed">
-                                    כולל את כל תכונות Pro ובנוסף אינטגרציית WhatsApp, משפכים שיווקיים, קליטת לידים מפייסבוק ואוטומציות סושיאל.
-                                </p>
-                            </div>
-                            <div className="text-xs text-emerald-700 font-semibold bg-emerald-50 p-2.5 rounded-lg">
-                                ✓ חיבורי WhatsApp ואוטומציות
-                            </div>
-                        </div>
-
-                        <div className="border border-gray-200 rounded-2xl p-6 flex flex-col justify-between">
-                            <div>
-                                <div className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">בינה מלאכותית מלאה</div>
-                                <h3 className="text-xl font-bold text-slate-900 mb-1">AltruBiz Power</h3>
-                                <div className="text-2xl font-black text-primary mb-4">₪747 <span className="text-xs font-normal text-gray-500">/ לחודש</span></div>
-                                <p className="text-sm text-slate-600 mb-4 leading-relaxed">
-                                    כולל את כל תכונות Smart ובנוסף בוטים מבוססי AI חכמים, קביעת פגישות ביומן דרך וואטסאפ, בונה אתרים ב-AI וחיבורי API.
-                                </p>
-                            </div>
-                            <div className="text-xs text-emerald-700 font-semibold bg-emerald-50 p-2.5 rounded-lg">
-                                ✓ סוכני AI ואוטומציות מתקדמות
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                {/* 3. Target Audience & Market */}
-                <section className="bg-white border border-gray-200 rounded-3xl p-6 sm:p-10 shadow-sm">
-                    <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-6 flex items-center gap-3">
-                        <span className="w-9 h-9 rounded-xl bg-blue-100 text-primary flex items-center justify-center text-base font-bold">3</span>
-                        <span>קהל יעד ואזור פעילות</span>
-                    </h2>
-
-                    <div className="space-y-4 text-slate-700 text-base sm:text-lg leading-relaxed">
-                        <p>
-                            המערכת מותאמת באופן ייעודי ל<strong>שוק הישראלי</strong> ומשרתת:
-                        </p>
-                        <ul className="space-y-2 mr-4">
-                            {[
-                                'עסקים קטנים ובינוניים (SMBs) הזקוקים לסדר, מעקב ואוטומציה יומיומית.',
-                                'עסקים דיגיטליים וסוכנויות שיווק המנהלות קמפיינים ממומנים ומספר רב של לידים במקביל.',
-                                'יועצים, נותני שירותים ומטפלים המעוניינים לתאם פגישות ביומן באופן אוטונומי.',
-                                'מוקדי מכירות ושירות הזקוקים לתיעוד שיחות מרוכז בוואטסאפ, SMS ובמייל.'
-                            ].map((item, idx) => (
-                                <li key={idx} className="flex items-start gap-2.5 text-slate-700 text-base">
-                                    <CheckCircle2 className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" />
-                                    <span>{item}</span>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                </section>
-
-                {/* 4. Contact & Channels */}
+                {/* 2. Contact & Channels */}
                 <section className="bg-slate-900 text-white rounded-3xl p-6 sm:p-10 shadow-xl">
                     <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-white flex items-center gap-3">
-                        <span className="w-9 h-9 rounded-xl bg-primary/30 text-amber-400 flex items-center justify-center text-base font-bold">4</span>
+                        <span className="w-9 h-9 rounded-xl bg-primary/30 text-amber-400 flex items-center justify-center text-base font-bold">2</span>
                         <span>פרטי קשר וערוצים רשמיים</span>
                     </h2>
 

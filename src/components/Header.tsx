@@ -37,13 +37,6 @@ export const Header = ({ onNavigate }: HeaderProps) => {
                     {/* Desktop Navigation */}
                     <nav className="hidden md:flex items-center gap-8 mx-auto">
                         <a 
-                            href="/#benefits" 
-                            onClick={(e) => handleLinkClick(e, '/#benefits')}
-                            className="text-gray-600 hover:text-primary transition-colors text-sm font-medium"
-                        >
-                            יתרונות
-                        </a>
-                        <a 
                             href="/#how-it-works" 
                             onClick={(e) => handleLinkClick(e, '/#how-it-works')}
                             className="text-gray-600 hover:text-primary transition-colors text-sm font-medium"
@@ -58,38 +51,16 @@ export const Header = ({ onNavigate }: HeaderProps) => {
                             למה אלטרוביז?
                         </a>
                         <a 
-                            href="/#pricing" 
-                            onClick={(e) => handleLinkClick(e, '/#pricing')}
-                            className="text-gray-600 hover:text-primary transition-colors text-sm font-medium"
-                        >
-                            מחירים
-                        </a>
-                        <a 
-                            href="/#faq" 
-                            onClick={(e) => handleLinkClick(e, '/#faq')}
-                            className="text-gray-600 hover:text-primary transition-colors text-sm font-medium"
-                        >
-                            שאלות נפוצות
-                        </a>
-                        <a 
-                            href="/about" 
-                            onClick={(e) => handleLinkClick(e, '/about')}
-                            className="text-gray-600 hover:text-primary transition-colors text-sm font-medium"
-                        >
-                            אודות
-                        </a>
-                        <a 
                             href="/topics/lost-leads" 
                             onClick={(e) => handleLinkClick(e, '/topics/lost-leads')}
-                            className="hidden xl:inline-flex items-center gap-1.5 text-amber-900 bg-amber-50 hover:bg-amber-100/90 px-3 py-1 rounded-full transition-colors text-xs font-bold border border-amber-300/80"
+                            className="text-gray-600 hover:text-primary transition-colors text-sm font-medium"
                         >
-                            <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
-                            <span>אבחון בריחת לידים</span>
+                            אבחון בריחת לידים
                         </a>
                         <a 
                             href="/articles" 
                             onClick={(e) => handleLinkClick(e, '/articles')}
-                            className="inline-flex items-center gap-1.5 text-primary hover:text-blue-700 bg-blue-50/80 hover:bg-blue-100/80 px-3 py-1 rounded-full transition-colors text-sm font-semibold border border-blue-200/60"
+                            className="inline-flex items-center gap-1.5 text-primary hover:text-blue-700 bg-blue-50/80 hover:bg-blue-100/80 px-3.5 py-1 rounded-full transition-colors text-sm font-semibold border border-blue-200/60"
                         >
                             <BookOpen size={14} />
                             <span>מאמרים וידע</span>
@@ -101,24 +72,22 @@ export const Header = ({ onNavigate }: HeaderProps) => {
                         <a 
                             href="/#contact" 
                             onClick={(e) => handleLinkClick(e, '/#contact')}
-                            className="text-gray-700 hover:text-primary text-sm font-semibold px-3 py-1.5 rounded-lg hover:bg-blue-50/60 transition-colors cursor-pointer"
                         >
-                            קביעת פגישה
+                            <Button variant="primary" size="sm" className="font-bold">
+                                קביעת פגישה
+                            </Button>
                         </a>
                         <a href="https://app.altrubiz.com/" target="_blank" rel="noopener noreferrer">
                             <Button variant="ghost" size="sm" className="text-gray-600 hover:text-primary">התחברות</Button>
                         </a>
-                        <a href="/#pricing" onClick={(e) => handleLinkClick(e, '/#pricing')}>
-                            <Button variant="primary" size="sm">מתחילים עכשיו</Button>
-                        </a>
                     </div>
 
-                    {/* Mobile menu button */}
-                    <div className="md:hidden">
+                    {/* Mobile Menu Button */}
+                    <div className="md:hidden flex items-center gap-2">
                         <button
                             onClick={() => setIsMenuOpen(!isMenuOpen)}
-                            className="text-gray-600 hover:text-primary p-2"
-                            aria-label="תפריט ניווט"
+                            className="text-gray-600 hover:text-primary p-2 focus:outline-none"
+                            aria-label="פתח תפריט"
                         >
                             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
                         </button>
@@ -128,79 +97,52 @@ export const Header = ({ onNavigate }: HeaderProps) => {
 
             {/* Mobile Menu */}
             {isMenuOpen && (
-                <div className="md:hidden bg-white border-b border-gray-200 shadow-xl">
-                    <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                        <a 
-                            href="/#benefits" 
-                            onClick={(e) => handleLinkClick(e, '/#benefits')}
-                            className="block px-3 py-2 text-gray-600 hover:text-primary hover:bg-blue-50 rounded-md"
-                        >
-                            יתרונות
-                        </a>
+                <div className="md:hidden bg-white border-b border-gray-200 shadow-xl" dir="rtl">
+                    <div className="px-3 pt-3 pb-4 space-y-2">
                         <a 
                             href="/#how-it-works" 
                             onClick={(e) => handleLinkClick(e, '/#how-it-works')}
-                            className="block px-3 py-2 text-gray-600 hover:text-primary hover:bg-blue-50 rounded-md"
+                            className="block px-3 py-2 text-gray-700 hover:text-primary hover:bg-blue-50 rounded-lg text-base font-medium"
                         >
                             איך זה עובד
                         </a>
                         <a 
                             href="/#why-altrubiz" 
                             onClick={(e) => handleLinkClick(e, '/#why-altrubiz')}
-                            className="block px-3 py-2 text-gray-600 hover:text-primary hover:bg-blue-50 rounded-md"
+                            className="block px-3 py-2 text-gray-700 hover:text-primary hover:bg-blue-50 rounded-lg text-base font-medium"
                         >
                             למה אלטרוביז?
                         </a>
                         <a 
-                            href="/#pricing" 
-                            onClick={(e) => handleLinkClick(e, '/#pricing')}
-                            className="block px-3 py-2 text-gray-600 hover:text-primary hover:bg-blue-50 rounded-md"
+                            href="/topics/lost-leads" 
+                            onClick={(e) => handleLinkClick(e, '/topics/lost-leads')}
+                            className="block px-3 py-2 text-gray-700 hover:text-primary hover:bg-blue-50 rounded-lg text-base font-medium"
                         >
-                            מחירים
-                        </a>
-                        <a 
-                            href="/#faq" 
-                            onClick={(e) => handleLinkClick(e, '/#faq')}
-                            className="block px-3 py-2 text-gray-600 hover:text-primary hover:bg-blue-50 rounded-md"
-                        >
-                            שאלות נפוצות
-                        </a>
-                        <a 
-                            href="/about" 
-                            onClick={(e) => handleLinkClick(e, '/about')}
-                            className="block px-3 py-2 text-gray-600 hover:text-primary hover:bg-blue-50 rounded-md"
-                        >
-                            אודות AltruBiz
+                            אבחון בריחת לידים
                         </a>
                         <a 
                             href="/articles" 
                             onClick={(e) => handleLinkClick(e, '/articles')}
-                            className="block px-3 py-2 text-primary font-semibold hover:bg-blue-50 rounded-md flex items-center gap-2"
+                            className="block px-3 py-2 text-primary font-semibold hover:bg-blue-50 rounded-lg flex items-center gap-2 text-base"
                         >
                             <BookOpen size={16} />
-                            <span>מרכז ידע ומאמרים</span>
-                        </a>
-                        <a 
-                            href="/topics/lost-leads" 
-                            onClick={(e) => handleLinkClick(e, '/topics/lost-leads')}
-                            className="block px-3 py-2 text-amber-900 bg-amber-50 hover:bg-amber-100 rounded-md font-bold text-sm border border-amber-200"
-                        >
-                            <span>מרכז אבחון: בריחת לידים</span>
-                        </a>
-                        <a 
-                            href="/#contact" 
-                            onClick={(e) => handleLinkClick(e, '/#contact')}
-                            className="block px-3 py-2 text-slate-800 font-bold hover:text-primary hover:bg-blue-50 rounded-md"
-                        >
-                            קביעת פגישה / יצירת קשר
+                            <span>מאמרים וידע</span>
                         </a>
 
-                        <div className="mt-4 flex flex-col gap-3 px-3">
-                            <a href="https://app.altrubiz.com/" target="_blank" rel="noopener noreferrer">
-                                <Button variant="ghost" className="justify-start text-gray-600 w-full">התחברות</Button>
+                        <div className="pt-2 border-t border-gray-100 flex flex-col gap-2">
+                            <a 
+                                href="/#contact" 
+                                onClick={(e) => handleLinkClick(e, '/#contact')}
+                                className="block"
+                            >
+                                <Button variant="primary" className="w-full justify-center font-bold">
+                                    קביעת פגישה
+                                </Button>
                             </a>
-                            <a href="/#pricing" onClick={(e) => handleLinkClick(e, '/#pricing')}>
-                                <Button variant="primary" className="justify-center w-full">מתחילים עכשיו</Button>
+                            <a href="https://app.altrubiz.com/" target="_blank" rel="noopener noreferrer" className="block">
+                                <Button variant="ghost" className="w-full justify-center text-gray-600">
+                                    התחברות
+                                </Button>
                             </a>
                         </div>
                     </div>

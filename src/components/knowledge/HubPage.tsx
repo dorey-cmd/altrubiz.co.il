@@ -66,11 +66,11 @@ export const HubPage: React.FC<HubPageProps> = ({
 
                 {/* Hero Header */}
                 <header className="mb-12 bg-white border border-slate-200 rounded-3xl p-6 sm:p-10 shadow-sm relative overflow-hidden">
-                    <div className="absolute top-0 right-0 w-64 h-64 bg-amber-100/50 rounded-full blur-3xl -z-0 pointer-events-none" />
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-blue-100/40 rounded-full blur-3xl -z-0 pointer-events-none" />
                     <div className="relative z-10">
-                        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-200/80 mb-4">
-                            <Layers className="w-3.5 h-3.5" />
-                            <span>{node.nodeType === 'pain_hub' ? 'מרכז ידע ואבחון כאב עסקי' : 'מדריך מקיף וקונספט ידע (Micro Hub)'}</span>
+                        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold bg-blue-50 text-primary border border-blue-200 mb-4">
+                            <Layers className="w-3.5 h-3.5 text-secondary" />
+                            <span>{node.nodeType === 'pain_hub' ? 'מדריך אבחון ומענה מקיף' : 'מדריך יישום וניהול תקשורת'}</span>
                         </div>
 
                         <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight leading-tight mb-4">
@@ -85,9 +85,9 @@ export const HubPage: React.FC<HubPageProps> = ({
 
                         {/* Direct Answer / Problem Definition Box */}
                         {hub && (
-                            <div className="bg-slate-50 border-r-4 border-amber-500 rounded-2xl p-5 sm:p-6 mb-6">
+                            <div className="bg-slate-50 border-r-4 border-primary rounded-2xl p-5 sm:p-6 mb-6">
                                 <h2 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-2 flex items-center gap-2">
-                                    <Target className="w-4 h-4 text-amber-600" />
+                                    <Target className="w-4 h-4 text-primary" />
                                     <span>הגדרת הבעיה והשפעתה על העסק:</span>
                                 </h2>
                                 <p className="text-slate-800 text-base sm:text-lg leading-relaxed font-normal">
@@ -278,21 +278,21 @@ export const HubPage: React.FC<HubPageProps> = ({
                                                         <div 
                                                             key={slug} 
                                                             onClick={() => onNavigate(`/articles/${art.slug}`)}
-                                                            className="group p-4 rounded-2xl bg-slate-50 border border-slate-200 hover:border-amber-400 hover:bg-amber-50/20 transition-all cursor-pointer flex flex-col justify-between"
+                                                            className="group p-4 rounded-2xl bg-slate-50 border border-slate-200 hover:border-secondary/50 hover:bg-cyan-50/20 transition-all cursor-pointer flex flex-col justify-between"
                                                         >
                                                             <div>
                                                                 <div className="flex items-center gap-2 text-xs text-slate-500 mb-1.5">
                                                                     <Clock className="w-3 h-3" />
                                                                     <span>{art.readTime || '6 דקות קריאה'}</span>
                                                                 </div>
-                                                                <h5 className="font-bold text-slate-900 group-hover:text-amber-700 transition-colors text-sm sm:text-base leading-snug mb-2">
+                                                                <h5 className="font-bold text-slate-900 group-hover:text-secondary transition-colors text-sm sm:text-base leading-snug mb-2">
                                                                     {art.title}
                                                                 </h5>
                                                                 <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed">
                                                                     {art.description}
                                                                 </p>
                                                             </div>
-                                                            <div className="mt-3 flex items-center text-xs font-semibold text-amber-700 group-hover:translate-x-[-2px] transition-transform">
+                                                            <div className="mt-3 flex items-center text-xs font-semibold text-secondary group-hover:translate-x-[-2px] transition-transform">
                                                                 <span>לקריאת המדריך המלא</span>
                                                                 <ArrowLeft className="w-3.5 h-3.5 mr-1" />
                                                             </div>
@@ -320,7 +320,7 @@ export const HubPage: React.FC<HubPageProps> = ({
                                     className="p-4 bg-white rounded-2xl border border-slate-200 hover:border-slate-300 hover:shadow-sm transition-all cursor-pointer flex items-center justify-between"
                                 >
                                     <div className="pr-2">
-                                        <h4 className="font-bold text-slate-900 hover:text-amber-700 text-sm leading-snug">
+                                        <h4 className="font-bold text-slate-900 hover:text-secondary text-sm leading-snug">
                                             {art.title}
                                         </h4>
                                         <span className="text-xs text-slate-500 mt-1 inline-block">
@@ -338,7 +338,7 @@ export const HubPage: React.FC<HubPageProps> = ({
                 {hub && hub.solutionPaths && (
                     <section id="solutions" className="mb-14 bg-slate-900 text-white rounded-3xl p-6 sm:p-10 shadow-lg relative overflow-hidden scroll-mt-24">
                         <div className="relative z-10">
-                            <span className="text-xs font-bold text-yellow-400 bg-yellow-400/10 px-3 py-1 rounded-full uppercase tracking-wider border border-yellow-400/20">
+                            <span className="text-xs font-bold text-cyan-400 bg-cyan-400/10 px-3 py-1 rounded-full uppercase tracking-wider border border-cyan-400/20">
                                 פתרון מערכתי ב-AltruBiz
                             </span>
                             <h2 className="text-2xl sm:text-3xl font-extrabold text-white mt-3 mb-4">
@@ -358,7 +358,7 @@ export const HubPage: React.FC<HubPageProps> = ({
                                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                             {sol.featureHighlights.map((feat, fIdx) => (
                                                 <div key={fIdx} className="flex items-center gap-2.5 text-sm text-slate-200">
-                                                    <CheckCircle2 className="w-4 h-4 text-yellow-400 shrink-0" />
+                                                    <CheckCircle2 className="w-4 h-4 text-secondary shrink-0" />
                                                     <span>{feat}</span>
                                                 </div>
                                             ))}
@@ -411,7 +411,7 @@ export const HubPage: React.FC<HubPageProps> = ({
                 {hub && hub.faqs && hub.faqs.length > 0 && (
                     <section id="faqs" className="mb-14 bg-white border border-slate-200 rounded-3xl p-6 sm:p-10 shadow-sm scroll-mt-24">
                         <div className="flex items-center gap-2 text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
-                            <HelpCircle className="w-4 h-4 text-amber-500" />
+                            <HelpCircle className="w-4 h-4 text-primary" />
                             <span>שאלות ותשובות נפוצות</span>
                         </div>
                         <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-6">
@@ -432,7 +432,7 @@ export const HubPage: React.FC<HubPageProps> = ({
                                             className="w-full p-5 text-right font-bold text-slate-900 flex items-center justify-between gap-4 hover:bg-slate-50 transition-colors"
                                         >
                                             <span className="text-base sm:text-lg leading-snug">{faq.question}</span>
-                                            <ChevronDown className={`w-5 h-5 text-slate-400 transition-transform duration-200 shrink-0 ${isOpen ? 'rotate-180 text-amber-600' : ''}`} />
+                                            <ChevronDown className={`w-5 h-5 text-slate-400 transition-transform duration-200 shrink-0 ${isOpen ? 'rotate-180 text-secondary' : ''}`} />
                                         </button>
                                         {isOpen && (
                                             <div className="p-5 pt-0 text-slate-600 text-base leading-relaxed border-t border-slate-100 bg-slate-50/50">
@@ -462,7 +462,7 @@ export const HubPage: React.FC<HubPageProps> = ({
                                             onClick={() => onNavigate(nextNode.url)}
                                             className="px-4 py-2.5 rounded-xl bg-white border border-slate-200 hover:border-slate-300 text-slate-800 font-medium text-sm flex items-center gap-2 hover:shadow-sm transition-all"
                                         >
-                                            <Layers className="w-4 h-4 text-amber-500" />
+                                            <Layers className="w-4 h-4 text-secondary" />
                                             <span>{nextNode.title}</span>
                                         </button>
                                     );

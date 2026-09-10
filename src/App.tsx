@@ -135,7 +135,7 @@ function App() {
                 </main>
             ) : isArticlesIndex ? (
                 <main className="relative z-10">
-                    <ArticlesIndex onNavigate={handleNavigate} />
+                    <ArticlesIndex onNavigate={handleNavigate} onOpenContactModal={handleOpenContactModal} />
                 </main>
             ) : isArticlePage && currentArticle ? (
                 <main className="relative z-10">
