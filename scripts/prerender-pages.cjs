@@ -10,7 +10,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { getArticles } = require('./routes-loader.cjs');
+const { getArticles, getAllHubs } = require('./routes-loader.cjs');
 
 const ROOT_DIR = path.resolve(__dirname, '..');
 const DIST_DIR = path.join(ROOT_DIR, 'dist');
@@ -196,4 +196,33 @@ for (const sp of staticPages) {
     generatedCount++;
 }
 
+// 8. Prerender Promoted Knowledge Hubs (/topics/<slug>)
+const hubs = getAllHubs ? getAllHubs() : [];
+for (const hub of hubs) {
+    let html = baseTemplate;
+    const hubSlug = hub.slug;
+    const canonical = `${BASE_DOMAIN}/topics/${hubSlug}`;
+    const hubTitle = `${hub.title} | AltruBiz CRM`;
+
+    html = html.replace(/<title>[\s\S]*?<\/title>/i, `<title>${escapeAttr(hubTitle)}</title>`);
+    html = html.replace(/<link rel="canonical"[^>]*>/i, `<link rel="canonical" href="${canonical}" />`);
+    html = html.replace(/<meta name="description"[^>]*>/i, `<meta name="description" content="${escapeAttr(hub.description)}" />`);
+    html = html.replace(/<meta property="og:url"[^>]*>/i, `<meta property="og:url" content="${canonical}" />`);
+    html = html.replace(/<meta property="og:title"[^>]*>/i, `<meta property="og:title" content="${escapeAttr(hubTitle)}" />`);
+    html = html.replace(/<meta property="og:description"[^>]*>/i, `<meta property="og:description" content="${escapeAttr(hub.description)}" />`);
+    html = html.replace(/<meta name="twitter:url"[^>]*>/i, `<meta name="twitter:url" content="${canonical}" />`);
+    html = html.replace(/<meta name="twitter:title"[^>]*>/i, `<meta name="twitter:title" content="${escapeAttr(hubTitle)}" />`);
+    html = html.replace(/<meta name="twitter:description"[^>]*>/i, `<meta name="twitter:description" content="${escapeAttr(hub.description)}" />`);
+
+    const hubDir = path.join(DIST_DIR, 'topics', hubSlug);
+    if (!fs.existsSync(hubDir)) {
+        fs.mkdirSync(hubDir, { recursive: true });
+    }
+    fs.writeFileSync(path.join(hubDir, 'index.html'), html, 'utf8');
+    fs.writeFileSync(path.join(DIST_DIR, 'topics', `${hubSlug}.html`), html, 'utf8');
+    console.log(`  ✔ Prerendered knowledge hub social preview HTML: /topics/${hubSlug}`);
+    generatedCount++;
+}
+
 console.log(`\n✔ Successfully generated ${generatedCount} static HTML social preview pages in dist/\n`);
+

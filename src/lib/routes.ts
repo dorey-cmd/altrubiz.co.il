@@ -7,8 +7,9 @@
  */
 
 import { ARTICLES, Article } from '../data/articles';
+import { KnowledgeNode, getAllHubs, getKnowledgeNodeBySlug } from '../data/knowledgeGraph';
 
-export { ARTICLES };
+export { ARTICLES, getAllHubs };
 
 export interface RouteBreadcrumb {
     name: string;
@@ -29,6 +30,7 @@ export interface RouteConfig {
     alternateMarkdown?: string;
     breadcrumbs?: RouteBreadcrumb[];
     article?: Article;
+    hubNode?: KnowledgeNode;
     ogImage?: string;
     ogTitle?: string;
     ogDescription?: string;
@@ -121,7 +123,32 @@ export function buildArticleRouteConfig(article: Article): RouteConfig {
 }
 
 /**
- * Combined routes registry (static routes + all articles)
+ * Generate dynamic route configuration for a Knowledge Hub (Pain Hub or Micro Hub)
+ */
+export function buildHubRouteConfig(node: KnowledgeNode): RouteConfig {
+    const hubPath = node.url;
+    return {
+        path: hubPath,
+        title: node.seoTitle || `${node.title} | AltruBiz CRM`,
+        description: node.description,
+        canonicalUrl: `${BASE_CANONICAL_DOMAIN}${hubPath}`,
+        schemaType: 'CollectionPage',
+        inSitemap: node.isIndexable,
+        sitemapPriority: 0.9,
+        sitemapChangeFreq: 'weekly',
+        ogTitle: `${node.title} | AltruBiz CRM`,
+        ogDescription: node.description,
+        breadcrumbs: [
+            { name: 'דף הבית', path: '/' },
+            { name: 'מרכז ידע', path: '/articles' },
+            { name: node.title, path: hubPath }
+        ],
+        hubNode: node
+    };
+}
+
+/**
+ * Combined routes registry (static routes + all articles + all hubs)
  */
 export function getRoutesRegistry(): Record<string, RouteConfig> {
     const registry: Record<string, RouteConfig> = { ...STATIC_ROUTES_REGISTRY };
@@ -134,13 +161,20 @@ export function getRoutesRegistry(): Record<string, RouteConfig> {
         }
     }
 
+    // Dynamically register all promoted knowledge hubs from data/knowledgeGraph.ts
+    for (const hub of getAllHubs()) {
+        if (!registry[hub.url]) {
+            registry[hub.url] = buildHubRouteConfig(hub);
+        }
+    }
+
     return registry;
 }
 
 export const ROUTES_REGISTRY: Record<string, RouteConfig> = getRoutesRegistry();
 
 /**
- * Look up RouteConfig by path (handles exact match, trailing slash, dynamic articles)
+ * Look up RouteConfig by path (handles exact match, trailing slash, dynamic articles, and hubs)
  */
 export function getRouteConfig(path: string): RouteConfig | undefined {
     const registry = getRoutesRegistry();
@@ -154,6 +188,15 @@ export function getRouteConfig(path: string): RouteConfig | undefined {
         const article = ARTICLES.find(a => a.slug === slug);
         if (article) {
             return buildArticleRouteConfig(article);
+        }
+    }
+
+    // Check if path is a knowledge hub
+    if (normalized.startsWith('/topics/')) {
+        const slug = normalized.replace('/topics/', '');
+        const hub = getKnowledgeNodeBySlug(slug);
+        if (hub) {
+            return buildHubRouteConfig(hub);
         }
     }
 

@@ -35,7 +35,11 @@ const features = [
     }
 ];
 
-export const Features = () => {
+interface FeaturesProps {
+    onNavigate?: (path: string) => void;
+}
+
+export const Features: React.FC<FeaturesProps> = ({ onNavigate }) => {
     const ref = useRef(null);
     const { scrollYProgress } = useScroll({
         target: ref,
@@ -73,10 +77,22 @@ export const Features = () => {
                     viewport={{ once: true }}
                     className="flex justify-center mb-16"
                 >
-                    <div className="bg-gradient-to-r from-red-500/10 to-red-600/5 backdrop-blur-sm text-red-700 px-6 py-3 rounded-full text-base font-medium border border-red-200/50 shadow-sm flex items-center gap-2">
+                    <a 
+                        href="/topics/lost-leads"
+                        onClick={(e) => {
+                            if (onNavigate) {
+                                e.preventDefault();
+                                onNavigate('/topics/lost-leads');
+                            }
+                        }}
+                        className="bg-gradient-to-r from-red-500/10 to-red-600/5 hover:from-red-500/20 hover:to-red-600/10 backdrop-blur-sm text-red-700 px-6 py-3 rounded-full text-base font-medium border border-red-200/50 shadow-sm flex items-center gap-2 transition-all group cursor-pointer"
+                    >
                         <span className="h-2 w-2 rounded-full bg-red-500 animate-pulse"></span>
-                        לידים "נופלים בין הכיסאות" כשהמידע מפוזר
-                    </div>
+                        <span>לידים "נופלים בין הכיסאות" כשהמידע מפוזר</span>
+                        <span className="text-xs bg-red-100 group-hover:bg-red-200 text-red-800 px-2.5 py-0.5 rounded-full font-bold transition-colors mr-2">
+                            למדריך האבחון והפתרון המלא ←
+                        </span>
+                    </a>
                 </motion.div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

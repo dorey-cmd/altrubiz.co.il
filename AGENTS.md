@@ -76,6 +76,15 @@ All long articles and guides must strategically distribute varied, non-repetitiv
 
 ---
 
+## 2.6 Mandatory Knowledge Topology & Content Architecture Standard
+The website operates as a connected knowledge graph organized primarily around **Business Pains** (discovery layer) rather than tech features (solution layer).
+- **Node Types**: Home Page → Pain Hubs (`/topics/<slug>`) → Sub-Pains / Real-World Manifestations → Articles (`/articles/<slug>`) → Micro Hubs → Product Nodes → Contextual CTAs.
+- **Tag & Hub Promotion Rule**: A concept becomes a public indexable Hub only with at least 3 substantial pieces of content and independent user value.
+- **Mandatory Ingestion Workflow**: Every new article must be classified across multi-dimensional taxonomy (`src/data/knowledgeGraph.ts`), establish bidirectional links (both outbound and inward links from existing pages), and update parent Hubs.
+- Full specification: [`.agents/rules/knowledge-topology-architecture.md`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/rules/knowledge-topology-architecture.md).
+
+---
+
 ## 3. Route & Page Creation Architecture (Single Source of Truth)
 
 ### Adding a Static Page:

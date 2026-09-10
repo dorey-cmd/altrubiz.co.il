@@ -18,6 +18,8 @@ import { ArticlePage } from './components/articles/ArticlePage'
 import { AboutPage } from './components/AboutPage'
 import { SEOHead } from './components/common/SEOHead'
 import { getArticleBySlug } from './data/articles'
+import { getKnowledgeNodeBySlug } from './data/knowledgeGraph'
+import { HubPage } from './components/knowledge/HubPage'
 import { getRouteConfig } from './lib/routes'
 import { ContactModal } from './components/common/ContactModal'
 import { PricingModal } from './components/common/PricingModal'
@@ -101,11 +103,18 @@ function App() {
     const isAbout = path === '/about';
     const isArticlesIndex = path === '/articles';
     const isArticlePage = path.startsWith('/articles/');
+    const isHubPage = path.startsWith('/topics/');
 
     let currentArticle = null;
     if (isArticlePage) {
         const slug = path.replace('/articles/', '').replace(/\/$/, '');
         currentArticle = getArticleBySlug(slug);
+    }
+
+    let currentHubNode = null;
+    if (isHubPage) {
+        const slug = path.replace('/topics/', '').replace(/\/$/, '');
+        currentHubNode = getKnowledgeNodeBySlug(slug);
     }
 
     const routeConfig = getRouteConfig(path);
@@ -137,11 +146,20 @@ function App() {
                         onOpenPricingModal={handleOpenPricingModal}
                     />
                 </main>
+            ) : isHubPage && currentHubNode ? (
+                <main className="relative z-10">
+                    <HubPage 
+                        node={currentHubNode} 
+                        onNavigate={handleNavigate} 
+                        onOpenContactModal={handleOpenContactModal}
+                        onOpenPricingModal={handleOpenPricingModal}
+                    />
+                </main>
             ) : (
                 <main className="relative z-10 transition-colors">
                     <Spotlight />
                     <Hero />
-                    <Features />
+                    <Features onNavigate={handleNavigate} />
                     <HowItWorks />
                     <Benefits />
                     <Extras />

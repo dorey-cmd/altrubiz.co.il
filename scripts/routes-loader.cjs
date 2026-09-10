@@ -57,5 +57,6 @@ module.exports = {
     getRoutesRegistry: () => loadRoutes().getRoutesRegistry(),
     getAllPublicRoutes: () => loadRoutes().getAllPublicRoutes(),
     getArticles: () => loadRoutes().ARTICLES,
+    getAllHubs: () => (loadRoutes().getAllHubs ? loadRoutes().getAllHubs() : []),
     BASE_CANONICAL_DOMAIN: 'https://altrubiz.co.il'
 };
