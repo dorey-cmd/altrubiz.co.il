@@ -3,38 +3,60 @@
 import { motion } from 'framer-motion';
 import { Lightbulb } from 'lucide-react';
 
-const steps = [
+interface StepItem {
+    num: string;
+    title: string;
+    desc: string;
+    pain: string;
+    img: string;
+    hubUrl: string;
+    hubLabel: string;
+}
+
+const steps: StepItem[] = [
     {
         num: "1",
         title: "לכידה",
         desc: "דפי נחיתה, טפסים, לוחות שנה, סקרים, טלפוניה.",
-        pain: "כי שאין איסוף מסודר אז עשרות לידים נעלמים ומתמוססים בלי ששמים לב",
-        img: "https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/689697db6346f45dc55634f4.png"
+        pain: "כשאין איסוף מסודר עשרות לידים נעלמים ומתמוססים בלי ששמים לב",
+        img: "https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/689697db6346f45dc55634f4.png",
+        hubUrl: "/topics/lost-leads",
+        hubLabel: "איך עוצרים בריחת לידים?"
     },
     {
         num: "2",
         title: "טיפוח",
         desc: "מסרים אוטומטיים מותאמים אישית בוואטסאפ, SMS, מייל, רשתות חברתיות ושיחות קוליות.",
-        pain: "אם לא, חוסר עקביות במעקב גורם להפסדים ישירים של לקוחות",
-        img: "https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/689697db3b96f70dc1c2b0c5.png"
+        pain: "חוסר עקביות במעקב גורם להפסדים ישירים של לקוחות פוטנציאליים",
+        img: "https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/689697db3b96f70dc1c2b0c5.png",
+        hubUrl: "/topics/whatsapp-in-crm",
+        hubLabel: "איך לחבר וואטסאפ לתהליך?"
     },
     {
         num: "3",
         title: "סגירה",
         desc: "קביעת פגישות, הצעות מחיר, תיעוד מלא.",
-        pain: "כי פגישות שמתפספסות והצעות שלא נענות = כסף אבוד",
-        img: "https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/689697dbf0447344096548de.png"
+        pain: "פגישות שמתפספסות והצעות שלא נענות שוות כסף אבוד בעסק",
+        img: "https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/689697dbf0447344096548de.png",
+        hubUrl: "/topics/sales-pipeline",
+        hubLabel: "איך בונים פייפליין חזותי?"
     },
     {
         num: "4",
         title: "שימור",
         desc: "אוטומציות שירות ותמיכה, מעקב לקוחות, נאמנות.",
-        pain: "לקוחות נשכחים אחרי העסקה = מפסידים מכירות המשך",
-        img: "https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/689697db10ecc40bcf69ee3e.png"
+        pain: "לקוחות שנשכחים אחרי העסקה מובילים להפסד מכירות המשך",
+        img: "https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/689697db10ecc40bcf69ee3e.png",
+        hubUrl: "/topics/business-memory",
+        hubLabel: "איך שומרים על הזיכרון הארגוני?"
     }
 ];
 
-export const HowItWorks = () => {
+interface HowItWorksProps {
+    onNavigate?: (path: string) => void;
+}
+
+export const HowItWorks: React.FC<HowItWorksProps> = ({ onNavigate }) => {
     return (
         <section id="how-it-works" className="py-24 bg-slate-50 text-right relative overflow-hidden" dir="rtl">
             {/* Decorative Background */}
@@ -100,15 +122,31 @@ export const HowItWorks = () => {
                                     <div className="absolute inset-0 bg-gradient-to-br from-secondary via-primary to-accent opacity-30 group-hover:opacity-100 transition-opacity duration-500 rounded-xl"></div>
 
                                     {/* Content Container */}
-                                    <div className="relative bg-white/95 backdrop-blur-sm p-4 rounded-[10px] h-full flex items-start gap-4">
-                                        {/* Icon Box */}
-                                        <div className="p-2 bg-gradient-to-br from-amber-100 to-orange-50 text-amber-500 rounded-lg shadow-inner shrink-0 ring-1 ring-amber-200/50">
-                                            <Lightbulb size={20} strokeWidth={2.5} className="drop-shadow-sm" />
+                                    <div className="relative bg-white/95 backdrop-blur-sm p-4 rounded-[10px] h-full flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                                        <div className="flex items-start gap-4 flex-1">
+                                            {/* Icon Box */}
+                                            <div className="p-2 bg-gradient-to-br from-amber-100 to-orange-50 text-amber-500 rounded-lg shadow-inner shrink-0 ring-1 ring-amber-200/50">
+                                                <Lightbulb size={20} strokeWidth={2.5} className="drop-shadow-sm" />
+                                            </div>
+
+                                            <p className="text-slate-700 font-medium text-base/relaxed pt-0.5">
+                                                {step.pain}
+                                            </p>
                                         </div>
 
-                                        <p className="text-slate-700 font-medium text-base/relaxed pt-0.5">
-                                            {step.pain}
-                                        </p>
+                                        <a
+                                            href={step.hubUrl}
+                                            onClick={(e) => {
+                                                if (onNavigate) {
+                                                    e.preventDefault();
+                                                    onNavigate(step.hubUrl);
+                                                }
+                                            }}
+                                            className="inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:text-blue-700 bg-blue-50/70 hover:bg-blue-100/70 px-3 py-1.5 rounded-full border border-blue-200/50 transition-colors shrink-0 group/pill cursor-pointer"
+                                        >
+                                            <span>{step.hubLabel}</span>
+                                            <span className="group-hover/pill:-translate-x-0.5 transition-transform text-xs font-bold">←</span>
+                                        </a>
 
                                         {/* Decorative Shine */}
                                         <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-white/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none rounded-tr-[10px]"></div>

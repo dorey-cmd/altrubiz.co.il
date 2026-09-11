@@ -184,19 +184,23 @@ function App() {
             ) : (
                 <main className="relative z-10 transition-colors">
                     <Spotlight />
-                    <Hero />
+                    <Hero onNavigate={handleNavigate} onOpenBookingModal={handleOpenBookingModal} />
                     <Features onNavigate={handleNavigate} />
-                    <HowItWorks />
-                    <Benefits />
+                    <HowItWorks onNavigate={handleNavigate} />
+                    <Benefits onNavigate={handleNavigate} />
                     <Extras />
-                    <Integrations />
+                    <Integrations onNavigate={handleNavigate} />
                     {isOffer ? <PricingOffer /> : <PricingNew />}
                     <FAQSection />
                     <ContactForm />
                 </main>
             )}
 
-            <Footer onNavigate={handleNavigate} />
+            <Footer 
+                onNavigate={handleNavigate} 
+                onOpenBookingModal={handleOpenBookingModal}
+                onOpenContactModal={handleOpenContactModal}
+            />
             <ContactModal 
                 isOpen={isContactModalOpen} 
                 onClose={handleCloseContactModal} 

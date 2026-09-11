@@ -133,6 +133,18 @@ The editorial text itself is an active part of the Knowledge Graph navigation.
 
 ---
 
+## 2.10 Mandatory Publication Readiness & Indexability Control Standard
+The website strictly enforces separation between conceptual knowledge, technical page instantiation, publication approval, and search indexing:
+$$\text{Knowledge Maturity} \neq \text{Public Page Existence} \neq \text{Publication Readiness} \neq \text{Indexability}$$
+- **Public Projection Model**: One Unified Knowledge Graph $\rightarrow$ Controlled Public Projection. Internal graph presence does not authorize public page links or indexing.
+- **Zero Automatic Publication / Indexing**: Content ingestion may discover mature concepts and output "Recommend Public Page Candidate", but stops there. Zero silent publishing.
+- **Sitemap & Indexing**: `public/sitemap.xml` includes exclusively pages approved for indexing. Accessible review pages receive `noindex, follow`. `robots.txt` controls crawling, not indexing.
+- **Canonical Decoupling**: Canonical URL defines entity identity; it does not authorize indexing.
+- Always-On Rule: [`.agents/rules/publication-indexability-governance.md`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/rules/publication-indexability-governance.md).
+- Authoritative Technical Specification: [`.agents/specs/publication-indexability-governance.md`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/specs/publication-indexability-governance.md).
+
+---
+
 ## 3. Route & Page Creation Architecture (Single Source of Truth)
 
 ### Adding a Static Page:

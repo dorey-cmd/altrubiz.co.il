@@ -16,12 +16,32 @@ const logos = [
     { src: "https://storage.googleapis.com/msgsndr/knES3eSWYIsc5YSZ3YLl/media/67ab96a5f3bda8b1b50e5c3e.png", alt: "ניהול ביקורות וכרטיס עסק ב-Google Business Profile" }
 ];
 
-export const Integrations = () => {
+interface IntegrationsProps {
+    onNavigate?: (path: string) => void;
+}
+
+export const Integrations: React.FC<IntegrationsProps> = ({ onNavigate }) => {
     return (
         <section id="integrations" className="py-24 bg-white overflow-hidden" dir="rtl">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
-                <div className="bg-red-50 text-red-600 px-4 py-2 rounded-full w-fit mx-auto mb-8 text-sm font-medium border border-red-100 shadow-sm animate-pulse text-center block">
-                    כל מערכת בשפה אחרת. חיבורים ידניים עולים זמן וכסף
+                <div className="flex justify-center mb-8">
+                    <a
+                        href="/topics/repetitive-manual-work"
+                        onClick={(e) => {
+                            if (onNavigate) {
+                                e.preventDefault();
+                                onNavigate('/topics/repetitive-manual-work');
+                            }
+                        }}
+                        className="bg-red-50 hover:bg-red-100/80 text-red-700 px-5 py-2 rounded-full text-xs sm:text-sm font-medium border border-red-200/80 shadow-xs hover:shadow-sm transition-all text-center inline-flex flex-wrap sm:flex-nowrap items-center justify-center gap-2 group cursor-pointer"
+                    >
+                        <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+                        <span>כל מערכת בשפה אחרת. חיבורים ידניים עולים זמן וכסף</span>
+                        <span className="text-xs bg-red-200/70 group-hover:bg-red-300/70 text-red-900 px-2.5 py-0.5 rounded-full font-bold transition-colors mr-1 inline-flex items-center gap-1 whitespace-nowrap">
+                            <span>איך משחררים את הצוות?</span>
+                            <span className="group-hover:-translate-x-0.5 transition-transform font-bold">←</span>
+                        </span>
+                    </a>
                 </div>
 
                 <h2 className="text-3xl md:text-5xl font-bold text-center text-gray-900 mb-8">

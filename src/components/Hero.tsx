@@ -2,7 +2,12 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 
-export const Hero = () => {
+interface HeroProps {
+    onNavigate?: (path: string) => void;
+    onOpenBookingModal?: () => void;
+}
+
+export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
     const ref = useRef(null);
     const { scrollYProgress } = useScroll({
         target: ref,
@@ -86,14 +91,27 @@ export const Hero = () => {
                     ✨ מתחילים כאן
                 </motion.a>
 
-                {/* Pain Bar */}
+                {/* Pain Bar with Knowledge Gateway */}
                 <motion.div
                     initial={{ opacity: 0, y: 50 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.8 }}
-                    className="mt-12 bg-black/60 backdrop-blur-sm border border-white/10 p-4 rounded-xl text-gray-300 text-sm md:text-base max-w-2xl"
+                    className="mt-12 bg-black/60 backdrop-blur-sm border border-white/10 p-4 rounded-2xl text-gray-300 text-sm md:text-base max-w-2xl flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-right"
                 >
-                    <p>ניהול לקוחות מבוזר מבזבז שעות יקרות ומפספס הזדמנויות - ובסוף זה כסף שנשאר על הרצפה.</p>
+                    <p className="leading-relaxed text-sm md:text-base">ניהול לקוחות מבוזר מבזבז שעות יקרות ומפספס הזדמנויות - ובסוף זה כסף שנשאר על הרצפה.</p>
+                    <a
+                        href="/topics/lost-leads"
+                        onClick={(e) => {
+                            if (onNavigate) {
+                                e.preventDefault();
+                                onNavigate('/topics/lost-leads');
+                            }
+                        }}
+                        className="inline-flex items-center gap-1.5 text-xs sm:text-sm text-yellow-400 hover:text-yellow-300 font-bold whitespace-nowrap bg-white/5 hover:bg-white/10 border border-yellow-400/25 px-3.5 py-1.5 rounded-full transition-all shrink-0 group cursor-pointer"
+                    >
+                        <span>איך עוצרים את הבריחה?</span>
+                        <span className="group-hover:-translate-x-0.5 transition-transform font-bold">←</span>
+                    </a>
                 </motion.div>
             </motion.div>
         </section>

@@ -1,7 +1,11 @@
 import { motion } from 'framer-motion';
 
 
-export const Benefits = () => {
+interface BenefitsProps {
+    onNavigate?: (path: string) => void;
+}
+
+export const Benefits: React.FC<BenefitsProps> = ({ onNavigate }) => {
     return (
         <section id="benefits" className="relative py-24 bg-white text-right overflow-hidden" dir="rtl">
             {/* Wave Separator Top */}
@@ -18,10 +22,23 @@ export const Benefits = () => {
                     viewport={{ once: true }}
                     className="flex justify-center mb-8"
                 >
-                    <div className="bg-gradient-to-r from-red-600 to-red-500 text-white px-8 py-3 rounded-full text-base md:text-lg font-bold shadow-lg shadow-red-500/20 flex items-center gap-2">
+                    <a
+                        href="/articles/lead-first-5-minutes-guide"
+                        onClick={(e) => {
+                            if (onNavigate) {
+                                e.preventDefault();
+                                onNavigate('/articles/lead-first-5-minutes-guide');
+                            }
+                        }}
+                        className="bg-gradient-to-r from-red-600 to-red-500 hover:from-red-700 hover:to-red-600 text-white px-6 sm:px-8 py-3 rounded-full text-sm sm:text-base md:text-lg font-bold shadow-lg shadow-red-500/20 flex flex-wrap sm:flex-nowrap items-center justify-center gap-2.5 transition-all group cursor-pointer text-center"
+                    >
                         <span className="text-xl">🛑</span>
-                        כל דקה של עיכוב במענה עלולה להפוך לעסקה שהלכה למתחרים
-                    </div>
+                        <span>כל דקה של עיכוב במענה עלולה להפוך לעסקה שהלכה למתחרים</span>
+                        <span className="text-xs bg-white/20 group-hover:bg-white/30 text-white px-3 py-1 rounded-full font-bold transition-colors whitespace-nowrap mr-1 inline-flex items-center gap-1">
+                            <span>למדריך 5 הדקות</span>
+                            <span className="group-hover:-translate-x-0.5 transition-transform">←</span>
+                        </span>
+                    </a>
                 </motion.div>
 
                 <motion.h2

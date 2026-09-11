@@ -2,37 +2,66 @@ import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 
 
-const features = [
+interface FeatureItem {
+    title: string;
+    desc: string;
+    icon: string;
+    hubUrl: string;
+    hubLabel: string;
+}
+
+const features: FeatureItem[] = [
     {
         title: "ניהול לידים חכם בזמן אמת",
         desc: "כל ליד במקום אחד, תמונת מצב ברגע נתון.",
-        icon: "https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/689697db3b96f7dfadc2b0c6.png"
+        icon: "https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/689697db3b96f7dfadc2b0c6.png",
+        hubUrl: "/topics/lost-leads",
+        hubLabel: "מדריך לאבחון ועצירת בריחת לידים"
     },
     {
         title: "תקשורת רב־ערוצית",
         desc: "וואטסאפ, טיקטוק, רשתות חברתיות, טלפון, SMS, מייל.",
-        icon: "https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/689697db6346f41abf5634f5.png"
+        icon: "https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/689697db6346f41abf5634f5.png",
+        hubUrl: "/topics/whatsapp-in-crm",
+        hubLabel: "איך לחבר וואטסאפ ל-CRM בצורה נכונה"
     },
     {
         title: "תהליך מכירה מסודר ואחיד",
         desc: "אחידות שמייצרת אמון והמרות.",
-        icon: "https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/689697db48d9ff2bd218bab5.png"
+        icon: "https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/689697db48d9ff2bd218bab5.png",
+        hubUrl: "/topics/sales-pipeline",
+        hubLabel: "מדריך לבניית פייפליין מכירות חזותי"
     },
     {
         title: "אוטומציות שחוסכות זמן",
         desc: "עקביות בלי מאמץ.",
-        icon: "https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/689697db6346f46b0a5634f3.png"
+        icon: "https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/689697db6346f46b0a5634f3.png",
+        hubUrl: "/topics/repetitive-manual-work",
+        hubLabel: "איך לשחרר את הצוות מעבודה ידנית"
     },
     {
         title: "בוטים מבוססי בינה מלאכותית",
         desc: "מענה איכותי סביב השעון.",
-        icon: "https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/689697dba1ed26466abb3609.png"
+        icon: "https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/689697dba1ed26466abb3609.png",
+        hubUrl: "/articles/non-technical-to-ai-automation-guide",
+        hubLabel: "איך מתחילים עם אוטומציה ו-AI בלי להסתבך"
     },
     {
         title: "דשבורד מקיף ומדדים",
         desc: "מעקב ביצועים וניתוח נתונים בזמן אמת.",
-        icon: "https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/689697da6346f473045634f2.png"
+        icon: "https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/689697da6346f473045634f2.png",
+        hubUrl: "/topics/business-memory",
+        hubLabel: "איך לשמור על הזיכרון הארגוני והנתונים"
     }
+];
+
+// Natural recognition situations that visitors immediately relate to
+const recognitionSituations = [
+    { text: "לידים שלא מקבלים מענה בזמן", url: "/topics/lost-leads" },
+    { text: "וואטסאפ שלא מחובר לתהליך", url: "/topics/whatsapp-in-crm" },
+    { text: "לא ברור איפה כל עסקה עומדת", url: "/topics/sales-pipeline" },
+    { text: "מידע שנשאר בראש של העובד", url: "/topics/business-memory" },
+    { text: "עבודה ידנית שחוזרת על עצמה", url: "/topics/repetitive-manual-work" }
 ];
 
 interface FeaturesProps {
@@ -49,6 +78,13 @@ export const Features: React.FC<FeaturesProps> = ({ onNavigate }) => {
     const yBackground = useTransform(scrollYProgress, [0, 1], [0, -100]);
     const rotateBackground = useTransform(scrollYProgress, [0, 1], [0, 45]);
 
+    const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, url: string) => {
+        if (onNavigate) {
+            e.preventDefault();
+            onNavigate(url);
+        }
+    };
+
     return (
         <section ref={ref} id="why-altrubiz" className="relative py-24 bg-white text-right overflow-hidden" dir="rtl">
             {/* Parallax Background Elements */}
@@ -62,37 +98,50 @@ export const Features: React.FC<FeaturesProps> = ({ onNavigate }) => {
             />
 
             <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <motion.h2
+                <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="text-3xl md:text-5xl font-bold text-center text-dark mb-8"
+                    className="text-center mb-10"
                 >
-                    למה אלטרוביז?
-                </motion.h2>
+                    <h2 className="text-3xl md:text-5xl font-bold text-dark mb-4">
+                        למה אלטרוביז?
+                    </h2>
+                    <p className="text-slate-600 text-base md:text-lg max-w-2xl mx-auto">
+                        תשתיות עבודה שסוגרות את הפערים בין שיווק, מכירות ותפעול יומיומי.
+                    </p>
+                </motion.div>
 
+                {/* Natural Recognition Gateway: "זה קורה אצלכם?" */}
                 <motion.div
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
+                    initial={{ opacity: 0, y: 15 }}
+                    whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="flex justify-center mb-16"
+                    className="mb-16 bg-slate-50/80 border border-slate-200/80 rounded-2xl p-5 sm:p-6 backdrop-blur-sm max-w-4xl mx-auto shadow-sm"
                 >
-                    <a 
-                        href="/topics/lost-leads"
-                        onClick={(e) => {
-                            if (onNavigate) {
-                                e.preventDefault();
-                                onNavigate('/topics/lost-leads');
-                            }
-                        }}
-                        className="bg-gradient-to-r from-red-500/10 to-red-600/5 hover:from-red-500/20 hover:to-red-600/10 backdrop-blur-sm text-red-700 px-6 py-3 rounded-full text-base font-medium border border-red-200/50 shadow-sm flex items-center gap-2 transition-all group cursor-pointer"
-                    >
-                        <span className="h-2 w-2 rounded-full bg-red-500 animate-pulse"></span>
-                        <span>לידים "נופלים בין הכיסאות" כשהמידע מפוזר</span>
-                        <span className="text-xs bg-red-100 group-hover:bg-red-200 text-red-800 px-2.5 py-0.5 rounded-full font-bold transition-colors mr-2">
-                            למדריך האבחון והפתרון המלא ←
+                    <div className="flex flex-col sm:flex-row items-center justify-between gap-3 mb-4 pb-3 border-b border-slate-200/60">
+                        <div className="flex items-center gap-2 text-slate-800 font-bold text-sm sm:text-base">
+                            <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+                            <span>זה קורה אצלכם? מזהים את המצב בעסק ומעמיקים לפתרון:</span>
+                        </div>
+                        <span className="text-xs text-slate-500 font-medium hidden sm:inline">
+                            בחרו מצב להעמקה
                         </span>
-                    </a>
+                    </div>
+
+                    <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 sm:gap-2.5">
+                        {recognitionSituations.map((sit, idx) => (
+                            <a
+                                key={idx}
+                                href={sit.url}
+                                onClick={(e) => handleLinkClick(e, sit.url)}
+                                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-medium bg-white text-slate-700 hover:text-primary hover:bg-blue-50/80 border border-slate-200 hover:border-primary/30 shadow-xs hover:shadow-sm transition-all group cursor-pointer"
+                            >
+                                <span>{sit.text}</span>
+                                <span className="text-slate-400 group-hover:text-primary group-hover:-translate-x-0.5 transition-all text-xs">←</span>
+                            </a>
+                        ))}
+                    </div>
                 </motion.div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -114,9 +163,19 @@ export const Features: React.FC<FeaturesProps> = ({ onNavigate }) => {
                             />
 
                             <h3 className="text-xl font-bold text-primary mb-3 relative z-10">{feature.title}</h3>
-                            <p className="text-gray-600 leading-relaxed font-medium relative z-10">
+                            <p className="text-gray-600 leading-relaxed font-medium relative z-10 mb-6 flex-1">
                                 {feature.desc}
                             </p>
+
+                            {/* Subtle Editorial Knowledge Connection */}
+                            <a
+                                href={feature.hubUrl}
+                                onClick={(e) => handleLinkClick(e, feature.hubUrl)}
+                                className="relative z-10 inline-flex items-center gap-1.5 text-xs font-bold text-slate-600 hover:text-primary bg-slate-50 hover:bg-blue-50/70 border border-slate-200/80 hover:border-primary/30 px-3 py-1.5 rounded-full transition-all group/link"
+                            >
+                                <span>{feature.hubLabel}</span>
+                                <span className="group-hover/link:-translate-x-0.5 transition-transform text-primary font-bold">←</span>
+                            </a>
                         </motion.div>
                     ))}
                 </div>
