@@ -28,6 +28,11 @@ function checkServer(url) {
 }
 
 async function ensureServer() {
+    if (process.env.TARGET_URL) {
+        console.log(`✔ Target server specified: ${process.env.TARGET_URL}`);
+        return { baseUrl: process.env.TARGET_URL, close: () => {} };
+    }
+
     // Check if port 4173 is already up
     const isUp = await checkServer('http://localhost:4173/');
     if (isUp) {
