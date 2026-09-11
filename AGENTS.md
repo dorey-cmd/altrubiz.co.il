@@ -72,7 +72,7 @@ Long articles and guides draw from a library of tested, non-repetitive presentat
 ## 2.6 Mandatory Knowledge Topology & Content Architecture Standard
 The website operates as a connected knowledge graph organized primarily around **Business Pains** (discovery layer) rather than tech features (solution layer).
 - **Node Types**: Home Page → Pain Hubs (`/topics/<slug>`) → Sub-Pains / Real-World Manifestations → Articles (`/articles/<slug>`) → Micro Hubs → Product Nodes → Contextual CTAs.
-- **Tag & Hub Promotion Rule**: A concept becomes a public indexable Hub only with at least 3 substantial pieces of content and independent user value.
+- **Tag & Hub Promotion Rule**: Node Existence ≠ Public Page Existence. Qualitative Knowledge Maturity ≠ Publication Readiness ≠ Indexability. Qualitative maturity makes a node eligible as a candidate for a public destination; actual creation, publication, and indexability remain separate decisions. Public Page Eligibility = Qualitative Knowledge Maturity + Genuine Standalone User Value (strictly zero numerical quotas). A concept becomes a public indexable Hub only when accumulated knowledge provides sufficient conceptual depth, diagnostic usefulness, and standalone visitor value without filler.
 - **Mandatory Ingestion Workflow**: Every new article must be classified across multi-dimensional taxonomy (`src/data/knowledgeGraph.ts`), establish bidirectional links (both outbound and inward links from existing pages), and update parent Hubs.
 - Full specification: [`.agents/rules/knowledge-topology-architecture.md`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/rules/knowledge-topology-architecture.md).
 
@@ -112,6 +112,24 @@ The visual language, brand consistency, and interactive experience of the websit
   - Brand DNA & Tokens: [`.agents/rules/design-brand-language.md`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/rules/design-brand-language.md)
   - Experience & Living Interface: [`.agents/rules/design-experience.md`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/rules/design-experience.md)
   - Responsive, RTL/LTR & Accessibility: [`.agents/rules/design-responsive-accessibility.md`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/rules/design-responsive-accessibility.md)
+
+---
+
+## 2.9 Mandatory Contextual Semantic Linking & Progressive Knowledge UX Standard
+The editorial text itself is an active part of the Knowledge Graph navigation.
+- **Permanent Invariant**: **"LINK FOR UNDERSTANDING, NOT FOR OCCURRENCE."** A word or domain concept is never linked merely because it appears.
+- **Progressive Knowledge UX**:
+  1. *First Meaningful Encounter*: Contextual link to canonical Knowledge Node.
+  2. *Repeated / Supporting Encounter*: Unobtrusive in-place short definition / tooltip.
+  3. *Quick Clarification*: Lightweight accessible popover without navigation.
+  4. *Deep Exploration*: Canonical Topic Hub or Concept destination.
+  5. *Clean Prose*: Common words and immediate repetitions remain plain text.
+- **Node Existence ≠ Page Existence**: Concepts exist semantically with canonical definitions in `src/data/knowledgeGraph.ts` before earning public pages. Public page eligibility requires qualitative knowledge maturity and genuine standalone user value (strictly zero numerical quotas). Never force unrelated concepts into mismatched Hubs.
+- **No Numerical Quotas**: Internal linking density is governed solely by editorial relevance, never arbitrary counts.
+- **Same-Window Invariant**: Internal links open in the same window (`target="_self"`) to preserve browser history and reading momentum.
+- **Knowledge CTA Intent**: CTAs recognize knowledge-deepening invitations (e.g. *"להבין איך פייפליין עובד"*) alongside commercial, diagnostic, product, and social actions.
+- Always-On Rule: [`.agents/rules/contextual-semantic-linking.md`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/rules/contextual-semantic-linking.md).
+- Authoritative Technical Specification: [`.agents/specs/contextual-semantic-linking.md`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/specs/contextual-semantic-linking.md).
 
 ---
 

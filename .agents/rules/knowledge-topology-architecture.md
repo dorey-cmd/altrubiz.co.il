@@ -64,12 +64,18 @@ Every piece of content must be classified across semantic dimensions:
 ---
 
 ## 5. Promotion Rules (Hub Quality Gates)
-- **Tag Promotion Rule**: A tag becomes a public, indexable Micro Hub only when:
-  - At least 3 substantial pieces of relevant content exist.
-  - The concept has independent search and user value.
-  - A useful standalone explanation and diagnostic value can be written without filler.
-  - Otherwise, it remains strictly internal metadata.
-- **Pain Hub Promotion Rule**: Created only when recurring business pains are backed by sufficient content mass and distinct user intent. Never create duplicate Hubs with minor phrasing variations.
+- **Permanent Principle**: Node Existence ≠ Public Page Existence.
+- **Tri-Partite Progression**: $\text{Knowledge Maturity} \neq \text{Publication Readiness} \neq \text{Indexability}$. Qualitative maturity makes a node an eligible candidate for a public destination; publication, public exposure, sitemap inclusion, and search indexing remain separate, deliberate decisions.
+- **Public Page Eligibility**: Evaluated strictly qualitatively:
+  $$\text{Public Page Eligibility} = \text{Qualitative Knowledge Maturity} + \text{Genuine Standalone User Value}$$
+  There are **strictly NO numerical thresholds** (no "3 articles", "3 assets", or backlink quotas).
+- **Tag & Concept Promotion Gate**: An entity or tag becomes a public, indexable Hub only when:
+  - It possesses sufficient conceptual depth and clear standalone visitor value.
+  - It has meaningful relationship density across business pains, symptoms, and capabilities.
+  - Standalone diagnostic usefulness, practical guidance, and symptom recognition can be articulated without filler.
+  - It answers likely user intent coherently rather than acting as a thin SEO page.
+  - Otherwise, it remains strictly internal knowledge metadata.
+- **Pain Hub Promotion Gate**: Created only when recurring business pains represent distinct visitor search/pain intent supported by qualitative diagnostic depth. Never create duplicate Hubs with minor phrasing variations.
 
 ---
 
@@ -81,7 +87,7 @@ Whenever new content is added to the website:
 4. **Outbound Links**: Link from the article to its parent Hub, related articles, and contextual CTAs.
 5. **Inbound Links (MANDATORY)**: Update existing pages, parent Hubs, and related articles to link contextually BACK to the new article.
 6. **Update Existing Hubs**: Add new sub-problems or insights to parent Hubs.
-7. **Check Promotion Mass**: Evaluate whether any topic now has 3+ articles and qualifies as a new Hub.
+7. **Evaluate Qualitative Maturity**: Determine whether accumulated insights on any concept now provide sufficient conceptual depth and standalone user value to justify recommending a dedicated public Hub.
 8. **Check Commercial Connections**: Connect to relevant AltruBiz solutions without forced sales pitches.
 9. **Check User Journey**: Ensure every page ends with clear next steps (reading, quick win, or CTA).
 
@@ -90,11 +96,22 @@ Whenever new content is added to the website:
 ## 7. Internal Linking & CTA Standards
 - **Bidirectional Connectivity**: No orphaned or dead-end pages.
 - **Descriptive Anchor Texts**: Never use generic "click here" or "לחצו כאן".
-- **CTA Families**: Match user intent with Diagnostic, Product, Soft contact, Content, Sharing, Self-service, or Partnership CTAs.
+- **CTA Families**: Match user intent across five primary actions: Commercial (Contact/Meeting), Diagnostic (Self-assessment), Knowledge (Deepen/clarify), Product (Solution fit), or Social (Sharing).
 - **Popup Modal Rule**: Off-homepage contact/fit CTAs must open `ContactModal` or `PricingModal` without taking the reader out of context.
-- **5-Tier CTA Spacing**: Maintain at least 2 sections spacing between inline CTAs in long articles.
+- **Editorial CTA Spacing**: Inline CTAs are governed by narrative flow and reading momentum rather than rigid numerical quotas.
 
 ---
 
-## 8. Single Source of Truth
+## 8. Contextual Semantic Linking & Progressive Knowledge UX
+The editorial text itself is an active part of the Knowledge Graph navigation.
+- **Permanent Invariant**: "LINK FOR UNDERSTANDING, NOT FOR OCCURRENCE." Keywords are never linked simply because they appear.
+- **Node Existence ≠ Page Existence**: Concepts (e.g. Lead, Contact, Follow-up) exist in the Knowledge Graph with canonical definitions even before earning dedicated public pages.
+- **Progressive Knowledge UX**: First encounter links to canonical destination; repeated or supporting encounters offer short in-place definitions; common words remain clean prose.
+- **Same Window Navigation**: Internal knowledge links open in the same window (`target="_self"` by default) to preserve reader momentum and browser history.
+- Full specification: [`.agents/rules/contextual-semantic-linking.md`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/rules/contextual-semantic-linking.md).
+
+---
+
+## 9. Single Source of Truth
 The Knowledge Registry in `src/data/knowledgeGraph.ts` is the single source of truth for all content nodes, taxonomies, and topological relationships.
+
