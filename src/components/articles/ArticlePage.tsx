@@ -37,6 +37,12 @@ interface ArticlePageProps {
         badge?: string;
         whatsappPrefill?: string;
     }) => void;
+    onOpenBookingModal?: (options?: {
+        title?: string;
+        subtitle?: string;
+        badge?: string;
+        whatsappPrefill?: string;
+    }) => void;
     onOpenPricingModal?: () => void;
 }
 
@@ -44,6 +50,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
     article, 
     onNavigate, 
     onOpenContactModal,
+    onOpenBookingModal,
     onOpenPricingModal 
 }) => {
     const [activeSectionId, setActiveSectionId] = useState<string>(article.sections[0]?.id || '');
@@ -366,11 +373,11 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                 size="md"
                                 className="font-bold text-sm sm:text-base px-4 py-3 bg-white/10 hover:bg-white/20 text-white border border-white/20 flex items-center gap-2"
                                 onClick={() => {
-                                    if (onOpenContactModal) {
-                                        onOpenContactModal({
+                                    if (onOpenBookingModal) {
+                                        onOpenBookingModal({
                                             title: 'קביעת שיחת התאמה: איך זה יכול לעבוד אצלכם בעסק',
                                             subtitle: 'נשמח להכיר את הפעילות ולהתאים את המענה המדויק.',
-                                            badge: 'בדיקת התאמה'
+                                            badge: 'תיאום שיחה ביומן'
                                         });
                                     } else {
                                         onNavigate('/#contact');
@@ -378,7 +385,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                 }}
                             >
                                 <Calendar size={16} />
-                                <span>{inlineCta.secondaryButtonText || 'בדיקת התאמה לפעילות שלכם'}</span>
+                                <span>{inlineCta.secondaryButtonText || 'קביעת שיחת התאמה'}</span>
                             </Button>
                         </div>
                     </div>
@@ -411,11 +418,11 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                             size="md"
                             className="font-bold text-sm sm:text-base px-5 py-3 shadow-lg shadow-primary/30 flex items-center gap-2"
                             onClick={() => {
-                                if (onOpenContactModal) {
-                                    onOpenContactModal({
+                                if (onOpenBookingModal) {
+                                    onOpenBookingModal({
                                         title: inlineCta.title,
                                         subtitle: inlineCta.description,
-                                        badge: inlineCta.badge || 'קביעת פגישה'
+                                        badge: inlineCta.badge || 'תיאום פגישה ביומן'
                                     });
                                 } else {
                                     onNavigate('/#contact');
@@ -952,12 +959,167 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                 </div>
             </header>
 
-            {/* Main Article Container with Desktop Two-Column Layout */}
+            {/* Main Article Container with Desktop Two-Column Layout (RTL: Column 1 is Right side, Column 2 is Left side) */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="lg:grid lg:grid-cols-[1fr_300px] xl:grid-cols-[1fr_320px] gap-10 items-start">
+                <div className="lg:grid lg:grid-cols-[300px_1fr] xl:grid-cols-[320px_1fr] gap-10 items-start">
                     
-                    {/* Primary Content Column */}
-                    <div className="min-w-0 max-w-4xl mx-auto lg:mx-0 w-full">
+                    {/* Desktop Sticky Table of Contents Sidebar (Right Column in RTL) */}
+                    <aside className="hidden lg:block sticky top-28 space-y-4">
+                        <nav aria-label="תוכן עניינים דביק" className="bg-white/95 backdrop-blur-md border border-slate-200/90 rounded-3xl p-5 shadow-sm">
+                            <div className="flex items-center justify-between gap-2 pb-3 mb-3 border-b border-slate-100">
+                                <div className="flex items-center gap-2 font-black text-slate-900 text-sm">
+                                    <Compass size={18} className="text-primary" />
+                                    <span>תוכן הפעולות</span>
+                                </div>
+                                <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800">
+                                    {totalActions > 0 ? `${totalActions} שלבים` : 'סעיפי תוכן'}
+                                </span>
+                            </div>
+
+                            <div className="space-y-1 max-h-[calc(100vh-14rem)] overflow-y-auto pl-1 pr-0.5 custom-scrollbar">
+                                {article.sections.map((sec) => {
+                                    const isActive = activeSectionId === sec.id;
+                                    return (
+                                        <a
+                                            key={sec.id}
+                                            href={`#${sec.id}`}
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                scrollToSection(sec.id);
+                                            }}
+                                            className={`flex items-start gap-2 p-2 rounded-xl text-xs transition-all ${
+                                                isActive 
+                                                    ? 'bg-primary/10 text-primary font-bold border-r-4 border-primary shadow-xs' 
+                                                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                                            }`}
+                                        >
+                                            {sec.actionNumber ? (
+                                                <span className={`w-5 h-5 rounded-md flex items-center justify-center font-black flex-shrink-0 text-[10px] ${
+                                                    isActive ? 'bg-primary text-white' : 'bg-slate-100 text-slate-600'
+                                                }`}>
+                                                    0{sec.actionNumber}
+                                                </span>
+                                            ) : sec.isTenMinuteTest ? (
+                                                <span className="w-5 h-5 rounded-md bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold flex-shrink-0 text-[10px]">
+                                                    ⏱️
+                                                </span>
+                                            ) : (
+                                                <span className="w-5 h-5 rounded-md bg-slate-100 text-slate-500 flex items-center justify-center font-bold flex-shrink-0 text-[10px]">
+                                                    •
+                                                </span>
+                                            )}
+                                            <span className="line-clamp-2 leading-snug pt-0.5">
+                                                {sec.title}
+                                            </span>
+                                        </a>
+                                    );
+                                })}
+
+                                {article.faqs && article.faqs.length > 0 && (
+                                    <a
+                                        href="#article-faqs"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            scrollToSection('article-faqs');
+                                        }}
+                                        className={`flex items-start gap-2 p-2 rounded-xl text-xs transition-all ${
+                                            activeSectionId === 'article-faqs' 
+                                                ? 'bg-primary/10 text-primary font-bold border-r-4 border-primary shadow-xs' 
+                                                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                                        }`}
+                                    >
+                                        <span className="w-5 h-5 rounded-md bg-blue-100 text-primary flex items-center justify-center font-bold flex-shrink-0 text-[10px]">
+                                            ?
+                                        </span>
+                                        <span className="leading-snug pt-0.5">
+                                            שאלות נפוצות (FAQ)
+                                        </span>
+                                    </a>
+                                )}
+                            </div>
+
+                            <div className="pt-3 mt-3 border-t border-slate-100">
+                                <button
+                                    onClick={() => {
+                                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                                        window.history.replaceState(null, '', window.location.pathname);
+                                    }}
+                                    className="w-full flex items-center justify-center gap-1.5 py-2 px-3 text-xs text-slate-500 hover:text-primary hover:bg-slate-50 rounded-xl transition-colors font-semibold"
+                                >
+                                    <ArrowUp size={13} />
+                                    <span>חזרה לראש המאמר</span>
+                                </button>
+                            </div>
+                        </nav>
+
+                        {/* Sticky Desktop Sidebar CTA Card */}
+                        <div className="bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 text-white rounded-3xl p-5 shadow-xl border border-slate-800 relative overflow-hidden">
+                            <div className="absolute top-0 right-0 w-36 h-36 bg-primary/25 rounded-full blur-2xl pointer-events-none" />
+                            <div className="relative z-10 space-y-2.5">
+                                <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/30 text-[11px] font-bold">
+                                    <Sparkles size={12} />
+                                    <span>בדיקת התאמה לעסק</span>
+                                </div>
+                                <h4 className="font-extrabold text-sm text-white leading-snug">
+                                    רוצים לראות איך זה עובד אצלכם?
+                                </h4>
+                                <p className="text-xs text-slate-300 leading-relaxed">
+                                    נמפה תהליך אחד בעסק ונראה איך לפשט אותו עם AltruBiz CRM.
+                                </p>
+                                <div className="pt-1 space-y-2">
+                                    <Button
+                                        variant="primary"
+                                        size="sm"
+                                        className="w-full font-bold text-xs py-2.5 shadow-md shadow-primary/25 flex items-center justify-center gap-1.5"
+                                        onClick={() => {
+                                            if (onOpenBookingModal) {
+                                                onOpenBookingModal({
+                                                    title: 'קביעת פגישה לבדיקת התאמה',
+                                                    subtitle: 'נמפה תהליך אחד בעסק ונראה איך לפשט אותו עם AltruBiz CRM.',
+                                                    badge: 'תיאום פגישה ביומן'
+                                                });
+                                            } else {
+                                                onNavigate('/#contact');
+                                            }
+                                        }}
+                                    >
+                                        <Calendar size={14} />
+                                        <span>קביעת פגישה לבדיקת התאמה</span>
+                                    </Button>
+                                    <a
+                                        href={article.cta?.whatsappText 
+                                            ? `https://wa.me/972544350000?text=${encodeURIComponent(article.cta.whatsappText)}`
+                                            : `https://wa.me/972544350000?text=${encodeURIComponent(`שלום צוות AltruBiz, קראתי את המאמר "${article.title}" ואשמח לבדוק איך זה יכול לעבוד אצלנו בעסק`)}`
+                                        }
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="w-full flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-slate-200 border border-white/10 text-xs font-semibold transition-colors"
+                                    >
+                                        <MessageCircle size={14} className="text-[#25D366]" />
+                                        <span>התייעצות בוואטסאפ</span>
+                                    </a>
+
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                            if (onOpenPricingModal) {
+                                                onOpenPricingModal();
+                                            } else {
+                                                onNavigate('/#pricing');
+                                            }
+                                        }}
+                                        className="w-full text-center text-[11px] text-slate-400 hover:text-white pt-1.5 transition-colors font-medium flex items-center justify-center gap-1 cursor-pointer"
+                                    >
+                                        <Zap size={11} className="text-amber-400 fill-amber-400" />
+                                        <span>רוצים לבדוק חבילות ומחירים? לחצו כאן</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </aside>
+
+                    {/* Primary Content Column (Left Column in RTL, comfortable reading width) */}
+                    <div className="min-w-0 max-w-3xl mx-auto lg:mx-0 w-full">
                         
                         {/* Article Cover Image */}
                         {article.coverImage && (
@@ -1160,8 +1322,12 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                     <button
                                         type="button"
                                         onClick={() => {
-                                            if (onOpenContactModal) {
-                                                onOpenContactModal();
+                                            if (onOpenBookingModal) {
+                                                onOpenBookingModal({
+                                                    title: article.cta ? article.cta.buttonText : 'קביעת פגישה: איך זה יכול לעבוד אצלכם בעסק',
+                                                    subtitle: article.cta ? article.cta.description : 'צוות AltruBiz יסייע לכם לחבר את התהליכים, הלידים והאוטומציה העסקית בצורה מותאמת אישית לפעילות שלכם.',
+                                                    badge: 'תיאום פגישה ביומן'
+                                                });
                                             } else if (article.cta?.buttonLink.startsWith('/#')) {
                                                 onNavigate(article.cta.buttonLink);
                                             } else {
@@ -1228,157 +1394,6 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
 
                     </div>
 
-                    {/* Desktop Sticky Table of Contents Sidebar */}
-                    <aside className="hidden lg:block sticky top-28 space-y-4">
-                        <nav aria-label="תוכן עניינים דביק" className="bg-white/95 backdrop-blur-md border border-slate-200/90 rounded-3xl p-5 shadow-sm">
-                            <div className="flex items-center justify-between gap-2 pb-3 mb-3 border-b border-slate-100">
-                                <div className="flex items-center gap-2 font-black text-slate-900 text-sm">
-                                    <Compass size={18} className="text-primary" />
-                                    <span>תוכן הפעולות</span>
-                                </div>
-                                <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800">
-                                    {totalActions > 0 ? `${totalActions} שלבים` : 'סעיפי תוכן'}
-                                </span>
-                            </div>
-
-                            <div className="space-y-1 max-h-[calc(100vh-14rem)] overflow-y-auto pl-1 pr-0.5 custom-scrollbar">
-                                {article.sections.map((sec) => {
-                                    const isActive = activeSectionId === sec.id;
-                                    return (
-                                        <a
-                                            key={sec.id}
-                                            href={`#${sec.id}`}
-                                            onClick={(e) => {
-                                                e.preventDefault();
-                                                scrollToSection(sec.id);
-                                            }}
-                                            className={`flex items-start gap-2 p-2 rounded-xl text-xs transition-all ${
-                                                isActive 
-                                                    ? 'bg-primary/10 text-primary font-bold border-r-4 border-primary shadow-xs' 
-                                                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
-                                            }`}
-                                        >
-                                            {sec.actionNumber ? (
-                                                <span className={`w-5 h-5 rounded-md flex items-center justify-center font-black flex-shrink-0 text-[10px] ${
-                                                    isActive ? 'bg-primary text-white' : 'bg-slate-100 text-slate-600'
-                                                }`}>
-                                                    0{sec.actionNumber}
-                                                </span>
-                                            ) : sec.isTenMinuteTest ? (
-                                                <span className="w-5 h-5 rounded-md bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold flex-shrink-0 text-[10px]">
-                                                    ⏱️
-                                                </span>
-                                            ) : (
-                                                <span className="w-5 h-5 rounded-md bg-slate-100 text-slate-500 flex items-center justify-center font-bold flex-shrink-0 text-[10px]">
-                                                    •
-                                                </span>
-                                            )}
-                                            <span className="line-clamp-2 leading-snug pt-0.5">
-                                                {sec.title}
-                                            </span>
-                                        </a>
-                                    );
-                                })}
-
-                                {article.faqs && article.faqs.length > 0 && (
-                                    <a
-                                        href="#article-faqs"
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            scrollToSection('article-faqs');
-                                        }}
-                                        className={`flex items-start gap-2 p-2 rounded-xl text-xs transition-all ${
-                                            activeSectionId === 'article-faqs' 
-                                                ? 'bg-primary/10 text-primary font-bold border-r-4 border-primary shadow-xs' 
-                                                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
-                                        }`}
-                                    >
-                                        <span className="w-5 h-5 rounded-md bg-blue-100 text-primary flex items-center justify-center font-bold flex-shrink-0 text-[10px]">
-                                            ?
-                                        </span>
-                                        <span className="leading-snug pt-0.5">
-                                            שאלות נפוצות (FAQ)
-                                        </span>
-                                    </a>
-                                )}
-                            </div>
-
-                            <div className="pt-3 mt-3 border-t border-slate-100">
-                                <button
-                                    onClick={() => {
-                                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                                        window.history.replaceState(null, '', window.location.pathname);
-                                    }}
-                                    className="w-full flex items-center justify-center gap-1.5 py-2 px-3 text-xs text-slate-500 hover:text-primary hover:bg-slate-50 rounded-xl transition-colors font-semibold"
-                                >
-                                    <ArrowUp size={13} />
-                                    <span>חזרה לראש המאמר</span>
-                                </button>
-                            </div>
-                        </nav>
-
-                        {/* Sticky Desktop Sidebar CTA Card */}
-                        <div className="bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 text-white rounded-3xl p-5 shadow-xl border border-slate-800 relative overflow-hidden">
-                            <div className="absolute top-0 right-0 w-36 h-36 bg-primary/25 rounded-full blur-2xl pointer-events-none" />
-                            <div className="relative z-10 space-y-2.5">
-                                <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/30 text-[11px] font-bold">
-                                    <Sparkles size={12} />
-                                    <span>בדיקת התאמה לעסק</span>
-                                </div>
-                                <h4 className="font-extrabold text-sm text-white leading-snug">
-                                    רוצים לראות איך זה עובד אצלכם?
-                                </h4>
-                                <p className="text-xs text-slate-300 leading-relaxed">
-                                    נמפה תהליך אחד בעסק ונראה איך לפשט אותו עם AltruBiz CRM.
-                                </p>
-                                <div className="pt-1 space-y-2">
-                                    <Button
-                                        variant="primary"
-                                        size="sm"
-                                        className="w-full font-bold text-xs py-2.5 shadow-md shadow-primary/25 flex items-center justify-center gap-1.5"
-                                        onClick={() => {
-                                            if (onOpenContactModal) {
-                                                onOpenContactModal();
-                                            } else {
-                                                onNavigate('/#contact');
-                                            }
-                                        }}
-                                    >
-                                        <Calendar size={14} />
-                                        <span>קביעת פגישה לבדיקת התאמה</span>
-                                    </Button>
-                                    <a
-                                        href={article.cta?.whatsappText 
-                                            ? `https://wa.me/972544350000?text=${encodeURIComponent(article.cta.whatsappText)}`
-                                            : `https://wa.me/972544350000?text=${encodeURIComponent(`שלום צוות AltruBiz, קראתי את המאמר "${article.title}" ואשמח לבדוק איך זה יכול לעבוד אצלנו בעסק`)}`
-                                        }
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="w-full flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-slate-200 border border-white/10 text-xs font-semibold transition-colors"
-                                    >
-                                        <MessageCircle size={14} className="text-[#25D366]" />
-                                        <span>התייעצות בוואטסאפ</span>
-                                    </a>
-
-                                    <button
-                                        type="button"
-                                        onClick={() => {
-                                            if (onOpenPricingModal) {
-                                                onOpenPricingModal();
-                                            } else {
-                                                onNavigate('/#pricing');
-                                            }
-                                        }}
-                                        className="w-full text-center text-[11px] text-slate-400 hover:text-white pt-1.5 transition-colors font-medium flex items-center justify-center gap-1 cursor-pointer"
-                                    >
-                                        <Zap size={11} className="text-amber-400 fill-amber-400" />
-                                        <span>רוצים לבדוק חבילות ומחירים? לחצו כאן</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </aside>
-
                 </div>
             </div>
 
@@ -1391,7 +1406,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                     >
                         <Compass size={17} className="text-amber-400 flex-shrink-0" />
                         <span className="truncate max-w-[180px] sm:max-w-[240px]">
-                            קפיצה לפעולה: {activeLabel}
+                            תוכן המאמר: {activeLabel}
                         </span>
                         <ChevronDown size={15} className="text-slate-300 flex-shrink-0" />
                     </button>
@@ -1481,8 +1496,12 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                 className="w-full font-bold text-xs sm:text-sm py-3 shadow-md shadow-primary/25 flex items-center justify-center gap-2"
                                 onClick={() => {
                                     setIsMobileDrawerOpen(false);
-                                    if (onOpenContactModal) {
-                                        onOpenContactModal();
+                                    if (onOpenBookingModal) {
+                                        onOpenBookingModal({
+                                            title: 'קביעת פגישה לבדיקת התאמה',
+                                            subtitle: 'נמפה תהליך אחד בעסק ונראה איך לפשט אותו עם AltruBiz CRM.',
+                                            badge: 'תיאום פגישה ביומן'
+                                        });
                                     } else {
                                         onNavigate('/#contact');
                                     }

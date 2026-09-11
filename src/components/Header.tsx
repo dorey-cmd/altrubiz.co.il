@@ -4,9 +4,10 @@ import { Button } from './ui/Button';
 
 interface HeaderProps {
     onNavigate?: (path: string) => void;
+    onOpenBookingModal?: () => void;
 }
 
-export const Header = ({ onNavigate }: HeaderProps) => {
+export const Header = ({ onNavigate, onOpenBookingModal }: HeaderProps) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -14,6 +15,16 @@ export const Header = ({ onNavigate }: HeaderProps) => {
             e.preventDefault();
             setIsMenuOpen(false);
             onNavigate(href);
+        }
+    };
+
+    const handleBookingClick = (e: React.MouseEvent) => {
+        e.preventDefault();
+        setIsMenuOpen(false);
+        if (onOpenBookingModal) {
+            onOpenBookingModal();
+        } else if (onNavigate) {
+            onNavigate('/#contact');
         }
     };
 
@@ -69,14 +80,14 @@ export const Header = ({ onNavigate }: HeaderProps) => {
 
                     {/* CTA Buttons */}
                     <div className="hidden md:flex items-center gap-3">
-                        <a 
-                            href="/#contact" 
-                            onClick={(e) => handleLinkClick(e, '/#contact')}
+                        <Button 
+                            variant="primary" 
+                            size="sm" 
+                            className="font-bold"
+                            onClick={handleBookingClick}
                         >
-                            <Button variant="primary" size="sm" className="font-bold">
-                                קביעת פגישה
-                            </Button>
-                        </a>
+                            קביעת פגישה
+                        </Button>
                         <a href="https://app.altrubiz.com/" target="_blank" rel="noopener noreferrer">
                             <Button variant="ghost" size="sm" className="text-gray-600 hover:text-primary">התחברות</Button>
                         </a>
@@ -130,15 +141,13 @@ export const Header = ({ onNavigate }: HeaderProps) => {
                         </a>
 
                         <div className="pt-2 border-t border-gray-100 flex flex-col gap-2">
-                            <a 
-                                href="/#contact" 
-                                onClick={(e) => handleLinkClick(e, '/#contact')}
-                                className="block"
+                            <Button 
+                                variant="primary" 
+                                className="w-full justify-center font-bold"
+                                onClick={handleBookingClick}
                             >
-                                <Button variant="primary" className="w-full justify-center font-bold">
-                                    קביעת פגישה
-                                </Button>
-                            </a>
+                                קביעת פגישה
+                            </Button>
                             <a href="https://app.altrubiz.com/" target="_blank" rel="noopener noreferrer" className="block">
                                 <Button variant="ghost" className="w-full justify-center text-gray-600">
                                     התחברות

@@ -2,10 +2,36 @@
  * AltruBiz Knowledge Graph & Topology Registry
  * 
  * Single source of truth for the connected knowledge graph, multi-dimensional taxonomy,
- * business pains, manifestations, hubs, and bidirectional relationships.
+ * business situations, concepts, capabilities, journey stages, hubs, and bidirectional relationships.
  */
 
-export type NodeType = 'home' | 'pain_hub' | 'micro_hub' | 'article' | 'product';
+export type NodeType = 
+    | 'business_situation' 
+    | 'symptom' 
+    | 'topic' 
+    | 'concept' 
+    | 'capability' 
+    | 'journey_stage' 
+    | 'article' 
+    | 'guide' 
+    | 'assessment' 
+    | 'solution' 
+    | 'product' 
+    | 'home' 
+    | 'pain_hub' 
+    | 'micro_hub';
+
+export type NextActionType = 
+    | 'contact' 
+    | 'meeting' 
+    | 'whatsapp' 
+    | 'pricing' 
+    | 'assessment' 
+    | 'guide' 
+    | 'concept' 
+    | 'capability' 
+    | 'solution' 
+    | 'share';
 
 export interface DiagnosticItem {
     question: string;
@@ -37,6 +63,7 @@ export interface KnowledgeNode {
     slug: string;
     url: string;
     nodeType: NodeType;
+    hasPublicPage: boolean;
     title: string;
     subtitle?: string;
     seoTitle: string;
@@ -55,6 +82,7 @@ export interface KnowledgeNode {
     relatedMicroHubSlugs?: string[];
     relatedArticleSlugs?: string[];
     recommendedNextSlugs?: string[];
+    relevantNextActions?: NextActionType[];
     availableCtas: ('meeting' | 'pricing' | 'whatsapp' | 'quick-win')[];
     isIndexable: boolean;
     maturity: 'canonical' | 'maturing' | 'emerging';
@@ -100,13 +128,19 @@ export const CANONICAL_PAINS: Record<string, { id: string; name: string; descrip
         id: 'scattered-customer-communication',
         name: 'תקשורת לקוחות מפוזרת בערוצים נפרדים',
         description: 'שיחות מתנהלות בוואטסאפ, אינסטגרם, מייל וטלפון ללא הקשר וללא תיעוד מרכזי.',
-        hubSlug: 'scattered-customer-communication'
+        hubSlug: 'whatsapp-in-crm'
     },
     'sales-pipeline-crm-adoption': {
         id: 'sales-pipeline-crm-adoption',
         name: 'תהליך מכירה לא מסודר ועובדים שלא מעדכנים CRM',
         description: 'אנשי מכירות חוזרים לרשימות פרטיות ומחברות כי המערכת נבנתה ככלי מעקב מעיק במקום כלי עבודה.',
-        hubSlug: 'sales-pipeline-crm-adoption'
+        hubSlug: 'sales-pipeline'
+    },
+    'business-memory': {
+        id: 'business-memory',
+        name: 'אובדן זיכרון ארגוני ותיעוד לקוחות',
+        description: 'מידע עסקי והיסטוריית לקוח נשארים בראש של העובד או בוואטסאפ האישי ואובדים כשהצוות מתחלף.',
+        hubSlug: 'business-memory'
     },
     'repetitive-manual-work': {
         id: 'repetitive-manual-work',
@@ -128,6 +162,7 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
         slug: 'lost-leads',
         url: '/topics/lost-leads',
         nodeType: 'pain_hub',
+        hasPublicPage: true,
         title: 'לידים נופלים בין הכיסאות: המדריך לאבחון, עצירת נטישה וסגירת עסקאות',
         subtitle: 'איך לזהות את חורי הבריחה של לקוחות בעסק, לקצר את זמני המענה ל-5 דקות, ולחבר סיסטם שלא מאפשר לאף ליד להיעלם',
         seoTitle: 'לידים נופלים בין הכיסאות: מדריך אבחון ועצירת אובדן לקוחות | AltruBiz CRM',
@@ -148,7 +183,8 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
             'excel-to-crm-pipeline-guide',
             'crm-quick-wins-guide'
         ],
-        recommendedNextSlugs: ['whatsapp-in-crm', 'salespeople-hate-crm-adoption-guide'],
+        recommendedNextSlugs: ['whatsapp-in-crm', 'sales-pipeline', 'salespeople-hate-crm-adoption-guide'],
+        relevantNextActions: ['meeting', 'whatsapp', 'pricing', 'guide', 'assessment'],
         availableCtas: ['meeting', 'pricing', 'whatsapp'],
         isIndexable: true,
         maturity: 'canonical',
@@ -271,6 +307,7 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
         slug: 'whatsapp-in-crm',
         url: '/topics/whatsapp-in-crm',
         nodeType: 'micro_hub',
+        hasPublicPage: true,
         title: 'וואטסאפ ב-CRM: איך לחבר את הערוץ הכי חזק בעסק לסיסטם אוטומטי ובטוח',
         subtitle: 'מסעות לקוח אוטומטיים, מענה מהיר, מניעת חסימות Meta וריכוז כל השיחות ב-Inbox אחוד',
         seoTitle: 'וואטסאפ ב-CRM: מדריך חיבור, אוטומציות ומניעת חסימות | AltruBiz CRM',
@@ -293,7 +330,8 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
             'omnichannel-communication-unified-inbox-crm-guide',
             'crm-quick-wins-guide'
         ],
-        recommendedNextSlugs: ['lost-leads', 'omnichannel-communication-unified-inbox-crm-guide'],
+        recommendedNextSlugs: ['lost-leads', 'business-memory', 'omnichannel-communication-unified-inbox-crm-guide'],
+        relevantNextActions: ['meeting', 'whatsapp', 'pricing', 'guide', 'assessment'],
         availableCtas: ['meeting', 'pricing', 'whatsapp'],
         isIndexable: true,
         maturity: 'canonical',
@@ -401,6 +439,440 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
                 }
             ]
         }
+    },
+
+    // ==========================================
+    // 3. PAIN HUB: Sales Pipeline
+    // ==========================================
+    'hub-sales-pipeline': {
+        id: 'hub-sales-pipeline',
+        slug: 'sales-pipeline',
+        url: '/topics/sales-pipeline',
+        nodeType: 'pain_hub',
+        hasPublicPage: true,
+        title: 'תהליך מכירה ופייפליין חזותי: המדריך המעשי לבניית משפך שלא תלוי בזיכרון',
+        subtitle: 'איך לבנות משפך מכירות ברור, לחבר מעברי שלבים חכמים ולהעביר את הצוות ממחברות ואקסלים למערכת CRM שמייצרת תוצאות',
+        seoTitle: 'תהליך מכירה ופייפליין CRM: מדריך מעשי לניהול משפך עסקאות | AltruBiz',
+        description: 'מדריך מעשי לבניית תהליך מכירה ופייפליין חזותי ב-CRM: הגדרת שלבים מנצחים, מניעת צווארי בקבוק, שיטות אימוץ לצוות ומעבר מנוהל ידני לסיסטם עבודה מנצח.',
+        primaryPain: 'sales-pipeline-crm-adoption',
+        secondaryPains: ['lost-leads', 'repetitive-manual-work'],
+        userIntent: 'איך לבנות פייפליין מכירות נכון ב-CRM, לשפר אימוץ של אנשי מכירות ולנהל עסקאות בשלבים ברורים',
+        processes: ['ניהול משפך מכירות', 'הסמכת עסקאות', 'בקרת שלבים', 'פולואפ מכירות'],
+        channels: ['טלפון', 'WhatsApp', 'פגישות'],
+        technologies: ['Visual Pipeline CRM', 'אוטומציות מעברי שלבים', 'לוחות בקרה'],
+        businessObjects: ['עסקאות (Opportunities)', 'שלבי פייפליין', 'משימות מעקב', 'יעדי מכירות'],
+        outcomes: ['שליטה בהכנסות הצפויות', 'אפס עסקאות שנשכחות', 'אימוץ מלא של אנשי המכירות'],
+        relevantProducts: ['AltruBiz CRM', 'פייפליין מכירות חזותי', 'אוטומציות מעקב שלבים'],
+        recommendedNextSlugs: ['lost-leads', 'business-memory', 'repetitive-manual-work'],
+        relatedArticleSlugs: [
+            'excel-to-crm-pipeline-guide',
+            'salespeople-hate-crm-adoption-guide',
+            'crm-adoption-thursday-test-guide',
+            'follow-up-tasks-crm-guide',
+            'crm-quick-wins-guide'
+        ],
+        relevantNextActions: ['meeting', 'whatsapp', 'pricing', 'guide', 'assessment'],
+        availableCtas: ['meeting', 'pricing', 'whatsapp'],
+        isIndexable: true,
+        maturity: 'canonical',
+        dateCreated: '2026-09-10',
+        dateUpdated: '2026-09-10',
+        hubData: {
+            problemDefinition: 'תהליך מכירה ללא פייפליין חזותי מנוהל כרצף שיחות ומחברות פרטיות. עסקאות נתקעות ללא שלב ברור, מנהלים לא יודעים מה הצפי לסוף החודש, ואנשי המכירות רואים ב-CRM "עול דיווח" במקום כלי שמייצר להם עמלות.',
+            whyItHappens: [
+                'מערכות שנבנות ככלי פיקוח מעיק: דרישה למילוי עשרות שדות חובה מייאשת את אנשי המכירות ודוחפת אותם חזרה למחברות.',
+                'היעדר הגדרת שלבים חדה: שימוש בשלבים עמומים כגון "בטיפול" במקום פעולות מוגדרות עם תאריך יעד והגדרה ברורה של מעבר שלב.',
+                'פער בין שיחות המכירה לעדכון: שיחות מתנהלות בנייד או בוואטסאפ ללא תיעוד אוטומטי בכרטיס העסקה.',
+                'חוסר מעקב אחרי הצעות מחיר: שולחים הצעה, הלקוח מבקש לחשוב, ואין משימת תזכורת אוטומטית שקופצת לנציג.'
+            ],
+            businessCost: [
+                'אי-יכולת לחזות הכנסות ותזרים חודשי עקב היעדר תמונת מצב אמינה על עסקאות בצנרת.',
+                'בריחת עסקאות גדולות שנשכחות בין שלב ההצעה לשלב הסגירה ללא פולואפ מסודר.',
+                'תלות מוחלטת באיש המכירות הספציפי – אם הוא אינו נוכח, איש בארגון אינו יודע היכן הדברים עומדים.'
+            ],
+            symptoms: [
+                'בישיבת צוות מנהל שואל "איפה עומדת ההצעה של חברת X?" והנציג עונה "אני צריך לבדוק ביומן או במייל".',
+                'עסקאות יושבות שבועות ארוכים באותו שלב ללא תזוזה וללא תאריך יעד מוגדר.',
+                'אנשי מכירות מנהלים את העסקאות הפעילות על פתקים דביקים או באקסלים נפרדים.',
+                'מנהל העסק מופתע בסוף החודש מנפח הכנסות נמוך חרף תחושה של "המון שיחות טובות".'
+            ],
+            diagnosticQuestions: [
+                {
+                    question: 'האם כל איש מכירות בעסק יודע בכל רגע נתון בדיוק כמה עסקאות פתוחות יש לו ומה הצעד הבא בכל אחת?',
+                    warningSign: 'מסתמכים על זיכרון, דפים או חיפוש בהודעות וואטסאפ.',
+                    impact: 'עסקאות בשווי עשרות ומאות אלפי שקלים מתאדות ללא מעקב שיטתי.'
+                },
+                {
+                    question: 'כמה שדות חובה נדרש נציג למלא כדי ליצור עסקה חדשה או להעביר אותה שלב?',
+                    warningSign: 'יותר מ-3 שדות בכל שלב.',
+                    impact: 'הצוות מפסיק לעדכן את המערכת וה-CRM הופך למאגר נתונים ישן שאינו משקף את המציאות.'
+                },
+                {
+                    question: 'מה קורה לעסקה שנשלחה אליה הצעת מחיר ועברו 48 שעות ללא מענה מהלקוח?',
+                    warningSign: 'שום פעולה יזומה – ממתינים שהנציג יזכור להתקשר בעצמו.',
+                    impact: 'המומנטום של העסקה מתפוגג ואחוזי הסגירה יורדים בחדות.'
+                }
+            ],
+            primaryQuickWin: {
+                title: 'צמצום הפייפליין ל-4 שלבים חדים וביטול שדות חובה מעיקים',
+                text: 'בנו פייפליין רזה: "חדש" -> "פגישה נקבעה" -> "הצעת מחיר" -> "זכייה / הפסד". בטלו כל שדה שאינו חיוני להשלמת השיחה. כשהמערכת דורשת רק 10 שניות לעדכון, שיעור האימוץ של הצוות מזנק.',
+                actionSteps: [
+                    'מחקו שלבים מעורפלים כגון "בטיפול", "בבדיקה" או "ממתין לתשובה".',
+                    'הגדירו לכל שלב פעולת מעבר ברורה (למשל: נשלחה הצעה = מעבר לשלב הצעת מחיר).',
+                    'קבעו כלל עבודה: אין עסקה פתוחה ללא משימת תזכורת פעילה ביומן.'
+                ]
+            },
+            sections: [
+                {
+                    id: 'sales-adoption',
+                    title: '1. תופעת השטח: למה אנשי מכירות מתעבים מערכות CRM?',
+                    subtitle: 'כשה-CRM נבנה כשוט פיקוח במקום כלי עבודה שמייצר עמלות',
+                    content: [
+                        'רוב מערכות ה-CRM נכשלות לא בגלל טכנולוגיה חלשה, אלא בגלל אפיון יתר שמתעלם מחוויית איש המכירות בשטח.',
+                        'כאשר מציגים לנציגים מערכת שחוסכת להם כתיבת הודעות, מזכירה להם למי לחזור ומקצרת את זמן הטיפול בכל עסקה – ההתנגדות נעלמת והופכת לשיתוף פעולה מלא.'
+                    ],
+                    manifestationId: 'sales-resistance',
+                    relatedArticleSlugs: ['salespeople-hate-crm-adoption-guide', 'crm-adoption-thursday-test-guide']
+                },
+                {
+                    id: 'excel-to-pipeline',
+                    title: '2. תופעת השטח: מעבר מניהול לידים באקסל לפייפליין חזותי',
+                    subtitle: 'לראות את כל העסק במבט-על אחד מבלי לאבד הקשר',
+                    content: [
+                        'אקסל הוא כלי מצוין לחישובים, אך אסון לניהול תהליכי מכירה. שורות ארוכות ללא התראות, ללא היסטוריית שיחות וללא תמונת שלבים גורמות לעסקאות ליפול בין השורות.',
+                        'מעבר ללוח פייפליין חזותי (Kanban) מאפשר לגרור עסקאות משלב לשלב, לראות את צווארי הבקבוק בשניות ולחבר אוטומציות בכל מעבר שלב.'
+                    ],
+                    manifestationId: 'excel-chaos',
+                    relatedArticleSlugs: ['excel-to-crm-pipeline-guide', 'crm-quick-wins-guide']
+                },
+                {
+                    id: 'follow-up-system',
+                    title: '3. תופעת השטח: פולואפ מסודר ומניעת שקיעת הצעות מחיר',
+                    subtitle: 'רוב העסקאות נסגרות בפולואפ החמישי – אך ננטשות כבר בראשון',
+                    content: [
+                        'מרבית אנשי המכירות מוותרים אחרי ניסיון התקשרות אחד או שניים. לקוחות אינם מסרבים – הם פשוט עסוקים.',
+                        'בניית מנגנון פולואפ שיטתי ב-CRM המשלב משימות נציג עם הודעות WhatsApp עדינות מבטיחה נוכחות מקצועית עד לקבלת החלטה סופית.'
+                    ],
+                    manifestationId: 'forgotten-follow-up',
+                    relatedArticleSlugs: ['follow-up-tasks-crm-guide']
+                }
+            ],
+            solutionPaths: [
+                {
+                    title: 'פייפליין מכירות חזותי ב-AltruBiz CRM',
+                    description: 'לוח עסקאות חזותי גמיש ומהיר, עם חיבור אוטומטי ל-WhatsApp, תזכורות פולואפ אוטומטיות ואפס שדות מיותרים.',
+                    featureHighlights: [
+                        'לוח Kanban אינטואיטיבי עם גרירת עסקאות ומעבר שלבים מהיר',
+                        'יצירת משימות פולואפ אוטומטיות לכל שלב למניעת שכחה',
+                        'שליחת הודעות וואטסאפ ותבניות מתוך כרטיס העסקה בקליק אחד',
+                        'דוחות המרה שקופים שמראים בדיוק איפה עסקאות נתקעות'
+                    ]
+                }
+            ],
+            faqs: [
+                {
+                    question: 'איך גורמים לאנשי מכירות לעדכן את ה-CRM מרצונם החופשי?',
+                    answer: 'המפתח הוא תועלת אישית מיידית: כשה-CRM מקל על חייהם (שולח הודעות מוכנות, מתאם פגישות ומזכיר מתי לחזור) במקום רק לדרוש דיווחים, הנציגים מבינים שהמערכת מגדילה להם את העמלות ומאמצים אותה ברצון.'
+                },
+                {
+                    question: 'כמה שלבים צריכים להיות בפייפליין מכירות אידיאלי?',
+                    answer: 'בעסקים קטנים ובינוניים מומלץ להתחיל עם 4 עד 6 שלבים ברורים בלבד. כל שלב חייב לייצג פעולה מוכחת ולא סטטוס פסיבי. שלבים מועטים ומדויקים מקלים על המעקב ומונעים בלבול.'
+                },
+                {
+                    question: 'מה ההבדל בין ניהול לידים באקסל לניהול פייפליין ב-CRM?',
+                    answer: 'אקסל הוא רשימה סטטית ללא זיכרון פעיל, ללא התראות וללא חיבור לערוצי התקשורת. פייפליין ב-CRM מניע תהליכים: הוא מתזכר נציגים, שולח הודעות אוטומטיות, מתעד שיחות ומספק תמונת מצב חיה על שווי העסקאות בכל שלב.'
+                }
+            ]
+        }
+    },
+
+    // ==========================================
+    // 4. PAIN HUB: Business Memory
+    // ==========================================
+    'hub-business-memory': {
+        id: 'hub-business-memory',
+        slug: 'business-memory',
+        url: '/topics/business-memory',
+        nodeType: 'pain_hub',
+        hasPublicPage: true,
+        title: 'זיכרון ארגוני ותיעוד לקוחות: איך להפסיק לאבד מידע קריטי כשהעובדים מתחלפים',
+        subtitle: 'מרכזים את כל היסטוריית השיחות, הוואטסאפים והסיכומים בכרטיס לקוח אחוד – כך שהעסק שלכם שומר על נכס המידע שלו לנצח',
+        seoTitle: 'זיכרון ארגוני ותיעוד לקוחות ב-CRM: מניעת אובדן מידע עסקי | AltruBiz',
+        description: 'מדריך אבחון ושיטות עבודה לשימור הזיכרון הארגוני בעסק: ריכוז שיחות והתכתבויות, מניעת כפילויות אנשי קשר, והעברת מקל חלקה כשהצוות מתחלף.',
+        primaryPain: 'scattered-customer-communication',
+        secondaryPains: ['sales-pipeline-crm-adoption', 'repetitive-manual-work'],
+        userIntent: 'איך לשמור על היסטוריית לקוחות, למנוע אובדן מידע כשהעובד עוזב ולמנוע כפילויות אנשי קשר',
+        processes: ['תיעוד לקוחות', 'העברת מקל בין עובדים', 'מניעת כפילויות', 'שירות לקוחות מתמשך'],
+        channels: ['WhatsApp', 'טלפון', 'Email'],
+        technologies: ['Unified Contact Card', 'Smart Deduplication', 'Audit Trail'],
+        businessObjects: ['כרטיס איש קשר (Contact)', 'ציר זמן (Timeline)', 'הערות פנימיות', 'היסטוריית רכישות'],
+        outcomes: ['שימור הידע בבעלות העסק', 'העברת לקוח מיידית בין נציגים', 'אפס כפילויות ובלגן בדאטה'],
+        relevantProducts: ['AltruBiz CRM', 'כרטיס לקוח אחוד 360', 'מנגנון מניעת כפילויות חכם'],
+        recommendedNextSlugs: ['whatsapp-in-crm', 'sales-pipeline', 'lost-leads'],
+        relatedArticleSlugs: [
+            'business-memory-crm-guide',
+            'crm-duplicate-contacts-prevention-guide',
+            'omnichannel-communication-unified-inbox-crm-guide',
+            'client-onboarding-process-guide'
+        ],
+        relevantNextActions: ['meeting', 'whatsapp', 'pricing', 'guide', 'assessment'],
+        availableCtas: ['meeting', 'pricing', 'whatsapp'],
+        isIndexable: true,
+        maturity: 'canonical',
+        dateCreated: '2026-09-10',
+        dateUpdated: '2026-09-10',
+        hubData: {
+            problemDefinition: 'הזיכרון הארגוני הוא הנכס היקר ביותר בעסק: מידע על העדפות לקוח, סיכומים מסחריים והבטחות שניתנו. כשהמידע כלוא בראשי העובדים או בהודעות וואטסאפ פרטיות, כל עזיבת עובד או חופשה מוחקת חלק מהעסק ומייצרת נזק ישיר למכירות ולשירות.',
+            whyItHappens: [
+                'תיעוד מפוזר בערוצים אישיים: שיחות בוואטסאפ הפרטי של הנציג ומיילים בתיבות אישיות שאינן נגישות לשאר הצוות.',
+                'היעדר כרטיס לקוח יחיד ומסונכרן: לקוח פונה שוב ומקבל מענה כאילו זו פנייתו הראשונה בעסק.',
+                'היווצרות כפילויות רבות: אותו לקוח מוזן מספר פעמים בשמות או טלפונים שונים, מה שקורע את ציר הזמן.',
+                'חוסר נוהל מסירה וקליטה (Handover): כשעובד מסיים את תפקידו, אין תהליך שיטתי להעברת תיקי הלקוחות למחליפו.'
+            ],
+            businessCost: [
+                'פגיעה חמורה באמון הלקוח כשהוא נדרש לחזור על סיפורו מול כל נציג חדש.',
+                'אובדן עסקאות חוזרות (Retention) בגלל חוסר מעקב אחר התחייבויות קודמות.',
+                'בזבוז שעות עבודה שבועיות בחיפוש סיכומים, הצעות ישנות והתכתבויות במכשירים פרטיים.'
+            ],
+            symptoms: [
+                'לקוח ותיק מתקשר והנציג שואל אותו "ספר לי במה מדובר, לא מופיע לי כלום".',
+                'עובד יוצא לחופשה או עוזב והטיפול בלקוחותיו נעצר לחלוטין.',
+                'חיפוש שם לקוח בתוכנה מציג 4 כרטיסים שונים עם נתונים סותרים.',
+                'מנהלים מגלים הבטחות ומחירים מיוחדים שניתנו ללקוח רק כשהוא מציג צילום מסך מוואטסאפ פרטי.'
+            ],
+            diagnosticQuestions: [
+                {
+                    question: 'אם נציג שירות או מכירות מוביל עוזב מחר בבוקר – האם כל ההיסטוריה והסיכומים שלו נשארים בעסק בצורה נגישה?',
+                    warningSign: 'המידע שמור בטלפון הנייד שלו או בזיכרונו האישי בלבד.',
+                    impact: 'העסק מאבד לקוחות ונכסי ידע מסחריים שנבנו במשך חודשים ושנים.'
+                },
+                {
+                    question: 'כשללקוח יש שאלה דחופה והנציג האישי שלו אינו זמין – האם כל נציג אחר יכול להמשיך את השיחה בדיוק מאותה נקודה?',
+                    warningSign: 'אומרים ללקוח "תמתין שיחזור מהחופש, רק הוא מכיר את התיק".',
+                    impact: 'תסכול עמוק של הלקוח ופגיעה ישירה במוניטין המקצועי של העסק.'
+                },
+                {
+                    question: 'האם קיימת במערכת בדיקה אוטומטית שמונעת פתיחת כרטיס כפול לאותו לקוח?',
+                    warningSign: 'יש כפילויות רבות ואין מנגנון איחוד אוטומטי.',
+                    impact: 'מידע מקוטע, הצעות סותרות והטרדה של לקוחות בפניות כפולות.'
+                }
+            ],
+            primaryQuickWin: {
+                title: 'איחוד כל מספרי הטלפון והוואטסאפ לכרטיס לקוח יחיד והפעלת זיהוי כפילויות',
+                text: 'הגדירו כלל מרכזי: מספר טלפון הוא המזהה החד-ערכי של הלקוח. כל שיחה, הודעת וואטסאפ, טופס והזמנה מתנקזים אוטומטית לציר זמן אחד שגלוי לכל מורשי הגישה בעסק.',
+                actionSteps: [
+                    'סרקו את מאגר אנשי הקשר ובצעו איחוד כפילויות ראשוני.',
+                    'הגדירו חובת תיעוד סיכום שיחה תמציתי (עד 2 משפטים) בכרטיס הלקוח.',
+                    'חברו את קווי הוואטסאפ העסקיים למערכת ה-CRM המרכזית.'
+                ]
+            },
+            sections: [
+                {
+                    id: 'employee-departure',
+                    title: '1. תופעת השטח: העובד עזב ולקח איתו את כל הידע על הלקוחות',
+                    subtitle: 'למה עסקים מגלים באיחור שהלקוחות היו קשורים לנציג ולא למערכת',
+                    content: [
+                        'כאשר הקשר מול הלקוח מתנהל באופן פרטי, הלקוח מרגיש נאמנות לנציג ולא לחברה. כשהנציג עוזב, הלקוחות עשויים לעזוב יחד איתו.',
+                        'ריכוז כל המידע בכרטיס לקוח ששייך לחברה מגן על הזיכרון הארגוני ומאפשר לכל נציג חדש להיכנס לתמונה ברמת בקיאות מושלמת.'
+                    ],
+                    manifestationId: 'lost-institutional-knowledge',
+                    relatedArticleSlugs: ['business-memory-crm-guide']
+                },
+                {
+                    id: 'duplicate-contacts',
+                    title: '2. תופעת השטח: כפילויות אנשי קשר ופיצול היסטוריה',
+                    subtitle: 'אותו לקוח מופיע 3 פעמים בעסק – בכל פעם עם מספר או מייל שונה',
+                    content: [
+                        'כפילויות נוצרות כשלקוח משאיר פרטים בקמפיין, מתקשר ממספר אחר וכותב גם בוואטסאפ. ללא מנגנון איחוד חכם, המידע מתפצל לשלושה כרטיסים נפרדים.',
+                        'מערכת CRM חכמה מזהה הצלבות של טלפון ומייל, מאחדת את הנתונים לציר זמן אחד ומבטיחה שהצוות רואה תמונה מלאה ונקייה.'
+                    ],
+                    manifestationId: 'contact-duplication-chaos',
+                    relatedArticleSlugs: ['crm-duplicate-contacts-prevention-guide']
+                },
+                {
+                    id: 'onboarding-handoff',
+                    title: '3. תופעת השטח: קליטת לקוח חדש (Onboarding) ללא תיעוד',
+                    subtitle: 'המעבר בין שלב המכירה לשלב השירות: החור השחור של המידע',
+                    content: [
+                        'הרגע המסוכן ביותר בחיי לקוח הוא המעבר מאיש המכירות שסגר את העסקה לצוות השירות או התפעול שצריך לספק את העבודה.',
+                        'אם ההבטחות, הדגשים המיוחדים והמסמכים אינם מתועדים במקום אחד, הלקוח חווה ירידה מיידית ברמת השירות ומפתח חרטת קנייה.'
+                    ],
+                    manifestationId: 'onboarding-blindspot',
+                    relatedArticleSlugs: ['client-onboarding-process-guide', 'omnichannel-communication-unified-inbox-crm-guide']
+                }
+            ],
+            solutionPaths: [
+                {
+                    title: 'כרטיס לקוח אחוד 360 ב-AltruBiz CRM',
+                    description: 'ציר זמן מלא של כל שיחות הטלפון, הודעות הוואטסאפ, המיילים, המסמכים וההערות הפנימיות במקום אחד מסודר.',
+                    featureHighlights: [
+                        'ציר זמן מרכזי שמתעד כל אינטראקציה עם הלקוח באופן אוטומטי',
+                        'מנגנון מניעת כפילויות חכם שמתריע ומאחד נתונים אוטומטית',
+                        'הערות פנימיות ותיוג עובדים בתוך כרטיס הלקוח להעברת משימות',
+                        'הרשאות גישה מדורגות לשמירה על אבטחת מידע ופרטיות'
+                    ]
+                }
+            ],
+            faqs: [
+                {
+                    question: 'איך מרגילים את הצוות לתעד שיחות באופן קבוע?',
+                    answer: 'מפשטים את התהליך למינימום האפשרי: במקום דוחות ארוכים, מאפשרים הקלטת שיחות אוטומטית, תיעוד וואטסאפ מובנה ושדה הערה קצר של משפט אחד בלבד בסיום שיחה.'
+                },
+                {
+                    question: 'מה קורה אם לקוח פונה ממספר טלפון חדש שלא מופיע במערכת?',
+                    answer: 'המערכת מאפשרת בלחיצת כפתור אחת לחבר את המספר החדש לכרטיס הלקוח הקיים, מבלי לפתוח כרטיס חדש ומבלי לאבד את ההיסטוריה הקודמת.'
+                },
+                {
+                    question: 'האם תיעוד מסודר באמת מפחית עזיבת לקוחות?',
+                    answer: 'חד-משמעית כן. לקוח שמרגיש שמכירים אותו, זוכרים את העדפותיו ואינם מבקשים ממנו לחזור על דבריו חווה שירות ברמה פרימיום ונשאר נאמן לעסק לאורך זמן.'
+                }
+            ]
+        }
+    },
+
+    // ==========================================
+    // 5. PAIN HUB: Repetitive Manual Work
+    // ==========================================
+    'hub-repetitive-manual-work': {
+        id: 'hub-repetitive-manual-work',
+        slug: 'repetitive-manual-work',
+        url: '/topics/repetitive-manual-work',
+        nodeType: 'pain_hub',
+        hasPublicPage: true,
+        title: 'עבודה ידנית שחוזרת על עצמה: המדריך לשחרור צווארי בקבוק באמצעות אוטומציות חכמות',
+        subtitle: 'תיאום פגישות, תזכורות למניעת הברזות, איסוף מסמכים ומרדף אחרי משימות – כך תפנו שעות יקרות של הצוות לעבודה שמייצרת הכנסה',
+        seoTitle: 'אוטומציה עסקית וביטול עבודה ידנית: שחרור צווארי בקבוק | AltruBiz',
+        description: 'מדריך לאבחון וחיסול עבודה ידנית שחוזרת על עצמה: אוטומציית תיאום פגישות, מניעת No-Show, איסוף מסמכים בקליטת לקוח ומעבר חכם לבינה מלאכותית.',
+        primaryPain: 'repetitive-manual-work',
+        secondaryPains: ['lost-leads', 'sales-pipeline-crm-adoption'],
+        userIntent: 'איך לחסוך שעות עבודה ידנית בעסק, לתאם פגישות באוטומציה ולמנוע הברזות של לקוחות',
+        processes: ['תיאום פגישות אוטומטי', 'תזכורות ומניעת No-Show', 'קליטת לקוחות ומסמכים', 'אוטומציית משימות'],
+        channels: ['WhatsApp', 'יומנים (Google / Outlook)', 'SMS', 'טפסים'],
+        technologies: ['Smart Booking Calendars', 'Automated Workflows', 'AI Assistant'],
+        businessObjects: ['פגישות (Appointments)', 'יומנים', 'תזכורות', 'תהליכי עבודה (Workflows)'],
+        outcomes: ['חיסכון של 10-20 שעות שבועיות', 'צמצום הברזות מפגישות בלמעלה מ-70%', 'תגובה מיידית ללא מעמס אנושי'],
+        relevantProducts: ['AltruBiz CRM', 'יומן תיאום פגישות אוטומטי', 'בוט AI לקביעת פגישות'],
+        recommendedNextSlugs: ['lost-leads', 'whatsapp-in-crm', 'sales-pipeline'],
+        relatedArticleSlugs: [
+            'automated-meeting-scheduling-guide',
+            'preventing-meeting-no-shows-guide',
+            'client-onboarding-process-guide',
+            'non-technical-to-ai-automation-guide',
+            'customer-reviews-reputation-crm-guide'
+        ],
+        relevantNextActions: ['meeting', 'whatsapp', 'pricing', 'guide', 'assessment'],
+        availableCtas: ['meeting', 'pricing', 'whatsapp'],
+        isIndexable: true,
+        maturity: 'canonical',
+        dateCreated: '2026-09-10',
+        dateUpdated: '2026-09-10',
+        hubData: {
+            problemDefinition: 'עבודה ידנית סיזיפית – פינג-פונג של "מתי נוח לך להיפגש?", שליחת תזכורות ידניות, העתקת נתונים בין מערכות ומרדף אחרי איסוף מסמכים – גוזלת שעות ניהוליות יקרות, שוחקת את הצוות ומייצרת טעויות אנוש בלתי נמנעות.',
+            whyItHappens: [
+                'חוסר חיבור בין היומן לתקשורת: תיאום פגישות נעשה בהודעות טקסט ידניות במקום שליחת קישור ליומן מסונכרן.',
+                'היעדר תזכורות אוטומטיות: לקוחות שוכחים מפגישות שנקבעו שבוע מראש כי איש אינו שולח תזכורת בזמן.',
+                'איסוף מסמכים ידני בקליטת לקוח: שליחת הודעות אישיות בבקשת קבצים במקום טופס העלאה דיגיטלי מובנה.',
+                'חשש מורכבות טכנולוגית: תפיסה מוטעית שאוטומציה דורשת מתכנתים יקרים או ידע טכני מורכב.'
+            ],
+            businessCost: [
+                'בזבוז של 10 עד 20 שעות עבודה שבועיות של עובדים יקרים על משימות פקידותיות שניתנות לאוטומציה.',
+                'הפסד כספי ישיר מביטולי פגישות של הרגע האחרון (No-Show) ללא מילוי המשבצת ביומן.',
+                'עיכוב באספקת שירותים ובגביית תשלומים בגלל צווארי בקבוק באיסוף פרטים ומסמכים.'
+            ],
+            symptoms: [
+                'נציגים מתכתבים 6 פעמים כדי לקבוע שעה אחת לפגישת זום או פגישה פרונטלית.',
+                'יומן הפגישות מלא אך 30% מהלקוחות לא מגיעים לפגישה שנקבעה.',
+                'עובדים מתלוננים ש"אין זמן למכור או לתת שירות כי טבועים בבירוקרטיה והעתקות נתונים".',
+                'איסוף חומרים מלקוח חדש נמשך שבועות ארוכים ודורש תזכורות ידניות מתישות.'
+            ],
+            diagnosticQuestions: [
+                {
+                    question: 'כמה שעות שבועיות משקיע הצוות בתיאום פגישות, שליחת תזכורות והעתקת נתונים?',
+                    warningSign: 'יותר מ-5 שעות בשבוע לכל עובד.',
+                    impact: 'העסק משלם משכורות על עבודה פקידותית במקום על צמיחה, מכירות ופיתוח עסקי.'
+                },
+                {
+                    question: 'מה שיעור הלקוחות שאינם מגיעים לפגישות שנקבעו אצלכם (No-Show)?',
+                    warningSign: 'מעל 15% מהפגישות מתבטלות או שהלקוח פשוט לא מופיע.',
+                    impact: 'בזבוז זמן יקר של מנהלים ומומחים וחור של אלפי שקלים בהכנסות החודשיות.'
+                },
+                {
+                    question: 'האם תהליך קליטת לקוח חדש (איסוף פרטים, פתיחת תיק, שליחת חומרי פתיחה) מתבצע אוטומטית?',
+                    warningSign: 'הכול ידני ותלוי בזיכרון של עובד ספציפי.',
+                    impact: 'עיכובים, טעויות בהזנת נתונים וחוויית לקוח ראשונית מאכזבת.'
+                }
+            ],
+            primaryQuickWin: {
+                title: 'מעבר ליומן תיאום פגישות אוטומטי עם תזכורת WhatsApp דו-שלבית',
+                text: 'חברו קישור יומן חכם (Calendar) המציג ללקוח רק משבצות פנויות ומאפשר לו לבחור מועד ב-30 שניות. ברגע התיאום נשלחת הודעת אישור, ותזכורת מותאמת אישית מגיעה 24 שעות ושעתיים לפני המועד.',
+                actionSteps: [
+                    'פתחו יומן תיאום פגישות אינטרנטי מסונכרן ליומן העבודה שלכם ב-AltruBiz.',
+                    'הגדירו תזכורת וואטסאפ אוטומטית יום לפני הפגישה עם כפתור אישור הגעה.',
+                    'החליפו את שיחות הפינג-פונג בשליחת קישור היומן ללקוח.'
+                ]
+            },
+            sections: [
+                {
+                    id: 'scheduling-ping-pong',
+                    title: '1. תופעת השטח: פינג-פונג תיאום פגישות ובזבוז שעות בשיחות סרק',
+                    subtitle: 'למה עסק מבזבז 5 שיחות רק כדי למצוא משבצת פנויה ביומן',
+                    content: [
+                        'תיאום פגישות ידני הוא אחד מזללני הזמן הגדולים ביותר בעסק. שאלות של "מתי נוח לך?", בדיקות יומן ידניות ואי-הבנות גוזלות זמן יקר משני הצדדים.',
+                        'שליחת קישור יומן ייעודי שמשקף זמינות חיה מאפשרת ללקוח לתאם בזמן שנוח לו, חוסכת עשרות שיחות סרק ומבטיחה שהפגישה נרשמת מיד ביומן הנכון.'
+                    ],
+                    manifestationId: 'scheduling-friction',
+                    relatedArticleSlugs: ['automated-meeting-scheduling-guide']
+                },
+                {
+                    id: 'no-show-prevention',
+                    title: '2. תופעת השטח: לקוחות שלא מגיעים לפגישות שנקבעו (No-Show)',
+                    subtitle: 'איך תזכורת WhatsApp אוטומטית מצילה עד 75% מביטולי הפגישות',
+                    content: [
+                        'לקוחות שמתאמים פגישה שבוע מראש פשוט שוכחים ממנה. כשמנהל או נציג מפנים שעה ביומן והלקוח אינו עונה, נוצר הפסד כספי ומורלי ישיר.',
+                        'רצף תזכורות אוטומטי בוואטסאפ הכולל אפשרות שינוי מועד קלה מחזיר את השליטה לעסק ומצמצם את שיעור ההברזות למינימום אפסי.'
+                    ],
+                    manifestationId: 'no-show-epidemic',
+                    relatedArticleSlugs: ['preventing-meeting-no-shows-guide']
+                },
+                {
+                    id: 'practical-ai-automation',
+                    title: '3. תופעת השטח: מעבר לאוטומציה ובינה מלאכותית בלי ידע טכני',
+                    subtitle: 'מתי שווה להכניס בוט ומתי מספיקה אוטומציה פשוטה',
+                    content: [
+                        'עסקים רבים נרתעים מבינה מלאכותית כי הם חושבים שמדובר בפרויקט טכנולוגי מסובך ויקר.',
+                        'בפועל, אוטומציות פשוטות של מענה, ניתוב שיחות, תזכורות ואיסוף חוות דעת מלקוחות מייצרות 80% מהתועלת בתוך ימים בודדים, ללא צורך בשורת קוד אחת.'
+                    ],
+                    manifestationId: 'automation-fear',
+                    relatedArticleSlugs: ['non-technical-to-ai-automation-guide', 'customer-reviews-reputation-crm-guide', 'client-onboarding-process-guide']
+                }
+            ],
+            solutionPaths: [
+                {
+                    title: 'סיסטם אוטומציות ויומנים חכמים ב-AltruBiz CRM',
+                    description: 'יומני פגישות מסונכרנים, מסעות תזכורת אוטומטיים בוואטסאפ, טפסים דיגיטליים ובוטים לקביעת פגישות שפועלים 24/7.',
+                    featureHighlights: [
+                        'יומן תיאום פגישות אינטרנטי שמסונכרן דו-כיוונית עם Google ו-Outlook',
+                        'תזכורות WhatsApp אוטומטיות דו-שלביות למניעת הברזות (No-Show)',
+                        'טפסים דיגיטליים חכמים לקליטת מסמכים וחתימות ישירות לכרטיס הלקוח',
+                        'בוט שיחות חכם לתיאום פגישות ראשוניות מסביב לשעון'
+                    ]
+                }
+            ],
+            faqs: [
+                {
+                    question: 'האם לקוחות לא מעדיפים שיתאמו איתם פגישה בטלפון?',
+                    answer: 'המציאות מראה את ההפך: רוב הלקוחות מעדיפים לקבל קישור פשוט ולבחור בעצמם את השעה הנוחה להם בשקט ובמהירות, מבלי להיגרר לשיחות טלפון ממושכות באמצע יום עבודה.'
+                },
+                {
+                    question: 'איך אוטומציית תזכורות מונעת הברזה מפגישה?',
+                    answer: 'הודעת וואטסאפ אישית שמגיעה שעתיים לפני הפגישה כוללת קישור לזום ואפשרות להודיע מראש אם חל עיכוב. לקוחות שמקבלים תזכורת מכבדת מרגישים מחויבות גבוהה בהרבה ומגיעים בזמן.'
+                },
+                {
+                    question: 'האם נדרש ידע טכני כדי להפעיל אוטומציות ב-AltruBiz?',
+                    answer: 'ממש לא. המערכת מגיעה עם תבניות עבודה מוכנות מראש לכל סוגי העסקים. כל האוטומציות נבנות בממשק חזותי פשוט ואינטואיטיבי בעברית מלאה.'
+                }
+            ]
+        }
     }
 };
 
@@ -412,12 +884,14 @@ export function getKnowledgeNodeBySlug(slug: string): KnowledgeNode | undefined 
 }
 
 export function getAllHubs(): KnowledgeNode[] {
-    return Object.values(KNOWLEDGE_NODES).filter(node => node.nodeType === 'pain_hub' || node.nodeType === 'micro_hub');
+    return Object.values(KNOWLEDGE_NODES).filter(node => 
+        node.hasPublicPage && (node.nodeType === 'pain_hub' || node.nodeType === 'micro_hub' || node.nodeType === 'topic')
+    );
 }
 
 export function getHubsForPain(painId: string): KnowledgeNode[] {
     return Object.values(KNOWLEDGE_NODES).filter(
-        node => (node.nodeType === 'pain_hub' || node.nodeType === 'micro_hub') && 
+        node => (node.nodeType === 'pain_hub' || node.nodeType === 'micro_hub' || node.nodeType === 'topic') && 
                 (node.primaryPain === painId || node.secondaryPains?.includes(painId))
     );
 }
@@ -425,7 +899,91 @@ export function getHubsForPain(painId: string): KnowledgeNode[] {
 export function getParentHubForArticle(articleSlug: string): KnowledgeNode | undefined {
     // Check which hub includes this article
     return Object.values(KNOWLEDGE_NODES).find(
-        node => (node.nodeType === 'pain_hub' || node.nodeType === 'micro_hub') &&
+        node => (node.nodeType === 'pain_hub' || node.nodeType === 'micro_hub' || node.nodeType === 'topic') &&
                 node.relatedArticleSlugs?.includes(articleSlug)
     );
 }
+
+/**
+ * Returns all Hubs that reference a given article slug (supports multi-hub articles)
+ */
+export function getAllHubsForArticle(articleSlug: string): KnowledgeNode[] {
+    return Object.values(KNOWLEDGE_NODES).filter(
+        node => (node.nodeType === 'pain_hub' || node.nodeType === 'micro_hub' || node.nodeType === 'topic') &&
+                node.relatedArticleSlugs?.includes(articleSlug)
+    );
+}
+
+/**
+ * Discovers contextually related articles from the Knowledge Graph topology
+ */
+export function getRelatedArticlesByGraph(articleSlug: string, limit: number = 3): string[] {
+    const parentHubs = getAllHubsForArticle(articleSlug);
+    const related = new Set<string>();
+    
+    parentHubs.forEach(hub => {
+        (hub.relatedArticleSlugs || []).forEach(slug => {
+            if (slug !== articleSlug) {
+                related.add(slug);
+            }
+        });
+    });
+
+    return Array.from(related).slice(0, limit);
+}
+
+/**
+ * Candidate Future Concepts & Micro-Hubs (Data Layer Mapping Only)
+ * Unambiguous semantic clusters prepared for future Knowledge Graph expansion.
+ * NOT registered as public routes or pages.
+ */
+export const CANDIDATE_FUTURE_CONCEPTS = {
+    'crm-adoption-psychology': {
+        slug: 'crm-adoption-psychology',
+        title: 'פסיכולוגיית אימוץ CRM והתנגדות עובדים',
+        primaryPain: 'sales-pipeline-crm-adoption',
+        relatedArticleSlugs: [
+            'salespeople-hate-crm-adoption-guide',
+            'crm-adoption-thursday-test-guide',
+            'excel-to-crm-pipeline-guide'
+        ]
+    },
+    'client-onboarding-system': {
+        slug: 'client-onboarding-system',
+        title: 'סיסטם קליטת לקוחות (Onboarding) ושימור',
+        primaryPain: 'business-memory',
+        relatedArticleSlugs: [
+            'client-onboarding-process-guide',
+            'customer-reviews-reputation-crm-guide',
+            'business-memory-crm-guide'
+        ]
+    },
+    'meeting-reliability-framework': {
+        slug: 'meeting-reliability-framework',
+        title: 'מודל אמינות פגישות ומניעת No-Show',
+        primaryPain: 'repetitive-manual-work',
+        relatedArticleSlugs: [
+            'automated-meeting-scheduling-guide',
+            'preventing-meeting-no-shows-guide'
+        ]
+    },
+    'unified-inbox-architecture': {
+        slug: 'unified-inbox-architecture',
+        title: 'ארכיטקטורת תיבת דואר אחודה (Unified Inbox) ותקשורת רב-ערוצית',
+        primaryPain: 'scattered-customer-communication',
+        relatedArticleSlugs: [
+            'omnichannel-communication-unified-inbox-crm-guide',
+            'whatsapp-messaging-guidelines',
+            'missed-call-text-back-guide'
+        ]
+    },
+    'crm-data-hygiene': {
+        slug: 'crm-data-hygiene',
+        title: 'היגיינת נתונים, מניעת כפילויות ושלמות מידע',
+        primaryPain: 'business-memory',
+        relatedArticleSlugs: [
+            'crm-duplicate-contacts-prevention-guide',
+            'business-memory-crm-guide'
+        ]
+    }
+} as const;

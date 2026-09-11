@@ -42,37 +42,30 @@ All image `alt` attributes must describe what the image represents in the contex
 
 ---
 
-## 2.3 Mandatory Brand Attribution Standard: Zero Personal Names (Strict "No Dori" Policy)
-All copywriting, metadata, authorships, guides, WhatsApp templates, and customer-facing materials must attribute expertise and communication strictly to the company/brand or team.
-- **Strict prohibition**: Never use the name `דורי` (or `Dori` / `בעלולי`) anywhere on the site, in articles, or in code. There is NO individual Dori attribution currently on the website.
-- **Mandatory brand phrasing**: Always attribute to:
-  - `צוות אלטרוביז` / `צוות AltruBiz` (e.g., in article author objects: `name: 'צוות AltruBiz'`, `role: 'מומחי מערכות CRM ואוטומציה עסקית'`)
-  - `אנחנו`
-  - `נציג של אלטרוביז` / `נציגי אלטרוביז`
-  - `אלטרוביז` / `AltruBiz`
-- **WhatsApp prefilled messages**: When crafting WhatsApp inquiry links, always address the team respectfully (e.g., `שלום צוות AltruBiz, קראתי את המאמר... ואשמח לבדוק איך זה יכול לעבוד אצלנו בעסק`).
+## 2.3 Brand Attribution & Authorship Standard
+AltruBiz balances corporate brand consistency with authentic human authority:
+- **General System Knowledge**: All general system guides, technical documentation, UI labels, and automated notifications are attributed to `צוות אלטרוביז` / `צוות AltruBiz` or `אלטרוביז` / `AltruBiz`.
+- **Personal Expertise & E-E-A-T**: Personal attribution (e.g. founder expertise, named consultants, specialist engineers, personal case studies, author credentials) is fully permitted and welcomed whenever contextually valuable to reinforce authenticity, professional authority, storytelling warmth, and search engine trust.
 
 ---
 
-## 2.4 Mandatory Call to Action (CTA) Standard: Meeting Scheduling & Lead Modal
-The primary conversion goal of every article, guide, and informational page across the site is booking an introductory/fit meeting or leaving details:
-- **Core CTA Theme**: **קביעת פגישה למטרת איך זה יכול לעבוד אצלכם בעסק** (or "בדיקת התאמה לעסק שלכם", "יצירת קשר והשארת פרטים").
-- **Behavioral UX Rule (Off-Homepage vs. Homepage)**:
-  - **When NOT on the homepage** (e.g. in articles, about page, or other subpages): clicking any contact or meeting CTA button must open the styled modal popup ([`ContactModal.tsx`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/src/components/common/ContactModal.tsx)), which embeds the official homepage lead capture form (`https://link.altrubiz.co.il/widget/form/QAHIbtkoD9k8JUIs8uKD`). This preserves reader flow and prevents disruptive page reloads or harsh redirects.
-  - **When on the homepage**: clicking the CTA smoothly scrolls down to `#contact` (the in-page lead capture form section).
-- **Secondary CTA**: Direct WhatsApp consultation (`"התייעצות מהירה בוואטסאפ"` with prefilled message to `צוות AltruBiz`).
+## 2.4 Call to Action (CTA) Architectural Formula
+All CTAs across the site follow the permanent architectural model:
+$$\text{Current Context} \rightarrow \text{Relevant Next Action} \rightarrow \text{Contextual Message} \rightarrow \text{Appropriate Mechanism} \rightarrow \text{Structured Attribution}$$
+- **Shared Mechanism**: Centralized backend intake across all touchpoints.
+- **Contextual Presentation**: Choosing the interface vehicle that best respects visitor momentum (e.g. styled modal popup such as [`ContactModal.tsx`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/src/components/common/ContactModal.tsx) to prevent page reloads during reading, in-page embedded forms, prefilled WhatsApp bridges, or dedicated booking pages).
+- **Structured Attribution**: The permanent requirement that every conversion mechanism transmits complete contextual attribution (originating page, section, topic hub, and intent trigger) to the intake system.
 
 ---
 
-## 2.5 Mandatory Strategic CTA Distribution Standard: 5-Tier Format
-All long articles and guides must strategically distribute varied, non-repetitive CTAs across the reading flow:
-1. `variant: 'strip'` (Subtle inline strip / banner): Early direct question via WhatsApp.
-2. `variant: 'quote-share'` (Quote & Share Bar): Middle milestone high-value quote with 1-click WhatsApp/link share.
-3. `variant: 'text-link'` (Prominent editorial text link): Pointing to a quick fit/consultation conversation without disruption.
-4. `variant: 'pricing'` (Pricing trigger card): Transparent pricing exploration opening the popup `PricingModal` without leaving the article.
-5. `variant: 'box'` (Rich milestone box): Meeting booking modal + WhatsApp.
-- **Rule of spacing**: At least 2 sections between any two CTAs.
-- Full specification: [`.agents/rules/article-cta-standard.md`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/rules/article-cta-standard.md).
+## 2.5 Strategic CTA Presentation Library (Reusable Patterns)
+Long articles and guides draw from a library of tested, non-repetitive presentation patterns chosen based on narrative relevance:
+1. `variant: 'strip'` (Subtle inline strip / banner): Early conversational question via WhatsApp.
+2. `variant: 'quote-share'` (Quote & Share Card): Middle milestone high-value quote with 1-click WhatsApp/link share.
+3. `variant: 'text-link'` (Prominent editorial text link): Natural inline transition to a quick fit conversation.
+4. `variant: 'pricing'` (Pricing trigger card): Transparent pricing exploration opening `PricingModal` without leaving the article.
+5. `variant: 'box'` (Rich milestone box): Conversion card pairing meeting booking with secondary WhatsApp.
+- **Flexibility**: There is no mandatory quota, forced sequence, or rigid section-spacing constraint. CTA density and type are governed by editorial flow and user experience. Full specification: [`.agents/rules/article-cta-standard.md`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/rules/article-cta-standard.md).
 
 ---
 
@@ -82,6 +75,43 @@ The website operates as a connected knowledge graph organized primarily around *
 - **Tag & Hub Promotion Rule**: A concept becomes a public indexable Hub only with at least 3 substantial pieces of content and independent user value.
 - **Mandatory Ingestion Workflow**: Every new article must be classified across multi-dimensional taxonomy (`src/data/knowledgeGraph.ts`), establish bidirectional links (both outbound and inward links from existing pages), and update parent Hubs.
 - Full specification: [`.agents/rules/knowledge-topology-architecture.md`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/rules/knowledge-topology-architecture.md).
+
+---
+
+## 2.7 Mandatory Canonical URL Standard: Permanent Site-Wide Invariant
+Every public indexable HTML page must always have exactly one explicit, absolute, HTTPS canonical URL pointing to the preferred public HTML destination.
+- **Universal Scope**: Applies to all current and future page types (Home, Situation, Hub, Concept, Feature, Journey, Assessment, Article, Product, and localized representations).
+- **Core Alignments**:
+  - `og:url` must represent the canonical page URL (`twitter:url` is optional/not an invariant).
+  - `mainEntityOfPage` and page structured data must match the canonical page.
+  - Schema entity `@id` values must be stable and consistent with canonical architecture (e.g. `${canonicalUrl}#organization`, `${canonicalUrl}#article`, `${canonicalUrl}#faq`).
+  - Sitemap `public/sitemap.xml` `<loc>` entries must contain the canonical public URL.
+  - Internal links must point directly to canonical URLs; canonicals must never resolve through redirects.
+  - URL migrations require permanent 301 redirects from old URLs to the new canonical URL; retired URLs must not remain competing indexable destinations.
+  - Multilingual principle: Canonical is per published locale representation (e.g. `he` and `en` each have their own canonical URL, linked via `hreflang`).
+- Full specification: [`.agents/rules/canonical-url-standard.md`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/rules/canonical-url-standard.md).
+
+---
+
+## 2.8 Mandatory AltruBiz Design Operating System (Design OS)
+The visual language, brand consistency, and interactive experience of the website are governed by the **AltruBiz Design Operating System**.
+- **Dual Operating System Mandate**:
+  - **Knowledge OS** determines: *What exists, what it means, what it connects to, and what is relevant.*
+  - **Design OS** determines: *How it looks, how it feels, how it moves, and how it communicates visually.*
+  - Neither system overrides the other. Together they define the AltruBiz website experience.
+- **Permanent Design Invariants**:
+  1. *Canonical Brand Asset Integrity*: Official logo asset is the source of truth; never distorted, cropped, or rendered so small that the tagline becomes illegible.
+  2. *Comfortable Editorial Reading Measure*: Reading width must preserve eye-tracking comfort (never stretched across full-width marketing viewports).
+  3. *Typographic Hierarchy & RTL Contrast*: Strong separation between display/action type and high-legibility body type in Hebrew RTL.
+  4. *The Living Interface Principle*: Subtly alive and responsive (ambient motion, tactile micro-feedback, StarDust) balanced with performance and reduced-motion accessibility.
+  5. *Contextual Relevance in CTA Architecture*: Formula: $\text{Context} \rightarrow \text{Action} \rightarrow \text{Message} \rightarrow \text{Mechanism} \rightarrow \text{Attribution}$.
+  6. *Context Preservation & Structured Attribution*: Lead mechanisms respect reader momentum and pass source/intent context.
+  7. *Knowledge Graph ≠ Card Grid*: Semantic relationships are presented editorially, never as endless card grids.
+- Full specification suite:
+  - Master Governance: [`.agents/rules/design-operating-system.md`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/rules/design-operating-system.md)
+  - Brand DNA & Tokens: [`.agents/rules/design-brand-language.md`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/rules/design-brand-language.md)
+  - Experience & Living Interface: [`.agents/rules/design-experience.md`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/rules/design-experience.md)
+  - Responsive, RTL/LTR & Accessibility: [`.agents/rules/design-responsive-accessibility.md`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/rules/design-responsive-accessibility.md)
 
 ---
 

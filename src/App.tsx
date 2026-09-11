@@ -23,6 +23,7 @@ import { HubPage } from './components/knowledge/HubPage'
 import { getRouteConfig } from './lib/routes'
 import { ContactModal } from './components/common/ContactModal'
 import { PricingModal } from './components/common/PricingModal'
+import { BookingModal, BookingModalOptions } from './components/common/BookingModal'
 
 interface ContactModalOptions {
     title?: string;
@@ -35,6 +36,8 @@ function App() {
     const [path, setPath] = useState(window.location.pathname);
     const [isContactModalOpen, setIsContactModalOpen] = useState(false);
     const [contactModalOptions, setContactModalOptions] = useState<ContactModalOptions | null>(null);
+    const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+    const [bookingModalOptions, setBookingModalOptions] = useState<BookingModalOptions | null>(null);
     const [isPricingModalOpen, setIsPricingModalOpen] = useState(false);
 
     const handleOpenContactModal = useCallback((options?: ContactModalOptions) => {
@@ -48,6 +51,19 @@ function App() {
 
     const handleCloseContactModal = useCallback(() => {
         setIsContactModalOpen(false);
+    }, []);
+
+    const handleOpenBookingModal = useCallback((options?: BookingModalOptions) => {
+        if (options) {
+            setBookingModalOptions(options);
+        } else {
+            setBookingModalOptions(null);
+        }
+        setIsBookingModalOpen(true);
+    }, []);
+
+    const handleCloseBookingModal = useCallback(() => {
+        setIsBookingModalOpen(false);
     }, []);
 
     const handleOpenPricingModal = useCallback(() => {
@@ -125,17 +141,25 @@ function App() {
             <SEOHead routeConfig={routeConfig} article={currentArticle} />
 
             <StarDust />
-            <Header onNavigate={handleNavigate} />
+            <Header onNavigate={handleNavigate} onOpenBookingModal={handleOpenBookingModal} />
             <WhatsAppFloat />
 
             {/* Page Views */}
             {isAbout ? (
                 <main className="relative z-10">
-                    <AboutPage onNavigate={handleNavigate} onOpenContactModal={handleOpenContactModal} />
+                    <AboutPage 
+                        onNavigate={handleNavigate} 
+                        onOpenContactModal={handleOpenContactModal} 
+                        onOpenBookingModal={handleOpenBookingModal} 
+                    />
                 </main>
             ) : isArticlesIndex ? (
                 <main className="relative z-10">
-                    <ArticlesIndex onNavigate={handleNavigate} onOpenContactModal={handleOpenContactModal} />
+                    <ArticlesIndex 
+                        onNavigate={handleNavigate} 
+                        onOpenContactModal={handleOpenContactModal} 
+                        onOpenBookingModal={handleOpenBookingModal} 
+                    />
                 </main>
             ) : isArticlePage && currentArticle ? (
                 <main className="relative z-10">
@@ -143,6 +167,7 @@ function App() {
                         article={currentArticle} 
                         onNavigate={handleNavigate} 
                         onOpenContactModal={handleOpenContactModal}
+                        onOpenBookingModal={handleOpenBookingModal}
                         onOpenPricingModal={handleOpenPricingModal}
                     />
                 </main>
@@ -152,6 +177,7 @@ function App() {
                         node={currentHubNode} 
                         onNavigate={handleNavigate} 
                         onOpenContactModal={handleOpenContactModal}
+                        onOpenBookingModal={handleOpenBookingModal}
                         onOpenPricingModal={handleOpenPricingModal}
                     />
                 </main>
@@ -179,13 +205,26 @@ function App() {
                 badge={contactModalOptions?.badge}
                 whatsappPrefill={contactModalOptions?.whatsappPrefill}
             />
+            <BookingModal
+                isOpen={isBookingModalOpen}
+                onClose={handleCloseBookingModal}
+                title={bookingModalOptions?.title}
+                subtitle={bookingModalOptions?.subtitle}
+                badge={bookingModalOptions?.badge}
+                whatsappPrefill={bookingModalOptions?.whatsappPrefill}
+            />
             <PricingModal
                 isOpen={isPricingModalOpen}
                 onClose={handleClosePricingModal}
                 onOpenContactModal={() => handleOpenContactModal({
+                    title: 'השארת פרטים לבחירת חבילה',
+                    subtitle: 'נשמח להכיר את הפעילות שלכם ולהתאים את החבילה והאוטומציות המדויקות ביותר.',
+                    badge: 'בדיקת התאמה'
+                })}
+                onOpenBookingModal={() => handleOpenBookingModal({
                     title: 'קביעת שיחת התאמה לבחירת חבילה',
                     subtitle: 'נשמח להכיר את הפעילות שלכם ולהתאים את החבילה והאוטומציות המדויקות ביותר.',
-                    badge: 'בדיקת התאמה לחבילה'
+                    badge: 'תיאום שיחה ביומן'
                 })}
             />
         </div>

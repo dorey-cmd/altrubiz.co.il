@@ -5,6 +5,7 @@ interface PricingModalProps {
     isOpen: boolean;
     onClose: () => void;
     onOpenContactModal?: () => void;
+    onOpenBookingModal?: () => void;
 }
 
 const PRICES = {
@@ -30,7 +31,8 @@ const CHECKOUT_LINKS = {
 export const PricingModal: React.FC<PricingModalProps> = ({
     isOpen,
     onClose,
-    onOpenContactModal
+    onOpenContactModal,
+    onOpenBookingModal
 }) => {
     const [isYearly, setIsYearly] = useState(true);
 
@@ -271,12 +273,16 @@ export const PricingModal: React.FC<PricingModalProps> = ({
                         </div>
 
                         <div className="flex items-center gap-2 w-full sm:w-auto">
-                            {onOpenContactModal && (
+                            {(onOpenBookingModal || onOpenContactModal) && (
                                 <button
                                     type="button"
                                     onClick={() => {
                                         onClose();
-                                        onOpenContactModal();
+                                        if (onOpenBookingModal) {
+                                            onOpenBookingModal();
+                                        } else if (onOpenContactModal) {
+                                            onOpenContactModal();
+                                        }
                                     }}
                                     className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-white text-xs font-bold border border-white/20 transition-colors"
                                 >

@@ -285,7 +285,7 @@ if (!fs.existsSync(indexPath)) {
     }
 
     // No-JS Semantic fallback in #root
-    if (indexContent.includes('<div id="root">') && indexContent.includes('<h1>אלטרוביז CRM')) {
+    if (indexContent.includes('<div id="root">') && /<h1[^>]*>אלטרוביז CRM/i.test(indexContent)) {
         reportPass('index.html contains pre-rendered semantic fallback HTML for non-JS crawlers');
     } else {
         reportFail('index.html #root is empty! Non-JS AI crawlers cannot index content', true);

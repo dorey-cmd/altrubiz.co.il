@@ -17,9 +17,10 @@ import { Breadcrumbs } from './common/Breadcrumbs';
 interface AboutPageProps {
     onNavigate: (path: string) => void;
     onOpenContactModal?: () => void;
+    onOpenBookingModal?: (options?: any) => void;
 }
 
-export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onOpenContactModal }) => {
+export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onOpenContactModal, onOpenBookingModal }) => {
     const breadcrumbItems = [
         { name: 'דף הבית', path: '/' },
         { name: 'אודות AltruBiz', path: '/about' }
@@ -219,9 +220,23 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onOpenContactM
                                 <div>
                                     <div className="text-xs text-slate-400">תיאום פגישת היכרות והדגמה</div>
                                     <div className="flex flex-wrap items-center gap-2">
-                                        <a href="https://link.altrubiz.co.il/widget/bookings/caldorey" target="_blank" rel="noopener noreferrer" className="text-white font-bold hover:underline">
-                                            לקביעת פגישה ביומן
-                                        </a>
+                                        {onOpenBookingModal ? (
+                                            <button 
+                                                type="button" 
+                                                onClick={() => onOpenBookingModal({
+                                                    title: 'קביעת פגישת היכרות והדגמה',
+                                                    subtitle: 'נשמח להכיר את העסק שלכם, להבין את האתגרים ולהציג הדגמה חיה של AltruBiz CRM.',
+                                                    badge: 'תיאום פגישה ביומן'
+                                                })}
+                                                className="text-white font-bold hover:underline cursor-pointer"
+                                            >
+                                                לקביעת פגישה ביומן
+                                            </button>
+                                        ) : (
+                                            <a href="https://link.altrubiz.co.il/widget/booking/afkzW0ORpY08WTgmcfqU" target="_blank" rel="noopener noreferrer" className="text-white font-bold hover:underline">
+                                                לקביעת פגישה ביומן
+                                            </a>
+                                        )}
                                         {onOpenContactModal && (
                                             <>
                                                 <span className="text-slate-500">|</span>

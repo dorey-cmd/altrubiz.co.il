@@ -102,56 +102,68 @@
 </head>
 
 <body>
-  <!-- Root container with semantic fallback HTML for non-JS crawlers and search bots -->
+  <!-- Root container with semantic foundation HTML matching AltruBiz Design OS -->
   <div id="root">
-    <header style="padding: 20px; text-align: center; border-bottom: 1px solid #eee;">
-      <nav aria-label="ניווט ראשי">
-        <a href="/">דף הבית</a> |
-        <a href="/#benefits">יתרונות</a> |
-        <a href="/#how-it-works">איך זה עובד</a> |
-        <a href="/#why-altrubiz">למה אלטרוביז?</a> |
-        <a href="/#pricing">מחירים</a> |
-        <a href="/#faq">שאלות נפוצות</a> |
-        <a href="/about">אודות AltruBiz</a> |
-        <a href="/articles">מרכז ידע ומאמרים</a>
-      </nav>
+    <header class="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-200 shadow-sm" dir="rtl">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-20">
+          <a href="/" class="flex-shrink-0 flex items-center gap-2">
+            <img
+              src="https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/688019c09a4c2d4b4398bf3c.png"
+              alt="לוגו AltruBiz CRM - מערכת לניהול לקוחות, אוטומציה עסקית וחיבור WhatsApp חכם"
+              class="h-12 md:h-16 w-auto object-contain"
+              width="180"
+              height="60"
+            />
+          </a>
+          <nav aria-label="ניווט ראשי" class="hidden md:flex items-center gap-8 mx-auto">
+            <a href="/#how-it-works" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">איך זה עובד</a>
+            <a href="/#why-altrubiz" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">למה אלטרוביז?</a>
+            <a href="/topics/lost-leads" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">אבחון בריחת לידים</a>
+            <a href="/articles" class="inline-flex items-center gap-1.5 text-primary bg-blue-50/80 hover:bg-blue-100/80 px-3.5 py-1 rounded-full transition-colors text-sm font-semibold border border-blue-200/60">מאמרים וידע</a>
+          </nav>
+          <div class="hidden md:flex items-center gap-3">
+            <a href="/#contact" class="inline-flex items-center justify-center font-bold text-sm px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-md">קביעת פגישה</a>
+            <a href="https://app.altrubiz.com/" class="text-sm font-medium text-gray-600 hover:text-blue-600 px-3 py-2">התחברות</a>
+          </div>
+        </div>
+      </div>
     </header>
 
-    <main style="max-width: 900px; margin: 0 auto; padding: 40px 20px; line-height: 1.7;">
-      <h1>אלטרוביז CRM - להכניס את השיטה לסיסטם</h1>
-      <p>
-        AltruBiz CRM היא מערכת מתקדמת לניהול קשרי לקוחות (CRM), אוטומציה עסקית וחיבורי תקשורת רב-ערוציים המיועדת לעסקים בישראל.
-        המערכת מרכזת לידים מכל המקורות, מפעילה מסרים אוטומטיים בוואטסאפ (WhatsApp) ובמייל, ומפעילה בוטים חכמים מבוססי AI לתיאום פגישות ומענה סביב השעון.
-      </p>
-
-      <h2>יכולות מרכזיות</h2>
-      <ul>
-        <li><strong>משתמשים ורשומות ללא הגבלה:</strong> מודל תמחור ללא תוספת תשלום לפי עובד או משתמש.</li>
-        <li><strong>חיבור WhatsApp ואוטומציות:</strong> שליחת הודעות תגובה אוטומטיות, תבניות מאושרות, וניהול שיחות מרוכז.</li>
-        <li><strong>בוטים מבוססי בינה מלאכותית:</strong> מענה חכם ללקוחות וקביעת פגישות ביומן בשיחה טבעית 24/7.</li>
-        <li><strong>קליטת לידים אוטומטית:</strong> אינטגרציה לפייסבוק לידס, אינסטגרם, גוגל, דפי נחיתה וטפסים.</li>
-        <li><strong>דשבורדים ודוחות בזמן אמת:</strong> מעקב ביצועים, יחסי המרה ותוצאות קמפיינים.</li>
-      </ul>
-
-      <h2>מסלולי שירות</h2>
-      <ul>
-        <li><strong>Pro (₪297/חודש):</strong> תשתית CRM מלאה, משתמשים ללא הגבלה, יומנים וניהול לידים.</li>
-        <li><strong>Smart (₪497/חודש):</strong> אינטגרציית WhatsApp, פאנלים שיווקיים, קליטת לידים מפייסבוק ואוטומציות סושיאל.</li>
-        <li><strong>Power (₪747/חודש):</strong> בוטים AI חכמים, קביעת פגישות ביומן דרך וואטסאפ ב-AI, וחיבורי API מתקדמים.</li>
-      </ul>
-
-      <h2>מרכז ידע ומדריכים</h2>
-      <p>
-        לקריאת המדריכים המקצועיים:
-        <a href="/articles/whatsapp-messaging-guidelines">המלצות לשימוש נכון ובטוח בדיוור WhatsApp באמצעות AltruBiz</a>
-        (או בגרסת <a href="/articles/whatsapp-messaging-guidelines.md">Markdown ל-LLM</a>).
-      </p>
-
-      <h2>פרטי התקשרות</h2>
-      <p>
-        וואטסאפ: <a href="https://wa.me/972544350000">+972-54-435-0000</a> |
-        כניסה למערכת: <a href="https://app.altrubiz.com/">app.altrubiz.com</a>
-      </p>
+    <main class="min-h-screen bg-black text-white" dir="rtl">
+      <section class="relative w-full h-[85vh] md:h-[95vh] min-h-[600px] overflow-hidden bg-black text-right flex items-center justify-center pt-20">
+        <img
+          src="https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/6893869aeedaf87c98bf84d1.png"
+          alt="רקע אלטרוביז CRM"
+          class="absolute inset-0 w-full h-full object-cover opacity-50"
+        />
+        <div class="absolute inset-0 bg-black/60 z-10"></div>
+        <div class="relative z-20 flex flex-col items-center justify-center text-center px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
+          <img
+            src="https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/688019c09a4c2d4b4398bf3c.png"
+            alt="לוגו אלטרוביז CRM"
+            class="w-64 md:w-80 mb-10 drop-shadow-2xl"
+            width="320"
+            height="96"
+          />
+          <h1 class="text-4xl md:text-6xl/tight font-bold text-white mb-6 drop-shadow-lg">אלטרוביז CRM - להכניס את השיטה לסיסטם</h1>
+          <p class="text-lg md:text-2xl text-gray-100 mb-8 max-w-3xl leading-relaxed drop-shadow-md">
+            המערכת האחת שמרכזת את כל הכלים כדי לגדל את העסק הדיגיטלי - עם חיבור אמיתי בין טכנולוגיה, אוטומציה ובינה מלאכותית.
+          </p>
+          <p class="text-base md:text-lg text-gray-200 mb-10 max-w-2xl">
+            נמאס לקפוץ בין עשר מערכות שונות? אלטרוביז מאחדת את כל מה שצריך - במקום אחד, פשוט וחכם.
+          </p>
+          <a
+            href="/#pricing"
+            class="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-black bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-full shadow-[0_0_20px_rgba(234,179,8,0.5)]"
+          >
+            ✨ מתחילים כאן
+          </a>
+          <div class="mt-12 bg-black/60 backdrop-blur-sm border border-white/10 p-4 rounded-xl text-gray-300 text-sm md:text-base max-w-2xl">
+            <p>ניהול לקוחות מבוזר מבזבז שעות יקרות ומפספס הזדמנויות - ובסוף זה כסף שנשאר על הרצפה.</p>
+          </div>
+        </div>
+      </section>
     </main>
   </div>
   <script type="module" src="/src/main.tsx"></script>

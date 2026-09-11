@@ -13,10 +13,10 @@ interface ContactModalProps {
 export const ContactModal: React.FC<ContactModalProps> = ({
     isOpen,
     onClose,
-    title = 'קביעת פגישה: איך זה יכול לעבוד אצלכם בעסק',
-    subtitle = 'נשמח להכיר את הפעילות שלכם, להבין איפה מתבזבז זמן או איפה לידים מתפספסים, ולהראות איך AltruBiz מייצרת סדר ואוטומציה מותאמת.',
-    badge = 'תיאום שיחה ובדיקת התאמה',
-    whatsappPrefill = 'שלום צוות AltruBiz, אשמח לתאם פגישה ולבדוק איך זה יכול לעבוד אצלנו בעסק'
+    title = 'יצירת קשר והשארת פרטים',
+    subtitle = 'השאירו פרטים ונחזור אליכם בהקדם כדי להבין את צורכי העסק שלכם ולבדוק התאמה לפתרונות AltruBiz.',
+    badge = 'השארת פרטים',
+    whatsappPrefill = 'שלום צוות AltruBiz, השארתי פרטים באתר ואשמח שנשוחח'
 }) => {
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {

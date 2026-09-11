@@ -4,7 +4,6 @@ import {
     Clock, 
     ArrowLeft, 
     Sparkles, 
-    Tag, 
     FileText 
 } from 'lucide-react';
 import { ARTICLES, Article } from '../../data/articles';
@@ -13,6 +12,7 @@ import { Breadcrumbs } from '../common/Breadcrumbs';
 interface ArticlesIndexProps {
     onNavigate: (path: string) => void;
     onOpenContactModal?: (config?: any) => void;
+    onOpenBookingModal?: (config?: any) => void;
 }
 
 // Fisher-Yates shuffle to randomize articles order on each page visit
@@ -25,7 +25,7 @@ const shuffleArray = <T,>(array: T[]): T[] => {
     return shuffled;
 };
 
-export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate, onOpenContactModal }) => {
+export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate, onOpenContactModal, onOpenBookingModal }) => {
     // Randomize articles on each page entry/mount
     const [shuffledArticles] = useState<Article[]>(() => shuffleArray(ARTICLES));
     const [selectedCategory, setSelectedCategory] = useState<string>('all');
@@ -164,19 +164,9 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate, onOpen
                                                     </button>
                                                 </h2>
 
-                                                <p className="text-slate-600 text-sm leading-relaxed mb-3 line-clamp-2">
+                                                <p className="text-slate-600 text-sm leading-relaxed mb-4 line-clamp-2">
                                                     {article.description}
                                                 </p>
-
-                                                {/* Tags */}
-                                                <div className="flex flex-wrap items-center gap-1.5 mb-4">
-                                                    {article.tags.slice(0, 3).map(tag => (
-                                                        <span key={tag} className="inline-flex items-center gap-1 text-[11px] font-medium text-slate-600 bg-slate-100 px-2 py-0.5 rounded-md">
-                                                            <Tag size={10} className="text-slate-400" />
-                                                            {tag}
-                                                        </span>
-                                                    ))}
-                                                </div>
                                             </div>
 
                                             {/* Card Bottom Container with Author & Creative Action Button in Biz Cyan */}
@@ -267,16 +257,28 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate, onOpen
                                 בשיחה קצרה נמפה את צורת העבודה הנוכחית שלכם, ונבדוק יחד איך להטמיע תהליכים אוטומטיים שיחסכו לכם שעות של עבודה ידנית.
                             </p>
                             <button
-                                onClick={() => onOpenContactModal ? onOpenContactModal({
-                                    title: 'קביעת פגישת אבחון והתאמה אישית',
+                                onClick={() => onOpenBookingModal ? onOpenBookingModal({
+                                    title: 'קביעת שיחת התאמה אישית',
                                     subtitle: 'נשמח להבין את האתגרים בעסק שלכם ולהראות לכם איך המערכת עובדת בפועל.',
-                                    badge: 'שיחת בדיקת התאמה'
+                                    badge: 'תיאום שיחה ביומן'
                                 }) : onNavigate('/#contact')}
-                                className="w-full group/btn inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-primary hover:bg-[#0052a3] text-white text-xs sm:text-sm font-bold shadow-md shadow-primary/25 transition-all"
+                                className="w-full group/btn inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-primary hover:bg-[#0052a3] text-white text-xs sm:text-sm font-bold shadow-md shadow-primary/25 transition-all mb-2.5"
                             >
                                 <span>קביעת שיחת התאמה</span>
                                 <ArrowLeft size={14} className="group-hover/btn:-translate-x-1 transition-transform" />
                             </button>
+                            {onOpenContactModal && (
+                                <button
+                                    onClick={() => onOpenContactModal({
+                                        title: 'השארת פרטים ליצירת קשר',
+                                        subtitle: 'מעדיפים שנחזור אליכם? השאירו פרטים ונחזור בהקדם.',
+                                        badge: 'השארת פרטים'
+                                    })}
+                                    className="w-full text-center text-xs text-slate-500 hover:text-primary font-medium transition-colors py-1"
+                                >
+                                    מעדיפים שנחזור אליכם? השארת פרטים
+                                </button>
+                            )}
                         </div>
                     </aside>
                 </div>
