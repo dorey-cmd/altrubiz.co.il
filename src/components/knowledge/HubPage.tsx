@@ -834,7 +834,7 @@ export const HubPage: React.FC<HubPageProps> = ({
                                                                         </h5>
                                                                     </div>
                                                                     <div className="mt-2.5 flex items-center text-xs font-semibold text-secondary group-hover:translate-x-[-2px] transition-transform">
-                                                                        <span>קריאת המדריך המעשי לפתרון</span>
+                                                                        <span>{art.cardCta || 'פתרון מעשי לבעיה'}</span>
                                                                         <ArrowLeft className="w-3.5 h-3.5 mr-1" />
                                                                     </div>
                                                                 </div>

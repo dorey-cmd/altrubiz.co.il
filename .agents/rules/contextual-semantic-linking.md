@@ -47,14 +47,17 @@ $$\text{Public Page Eligibility} = \text{Qualitative Knowledge Maturity} + \text
 
 ---
 
-## 4. Question-to-Answer Link Policy (Anti-Generic Labeling)
-Every contextual semantic link or navigation trigger must frame the substantive promise or answer that satisfies reader intent:
-- **Strict Prohibition**: Never use generic anchor text or button labels such as `לקריאה`, `קרא עוד`, or `למידע נוסף`.
-- **Meaningful Anchors**: Anchor text must clearly describe the knowledge destination or practical payoff:
-  - *Correct*: `להעמקה באבחון המלא היכנסו אל [מרכז הידע: לידים נופלים בין הכיסאות](/topics/lost-leads)`
-  - *Correct*: `קריאת המדריך המעשי לפתרון`
-  - *Correct*: `איך עוצרים בריחת לידים?`
-  - *Prohibited*: `לקריאה לחצו כאן` / `קרא עוד`
+## 4. Question-to-Answer & Value-Promise Link Policy
+Every contextual semantic link or related-content recommendation must function as the substantive answer or value promise satisfying reader intent:
+- **Strict Prohibition**: Never use generic anchor text, button labels, or mechanical templates such as:
+  - `לקריאה` / `קרא עוד` / `למידע נוסף` / `קראו כאן`
+  - `קריאת המדריך` / `המדריך המעשי לפתרון` / `למדריך` / `לפתרון`
+- **Self-Standing Anchor Test**: If a reader saw ONLY the anchor text without the surrounding card or question, they must have a clear understanding of the destination and what they will learn.
+- **Natural Value-Promise Anchors**: Anchor text must concisely describe the tangible takeaway:
+  - *Correct*: `איך בונים תגובה מהירה למתעניין חדש`
+  - *Correct*: `כללי שימוש בטוח בוואטסאפ ללא חסימות`
+  - *Correct*: `מעבר מניהול לידים באקסל לפייפליין חזותי`
+  - *Prohibited*: `קריאת המדריך המעשי לפתרון` / `לקריאה לחצו כאן`
 
 ---
 
@@ -130,9 +133,24 @@ Before adding any semantic link or interaction, apply both tests:
 ## 13. Permanent Prohibitions
 - NO numerical maturity thresholds or link quotas.
 - NO automatic regex keyword replacement.
-- NO generic anchor texts (`לקריאה`, `קרא עוד`, `למידע נוסף`).
+- NO generic anchor texts (`לקריאה`, `קרא עוד`, `למידע נוסף`, `קריאת המדריך המעשי לפתרון`).
 - NO `target="_blank"` on internal knowledge links.
 - NO false hub collapsing or mismatched redirects.
 - NO hardcoded duplicate topic/concept maps in UI components.
+- NO badge soup or visual clutter above the H1.
 - NO visitor tracking, cookies, or localStorage state for knowledge progression at this stage.
+
+---
+
+## 14. Round 3 Refinements & Governance Invariants
+1. **Recognition $\neq$ Presentation**:
+   - The Knowledge Graph maintains rich synonym maps (`pipeline` $\rightarrow$ פייפליין, Sales Pipeline, תהליך מכירה).
+   - Recognition identifies concepts; editorial judgment alone decides whether a specific encounter receives a link/definition or remains clean prose.
+   - Synonyms belong to Concepts, not URLs. We never manufacture thin pages for keywords.
+2. **H1 Visual Sovereignty & Quiet Entry Environment**:
+   - The H1 is the supreme visual anchor of the page. The area above H1 must remain clean and quiet (breadcrumbs, reading time only; no competing badges).
+   - *Semantic importance does not require visual prominence*: Parent Hub connections are displayed subtly below the H1 as contextual tags (`נושא: ... ←`), preserving graph relationships without headline competition.
+3. **Mobile Touch-First Progressive UX**:
+   - Progressive definitions must work flawlessly on mobile touch devices (accessible tap-to-open dialog with backdrop, zero hover dependency, preserved scroll position).
+
 

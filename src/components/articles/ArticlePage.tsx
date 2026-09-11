@@ -19,8 +19,7 @@ import {
     MessageCircle, 
     Copy, 
     Quote, 
-    Layers, 
-    ArrowLeft 
+    Layers 
 } from 'lucide-react';
 import { Article, ArticleSection } from '../../data/articles';
 import { getParentHubForArticle } from '../../data/knowledgeGraph';
@@ -977,29 +976,12 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
 
             {/* Article Header */}
             <header className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-8 sm:mb-12">
-                {/* Compact Context Row Above H1: Breadcrumbs location, subtle hub, read time */}
-                <div className="flex flex-wrap items-center gap-2 mb-3 sm:mb-4">
-                    {parentHub && (
-                        <button 
-                            type="button"
-                            onClick={() => onNavigate(parentHub.url)}
-                            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300/80 cursor-pointer transition-colors shadow-2xs"
-                        >
-                            <Layers size={12} className="text-amber-600" />
-                            <span>שייך למרכז: <strong>{parentHub.title}</strong></span>
-                            <ArrowLeft size={11} className="text-amber-700 mr-0.5" />
-                        </button>
-                    )}
-                    <span className="inline-flex items-center gap-1 text-xs text-slate-500 bg-slate-100 px-2.5 py-1 rounded-full font-medium">
-                        <Clock size={12} className="text-slate-400" />
+                {/* Quiet Meta Above H1: Only Reading Time */}
+                <div className="flex items-center gap-2 mb-2 sm:mb-3">
+                    <span className="inline-flex items-center gap-1.5 text-xs text-slate-500 font-medium">
+                        <Clock size={13} className="text-slate-400" />
                         <span>{article.readTime}</span>
                     </span>
-                    {article.heroBadge && (
-                        <span className="inline-flex items-center gap-1 text-xs font-bold px-2.5 py-1 rounded-full bg-amber-100 text-amber-900 border border-amber-200">
-                            <Zap size={12} className="text-amber-600 fill-amber-500" />
-                            <span>{article.heroBadge}</span>
-                        </span>
-                    )}
                 </div>
 
                 {/* H1 - Immediate, Dominant and High-Legibility */}
@@ -1008,9 +990,27 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                 </h1>
 
                 {article.subtitle && (
-                    <p className="text-base sm:text-lg lg:text-xl text-slate-600 leading-relaxed mb-6 font-normal">
+                    <p className="text-base sm:text-lg lg:text-xl text-slate-600 leading-relaxed mb-5 font-normal">
                         {article.subtitle}
                     </p>
+                )}
+
+                {/* Contextual Knowledge Relationship (Subtle & Quiet Below H1) */}
+                {parentHub && (
+                    <div className="mb-4">
+                        <a
+                            href={parentHub.url}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                onNavigate(parentHub.url);
+                            }}
+                            className="inline-flex items-center gap-1.5 text-xs text-slate-600 hover:text-primary transition-colors font-medium bg-slate-100 hover:bg-slate-200/80 px-3 py-1 rounded-lg border border-slate-200/60"
+                        >
+                            <Compass size={13} className="text-primary/70 shrink-0" />
+                            <span>נושא: <strong className="font-semibold text-slate-800 hover:text-primary">{parentHub.title}</strong></span>
+                            <ChevronLeft size={12} className="text-slate-400" />
+                        </a>
+                    </div>
                 )}
 
                 {/* Below H1: Streamlined Meta, Author & Share Row */}

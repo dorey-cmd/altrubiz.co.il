@@ -1003,28 +1003,20 @@ export const CANDIDATE_FUTURE_CONCEPTS = {
 export interface CanonicalConcept {
     id: string;
     term: string;
+    synonyms?: string[];
     canonicalDefinition: string;
     maturity: 'canonical' | 'maturing' | 'emerging';
     hasApprovedPublicDestination: boolean;
     publicDestinationUrl?: string;
-    primaryParentHubSlug: string;
-    recommendedBehavior: 'contextual_link' | 'plain_text_or_context';
+    primaryParentHubSlug?: string;
+    recommendedBehavior: 'contextual_link' | 'progressive_definition';
 }
 
 export const CANONICAL_CONCEPTS: Record<string, CanonicalConcept> = {
-    'crm': {
-        id: 'crm',
-        term: 'CRM',
-        canonicalDefinition: 'מערכת לניהול קשרי לקוחות ותהליכי מכירה שמחברת בין פניות, ערוצי תקשורת, תיעוד והמשכיות עסקית.',
-        maturity: 'canonical',
-        hasApprovedPublicDestination: true,
-        publicDestinationUrl: '/topics/sales-pipeline',
-        primaryParentHubSlug: 'sales-pipeline',
-        recommendedBehavior: 'contextual_link'
-    },
     'pipeline': {
         id: 'pipeline',
         term: 'פייפליין מכירות (Pipeline)',
+        synonyms: ['פייפליין', 'Pipeline', 'Sales Pipeline', 'פייפליין מכירות', 'תהליך מכירה', 'משפך מכירות'],
         canonicalDefinition: 'משפך וציר עבודה חזותי המציג בכל רגע נתון היכן עומדת כל עסקה, מה הצעד הבא ומתי נדרש מעקב.',
         maturity: 'canonical',
         hasApprovedPublicDestination: true,
@@ -1032,49 +1024,10 @@ export const CANONICAL_CONCEPTS: Record<string, CanonicalConcept> = {
         primaryParentHubSlug: 'sales-pipeline',
         recommendedBehavior: 'contextual_link'
     },
-    'lead': {
-        id: 'lead',
-        term: 'ליד (Lead)',
-        canonicalDefinition: 'פנייה עסקית מאדם או חברה שהביעו עניין בשירות או במוצר וממתינים למענה ולבדיקת התאמה.',
-        maturity: 'canonical',
-        hasApprovedPublicDestination: true,
-        publicDestinationUrl: '/topics/lost-leads',
-        primaryParentHubSlug: 'lost-leads',
-        recommendedBehavior: 'contextual_link'
-    },
-    'contact': {
-        id: 'contact',
-        term: 'איש קשר וכרטיס לקוח (Contact)',
-        canonicalDefinition: 'רשומת לקוח מרכזית המרכזת את כל היסטוריית הפניות, ההודעות, הפגישות וההסכמים במקום אחד.',
-        maturity: 'canonical',
-        hasApprovedPublicDestination: true,
-        publicDestinationUrl: '/topics/business-memory',
-        primaryParentHubSlug: 'business-memory',
-        recommendedBehavior: 'contextual_link'
-    },
-    'follow-up': {
-        id: 'follow-up',
-        term: 'פולואפ (Follow-up)',
-        canonicalDefinition: 'רצף פעולות מעקב מתוזמנות ומותאמות אישית לאחר שליחת הצעה או שיחה כדי לקדם עסקה מבלי להיות מעיקים.',
-        maturity: 'canonical',
-        hasApprovedPublicDestination: true,
-        publicDestinationUrl: '/topics/lost-leads',
-        primaryParentHubSlug: 'lost-leads',
-        recommendedBehavior: 'contextual_link'
-    },
-    'workflow': {
-        id: 'workflow',
-        term: 'זרימת עבודה (Workflow)',
-        canonicalDefinition: 'סדרת שלבים ופעולות קבועות בעסק הקובעות בדיוק מה קורה מרגע כניסת פנייה ועד סיום השירות.',
-        maturity: 'canonical',
-        hasApprovedPublicDestination: true,
-        publicDestinationUrl: '/topics/repetitive-manual-work',
-        primaryParentHubSlug: 'repetitive-manual-work',
-        recommendedBehavior: 'contextual_link'
-    },
     'automation': {
         id: 'automation',
         term: 'אוטומציה עסקית (Automation)',
+        synonyms: ['אוטומציה', 'Automation', 'אוטומציות', 'אוטומציה עסקית', 'תהליך אוטומטי'],
         canonicalDefinition: 'טריגרים ופעולות מערכת שפועלים ברקע ללא צורך בהתערבות אנושית חוזרת (מענה מהיר, תזכורות ועדכונים).',
         maturity: 'canonical',
         hasApprovedPublicDestination: true,
@@ -1082,9 +1035,54 @@ export const CANONICAL_CONCEPTS: Record<string, CanonicalConcept> = {
         primaryParentHubSlug: 'repetitive-manual-work',
         recommendedBehavior: 'contextual_link'
     },
+    'workflow': {
+        id: 'workflow',
+        term: 'זרימת עבודה (Workflow)',
+        synonyms: ['Workflow', 'וורקפלואו', 'זרימת עבודה', 'תהליך עבודה'],
+        canonicalDefinition: 'סדרת שלבים ופעולות קבועות בעסק הקובעות בדיוק מה קורה מרגע כניסת פנייה ועד סיום השירות.',
+        maturity: 'canonical',
+        hasApprovedPublicDestination: true,
+        publicDestinationUrl: '/topics/repetitive-manual-work',
+        primaryParentHubSlug: 'repetitive-manual-work',
+        recommendedBehavior: 'contextual_link'
+    },
+    'lost-leads': {
+        id: 'lost-leads',
+        term: 'בריחת לידים (Lost Leads)',
+        synonyms: ['בריחת לידים', 'לידים שנעלמים', 'לידים שנופלים בין הכיסאות', 'Lost Leads'],
+        canonicalDefinition: 'מצב שבו מתעניינים שפנו לעסק מתאדים ללא מענה מסודר, ללא פולואפ או בעקבות שיחה שלא נענתה.',
+        maturity: 'canonical',
+        hasApprovedPublicDestination: true,
+        publicDestinationUrl: '/topics/lost-leads',
+        primaryParentHubSlug: 'lost-leads',
+        recommendedBehavior: 'contextual_link'
+    },
+    'whatsapp-in-crm': {
+        id: 'whatsapp-in-crm',
+        term: 'וואטסאפ ב-CRM (WhatsApp in CRM)',
+        synonyms: ['וואטסאפ ב-CRM', 'WhatsApp ב-CRM', 'חיבור וואטסאפ ל-CRM'],
+        canonicalDefinition: 'חיבור ערוץ ה-WhatsApp ישירות למערכת ה-CRM לצורך מענה מיידי, תיעוד מלא ואוטומציות מאושרות.',
+        maturity: 'canonical',
+        hasApprovedPublicDestination: true,
+        publicDestinationUrl: '/topics/whatsapp-in-crm',
+        primaryParentHubSlug: 'whatsapp-in-crm',
+        recommendedBehavior: 'contextual_link'
+    },
+    'business-memory': {
+        id: 'business-memory',
+        term: 'זיכרון ארגוני (Business Memory)',
+        synonyms: ['זיכרון ארגוני', 'תיעוד לקוחות', 'Business Memory'],
+        canonicalDefinition: 'ריכוז היסטוריית הלקוחות, הסיכומים והמסמכים במאגר מרכזי כך שהמידע אינו תלוי בעובד ספציפי.',
+        maturity: 'canonical',
+        hasApprovedPublicDestination: true,
+        publicDestinationUrl: '/topics/business-memory',
+        primaryParentHubSlug: 'business-memory',
+        recommendedBehavior: 'contextual_link'
+    },
     'unified-inbox': {
         id: 'unified-inbox',
-        term: 'תיבת דואר אחודה (Unified Inbox)',
+        term: 'אינבוקס אחוד (Unified Inbox)',
+        synonyms: ['אינבוקס אחוד', 'תיבת דואר אחודה', 'Unified Inbox'],
         canonicalDefinition: 'אינבוקס צוותי המרכז שיחות וואטסאפ, אינסטגרם, פייסבוק, SMS ומייל לציר תקשורת אחיד לכל לקוח.',
         maturity: 'canonical',
         hasApprovedPublicDestination: true,
@@ -1092,17 +1090,91 @@ export const CANONICAL_CONCEPTS: Record<string, CanonicalConcept> = {
         primaryParentHubSlug: 'whatsapp-in-crm',
         recommendedBehavior: 'contextual_link'
     },
+    'crm': {
+        id: 'crm',
+        term: 'מערכת CRM (ניהול קשרי לקוחות)',
+        synonyms: ['CRM', 'מערכת CRM', 'מערכת לניהול קשרי לקוחות'],
+        canonicalDefinition: 'מערכת לניהול קשרי לקוחות ותהליכי מכירה המחברת בין פניות, ערוצי תקשורת, משימות המשך ותיעוד מרכזי לכל לקוח.',
+        maturity: 'canonical',
+        hasApprovedPublicDestination: false,
+        recommendedBehavior: 'progressive_definition'
+    },
+    'lead': {
+        id: 'lead',
+        term: 'ליד (Lead)',
+        synonyms: ['ליד', 'Lead', 'לידים', 'פנייה עסקית'],
+        canonicalDefinition: 'פנייה עסקית מאדם או חברה שהביעו עניין פעיל בשירות או במוצר, וממתינים למענה, אבחון ראשוני ובדיקת התאמה.',
+        maturity: 'canonical',
+        hasApprovedPublicDestination: false,
+        recommendedBehavior: 'progressive_definition'
+    },
+    'contact': {
+        id: 'contact',
+        term: 'איש קשר וכרטיס לקוח (Contact)',
+        synonyms: ['איש קשר', 'כרטיס לקוח', 'Contact'],
+        canonicalDefinition: 'רשומת לקוח מרכזית במערכת המרכזת את כל היסטוריית הפניות, ההודעות, הפגישות, ההצעות וההסכמים במקום אחיד.',
+        maturity: 'canonical',
+        hasApprovedPublicDestination: false,
+        recommendedBehavior: 'progressive_definition'
+    },
+    'follow-up': {
+        id: 'follow-up',
+        term: 'פולואפ (Follow-up)',
+        synonyms: ['פולואפ', 'Follow-up', 'מעקב המשך', 'משימת מעקב'],
+        canonicalDefinition: 'רצף פעולות מעקב מתוזמנות ומותאמות אישית לאחר שיחה או הצעה, כדי לקדם עסקה בצורה מסודרת ומקצועית מבלי להעיק.',
+        maturity: 'canonical',
+        hasApprovedPublicDestination: false,
+        recommendedBehavior: 'progressive_definition'
+    },
     'no-show': {
         id: 'no-show',
         term: 'אי-הגעה לפגישה (No-Show)',
-        canonicalDefinition: 'תופעה שבה לקוח מתאם פגישה ביומן ולא מופיע אליה עקב שכחה, חוסר תזכורת או היעדר מחויבות.',
+        synonyms: ['No-Show', 'אי-הגעה לפגישה', 'ביטול פגישה'],
+        canonicalDefinition: 'תופעה שבה לקוח מתאם פגישה ביומן ולא מופיע אליה עקב שכחה, עומס, היעדר תזכורת או חוסר מוכנות מקדימה.',
         maturity: 'canonical',
-        hasApprovedPublicDestination: true,
-        publicDestinationUrl: '/topics/repetitive-manual-work',
-        primaryParentHubSlug: 'repetitive-manual-work',
-        recommendedBehavior: 'contextual_link'
+        hasApprovedPublicDestination: false,
+        recommendedBehavior: 'progressive_definition'
     }
 };
+
+/**
+ * Resolves a canonical concept by ID, normalized slug, or recognition synonym.
+ */
+export function resolveCanonicalConcept(idOrAlias: string): CanonicalConcept | undefined {
+    if (!idOrAlias) return undefined;
+    const cleanId = idOrAlias.toLowerCase().trim();
+    
+    // Direct match by ID
+    if (CANONICAL_CONCEPTS[cleanId]) {
+        return CANONICAL_CONCEPTS[cleanId];
+    }
+    
+    // Alias / Normalization map
+    const aliasMap: Record<string, string> = {
+        'sales-pipeline': 'pipeline',
+        'sales_pipeline': 'pipeline',
+        'repetitive-manual-work': 'automation',
+        'repetitive_manual_work': 'automation',
+        'followup': 'follow-up',
+        'follow_up': 'follow-up',
+        'noshow': 'no-show',
+        'no_show': 'no-show',
+        'unified_inbox': 'unified-inbox',
+        'whatsapp_in_crm': 'whatsapp-in-crm',
+        'business_memory': 'business-memory',
+        'lost_leads': 'lost-leads'
+    };
+    
+    if (aliasMap[cleanId] && CANONICAL_CONCEPTS[aliasMap[cleanId]]) {
+        return CANONICAL_CONCEPTS[aliasMap[cleanId]];
+    }
+
+    // Synonym match
+    return Object.values(CANONICAL_CONCEPTS).find(concept => 
+        concept.term.toLowerCase() === cleanId ||
+        concept.synonyms?.some(syn => syn.toLowerCase() === cleanId)
+    );
+}
 
 /**
  * Returns all approved public Hubs for navigation, footers, and sitemaps.

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { HelpCircle, X, BookOpen } from 'lucide-react';
-import { CANONICAL_CONCEPTS, CanonicalConcept } from '../../data/knowledgeGraph';
+import { resolveCanonicalConcept, CanonicalConcept } from '../../data/knowledgeGraph';
 
 interface ContextualConceptProps {
     conceptId: string;
@@ -14,11 +14,14 @@ export const ContextualConcept: React.FC<ContextualConceptProps> = ({
     onNavigate
 }) => {
     const [isOpen, setIsOpen] = useState(false);
+    const [isHovered, setIsHovered] = useState(false);
     const popoverRef = useRef<HTMLDivElement>(null);
     const triggerRef = useRef<HTMLButtonElement | HTMLAnchorElement>(null);
 
-    const concept: CanonicalConcept | undefined = CANONICAL_CONCEPTS[conceptId];
+    const concept: CanonicalConcept | undefined = resolveCanonicalConcept(conceptId);
     const textToShow = displayText || (concept ? concept.term : conceptId);
+
+    const isVisible = isOpen || isHovered;
 
     // Dismiss on click outside or Escape key
     useEffect(() => {
@@ -32,12 +35,14 @@ export const ContextualConcept: React.FC<ContextualConceptProps> = ({
                 !triggerRef.current.contains(e.target as Node)
             ) {
                 setIsOpen(false);
+                setIsHovered(false);
             }
         };
 
         const handleKeyDown = (e: KeyboardEvent) => {
             if (e.key === 'Escape') {
                 setIsOpen(false);
+                setIsHovered(false);
                 triggerRef.current?.focus();
             }
         };
@@ -58,7 +63,7 @@ export const ContextualConcept: React.FC<ContextualConceptProps> = ({
     // STATE 1: Mature Canonical Concept with Approved Public Destination (e.g. Topic Hub)
     if (concept.hasApprovedPublicDestination && concept.publicDestinationUrl) {
         return (
-            <span className="relative inline-block group">
+            <span className="relative inline-block">
                 <a
                     ref={triggerRef as React.RefObject<HTMLAnchorElement>}
                     href={concept.publicDestinationUrl}
@@ -80,12 +85,19 @@ export const ContextualConcept: React.FC<ContextualConceptProps> = ({
 
     // STATE 2: Emerging/Maturing Concept without Public Page -> In-place Accessible Definition Popover
     return (
-        <span className="relative inline-block align-baseline">
+        <span 
+            className="relative inline-block align-baseline"
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+        >
             <button
                 ref={triggerRef as React.RefObject<HTMLButtonElement>}
                 type="button"
                 onClick={() => setIsOpen(!isOpen)}
-                aria-expanded={isOpen}
+                onFocus={() => setIsHovered(true)}
+                onBlur={() => setIsHovered(false)}
+                aria-haspopup="dialog"
+                aria-expanded={isVisible}
                 aria-label={`הסבר על המונח: ${concept.term}`}
                 className="inline-flex items-center gap-1 border-b border-dotted border-primary/60 text-slate-900 hover:text-primary font-medium hover:border-primary transition-colors cursor-help px-0.5"
             >
@@ -93,20 +105,25 @@ export const ContextualConcept: React.FC<ContextualConceptProps> = ({
                 <HelpCircle size={12} className="text-primary/70 shrink-0 inline" />
             </button>
 
-            {isOpen && (
+            {isVisible && (
                 <>
                     {/* Mobile Backdrop */}
-                    <div 
-                        className="fixed inset-0 z-50 lg:hidden bg-black/40 backdrop-blur-2xs" 
-                        onClick={() => setIsOpen(false)} 
-                    />
+                    {isOpen && (
+                        <div 
+                            className="fixed inset-0 z-50 lg:hidden bg-black/40 backdrop-blur-2xs" 
+                            onClick={() => {
+                                setIsOpen(false);
+                                setIsHovered(false);
+                            }} 
+                        />
+                    )}
 
                     {/* Definition Card (Desktop Float / Mobile Centered Card) */}
                     <div
                         ref={popoverRef}
                         role="dialog"
                         aria-modal="true"
-                        className="fixed inset-x-4 top-1/3 -translate-y-1/2 z-50 lg:absolute lg:inset-auto lg:top-full lg:right-0 lg:translate-y-2 lg:w-80 bg-white rounded-2xl p-4 shadow-2xl border border-slate-200 text-slate-800 text-right animate-in fade-in zoom-in-95 duration-150"
+                        className="fixed inset-x-4 top-1/2 -translate-y-1/2 z-50 lg:absolute lg:inset-auto lg:top-full lg:right-0 lg:translate-y-2 lg:w-80 bg-white rounded-2xl p-4 shadow-2xl border border-slate-200 text-slate-800 text-right animate-in fade-in zoom-in-95 duration-150"
                         dir="rtl"
                     >
                         <div className="flex items-center justify-between gap-2 pb-2 mb-2 border-b border-slate-100">
@@ -116,7 +133,10 @@ export const ContextualConcept: React.FC<ContextualConceptProps> = ({
                             </div>
                             <button
                                 type="button"
-                                onClick={() => setIsOpen(false)}
+                                onClick={() => {
+                                    setIsOpen(false);
+                                    setIsHovered(false);
+                                }}
                                 className="p-1 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors"
                                 aria-label="סגירת הסבר"
                             >

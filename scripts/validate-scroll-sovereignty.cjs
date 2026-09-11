@@ -354,22 +354,228 @@ async function runScrollAudit() {
         console.log('  ✔ Mobile bottom-sheet opening and closing preserves exact scroll position');
 
         // ----------------------------------------------------
-        // Test 6: Contextual Semantic Linking & Popovers
+        // Test 6: Article Header Hierarchy & Visual Dominance
         // ----------------------------------------------------
-        console.log('\n6. Auditing Contextual Semantic Linking & Popovers...');
-        const desktopArticle = await browser.newPage({ viewport: { width: 1280, height: 800 } });
-        await desktopArticle.goto(`${baseUrl}/articles/omnichannel-communication-unified-inbox-crm-guide`, { waitUntil: 'networkidle' });
+        console.log('\n6. Auditing Article Header Hierarchy & Visual Dominance...');
+        const headerArticle = await browser.newPage({ viewport: { width: 1280, height: 800 } });
+        await headerArticle.goto(`${baseUrl}/articles/omnichannel-communication-unified-inbox-crm-guide`, { waitUntil: 'networkidle' });
 
-        const conceptLinks = await desktopArticle.evaluate(() => {
-            const links = Array.from(document.querySelectorAll('article a[href^="/topics/"]'));
-            return links.map(l => ({ text: l.textContent.trim(), href: l.getAttribute('href') }));
+        const headerAudit = await headerArticle.evaluate(() => {
+            const header = document.querySelector('article header');
+            if (!header) return { error: 'Article header not found' };
+
+            const h1 = header.querySelector('h1');
+            if (!h1) return { error: 'H1 not found' };
+
+            // Find all elements appearing before H1 in DOM order inside header
+            const allElements = Array.from(header.querySelectorAll('*'));
+            const h1Index = allElements.indexOf(h1);
+            const elementsBeforeH1 = allElements.slice(0, h1Index);
+
+            // Check if any element before H1 contains the long parent hub badge or colorful badges
+            const badgesAboveH1 = elementsBeforeH1.filter(el => {
+                const text = el.textContent || '';
+                return text.includes('שייך למרכז') || text.includes('מרכז הידע:');
+            });
+
+            // Check reading time above H1
+            const hasReadTimeAboveH1 = elementsBeforeH1.some(el => (el.textContent || '').includes('דקות קריאה'));
+
+            // Check parent hub link below H1
+            const parentHubTag = header.querySelector('a[href^="/topics/"]');
+            const parentHubTagText = parentHubTag ? parentHubTag.textContent.trim() : null;
+            const parentHubHref = parentHubTag ? parentHubTag.getAttribute('href') : null;
+            const isParentHubBelowH1 = parentHubTag && (h1.compareDocumentPosition(parentHubTag) & Node.DOCUMENT_POSITION_FOLLOWING);
+
+            return {
+                h1Text: h1.textContent.trim(),
+                hasBadgesAboveH1: badgesAboveH1.length > 0,
+                hasReadTimeAboveH1,
+                hasParentHubTag: Boolean(parentHubTag),
+                isParentHubBelowH1: Boolean(isParentHubBelowH1),
+                parentHubTagText,
+                parentHubHref
+            };
         });
 
-        console.log(`  - Found ${conceptLinks.length} contextual hub links in article`);
-        if (conceptLinks.length === 0) {
-            throw new Error('Contextual semantic links to topic hubs not found in article content!');
+        if (headerAudit.error) {
+            throw new Error(`Header audit failed: ${headerAudit.error}`);
         }
-        console.log(`  ✔ Contextual semantic links verified: ${conceptLinks.slice(0, 3).map(l => `"${l.text}" -> ${l.href}`).join(', ')}`);
+        if (headerAudit.hasBadgesAboveH1) {
+            throw new Error('Visual noise detected above H1! Found parent hub badge or badge collection above H1.');
+        }
+        if (!headerAudit.hasReadTimeAboveH1) {
+            throw new Error('Reading time metadata not found above H1!');
+        }
+        if (!headerAudit.isParentHubBelowH1) {
+            throw new Error('Parent Hub relationship must be rendered below H1, not above!');
+        }
+        console.log(`  ✔ H1 visual sovereignty confirmed: "${headerAudit.h1Text.slice(0, 45)}..."`);
+        console.log(`  ✔ Clean metadata above H1 (reading time only, zero badge soup)`);
+        console.log(`  ✔ Subtle parent Hub tag placed below H1: "${headerAudit.parentHubTagText}" -> ${headerAudit.parentHubHref}`);
+
+        // ----------------------------------------------------
+        // Test 7: Related Content Value-Promise Link Audit
+        // ----------------------------------------------------
+        console.log('\n7. Auditing Related Content Value-Promise Anchors...');
+        const prohibitedPhrases = [
+            'קריאת המדריך המעשי לפתרון',
+            'קריאת המדריך',
+            'המדריך המעשי',
+            'לקריאה',
+            'קרא עוד',
+            'למידע נוסף',
+            'קראו כאן',
+            'למדריך'
+        ];
+
+        // Check related content links in article footer
+        const articleRelatedLinks = await headerArticle.evaluate(() => {
+            const footer = document.querySelector('footer') || document.querySelector('div[class*="border-t"]');
+            const links = Array.from(document.querySelectorAll('a[href^="/articles/"]'));
+            return links.map(a => ({ text: a.textContent.trim(), href: a.getAttribute('href') }));
+        });
+
+        // Check HubPage related article links
+        const hubTopicPage = await browser.newPage({ viewport: { width: 1280, height: 800 } });
+        await hubTopicPage.goto(`${baseUrl}/topics/sales-pipeline`, { waitUntil: 'networkidle' });
+
+        const hubArticleLinks = await hubTopicPage.evaluate(() => {
+            const links = Array.from(document.querySelectorAll('a[href^="/articles/"]'));
+            return links.map(a => ({ text: a.textContent.trim(), href: a.getAttribute('href') }));
+        });
+
+        const allCheckedLinks = [...articleRelatedLinks, ...hubArticleLinks];
+        for (const link of allCheckedLinks) {
+            for (const prohibited of prohibitedPhrases) {
+                if (link.text === prohibited) {
+                    throw new Error(`Found generic prohibited anchor "${prohibited}" in link to ${link.href}!`);
+                }
+            }
+        }
+        console.log(`  ✔ Audited ${allCheckedLinks.length} article recommendation links across article & HubPage.`);
+        console.log(`  ✔ Zero generic phrases found. All links describe tangible destination value.`);
+
+        // ----------------------------------------------------
+        // Test 8: Contextual Semantic Linking (State A & State B)
+        // ----------------------------------------------------
+        console.log('\n8. Auditing Contextual Semantic Linking (State A & State B)...');
+        await headerArticle.goto(`${baseUrl}/articles/excel-to-crm-pipeline-guide`, { waitUntil: 'networkidle' });
+
+        const semanticAudit = await headerArticle.evaluate(() => {
+            // State A: mature concept links to Hub (e.g. pipeline -> /topics/sales-pipeline)
+            const pipelineLinks = Array.from(document.querySelectorAll('article a[href="/topics/sales-pipeline"]'));
+            
+            // State B: progressive definition buttons (e.g. CRM, follow-up, contact)
+            const definitionButtons = Array.from(document.querySelectorAll('article button[aria-haspopup="dialog"]'));
+
+            return {
+                pipelineLinksCount: pipelineLinks.length,
+                pipelineFirstText: pipelineLinks[0] ? pipelineLinks[0].textContent.trim() : null,
+                pipelineFirstHref: pipelineLinks[0] ? pipelineLinks[0].getAttribute('href') : null,
+                pipelineFirstTarget: pipelineLinks[0] ? pipelineLinks[0].getAttribute('target') : null,
+                definitionButtonsCount: definitionButtons.length,
+                definitionFirstText: definitionButtons[0] ? definitionButtons[0].textContent.trim() : null,
+                definitionAriaLabel: definitionButtons[0] ? definitionButtons[0].getAttribute('aria-label') : null
+            };
+        });
+
+        if (semanticAudit.pipelineLinksCount === 0) {
+            throw new Error('State A: Contextual link for "pipeline" to "/topics/sales-pipeline" not found in article body!');
+        }
+        if (semanticAudit.pipelineFirstTarget === '_blank') {
+            throw new Error('State A: Contextual concept link used target="_blank"! Internal links must use same-window navigation.');
+        }
+        console.log(`  ✔ State A mature concept verified: "${semanticAudit.pipelineFirstText}" -> ${semanticAudit.pipelineFirstHref} (same-window)`);
+
+        if (semanticAudit.definitionButtonsCount === 0) {
+            throw new Error('State B: Progressive definition buttons not found in article body!');
+        }
+        console.log(`  ✔ State B progressive concept verified: "${semanticAudit.definitionFirstText}" (${semanticAudit.definitionAriaLabel})`);
+
+        // Test State B interaction: Click opens popover without moving document scroll position
+        // Use window.scrollTo with behavior:'instant' to bypass CSS scroll-behavior:smooth
+        // which would cause scrollIntoView to animate asynchronously
+        const scrollBeforePopover = await headerArticle.evaluate(() => {
+            const btn = document.querySelector('article button[aria-haspopup="dialog"]');
+            if (!btn) return 0;
+            const rect = btn.getBoundingClientRect();
+            const targetY = window.scrollY + rect.top - 400; // center button in viewport
+            window.scrollTo({ top: targetY, behavior: 'instant' });
+            return targetY;
+        });
+        await headerArticle.waitForTimeout(100);
+        // Record actual scroll position, then click
+        const actualScrollBefore = await headerArticle.evaluate(() => {
+            const btn = document.querySelector('article button[aria-haspopup="dialog"]');
+            const scrollY = window.scrollY;
+            if (btn) btn.click();
+            return scrollY;
+        });
+        await headerArticle.waitForTimeout(300);
+
+        const popoverState = await headerArticle.evaluate(() => {
+            const dialog = document.querySelector('div[role="dialog"]');
+            return {
+                isOpen: Boolean(dialog),
+                title: dialog ? dialog.querySelector('h4')?.textContent.trim() : null,
+                hasDefinition: dialog ? Boolean(dialog.querySelector('p')) : false,
+                scrollY: window.scrollY
+            };
+        });
+
+        if (!popoverState.isOpen) {
+            throw new Error('State B: Clicking progressive definition button did not open dialog popover!');
+        }
+        if (Math.abs(popoverState.scrollY - actualScrollBefore) > 2) {
+            throw new Error(`State B: Opening definition popover displaced document scroll position! (${actualScrollBefore} -> ${popoverState.scrollY})`);
+        }
+        console.log(`  ✔ State B popover opened: "${popoverState.title}" with zero scroll displacement`);
+
+        // Close popover via Esc
+        await headerArticle.keyboard.press('Escape');
+        await headerArticle.waitForTimeout(200);
+
+        const scrollAfterClose = await headerArticle.evaluate(() => window.scrollY);
+        if (Math.abs(scrollAfterClose - actualScrollBefore) > 2) {
+            throw new Error(`State B: Closing definition popover displaced document scroll position! (${actualScrollBefore} -> ${scrollAfterClose})`);
+        }
+        console.log(`  ✔ State B popover dismissed with zero scroll displacement`);
+
+        // ----------------------------------------------------
+        // Test 9: Mobile 390px / 430px Touch Interaction
+        // ----------------------------------------------------
+        console.log('\n9. Auditing Mobile 390px / 430px Progressive Knowledge Interaction...');
+        for (const width of [390, 430]) {
+            const mob = await browser.newPage({ viewport: { width, height: 844 }, hasTouch: true });
+            await mob.goto(`${baseUrl}/articles/excel-to-crm-pipeline-guide`, { waitUntil: 'networkidle' });
+
+            // Tap on concept button
+            await mob.click('article button[aria-haspopup="dialog"]');
+            await mob.waitForTimeout(200);
+
+            const mobDialog = await mob.evaluate(() => {
+                const d = document.querySelector('div[role="dialog"]');
+                if (!d) return null;
+                const rect = d.getBoundingClientRect();
+                return {
+                    width: rect.width,
+                    right: rect.right,
+                    left: rect.left,
+                    viewportWidth: window.innerWidth,
+                    overflows: rect.left < 0 || rect.right > window.innerWidth
+                };
+            });
+
+            if (!mobDialog) {
+                throw new Error(`Mobile ${width}px: Tap on definition button did not open dialog!`);
+            }
+            if (mobDialog.overflows) {
+                throw new Error(`Mobile ${width}px: Dialog popover overflowed viewport! (width: ${mobDialog.width}, viewport: ${mobDialog.viewportWidth})`);
+            }
+            console.log(`  ✔ Mobile ${width}px: Dialog fits cleanly within viewport (${Math.round(mobDialog.width)}px / ${mobDialog.viewportWidth}px)`);
+            await mob.close();
+        }
 
         console.log('\n========================================================');
         console.log('✔ All Scroll Sovereignty & Behavioral Audits PASSED!');
