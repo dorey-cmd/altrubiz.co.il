@@ -63,7 +63,7 @@ export const ContextualConcept: React.FC<ContextualConceptProps> = ({
     // STATE 1: Mature Canonical Concept with Approved Public Destination (e.g. Topic Hub)
     if (concept.hasApprovedPublicDestination && concept.publicDestinationUrl) {
         return (
-            <span className="relative inline-block">
+            <span className="relative inline">
                 <a
                     ref={triggerRef as React.RefObject<HTMLAnchorElement>}
                     href={concept.publicDestinationUrl}
@@ -75,7 +75,7 @@ export const ContextualConcept: React.FC<ContextualConceptProps> = ({
                     }}
                     target="_self"
                     title={`${concept.term}: ${concept.canonicalDefinition}`}
-                    className="text-primary font-bold underline decoration-primary/35 hover:decoration-primary underline-offset-4 transition-all hover:text-blue-700 cursor-pointer inline-flex items-center gap-0.5"
+                    className="text-primary font-bold underline decoration-primary/60 decoration-2 underline-offset-[3px] hover:text-blue-800 hover:decoration-primary hover:bg-blue-50/70 rounded-xs px-0.5 transition-all cursor-pointer inline"
                 >
                     <span>{textToShow}</span>
                 </a>
@@ -86,7 +86,7 @@ export const ContextualConcept: React.FC<ContextualConceptProps> = ({
     // STATE 2: Emerging/Maturing Concept without Public Page -> In-place Accessible Definition Popover
     return (
         <span 
-            className="relative inline-block align-baseline"
+            className="relative inline align-baseline"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
@@ -99,24 +99,23 @@ export const ContextualConcept: React.FC<ContextualConceptProps> = ({
                 aria-haspopup="dialog"
                 aria-expanded={isVisible}
                 aria-label={`הסבר על המונח: ${concept.term}`}
-                className="inline-flex items-center gap-1 border-b border-dotted border-primary/60 text-slate-900 hover:text-primary font-medium hover:border-primary transition-colors cursor-help px-0.5"
+                className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-blue-50/80 hover:bg-blue-100/90 text-slate-900 hover:text-primary font-semibold border-b-2 border-dotted border-primary/70 hover:border-primary transition-all cursor-help text-inherit text-sm sm:text-base leading-none my-0.5"
             >
                 <span>{textToShow}</span>
-                <HelpCircle size={12} className="text-primary/70 shrink-0 inline" />
+                <HelpCircle size={12} className="text-primary shrink-0 inline" />
             </button>
 
             {isVisible && (
                 <>
                     {/* Mobile Backdrop */}
-                    {isOpen && (
-                        <div 
-                            className="fixed inset-0 z-50 lg:hidden bg-black/40 backdrop-blur-2xs" 
-                            onClick={() => {
-                                setIsOpen(false);
-                                setIsHovered(false);
-                            }} 
-                        />
-                    )}
+                    <div 
+                        data-testid="concept-backdrop"
+                        className="fixed inset-0 z-50 lg:hidden bg-black/40 backdrop-blur-2xs" 
+                        onClick={() => {
+                            setIsOpen(false);
+                            setIsHovered(false);
+                        }} 
+                    />
 
                     {/* Definition Card (Desktop Float / Mobile Centered Card) */}
                     <div

@@ -7,9 +7,9 @@
  */
 
 import { ARTICLES, Article } from '../data/articles';
-import { KnowledgeNode, getAllHubs, getKnowledgeNodeBySlug } from '../data/knowledgeGraph';
+import { KnowledgeNode, getAllHubs, getKnowledgeNodeBySlug, getParentHubForArticle } from '../data/knowledgeGraph';
 
-export { ARTICLES, getAllHubs };
+export { ARTICLES, getAllHubs, getParentHubForArticle };
 
 export interface RouteBreadcrumb {
     name: string;

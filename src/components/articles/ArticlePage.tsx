@@ -164,7 +164,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
             return (
                 <div className="mt-6 pt-5 border-t border-rose-200/80 text-rose-950 font-bold text-base sm:text-lg flex items-center gap-2.5">
                     <AlertTriangle className="text-rose-600 flex-shrink-0" size={22} />
-                    <span>{callout.title ? `${callout.title}: ` : ''}{callout.text}</span>
+                    <span>{callout.title ? `${callout.title}: ` : ''}{renderFormattedText(callout.text, onNavigate)}</span>
                 </div>
             );
         }
@@ -173,7 +173,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
             return (
                 <div className="mt-6 bg-amber-100/70 border border-amber-300 rounded-xl p-4 text-amber-950 text-sm sm:text-base font-semibold flex items-center gap-2.5">
                     <AlertTriangle className="text-amber-700 flex-shrink-0" size={20} />
-                    <span>{callout.title ? `${callout.title}: ` : ''}{callout.text}</span>
+                    <span>{callout.title ? `${callout.title}: ` : ''}{renderFormattedText(callout.text, onNavigate)}</span>
                 </div>
             );
         }
@@ -185,9 +185,9 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                         <CheckCircle2 className="text-emerald-600 flex-shrink-0" size={22} />
                         <span>{callout.title || 'המטרה פשוטה'}</span>
                     </h3>
-                    <p className="text-emerald-900/90 leading-relaxed text-base sm:text-lg">
-                        {callout.text}
-                    </p>
+                    <div className="text-emerald-900/90 leading-relaxed text-base sm:text-lg">
+                        {renderFormattedText(callout.text, onNavigate)}
+                    </div>
                 </div>
             );
         }
@@ -199,9 +199,9 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                     <Info size={18} />
                     <span>{callout.title || 'הבהרה חשובה'}</span>
                 </h4>
-                <p className="text-slate-600 leading-relaxed">
-                    {callout.text}
-                </p>
+                <div className="text-slate-600 leading-relaxed">
+                    {renderFormattedText(callout.text, onNavigate)}
+                </div>
             </div>
         );
     };
@@ -224,7 +224,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                             </p>
                             {inlineCta.description && (
                                 <p className="text-xs sm:text-sm text-slate-600 mt-0.5 font-normal">
-                                    {inlineCta.description}
+                                    {renderFormattedText(inlineCta.description, onNavigate)}
                                 </p>
                             )}
                         </div>
@@ -310,7 +310,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
 
                     {inlineCta.description && (
                         <p className="text-slate-700 text-xs sm:text-sm mb-5 leading-relaxed">
-                            {inlineCta.description}
+                            {renderFormattedText(inlineCta.description, onNavigate)}
                         </p>
                     )}
 
@@ -352,7 +352,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                     <div className="text-slate-800 text-sm sm:text-base">
                         <span className="font-bold text-slate-900">{inlineCta.title} </span>
                         {inlineCta.description && (
-                            <span className="text-slate-600 font-normal">{inlineCta.description}</span>
+                            <span className="text-slate-600 font-normal">{renderFormattedText(inlineCta.description, onNavigate)}</span>
                         )}
                     </div>
                     <button
@@ -406,7 +406,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                         </h3>
                         {inlineCta.description && (
                             <p className="text-slate-300 text-sm sm:text-base leading-relaxed mb-6 max-w-2xl font-normal">
-                                {inlineCta.description}
+                                {renderFormattedText(inlineCta.description, onNavigate)}
                             </p>
                         )}
                         <div className="flex flex-wrap items-center gap-3">
@@ -476,7 +476,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                     </h3>
                     {inlineCta.description && (
                         <p className="text-slate-300 text-sm sm:text-base leading-relaxed mb-6 max-w-2xl font-normal">
-                            {inlineCta.description}
+                            {renderFormattedText(inlineCta.description, onNavigate)}
                         </p>
                     )}
                     <div className="flex flex-wrap items-center gap-3">
@@ -587,7 +587,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                             </h2>
                             {section.subtitle && (
                                 <p className="text-indigo-200 text-base sm:text-lg mb-6">
-                                    {section.subtitle}
+                                    {renderFormattedText(section.subtitle, onNavigate)}
                                 </p>
                             )}
 
@@ -664,7 +664,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                     {/* Subtitle */}
                     {section.subtitle && (
                         <p className="text-slate-600 text-sm sm:text-base mb-6 font-normal">
-                            {section.subtitle}
+                            {renderFormattedText(section.subtitle, onNavigate)}
                         </p>
                     )}
 
@@ -738,7 +738,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                     />
                                     {section.image.caption && (
                                         <figcaption className="p-3.5 sm:p-4 text-center text-xs sm:text-sm text-slate-600 bg-slate-50 border-t border-slate-100 font-medium">
-                                            💡 {section.image.caption}
+                                            💡 {renderFormattedText(section.image.caption, onNavigate)}
                                         </figcaption>
                                     )}
                                 </>
@@ -753,11 +753,11 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                 <span>📸 שוברים שגרה</span>
                             </div>
                             <div className="bg-white/85 backdrop-blur-xs border border-amber-200/80 rounded-xl p-4 sm:p-5 mb-3 text-slate-800 text-base sm:text-lg font-medium leading-relaxed italic shadow-xs">
-                                "{section.breakRoutine.scene}"
+                                &quot;{renderFormattedText(section.breakRoutine.scene, onNavigate)}&quot;
                             </div>
                             <div className="inline-flex items-center gap-2 bg-amber-900 text-amber-50 font-bold text-xs sm:text-sm px-3.5 py-1.5 rounded-xl shadow-xs">
                                 <span>💡 כיתוב:</span>
-                                <span className="font-extrabold">{section.breakRoutine.caption}</span>
+                                <span className="font-extrabold">{renderFormattedText(section.breakRoutine.caption, onNavigate)}</span>
                             </div>
                         </div>
                     ) : null}
@@ -909,7 +909,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                         <span>תובנה מעשית מהשטח</span>
                                     </div>
                                     <p className="text-slate-800 text-base leading-relaxed font-medium">
-                                        {section.image.caption || section.image.alt}
+                                        {renderFormattedText(section.image.caption || section.image.alt, onNavigate)}
                                     </p>
                                 </div>
                             </div>
@@ -923,7 +923,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                 />
                                 {section.image.caption && (
                                     <figcaption className="p-3.5 sm:p-4 text-center text-xs sm:text-sm text-slate-600 bg-slate-50 border-t border-slate-100 font-medium">
-                                        💡 {section.image.caption}
+                                        💡 {renderFormattedText(section.image.caption, onNavigate)}
                                     </figcaption>
                                 )}
                             </>
@@ -991,7 +991,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
 
                 {article.subtitle && (
                     <p className="text-base sm:text-lg lg:text-xl text-slate-600 leading-relaxed mb-5 font-normal">
-                        {article.subtitle}
+                        {renderFormattedText(article.subtitle, onNavigate)}
                     </p>
                 )}
 
@@ -1341,7 +1341,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                         ⭐ עיקרון מוביל (Key Takeaway)
                                     </div>
                                     <h2 className="text-2xl sm:text-3xl font-black mb-4 leading-snug">
-                                        {article.keyTakeaway}
+                                        {renderFormattedText(article.keyTakeaway, onNavigate)}
                                     </h2>
                                     <div className="bg-white/90 backdrop-blur-sm p-4 sm:p-5 rounded-2xl text-slate-900 font-medium text-base sm:text-lg leading-relaxed border border-white/50">
                                         {article.interactiveTheme ? (
@@ -1423,7 +1423,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                     {article.cta ? article.cta.title : 'רוצים לבדוק איך זה יכול לעבוד אצלכם בעסק?'}
                                 </h3>
                                 <p className="text-slate-300 text-base sm:text-lg mb-8 leading-relaxed">
-                                    {article.cta ? article.cta.description : 'צוות AltruBiz יסייע לכם לחבר את התהליכים, הלידים והאוטומציה העסקית בצורה מותאמת אישית לפעילות שלכם.'}
+                                    {renderFormattedText(article.cta ? article.cta.description : 'צוות AltruBiz יסייע לכם לחבר את התהליכים, הלידים והאוטומציה העסקית בצורה מותאמת אישית לפעילות שלכם.', onNavigate)}
                                 </p>
                                 <div className="flex flex-wrap items-center justify-center gap-4">
                                     <button

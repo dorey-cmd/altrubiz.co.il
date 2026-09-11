@@ -10,7 +10,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { getArticles, getAllHubs } = require('./routes-loader.cjs');
+const { getArticles, getAllHubs, getParentHubForArticle } = require('./routes-loader.cjs');
 
 const ROOT_DIR = path.resolve(__dirname, '..');
 const DIST_DIR = path.join(ROOT_DIR, 'dist');
@@ -191,6 +191,7 @@ ${tagsMeta}
     }
 
     // 6. Inject Article Pre-rendered Semantic Foundation Body
+    const parentHub = getParentHubForArticle ? getParentHubForArticle(slug) : undefined;
     const articleRootHtml = `
 ${buildFoundationHeader()}
     <article class="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50 text-slate-900 pt-24 pb-20 font-sans relative" dir="rtl">
@@ -199,6 +200,7 @@ ${buildFoundationHeader()}
           <a href="/" class="hover:text-primary transition-colors">דף הבית</a>
           <span>&gt;</span>
           <a href="/articles" class="hover:text-primary transition-colors">מרכז ידע ומאמרים</a>
+          ${parentHub ? `<span>&gt;</span>\n          <a href="${parentHub.url}" class="hover:text-primary transition-colors">${escapeAttr(parentHub.title)}</a>` : ''}
           <span>&gt;</span>
           <span class="text-slate-900 font-medium">${escapeAttr(article.title)}</span>
         </nav>
@@ -217,9 +219,17 @@ ${buildFoundationHeader()}
           </span>
         </div>
 
-        <h1 class="text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 tracking-tight leading-[1.25] mb-6">
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 tracking-tight leading-[1.25] mb-4">
           ${escapeAttr(article.title)}
         </h1>
+
+        ${parentHub ? `
+        <div class="mb-6">
+          <a href="${parentHub.url}" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-blue-50/90 hover:bg-blue-100 text-primary text-xs sm:text-sm font-semibold border border-blue-200/80 transition-colors">
+            <span>מוקד ידע מקושר:</span>
+            <span class="underline decoration-primary/40 underline-offset-2">${escapeAttr(parentHub.title)}</span>
+          </a>
+        </div>` : ''}
 
         ${article.subtitle ? `<p class="text-lg sm:text-xl text-slate-600 leading-relaxed mb-6 font-normal">${escapeAttr(article.subtitle)}</p>` : ''}
 
@@ -242,6 +252,15 @@ ${buildFoundationHeader()}
           <p class="text-slate-900 font-semibold text-base sm:text-lg leading-relaxed">${escapeAttr(smartSummary)}</p>
         </div>
       </header>
+
+      <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 pb-16">
+        ${(article.sections || []).map(section => `
+        <section id="${escapeAttr(section.id)}" class="prose prose-slate max-w-none">
+          <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-3">${escapeAttr(section.title)}</h2>
+          ${section.subtitle ? `<h3 class="text-lg text-slate-600 font-medium mb-4">${escapeAttr(section.subtitle)}</h3>` : ''}
+          ${(section.content || []).map(paragraph => `<p class="text-slate-700 leading-relaxed text-base sm:text-lg mb-4">${escapeAttr(paragraph.replace(/\\[(.*?)\\]\\((.*?)\\)/g, '$1'))}</p>`).join('\n          ')}
+        </section>`).join('\n        ')}
+      </main>
     </article>`;
 
     html = replaceRootContent(html, articleRootHtml);
