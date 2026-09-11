@@ -8,7 +8,7 @@ export const WhatsAppFloat = () => {
             target="_blank"
             rel="noopener noreferrer"
         >
-            <div className="bg-[#25d366] text-white px-4 py-2.5 rounded-full mr-2.5 text-sm shadow-md whitespace-nowrap group-hover:bg-[#20bd5a] transition-colors">
+            <div className="hidden sm:block bg-[#25d366] text-white px-4 py-2.5 rounded-full mr-2.5 text-sm shadow-md whitespace-nowrap group-hover:bg-[#20bd5a] transition-colors">
                 💬 דברו איתנו בוואטסאפ
             </div>
             <img

@@ -106,13 +106,17 @@ Articles and guides draw from a library of tested presentation patterns based on
 - **Problem Callout Card**: `bg-rose-50/80 border-r-4 border-rose-500 rounded-l-2xl p-5 text-slate-800` highlighting operational friction.
 - **Quick Win Box**: `bg-gradient-to-br from-amber-50/90 via-emerald-50/70 to-teal-50/90 border-2 border-emerald-300/80 rounded-2xl p-6` with the `Zap` icon for immediate, 5-minute practical actions.
 - **Visual Break Card ("שוברים שגרה")**: Real-world workplace scenes highlighting operational friction paired with practical takeaways.
-- **Persistent Desktop Right-Side Navigation (TOC)**:
-  - Desktop sidebar (`w-72 sticky top-28`) bounded strictly to viewport height (`h-[calc(100vh-7.5rem)] flex flex-col justify-between`).
-  - Active section tracking with auto-scroll into view (`scrollIntoView({ block: 'nearest' })`) within the scrollable TOC list (`flex-1 min-h-0 overflow-y-auto`).
+- **Persistent Desktop Right-Side Navigation & Scroll Sovereignty**:
+  - **Permanent Invariant**: *"Navigation follows the reader - never the reverse."*
+  - The reader's manual document scroll position is sovereign. Passive active-section tracking may adapt the sidebar's own internal scroll viewport (`container.scrollTo`), but must NEVER alter the reader's document or window scroll position.
+  - Calling `element.scrollIntoView()` on passive active-section tracking is **strictly prohibited**, as it triggers ancestor and window scrolling.
+  - Desktop sidebar (`w-72 sticky top-24`) bounded strictly to viewport height (`h-[calc(100vh-7.5rem)] flex flex-col justify-between`).
+  - Active section tracking adjusts only the internal TOC container (`flex-1 min-h-0 overflow-y-auto`).
+  - Explicit user click on a TOC item intentionally scrolls the document to that section; passive tracking never does.
   - Integrated secondary CTA card is compact (`shrink-0`) so the sidebar never exceeds the viewport or gets clipped.
 - **Mobile as Distinct First-Class Knowledge UX**:
   - Compact vertical rhythm on mobile screens (`p-5`, tighter gaps) preserving visual continuity.
-  - Early navigational discovery: bottom-floating jump pill appears at `scrollY > 200` to prevent readers feeling lost in long guides.
+  - Early navigational discovery: bottom-floating jump pill appears at `scrollY > 200` without interfering with document scroll or overlapping floating action widgets.
   - Full-screen / bounded touch modals (`max-h-[90vh]`) with compact header chrome maximizing the interactive form/calendar area.
   - Inverted header hierarchy: Breadcrumbs, parent hub pill, and read time sit above H1; author, date, category, and sharing controls sit cleanly below H1 to guarantee H1 stays above the fold on mobile.
 

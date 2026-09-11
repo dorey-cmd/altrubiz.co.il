@@ -50,6 +50,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
     const [showMobileJump, setShowMobileJump] = useState(false);
     const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
     const activeTocRef = useRef<HTMLAnchorElement>(null);
+    const tocContainerRef = useRef<HTMLDivElement>(null);
 
     const parentHub = getParentHubForArticle(article.slug);
 
@@ -83,10 +84,31 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    // Auto-scroll the active TOC item into view inside the sticky container
+    // Architectural Invariant: "Navigation follows the reader - never the reverse."
+    // Passive active-section tracking MUST ONLY scroll the internal TOC container if needed.
+    // It must NEVER call element.scrollIntoView() which scrolls the window/document ancestors.
     useEffect(() => {
-        if (activeTocRef.current) {
-            activeTocRef.current.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        const container = tocContainerRef.current;
+        const item = activeTocRef.current;
+        if (!container || !item) return;
+
+        const containerRect = container.getBoundingClientRect();
+        const itemRect = item.getBoundingClientRect();
+
+        const relativeTop = itemRect.top - containerRect.top;
+        const relativeBottom = itemRect.bottom - containerRect.top;
+        const PADDING = 8;
+
+        if (relativeTop < PADDING) {
+            container.scrollTo({
+                top: container.scrollTop + relativeTop - PADDING,
+                behavior: 'smooth'
+            });
+        } else if (relativeBottom > containerRect.height - PADDING) {
+            container.scrollTo({
+                top: container.scrollTop + (relativeBottom - containerRect.height) + PADDING,
+                behavior: 'smooth'
+            });
         }
     }, [activeSectionId]);
 
@@ -1030,7 +1052,10 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                 </span>
                             </div>
 
-                            <div className="space-y-1 flex-1 min-h-0 overflow-y-auto pl-1 pr-0.5 custom-scrollbar">
+                            <div 
+                                ref={tocContainerRef}
+                                className="space-y-1 flex-1 min-h-0 overflow-y-auto pl-1 pr-0.5 custom-scrollbar"
+                            >
                                 {article.sections.map((sec) => {
                                     const isActive = activeSectionId === sec.id;
                                     return (
@@ -1489,7 +1514,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
 
             {/* Mobile Floating Sticky Pill */}
             {showMobileJump && (
-                <div className="fixed bottom-5 left-1/2 -translate-x-1/2 z-40 lg:hidden max-w-[92vw]">
+                <div className="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 lg:hidden max-w-[92vw]">
                     <button
                         onClick={() => setIsMobileDrawerOpen(true)}
                         className="flex items-center gap-2 px-4 py-2.5 bg-slate-900/95 text-white rounded-full shadow-2xl backdrop-blur-md border border-white/20 text-xs font-bold active:scale-95 transition-all"

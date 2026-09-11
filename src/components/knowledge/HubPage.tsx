@@ -98,6 +98,7 @@ export const HubPage: React.FC<HubPageProps> = ({
     const [showMobileNav, setShowMobileNav] = useState<boolean>(false);
     const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState<boolean>(false);
     const activeNavRef = useRef<HTMLButtonElement>(null);
+    const navContainerRef = useRef<HTMLDivElement>(null);
 
     const toggleFaq = (index: number) => {
         setOpenFaqIndex(openFaqIndex === index ? null : index);
@@ -143,10 +144,31 @@ export const HubPage: React.FC<HubPageProps> = ({
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    // Auto-scroll active section button in desktop sticky rail
+    // Architectural Invariant: "Navigation follows the reader - never the reverse."
+    // Passive active-section tracking MUST ONLY scroll the internal TOC container if needed.
+    // It must NEVER call element.scrollIntoView() which scrolls the window/document ancestors.
     useEffect(() => {
-        if (activeNavRef.current) {
-            activeNavRef.current.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        const container = navContainerRef.current;
+        const item = activeNavRef.current;
+        if (!container || !item) return;
+
+        const containerRect = container.getBoundingClientRect();
+        const itemRect = item.getBoundingClientRect();
+
+        const relativeTop = itemRect.top - containerRect.top;
+        const relativeBottom = itemRect.bottom - containerRect.top;
+        const PADDING = 8;
+
+        if (relativeTop < PADDING) {
+            container.scrollTo({
+                top: container.scrollTop + relativeTop - PADDING,
+                behavior: 'smooth'
+            });
+        } else if (relativeBottom > containerRect.height - PADDING) {
+            container.scrollTo({
+                top: container.scrollTop + (relativeBottom - containerRect.height) + PADDING,
+                behavior: 'smooth'
+            });
         }
     }, [activeSectionId]);
 
@@ -465,7 +487,10 @@ export const HubPage: React.FC<HubPageProps> = ({
                                 </span>
                             </div>
 
-                            <div className="space-y-1 flex-1 min-h-0 overflow-y-auto pl-1 pr-0.5 custom-scrollbar">
+                            <div 
+                                ref={navContainerRef}
+                                className="space-y-1 flex-1 min-h-0 overflow-y-auto pl-1 pr-0.5 custom-scrollbar"
+                            >
                                 {navSections.map((sec) => {
                                     const IconComponent = sec.icon;
                                     const isActive = activeSectionId === sec.id;
@@ -1055,7 +1080,7 @@ export const HubPage: React.FC<HubPageProps> = ({
 
             {/* Mobile Floating Navigation Pill */}
             {showMobileNav && (
-                <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 lg:hidden max-w-[92vw]">
+                <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 lg:hidden max-w-[92vw]">
                     <button
                         onClick={() => setIsMobileDrawerOpen(true)}
                         className="flex items-center gap-2 px-4 py-3 bg-slate-900/95 text-white rounded-full shadow-2xl backdrop-blur-md border border-white/20 text-xs font-bold active:scale-95 transition-all"
