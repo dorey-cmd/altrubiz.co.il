@@ -43,7 +43,7 @@ export const Header = ({ onNavigate, onOpenBookingModal }: HeaderProps) => {
     return (
         <header className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-200 shadow-sm" dir="rtl">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex items-center justify-between h-20">
+                <div className="flex items-center justify-between h-20 md:h-24">
                     {/* Logo */}
                     <a 
                         href="/" 
@@ -53,7 +53,7 @@ export const Header = ({ onNavigate, onOpenBookingModal }: HeaderProps) => {
                         <img
                             src="https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/688019c09a4c2d4b4398bf3c.png"
                             alt="לוגו AltruBiz CRM - מערכת לניהול לקוחות, אוטומציה עסקית וחיבור WhatsApp חכם"
-                            className="h-12 md:h-16 w-auto object-contain"
+                            className="h-[62px] md:h-[83px] w-auto object-contain"
                         />
                     </a>
 
