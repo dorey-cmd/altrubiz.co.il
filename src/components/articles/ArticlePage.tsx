@@ -70,13 +70,22 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
         setIsMobileDrawerOpen(false);
     };
 
-    // Track scroll for mobile jump button & active section observer
+    const [scrollProgress, setScrollProgress] = useState(0);
+
+    // Track scroll for mobile jump button, reading progress & active section observer
     useEffect(() => {
         const handleScroll = () => {
-            if (window.scrollY > 200) {
+            const currentScroll = window.scrollY;
+            if (currentScroll > 200) {
                 setShowMobileJump(true);
             } else {
                 setShowMobileJump(false);
+            }
+
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            if (docHeight > 0) {
+                const progress = Math.min(100, Math.max(0, Math.round((currentScroll / docHeight) * 100)));
+                setScrollProgress(progress);
             }
         };
 
@@ -1039,9 +1048,9 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="lg:grid lg:grid-cols-[300px_1fr] xl:grid-cols-[320px_1fr] gap-10 items-start">
                     
-                    {/* Desktop Sticky Table of Contents Sidebar (Right Column in RTL, bounded height & persistent) */}
-                    <aside className="hidden lg:flex flex-col justify-between sticky top-24 h-[calc(100vh-7.5rem)] space-y-3">
-                        <nav aria-label="תוכן עניינים דביק" className="bg-white/95 backdrop-blur-md border border-slate-200/90 rounded-3xl p-4 shadow-sm flex flex-col flex-1 min-h-0">
+                    {/* Desktop Sticky Table of Contents Sidebar (Right Column in RTL, natural content height, zero artificial legroom) */}
+                    <aside className="hidden lg:flex flex-col sticky top-28 max-h-[calc(100vh-8.5rem)] space-y-3">
+                        <nav aria-label="תוכן עניינים דביק" className="bg-white/95 backdrop-blur-md border border-slate-200/90 rounded-3xl p-4 shadow-sm flex flex-col min-h-0">
                             <div className="flex items-center justify-between gap-2 pb-2.5 mb-2.5 border-b border-slate-100 shrink-0">
                                 <div className="flex items-center gap-2 font-black text-slate-900 text-sm">
                                     <Compass size={17} className="text-primary" />
@@ -1054,7 +1063,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
 
                             <div 
                                 ref={tocContainerRef}
-                                className="space-y-1 flex-1 min-h-0 overflow-y-auto pl-1 pr-0.5 custom-scrollbar"
+                                className="space-y-1 overflow-y-auto max-h-[46vh] xl:max-h-[50vh] pl-1 pr-0.5 custom-scrollbar"
                             >
                                 {article.sections.map((sec) => {
                                     const isActive = activeSectionId === sec.id;
@@ -1517,13 +1526,16 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                 <div className="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 lg:hidden max-w-[92vw]">
                     <button
                         onClick={() => setIsMobileDrawerOpen(true)}
-                        className="flex items-center gap-2 px-4 py-2.5 bg-slate-900/95 text-white rounded-full shadow-2xl backdrop-blur-md border border-white/20 text-xs font-bold active:scale-95 transition-all"
+                        className="flex items-center gap-2 px-3.5 py-2 bg-slate-900/95 text-white rounded-full shadow-2xl backdrop-blur-md border border-white/20 text-xs font-bold active:scale-95 transition-all"
                     >
-                        <Compass size={15} className="text-amber-400 flex-shrink-0" />
-                        <span className="truncate max-w-[200px] sm:max-w-[260px]">
+                        <Compass size={14} className="text-amber-400 flex-shrink-0" />
+                        <span className="truncate max-w-[170px] sm:max-w-[240px]">
                             {parentHub ? `${parentHub.title} • ` : ''}{activeLabel}
                         </span>
-                        <ChevronDown size={14} className="text-slate-300 flex-shrink-0" />
+                        <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-slate-800 text-amber-300 font-mono font-semibold flex-shrink-0">
+                            {scrollProgress}%
+                        </span>
+                        <ChevronDown size={13} className="text-slate-300 flex-shrink-0" />
                     </button>
                 </div>
             )}
@@ -1605,10 +1617,43 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                         </div>
 
                         <div className="pt-3 border-t border-slate-100 space-y-2">
+                            {parentHub ? (
+                                <a
+                                    href={`/topics/${parentHub.slug}`}
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        setIsMobileDrawerOpen(false);
+                                        onNavigate(`/topics/${parentHub.slug}`);
+                                    }}
+                                    className="w-full py-2.5 px-3 bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-200/70 rounded-xl font-bold text-xs flex items-center justify-between gap-2 transition-colors"
+                                >
+                                    <div className="flex items-center gap-2 truncate">
+                                        <Compass size={15} className="text-amber-600 shrink-0" />
+                                        <span className="truncate">מרכז ידע: {parentHub.title}</span>
+                                    </div>
+                                    <span className="text-[10px] text-amber-700 bg-amber-200/60 px-2 py-0.5 rounded-full font-bold shrink-0">חזרה לנושא ←</span>
+                                </a>
+                            ) : (
+                                <a
+                                    href="/articles"
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        setIsMobileDrawerOpen(false);
+                                        onNavigate('/articles');
+                                    }}
+                                    className="w-full py-2.5 px-3 bg-slate-50 hover:bg-slate-100 text-slate-800 border border-slate-200 rounded-xl font-bold text-xs flex items-center justify-between gap-2 transition-colors"
+                                >
+                                    <div className="flex items-center gap-2 truncate">
+                                        <Compass size={15} className="text-slate-600 shrink-0" />
+                                        <span className="truncate">כל המדריכים ומרכזי הידע</span>
+                                    </div>
+                                    <span className="text-[10px] text-slate-600 bg-slate-200/60 px-2 py-0.5 rounded-full font-bold shrink-0">לכל המאמרים ←</span>
+                                </a>
+                            )}
                             <Button
                                 variant="primary"
                                 size="md"
-                                className="w-full font-bold text-xs sm:text-sm py-3 shadow-md shadow-primary/25 flex items-center justify-center gap-2"
+                                className="w-full font-bold text-xs sm:text-sm py-2.5 shadow-md shadow-primary/25 flex items-center justify-center gap-2"
                                 onClick={() => {
                                     setIsMobileDrawerOpen(false);
                                     if (onOpenBookingModal) {
@@ -1631,7 +1676,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                     }
                                 }}
                             >
-                                <Calendar size={16} />
+                                <Calendar size={15} />
                                 <span>קביעת פגישה לבדיקת התאמה</span>
                             </Button>
                             <button
@@ -1639,9 +1684,9 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                     window.scrollTo({ top: 0, behavior: 'smooth' });
                                     setIsMobileDrawerOpen(false);
                                 }}
-                                className="w-full py-2 bg-slate-100 text-slate-700 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5"
+                                className="w-full py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition-colors"
                             >
-                                <ArrowUp size={14} />
+                                <ArrowUp size={13} />
                                 <span>חזרה לראש המאמר</span>
                             </button>
                         </div>

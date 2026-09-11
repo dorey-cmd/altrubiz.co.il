@@ -181,7 +181,7 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate, onOpen
                                                     onClick={() => onNavigate(`/articles/${article.slug}`)}
                                                     className="w-full sm:w-auto group/btn inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl bg-secondary hover:bg-[#009cd7] active:scale-[0.98] text-white text-xs sm:text-sm font-bold shadow-md shadow-secondary/20 hover:shadow-lg hover:shadow-secondary/30 transition-all duration-200"
                                                 >
-                                                    <span>{article.cardCta || 'לקריאת המדריך'}</span>
+                                                    <span>{article.cardCta || 'איך פותרים את זה בעסק?'}</span>
                                                     <ArrowLeft size={14} className="transition-transform duration-200 group-hover/btn:-translate-x-1" />
                                                 </button>
                                             </div>

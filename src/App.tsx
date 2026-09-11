@@ -130,7 +130,7 @@ function App() {
     const routeConfig = getRouteConfig(path);
 
     return (
-        <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-yellow-200 overflow-x-hidden">
+        <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-yellow-200">
             {/* Declarative SEO, Canonicals, Open Graph & Structured Data Engine */}
             <SEOHead routeConfig={routeConfig} article={currentArticle} />
 

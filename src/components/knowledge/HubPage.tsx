@@ -474,9 +474,9 @@ export const HubPage: React.FC<HubPageProps> = ({
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="lg:grid lg:grid-cols-[280px_1fr] xl:grid-cols-[300px_1fr] gap-10 items-start">
                     
-                    {/* Desktop Sticky Navigation & Orientation Rail (Right Column in RTL, bounded height & persistent) */}
-                    <aside className="hidden lg:flex flex-col justify-between sticky top-24 h-[calc(100vh-7.5rem)] space-y-3">
-                        <nav aria-label="ניווט במדריך" className="bg-white/95 backdrop-blur-md border border-slate-200/90 rounded-3xl p-4 shadow-sm flex flex-col flex-1 min-h-0">
+                    {/* Desktop Sticky Navigation & Orientation Rail (Right Column in RTL, natural content height, zero artificial legroom) */}
+                    <aside className="hidden lg:flex flex-col sticky top-28 max-h-[calc(100vh-8.5rem)] space-y-3">
+                        <nav aria-label="ניווט במדריך" className="bg-white/95 backdrop-blur-md border border-slate-200/90 rounded-3xl p-4 shadow-sm flex flex-col min-h-0">
                             <div className="flex items-center justify-between pb-2.5 mb-2.5 border-b border-slate-100 shrink-0">
                                 <div className="flex items-center gap-2 font-black text-slate-900 text-sm">
                                     <Compass size={17} className="text-primary" />
@@ -489,7 +489,7 @@ export const HubPage: React.FC<HubPageProps> = ({
 
                             <div 
                                 ref={navContainerRef}
-                                className="space-y-1 flex-1 min-h-0 overflow-y-auto pl-1 pr-0.5 custom-scrollbar"
+                                className="space-y-1 overflow-y-auto max-h-[46vh] xl:max-h-[50vh] pl-1 pr-0.5 custom-scrollbar"
                             >
                                 {navSections.map((sec) => {
                                     const IconComponent = sec.icon;

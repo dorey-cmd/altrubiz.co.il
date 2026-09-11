@@ -1,13 +1,15 @@
 import React from 'react';
+import { ContextualConcept } from '../components/common/ContextualConcept';
 
 /**
- * Parses markdown-style links [anchor text](url) in editorial paragraphs
- * and converts them into accessible, client-routed HTML anchor elements.
+ * Parses markdown-style links [anchor text](url) and concepts [anchor text](concept:id)
+ * in editorial paragraphs and converts them into accessible, client-routed HTML elements.
  * 
  * Invariants:
  * 1. Same-window navigation for internal links (target="_self")
  * 2. Unobtrusive editorial typography
- * 3. Graceful fallback to raw text if no links present
+ * 3. Progressive definition popovers for knowledge concepts
+ * 4. Graceful fallback to raw text if no links present
  */
 export function renderFormattedText(text: string, onNavigate?: (path: string) => void): React.ReactNode {
     if (!text || typeof text !== 'string') return text;
@@ -30,23 +32,35 @@ export function renderFormattedText(text: string, onNavigate?: (path: string) =>
             parts.push(text.substring(lastIndex, matchIndex));
         }
 
-        const isInternal = linkUrl.startsWith('/');
+        if (linkUrl.startsWith('concept:')) {
+            const conceptId = linkUrl.replace('concept:', '');
+            parts.push(
+                <ContextualConcept
+                    key={`concept-${conceptId}-${matchIndex}`}
+                    conceptId={conceptId}
+                    displayText={linkText}
+                    onNavigate={onNavigate}
+                />
+            );
+        } else {
+            const isInternal = linkUrl.startsWith('/');
 
-        parts.push(
-            <a
-                key={`${linkUrl}-${matchIndex}`}
-                href={linkUrl}
-                onClick={isInternal && onNavigate ? (e) => {
-                    e.preventDefault();
-                    onNavigate(linkUrl);
-                } : undefined}
-                target={isInternal ? '_self' : '_blank'}
-                rel={isInternal ? undefined : 'noopener noreferrer'}
-                className="text-primary font-bold underline decoration-primary/30 hover:decoration-primary underline-offset-4 transition-colors cursor-pointer"
-            >
-                {linkText}
-            </a>
-        );
+            parts.push(
+                <a
+                    key={`${linkUrl}-${matchIndex}`}
+                    href={linkUrl}
+                    onClick={isInternal && onNavigate ? (e) => {
+                        e.preventDefault();
+                        onNavigate(linkUrl);
+                    } : undefined}
+                    target={isInternal ? '_self' : '_blank'}
+                    rel={isInternal ? undefined : 'noopener noreferrer'}
+                    className="text-primary font-bold underline decoration-primary/30 hover:decoration-primary underline-offset-4 transition-colors cursor-pointer"
+                >
+                    {linkText}
+                </a>
+            );
+        }
 
         lastIndex = matchIndex + fullMatch.length;
     }

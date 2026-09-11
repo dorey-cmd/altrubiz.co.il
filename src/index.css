@@ -15,10 +15,12 @@ body {
   background-color: #FFFFFF;
   color: #333333;
   scroll-behavior: smooth;
+  overflow-x: clip;
 }
 
 html {
   scroll-behavior: smooth;
+  overflow-x: clip;
 }
 
 @layer utilities {

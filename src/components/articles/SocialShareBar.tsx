@@ -130,7 +130,7 @@ export const SocialShareBar: React.FC<SocialShareBarProps> = ({
 
     const handleInstagram = async () => {
         const url = getShareUrl();
-        const shareText = `💡 "${smartQuote}"\n\nלקריאה: ${url}`;
+        const shareText = `💡 "${smartQuote}"\n\nלמדריך המעשי: ${url}`;
         
         // Native mobile share sheet if available
         if (typeof navigator !== 'undefined' && navigator.share) {
