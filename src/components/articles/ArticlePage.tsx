@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
     Calendar, 
     Clock, 
@@ -8,41 +8,34 @@ import {
     ShieldAlert, 
     ExternalLink, 
     ChevronLeft, 
-    Sparkles,
-    HelpCircle,
-    Info,
-    Zap,
-    ArrowUp,
-    ChevronDown,
-    Compass,
-    X,
-    MessageCircle,
-    Copy,
-    Quote,
-    Layers,
-    ArrowLeft
+    Sparkles, 
+    HelpCircle, 
+    Info, 
+    Zap, 
+    ArrowUp, 
+    ChevronDown, 
+    Compass, 
+    X, 
+    MessageCircle, 
+    Copy, 
+    Quote, 
+    Layers, 
+    ArrowLeft 
 } from 'lucide-react';
 import { Article, ArticleSection } from '../../data/articles';
 import { getParentHubForArticle } from '../../data/knowledgeGraph';
 import { Button } from '../ui/Button';
 import { Breadcrumbs } from '../common/Breadcrumbs';
 import { SocialShareBar } from './SocialShareBar';
+import { ModalPresentationOptions } from '../../types/attribution';
+import { buildAttributedWhatsAppUrl } from '../../lib/attribution';
+import { renderFormattedText } from '../../lib/formatText';
 
 interface ArticlePageProps {
     article: Article;
     onNavigate: (path: string) => void;
-    onOpenContactModal?: (options?: {
-        title?: string;
-        subtitle?: string;
-        badge?: string;
-        whatsappPrefill?: string;
-    }) => void;
-    onOpenBookingModal?: (options?: {
-        title?: string;
-        subtitle?: string;
-        badge?: string;
-        whatsappPrefill?: string;
-    }) => void;
+    onOpenContactModal?: (options?: ModalPresentationOptions) => void;
+    onOpenBookingModal?: (options?: ModalPresentationOptions) => void;
     onOpenPricingModal?: () => void;
 }
 
@@ -56,6 +49,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
     const [activeSectionId, setActiveSectionId] = useState<string>(article.sections[0]?.id || '');
     const [showMobileJump, setShowMobileJump] = useState(false);
     const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
+    const activeTocRef = useRef<HTMLAnchorElement>(null);
 
     const parentHub = getParentHubForArticle(article.slug);
 
@@ -78,7 +72,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
     // Track scroll for mobile jump button & active section observer
     useEffect(() => {
         const handleScroll = () => {
-            if (window.scrollY > 450) {
+            if (window.scrollY > 200) {
                 setShowMobileJump(true);
             } else {
                 setShowMobileJump(false);
@@ -88,6 +82,13 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
         window.addEventListener('scroll', handleScroll, { passive: true });
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
+
+    // Auto-scroll the active TOC item into view inside the sticky container
+    useEffect(() => {
+        if (activeTocRef.current) {
+            activeTocRef.current.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        }
+    }, [activeSectionId]);
 
     // IntersectionObserver for scrollspy active state
     useEffect(() => {
@@ -202,9 +203,18 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                     <div className="flex items-center gap-2 flex-shrink-0 w-full sm:w-auto justify-end">
                         {isWhatsApp ? (
                             <a
-                                href={`https://wa.me/972544350000?text=${encodeURIComponent(
-                                    inlineCta.whatsappText || `שלום צוות AltruBiz, קראתי את המאמר "${article.title}" ואשמח להתייעץ.`
-                                )}`}
+                                href={buildAttributedWhatsAppUrl(
+                                    inlineCta.whatsappText || `שלום צוות AltruBiz, קראתי את המאמר "${article.title}" ואשמח להתייעץ.`,
+                                    {
+                                        sourcePage: `/articles/${article.slug}`,
+                                        sourceSection: activeSectionId,
+                                        sourceArticle: article.slug,
+                                        sourceTopic: parentHub?.slug,
+                                        intent: 'consultation',
+                                        ctaType: 'whatsapp',
+                                        sourceLabel: inlineCta.title
+                                    }
+                                )}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-slate-950 font-extrabold px-4 py-2.5 rounded-xl shadow-xs transition-all text-xs sm:text-sm"
@@ -222,7 +232,16 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                         onOpenContactModal({
                                             title: inlineCta.title,
                                             subtitle: inlineCta.description,
-                                            badge: inlineCta.badge || 'בדיקת התאמה'
+                                            badge: inlineCta.badge || 'בדיקת התאמה',
+                                            attribution: {
+                                                sourcePage: `/articles/${article.slug}`,
+                                                sourceSection: activeSectionId,
+                                                sourceArticle: article.slug,
+                                                sourceTopic: parentHub?.slug,
+                                                intent: 'assessment',
+                                                ctaType: 'inline_cta',
+                                                sourceLabel: inlineCta.title
+                                            }
                                         });
                                     } else {
                                         onNavigate('/#contact');
@@ -317,7 +336,16 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                     onOpenContactModal({
                                         title: inlineCta.title,
                                         subtitle: inlineCta.description,
-                                        badge: inlineCta.badge || 'בדיקת התאמה'
+                                        badge: inlineCta.badge || 'בדיקת התאמה',
+                                        attribution: {
+                                            sourcePage: `/articles/${article.slug}`,
+                                            sourceSection: activeSectionId,
+                                            sourceArticle: article.slug,
+                                            sourceTopic: parentHub?.slug,
+                                            intent: 'assessment',
+                                            ctaType: 'inline_cta',
+                                            sourceLabel: inlineCta.title
+                                        }
                                     });
                                 } else {
                                     onNavigate('/#contact');
@@ -377,7 +405,16 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                         onOpenBookingModal({
                                             title: 'קביעת שיחת התאמה: איך זה יכול לעבוד אצלכם בעסק',
                                             subtitle: 'נשמח להכיר את הפעילות ולהתאים את המענה המדויק.',
-                                            badge: 'תיאום שיחה ביומן'
+                                            badge: 'תיאום שיחה ביומן',
+                                            attribution: {
+                                                sourcePage: `/articles/${article.slug}`,
+                                                sourceSection: activeSectionId,
+                                                sourceArticle: article.slug,
+                                                sourceTopic: parentHub?.slug,
+                                                intent: 'booking',
+                                                ctaType: 'inline_cta',
+                                                sourceLabel: 'pricing_card_booking'
+                                            }
                                         });
                                     } else {
                                         onNavigate('/#contact');
@@ -422,7 +459,16 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                     onOpenBookingModal({
                                         title: inlineCta.title,
                                         subtitle: inlineCta.description,
-                                        badge: inlineCta.badge || 'תיאום פגישה ביומן'
+                                        badge: inlineCta.badge || 'תיאום פגישה ביומן',
+                                        attribution: {
+                                            sourcePage: `/articles/${article.slug}`,
+                                            sourceSection: activeSectionId,
+                                            sourceArticle: article.slug,
+                                            sourceTopic: parentHub?.slug,
+                                            intent: 'booking',
+                                            ctaType: 'inline_cta',
+                                            sourceLabel: inlineCta.title
+                                        }
                                     });
                                 } else {
                                     onNavigate('/#contact');
@@ -434,9 +480,18 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                         </Button>
 
                         <a
-                            href={`https://wa.me/972544350000?text=${encodeURIComponent(
-                                inlineCta.whatsappText || `שלום צוות AltruBiz, קראתי את המאמר "${article.title}" ואשמח לבדוק איך זה יכול לעבוד אצלנו בעסק`
-                            )}`}
+                            href={buildAttributedWhatsAppUrl(
+                                inlineCta.whatsappText || `שלום צוות AltruBiz, קראתי את המאמר "${article.title}" ואשמח לבדוק איך זה יכול לעבוד אצלנו בעסק`,
+                                {
+                                    sourcePage: `/articles/${article.slug}`,
+                                    sourceSection: activeSectionId,
+                                    sourceArticle: article.slug,
+                                    sourceTopic: parentHub?.slug,
+                                    intent: 'consultation',
+                                    ctaType: 'whatsapp',
+                                    sourceLabel: inlineCta.title
+                                }
+                            )}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-flex items-center gap-2 bg-[#25D366]/20 hover:bg-[#25D366]/30 text-emerald-300 border border-emerald-500/40 hover:border-emerald-400 font-bold px-4 py-3 rounded-xl transition-all text-xs sm:text-sm"
@@ -473,7 +528,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                 <div className="space-y-4 text-slate-300 text-sm sm:text-base leading-relaxed">
                                     {section.content.map((para, pIdx) => (
                                         <p key={pIdx} className={pIdx === 1 ? "text-white font-semibold" : ""}>
-                                            {para}
+                                            {renderFormattedText(para, onNavigate)}
                                         </p>
                                     ))}
                                 </div>
@@ -510,7 +565,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                 <div className="space-y-4 text-slate-200 text-base sm:text-lg leading-relaxed mb-6">
                                     {section.content.map((para, pIdx) => (
                                         <p key={pIdx}>
-                                            {para}
+                                            {renderFormattedText(para, onNavigate)}
                                         </p>
                                     ))}
                                 </div>
@@ -523,7 +578,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                         <span>{section.callout.title}</span>
                                     </div>
                                     <p className="text-slate-100 text-base sm:text-lg font-medium leading-relaxed">
-                                        {section.callout.text}
+                                        {renderFormattedText(section.callout.text, onNavigate)}
                                     </p>
                                 </div>
                             )}
@@ -591,7 +646,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                 <span>הבעיה בעסק:</span>
                             </div>
                             <p className="text-slate-700 text-base leading-relaxed font-medium">
-                                {section.problem}
+                                {renderFormattedText(section.problem, onNavigate)}
                             </p>
                         </div>
                     )}
@@ -601,7 +656,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                         <div className="space-y-4 text-slate-700 mb-6 text-base sm:text-lg">
                             {section.content.map((para, pIdx) => (
                                 <p key={pIdx} className="leading-relaxed">
-                                    {para}
+                                    {renderFormattedText(para, onNavigate)}
                                 </p>
                             ))}
                         </div>
@@ -617,7 +672,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                 <span>{section.quickWin.title || 'מה אפשר לעשות עכשיו? (Quick Win)'}</span>
                             </div>
                             <p className="text-slate-900 font-semibold text-base sm:text-lg leading-relaxed">
-                                {section.quickWin.text}
+                                {renderFormattedText(section.quickWin.text, onNavigate)}
                             </p>
                         </div>
                     )}
@@ -639,7 +694,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                             <span>תובנה מעשית מהשטח</span>
                                         </div>
                                         <p className="text-slate-800 text-base leading-relaxed font-medium">
-                                            {section.image.caption || section.image.alt}
+                                            {renderFormattedText(section.image.caption || section.image.alt, onNavigate)}
                                         </p>
                                     </div>
                                 </div>
@@ -725,7 +780,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                     <div className="space-y-4 text-slate-700 mb-6">
                         {section.content.map((para, pIdx) => (
                             <p key={pIdx} className="leading-relaxed">
-                                {para}
+                                {renderFormattedText(para, onNavigate)}
                             </p>
                         ))}
                     </div>
@@ -740,7 +795,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                     <CheckCircle2 className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
                                     <div>
                                         <div className="font-bold text-slate-900 text-sm sm:text-base">{item.title}</div>
-                                        <div className="text-xs sm:text-sm text-slate-600 mt-0.5">{item.description}</div>
+                                        <div className="text-xs sm:text-sm text-slate-600 mt-0.5">{renderFormattedText(item.description, onNavigate)}</div>
                                     </div>
                                 </div>
                             ))}
@@ -756,7 +811,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                         <div>
                                             <h3 className="font-bold text-lg text-slate-900 mb-2">{item.title}</h3>
                                             <p className="text-slate-700 text-base leading-relaxed">
-                                                {item.description}
+                                                {renderFormattedText(item.description, onNavigate)}
                                             </p>
                                         </div>
                                     </div>
@@ -774,7 +829,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                 {section.listItems.map((item, lIdx) => (
                                     <li key={lIdx} className="flex items-start gap-3 text-slate-800 text-base">
                                         <XCircle className="w-5 h-5 text-rose-600 flex-shrink-0 mt-1" />
-                                        <span>{item}</span>
+                                        <span>{renderFormattedText(item, onNavigate)}</span>
                                     </li>
                                 ))}
                             </ul>
@@ -785,7 +840,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                             {section.listItems.map((item, lIdx) => (
                                 <li key={lIdx} className="flex items-start gap-3 text-slate-800 text-base">
                                     <CheckCircle2 className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-1" />
-                                    <span>{item}</span>
+                                    <span>{renderFormattedText(item, onNavigate)}</span>
                                 </li>
                             ))}
                         </ul>
@@ -802,7 +857,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                             <span>{section.quickWin.title || 'מה אפשר לעשות עכשיו? (Quick Win)'}</span>
                         </div>
                         <p className="text-slate-900 font-semibold text-base sm:text-lg leading-relaxed">
-                            {section.quickWin.text}
+                            {renderFormattedText(section.quickWin.text, onNavigate)}
                         </p>
                     </div>
                 )}
@@ -890,59 +945,58 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
             </div>
 
             {/* Article Header */}
-            <header className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
-                {parentHub && (
-                    <div 
-                        onClick={() => onNavigate(parentHub.url)}
-                        className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold bg-amber-50 hover:bg-amber-100/90 text-amber-900 border border-amber-300/80 cursor-pointer transition-all mb-4 group shadow-2xs"
-                    >
-                        <Layers size={13} className="text-amber-600" />
-                        <span>שייך למרכז ידע ואבחון: <strong>{parentHub.title}</strong></span>
-                        <ArrowLeft size={13} className="text-amber-700 group-hover:translate-x-[-3px] transition-transform mr-1" />
-                    </div>
-                )}
-
-                <div className="flex flex-wrap items-center gap-2.5 mb-4">
-                    <span className="px-3.5 py-1 text-xs font-semibold rounded-full bg-blue-100 text-primary border border-blue-200">
-                        {article.category}
+            <header className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-8 sm:mb-12">
+                {/* Compact Context Row Above H1: Breadcrumbs location, subtle hub, read time */}
+                <div className="flex flex-wrap items-center gap-2 mb-3 sm:mb-4">
+                    {parentHub && (
+                        <button 
+                            type="button"
+                            onClick={() => onNavigate(parentHub.url)}
+                            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300/80 cursor-pointer transition-colors shadow-2xs"
+                        >
+                            <Layers size={12} className="text-amber-600" />
+                            <span>שייך למרכז: <strong>{parentHub.title}</strong></span>
+                            <ArrowLeft size={11} className="text-amber-700 mr-0.5" />
+                        </button>
+                    )}
+                    <span className="inline-flex items-center gap-1 text-xs text-slate-500 bg-slate-100 px-2.5 py-1 rounded-full font-medium">
+                        <Clock size={12} className="text-slate-400" />
+                        <span>{article.readTime}</span>
                     </span>
-                    <span className="flex items-center gap-1.5 text-xs text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
-                        <Clock size={13} className="text-gray-400" />
-                        {article.readTime}
-                    </span>
-                    <span className="flex items-center gap-1.5 text-xs text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
-                        <Calendar size={13} className="text-gray-400" />
-                        {new Date(article.datePublished).toLocaleDateString('he-IL', { year: 'numeric', month: 'long', day: 'numeric' })}
-                    </span>
+                    {article.heroBadge && (
+                        <span className="inline-flex items-center gap-1 text-xs font-bold px-2.5 py-1 rounded-full bg-amber-100 text-amber-900 border border-amber-200">
+                            <Zap size={12} className="text-amber-600 fill-amber-500" />
+                            <span>{article.heroBadge}</span>
+                        </span>
+                    )}
                 </div>
 
-                {/* Hero Badge if present */}
-                {article.heroBadge && (
-                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-gradient-to-r from-amber-100 to-amber-50 text-amber-950 border border-amber-300 font-extrabold text-sm sm:text-base shadow-sm mb-5">
-                        <Zap className="w-5 h-5 text-amber-600 fill-amber-500 flex-shrink-0" />
-                        <span>{article.heroBadge}</span>
-                    </div>
-                )}
-
-                <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 tracking-tight leading-[1.25] mb-6">
+                {/* H1 - Immediate, Dominant and High-Legibility */}
+                <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight leading-[1.2] mb-3 sm:mb-4">
                     {article.title}
                 </h1>
 
                 {article.subtitle && (
-                    <p className="text-lg sm:text-xl text-slate-600 leading-relaxed mb-6 font-normal">
+                    <p className="text-base sm:text-lg lg:text-xl text-slate-600 leading-relaxed mb-6 font-normal">
                         {article.subtitle}
                     </p>
                 )}
 
-                {/* Author & Action Bar */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-6 border-t border-b border-gray-200 py-4 bg-white/60 backdrop-blur-sm rounded-2xl px-6 shadow-sm">
+                {/* Below H1: Streamlined Meta, Author & Share Row */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 border-t border-b border-slate-200 py-3 bg-white/60 backdrop-blur-sm rounded-2xl px-4 sm:px-6 shadow-xs">
                     <div className="flex items-center gap-3">
-                        <div className="w-11 h-11 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-bold text-lg shadow-md shadow-primary/20">
+                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-bold text-sm shadow-sm">
                             AB
                         </div>
                         <div>
-                            <div className="font-bold text-slate-900 text-sm sm:text-base">{article.author.name}</div>
-                            <div className="text-xs text-slate-500">{article.author.role}</div>
+                            <div className="font-bold text-slate-900 text-xs sm:text-sm">{article.author.name}</div>
+                            <div className="flex items-center gap-2 text-[11px] text-slate-500">
+                                <span>{article.author.role}</span>
+                                <span>•</span>
+                                <span>{new Date(article.datePublished).toLocaleDateString('he-IL', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                                <span>•</span>
+                                <span className="text-primary font-semibold">{article.category}</span>
+                            </div>
                         </div>
                     </div>
 
@@ -963,25 +1017,26 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="lg:grid lg:grid-cols-[300px_1fr] xl:grid-cols-[320px_1fr] gap-10 items-start">
                     
-                    {/* Desktop Sticky Table of Contents Sidebar (Right Column in RTL) */}
-                    <aside className="hidden lg:block sticky top-28 space-y-4">
-                        <nav aria-label="תוכן עניינים דביק" className="bg-white/95 backdrop-blur-md border border-slate-200/90 rounded-3xl p-5 shadow-sm">
-                            <div className="flex items-center justify-between gap-2 pb-3 mb-3 border-b border-slate-100">
+                    {/* Desktop Sticky Table of Contents Sidebar (Right Column in RTL, bounded height & persistent) */}
+                    <aside className="hidden lg:flex flex-col justify-between sticky top-24 h-[calc(100vh-7.5rem)] space-y-3">
+                        <nav aria-label="תוכן עניינים דביק" className="bg-white/95 backdrop-blur-md border border-slate-200/90 rounded-3xl p-4 shadow-sm flex flex-col flex-1 min-h-0">
+                            <div className="flex items-center justify-between gap-2 pb-2.5 mb-2.5 border-b border-slate-100 shrink-0">
                                 <div className="flex items-center gap-2 font-black text-slate-900 text-sm">
-                                    <Compass size={18} className="text-primary" />
+                                    <Compass size={17} className="text-primary" />
                                     <span>תוכן הפעולות</span>
                                 </div>
-                                <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800">
+                                <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">
                                     {totalActions > 0 ? `${totalActions} שלבים` : 'סעיפי תוכן'}
                                 </span>
                             </div>
 
-                            <div className="space-y-1 max-h-[calc(100vh-14rem)] overflow-y-auto pl-1 pr-0.5 custom-scrollbar">
+                            <div className="space-y-1 flex-1 min-h-0 overflow-y-auto pl-1 pr-0.5 custom-scrollbar">
                                 {article.sections.map((sec) => {
                                     const isActive = activeSectionId === sec.id;
                                     return (
                                         <a
                                             key={sec.id}
+                                            ref={isActive ? activeTocRef : null}
                                             href={`#${sec.id}`}
                                             onClick={(e) => {
                                                 e.preventDefault();
@@ -1018,6 +1073,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                 {article.faqs && article.faqs.length > 0 && (
                                     <a
                                         href="#article-faqs"
+                                        ref={activeSectionId === 'article-faqs' ? activeTocRef : null}
                                         onClick={(e) => {
                                             e.preventDefault();
                                             scrollToSection('article-faqs');
@@ -1038,13 +1094,13 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                 )}
                             </div>
 
-                            <div className="pt-3 mt-3 border-t border-slate-100">
+                            <div className="pt-2.5 mt-2 border-t border-slate-100 shrink-0">
                                 <button
                                     onClick={() => {
                                         window.scrollTo({ top: 0, behavior: 'smooth' });
                                         window.history.replaceState(null, '', window.location.pathname);
                                     }}
-                                    className="w-full flex items-center justify-center gap-1.5 py-2 px-3 text-xs text-slate-500 hover:text-primary hover:bg-slate-50 rounded-xl transition-colors font-semibold"
+                                    className="w-full flex items-center justify-center gap-1.5 py-1.5 px-3 text-xs text-slate-500 hover:text-primary hover:bg-slate-50 rounded-xl transition-colors font-semibold"
                                 >
                                     <ArrowUp size={13} />
                                     <span>חזרה לראש המאמר</span>
@@ -1052,50 +1108,67 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                             </div>
                         </nav>
 
-                        {/* Sticky Desktop Sidebar CTA Card */}
-                        <div className="bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 text-white rounded-3xl p-5 shadow-xl border border-slate-800 relative overflow-hidden">
-                            <div className="absolute top-0 right-0 w-36 h-36 bg-primary/25 rounded-full blur-2xl pointer-events-none" />
-                            <div className="relative z-10 space-y-2.5">
-                                <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/30 text-[11px] font-bold">
-                                    <Sparkles size={12} />
+                        {/* Sticky Desktop Sidebar CTA Card - Compact & Subordinate to Knowledge */}
+                        <div className="shrink-0 bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 text-white rounded-2xl p-4 shadow-lg border border-slate-800 relative overflow-hidden">
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-primary/20 rounded-full blur-2xl pointer-events-none" />
+                            <div className="relative z-10 space-y-2">
+                                <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/30 text-[10px] font-bold">
+                                    <Sparkles size={11} />
                                     <span>בדיקת התאמה לעסק</span>
                                 </div>
-                                <h4 className="font-extrabold text-sm text-white leading-snug">
+                                <h4 className="font-extrabold text-xs sm:text-sm text-white leading-snug">
                                     רוצים לראות איך זה עובד אצלכם?
                                 </h4>
-                                <p className="text-xs text-slate-300 leading-relaxed">
+                                <p className="text-[11px] text-slate-300 leading-relaxed">
                                     נמפה תהליך אחד בעסק ונראה איך לפשט אותו עם AltruBiz CRM.
                                 </p>
-                                <div className="pt-1 space-y-2">
+                                <div className="pt-0.5 space-y-1.5">
                                     <Button
                                         variant="primary"
                                         size="sm"
-                                        className="w-full font-bold text-xs py-2.5 shadow-md shadow-primary/25 flex items-center justify-center gap-1.5"
+                                        className="w-full font-bold text-xs py-2 shadow-sm shadow-primary/25 flex items-center justify-center gap-1.5"
                                         onClick={() => {
                                             if (onOpenBookingModal) {
                                                 onOpenBookingModal({
                                                     title: 'קביעת פגישה לבדיקת התאמה',
                                                     subtitle: 'נמפה תהליך אחד בעסק ונראה איך לפשט אותו עם AltruBiz CRM.',
-                                                    badge: 'תיאום פגישה ביומן'
+                                                    badge: 'תיאום פגישה ביומן',
+                                                    attribution: {
+                                                        sourcePage: `/articles/${article.slug}`,
+                                                        sourceSection: activeSectionId,
+                                                        sourceArticle: article.slug,
+                                                        sourceTopic: parentHub?.slug,
+                                                        intent: 'booking',
+                                                        ctaType: 'sidebar_cta',
+                                                        sourceLabel: 'desktop_sidebar_booking'
+                                                    }
                                                 });
                                             } else {
                                                 onNavigate('/#contact');
                                             }
                                         }}
                                     >
-                                        <Calendar size={14} />
-                                        <span>קביעת פגישה לבדיקת התאמה</span>
+                                        <Calendar size={13} />
+                                        <span>קביעת פגישה ביומן</span>
                                     </Button>
                                     <a
-                                        href={article.cta?.whatsappText 
-                                            ? `https://wa.me/972544350000?text=${encodeURIComponent(article.cta.whatsappText)}`
-                                            : `https://wa.me/972544350000?text=${encodeURIComponent(`שלום צוות AltruBiz, קראתי את המאמר "${article.title}" ואשמח לבדוק איך זה יכול לעבוד אצלנו בעסק`)}`
-                                        }
+                                        href={buildAttributedWhatsAppUrl(
+                                            `שלום צוות AltruBiz, קראתי את המאמר "${article.title}" ואשמח להתייעץ לגבי העסק שלנו.`,
+                                            {
+                                                sourcePage: `/articles/${article.slug}`,
+                                                sourceSection: activeSectionId,
+                                                sourceArticle: article.slug,
+                                                sourceTopic: parentHub?.slug,
+                                                intent: 'consultation',
+                                                ctaType: 'sidebar_cta',
+                                                sourceLabel: 'desktop_sidebar_whatsapp'
+                                            }
+                                        )}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="w-full flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-slate-200 border border-white/10 text-xs font-semibold transition-colors"
+                                        className="w-full flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-xl bg-white/10 hover:bg-white/15 text-slate-200 border border-white/10 text-[11px] font-semibold transition-colors"
                                     >
-                                        <MessageCircle size={14} className="text-[#25D366]" />
+                                        <MessageCircle size={13} className="text-[#25D366]" />
                                         <span>התייעצות בוואטסאפ</span>
                                     </a>
 
@@ -1108,10 +1181,10 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                                 onNavigate('/#pricing');
                                             }
                                         }}
-                                        className="w-full text-center text-[11px] text-slate-400 hover:text-white pt-1.5 transition-colors font-medium flex items-center justify-center gap-1 cursor-pointer"
+                                        className="w-full text-center text-[10px] text-slate-400 hover:text-white pt-1 transition-colors font-medium flex items-center justify-center gap-1 cursor-pointer"
                                     >
-                                        <Zap size={11} className="text-amber-400 fill-amber-400" />
-                                        <span>רוצים לבדוק חבילות ומחירים? לחצו כאן</span>
+                                        <Zap size={10} className="text-amber-400 fill-amber-400" />
+                                        <span>חבילות ומחירים ←</span>
                                     </button>
                                 </div>
                             </div>
@@ -1140,7 +1213,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                     <div>
                                         <h2 className="text-base font-bold text-slate-900 mb-2">רקע ומטרת המדריך</h2>
                                         <p className="text-slate-700 text-base sm:text-lg leading-relaxed">
-                                            {article.heroSummary}
+                                            {renderFormattedText(article.heroSummary, onNavigate)}
                                         </p>
                                     </div>
                                 </div>
@@ -1286,7 +1359,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                                     {faq.question}
                                                 </h3>
                                                 <p className="text-slate-700 text-base leading-relaxed">
-                                                    {faq.answer}
+                                                    {renderFormattedText(faq.answer, onNavigate)}
                                                 </p>
                                             </div>
                                         ))}
@@ -1326,7 +1399,16 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                                 onOpenBookingModal({
                                                     title: article.cta ? article.cta.buttonText : 'קביעת פגישה: איך זה יכול לעבוד אצלכם בעסק',
                                                     subtitle: article.cta ? article.cta.description : 'צוות AltruBiz יסייע לכם לחבר את התהליכים, הלידים והאוטומציה העסקית בצורה מותאמת אישית לפעילות שלכם.',
-                                                    badge: 'תיאום פגישה ביומן'
+                                                    badge: 'תיאום פגישה ביומן',
+                                                    attribution: {
+                                                        sourcePage: `/articles/${article.slug}`,
+                                                        sourceSection: 'article-footer-cta',
+                                                        sourceArticle: article.slug,
+                                                        sourceTopic: parentHub?.slug,
+                                                        intent: 'booking',
+                                                        ctaType: 'bottom_banner',
+                                                        sourceLabel: 'article_footer_booking'
+                                                    }
                                                 });
                                             } else if (article.cta?.buttonLink.startsWith('/#')) {
                                                 onNavigate(article.cta.buttonLink);
@@ -1342,10 +1424,18 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                     </button>
 
                                     <a
-                                        href={article.cta?.whatsappText 
-                                            ? `https://wa.me/972544350000?text=${encodeURIComponent(article.cta.whatsappText)}`
-                                            : `https://wa.me/972544350000?text=${encodeURIComponent(`שלום צוות AltruBiz, קראתי את המאמר "${article.title}" ואשמח לבדוק איך זה יכול לעבוד אצלנו בעסק`)}`
-                                        }
+                                        href={buildAttributedWhatsAppUrl(
+                                            article.cta?.whatsappText || `שלום צוות AltruBiz, קראתי את המאמר "${article.title}" ואשמח לבדוק איך זה יכול לעבוד אצלנו בעסק`,
+                                            {
+                                                sourcePage: `/articles/${article.slug}`,
+                                                sourceSection: 'article-footer-cta',
+                                                sourceArticle: article.slug,
+                                                sourceTopic: parentHub?.slug,
+                                                intent: 'consultation',
+                                                ctaType: 'bottom_banner',
+                                                sourceLabel: 'article_footer_whatsapp'
+                                            }
+                                        )}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-slate-950 font-extrabold px-6 py-3.5 rounded-xl shadow-lg transition-all text-base"
@@ -1399,16 +1489,16 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
 
             {/* Mobile Floating Sticky Pill */}
             {showMobileJump && (
-                <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 lg:hidden max-w-[90vw]">
+                <div className="fixed bottom-5 left-1/2 -translate-x-1/2 z-40 lg:hidden max-w-[92vw]">
                     <button
                         onClick={() => setIsMobileDrawerOpen(true)}
-                        className="flex items-center gap-2 px-4 sm:px-5 py-3 bg-slate-900/95 text-white rounded-full shadow-2xl backdrop-blur-md border border-white/20 text-xs sm:text-sm font-bold active:scale-95 transition-all"
+                        className="flex items-center gap-2 px-4 py-2.5 bg-slate-900/95 text-white rounded-full shadow-2xl backdrop-blur-md border border-white/20 text-xs font-bold active:scale-95 transition-all"
                     >
-                        <Compass size={17} className="text-amber-400 flex-shrink-0" />
-                        <span className="truncate max-w-[180px] sm:max-w-[240px]">
-                            תוכן המאמר: {activeLabel}
+                        <Compass size={15} className="text-amber-400 flex-shrink-0" />
+                        <span className="truncate max-w-[200px] sm:max-w-[260px]">
+                            {parentHub ? `${parentHub.title} • ` : ''}{activeLabel}
                         </span>
-                        <ChevronDown size={15} className="text-slate-300 flex-shrink-0" />
+                        <ChevronDown size={14} className="text-slate-300 flex-shrink-0" />
                     </button>
                 </div>
             )}
@@ -1500,7 +1590,16 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                         onOpenBookingModal({
                                             title: 'קביעת פגישה לבדיקת התאמה',
                                             subtitle: 'נמפה תהליך אחד בעסק ונראה איך לפשט אותו עם AltruBiz CRM.',
-                                            badge: 'תיאום פגישה ביומן'
+                                            badge: 'תיאום פגישה ביומן',
+                                            attribution: {
+                                                sourcePage: `/articles/${article.slug}`,
+                                                sourceSection: activeSectionId,
+                                                sourceArticle: article.slug,
+                                                sourceTopic: parentHub?.slug,
+                                                intent: 'booking',
+                                                ctaType: 'mobile_nav',
+                                                sourceLabel: 'mobile_drawer_booking'
+                                            }
                                         });
                                     } else {
                                         onNavigate('/#contact');

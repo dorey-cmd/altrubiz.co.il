@@ -65,6 +65,7 @@ export interface KnowledgeNode {
     nodeType: NodeType;
     hasPublicPage: boolean;
     title: string;
+    shortLabel?: string;
     subtitle?: string;
     seoTitle: string;
     description: string;
@@ -164,6 +165,7 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
         nodeType: 'pain_hub',
         hasPublicPage: true,
         title: 'לידים נופלים בין הכיסאות: המדריך לאבחון, עצירת נטישה וסגירת עסקאות',
+        shortLabel: 'לידים שנופלים בין הכיסאות',
         subtitle: 'איך לזהות את חורי הבריחה של לקוחות בעסק, לקצר את זמני המענה ל-5 דקות, ולחבר סיסטם שלא מאפשר לאף ליד להיעלם',
         seoTitle: 'לידים נופלים בין הכיסאות: מדריך אבחון ועצירת אובדן לקוחות | AltruBiz CRM',
         description: 'מדריך מקיף לאבחון ועצירת בריחת לידים בעסק: מדוע לידים לא מקבלים מענה בזמן, מה עושים עם שיחות שלא נענו, ואיך מייצרים פייפליין אוטומטי ב-CRM.',
@@ -309,6 +311,7 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
         nodeType: 'micro_hub',
         hasPublicPage: true,
         title: 'וואטסאפ ב-CRM: איך לחבר את הערוץ הכי חזק בעסק לסיסטם אוטומטי ובטוח',
+        shortLabel: 'וואטסאפ ב-CRM',
         subtitle: 'מסעות לקוח אוטומטיים, מענה מהיר, מניעת חסימות Meta וריכוז כל השיחות ב-Inbox אחוד',
         seoTitle: 'וואטסאפ ב-CRM: מדריך חיבור, אוטומציות ומניעת חסימות | AltruBiz CRM',
         description: 'כל מה שצריך לדעת על שילוב WhatsApp Business ב-CRM: הנחיות Meta, מניעת חסימות, אוטומציית הודעות ללידים חדשים, וניהול צוות מלא בתיבה אחודה.',
@@ -451,6 +454,7 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
         nodeType: 'pain_hub',
         hasPublicPage: true,
         title: 'תהליך מכירה ופייפליין חזותי: המדריך המעשי לבניית משפך שלא תלוי בזיכרון',
+        shortLabel: 'פייפליין ותהליך מכירה',
         subtitle: 'איך לבנות משפך מכירות ברור, לחבר מעברי שלבים חכמים ולהעביר את הצוות ממחברות ואקסלים למערכת CRM שמייצרת תוצאות',
         seoTitle: 'תהליך מכירה ופייפליין CRM: מדריך מעשי לניהול משפך עסקאות | AltruBiz',
         description: 'מדריך מעשי לבניית תהליך מכירה ופייפליין חזותי ב-CRM: הגדרת שלבים מנצחים, מניעת צווארי בקבוק, שיטות אימוץ לצוות ומעבר מנוהל ידני לסיסטם עבודה מנצח.',
@@ -596,6 +600,7 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
         nodeType: 'pain_hub',
         hasPublicPage: true,
         title: 'זיכרון ארגוני ותיעוד לקוחות: איך להפסיק לאבד מידע קריטי כשהעובדים מתחלפים',
+        shortLabel: 'זיכרון ארגוני ותיעוד לקוחות',
         subtitle: 'מרכזים את כל היסטוריית השיחות, הוואטסאפים והסיכומים בכרטיס לקוח אחוד – כך שהעסק שלכם שומר על נכס המידע שלו לנצח',
         seoTitle: 'זיכרון ארגוני ותיעוד לקוחות ב-CRM: מניעת אובדן מידע עסקי | AltruBiz',
         description: 'מדריך אבחון ושיטות עבודה לשימור הזיכרון הארגוני בעסק: ריכוז שיחות והתכתבויות, מניעת כפילויות אנשי קשר, והעברת מקל חלקה כשהצוות מתחלף.',
@@ -740,6 +745,7 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
         nodeType: 'pain_hub',
         hasPublicPage: true,
         title: 'עבודה ידנית שחוזרת על עצמה: המדריך לשחרור צווארי בקבוק באמצעות אוטומציות חכמות',
+        shortLabel: 'עבודה ידנית שחוזרת על עצמה',
         subtitle: 'תיאום פגישות, תזכורות למניעת הברזות, איסוף מסמכים ומרדף אחרי משימות – כך תפנו שעות יקרות של הצוות לעבודה שמייצרת הכנסה',
         seoTitle: 'אוטומציה עסקית וביטול עבודה ידנית: שחרור צווארי בקבוק | AltruBiz',
         description: 'מדריך לאבחון וחיסול עבודה ידנית שחוזרת על עצמה: אוטומציית תיאום פגישות, מניעת No-Show, איסוף מסמכים בקליטת לקוח ומעבר חכם לבינה מלאכותית.',
@@ -987,3 +993,191 @@ export const CANDIDATE_FUTURE_CONCEPTS = {
         ]
     }
 } as const;
+
+/**
+ * First-Class Canonical Concepts Registry
+ * 
+ * Formal semantic definitions for foundational business objects and mechanisms.
+ * Enforces the invariant: NODE EXISTENCE != PUBLIC PAGE EXISTENCE.
+ */
+export interface CanonicalConcept {
+    id: string;
+    term: string;
+    canonicalDefinition: string;
+    maturity: 'canonical' | 'maturing' | 'emerging';
+    hasApprovedPublicDestination: boolean;
+    publicDestinationUrl?: string;
+    primaryParentHubSlug: string;
+    recommendedBehavior: 'contextual_link' | 'plain_text_or_context';
+}
+
+export const CANONICAL_CONCEPTS: Record<string, CanonicalConcept> = {
+    'crm': {
+        id: 'crm',
+        term: 'CRM',
+        canonicalDefinition: 'מערכת לניהול קשרי לקוחות ותהליכי מכירה שמחברת בין פניות, ערוצי תקשורת, תיעוד והמשכיות עסקית.',
+        maturity: 'canonical',
+        hasApprovedPublicDestination: true,
+        publicDestinationUrl: '/topics/sales-pipeline',
+        primaryParentHubSlug: 'sales-pipeline',
+        recommendedBehavior: 'contextual_link'
+    },
+    'pipeline': {
+        id: 'pipeline',
+        term: 'פייפליין מכירות (Pipeline)',
+        canonicalDefinition: 'משפך וציר עבודה חזותי המציג בכל רגע נתון היכן עומדת כל עסקה, מה הצעד הבא ומתי נדרש מעקב.',
+        maturity: 'canonical',
+        hasApprovedPublicDestination: true,
+        publicDestinationUrl: '/topics/sales-pipeline',
+        primaryParentHubSlug: 'sales-pipeline',
+        recommendedBehavior: 'contextual_link'
+    },
+    'lead': {
+        id: 'lead',
+        term: 'ליד (Lead)',
+        canonicalDefinition: 'פנייה עסקית מאדם או חברה שהביעו עניין בשירות או במוצר וממתינים למענה ולבדיקת התאמה.',
+        maturity: 'canonical',
+        hasApprovedPublicDestination: true,
+        publicDestinationUrl: '/topics/lost-leads',
+        primaryParentHubSlug: 'lost-leads',
+        recommendedBehavior: 'contextual_link'
+    },
+    'contact': {
+        id: 'contact',
+        term: 'איש קשר וכרטיס לקוח (Contact)',
+        canonicalDefinition: 'רשומת לקוח מרכזית המרכזת את כל היסטוריית הפניות, ההודעות, הפגישות וההסכמים במקום אחד.',
+        maturity: 'canonical',
+        hasApprovedPublicDestination: true,
+        publicDestinationUrl: '/topics/business-memory',
+        primaryParentHubSlug: 'business-memory',
+        recommendedBehavior: 'contextual_link'
+    },
+    'follow-up': {
+        id: 'follow-up',
+        term: 'פולואפ (Follow-up)',
+        canonicalDefinition: 'רצף פעולות מעקב מתוזמנות ומותאמות אישית לאחר שליחת הצעה או שיחה כדי לקדם עסקה מבלי להיות מעיקים.',
+        maturity: 'canonical',
+        hasApprovedPublicDestination: true,
+        publicDestinationUrl: '/topics/lost-leads',
+        primaryParentHubSlug: 'lost-leads',
+        recommendedBehavior: 'contextual_link'
+    },
+    'workflow': {
+        id: 'workflow',
+        term: 'זרימת עבודה (Workflow)',
+        canonicalDefinition: 'סדרת שלבים ופעולות קבועות בעסק הקובעות בדיוק מה קורה מרגע כניסת פנייה ועד סיום השירות.',
+        maturity: 'canonical',
+        hasApprovedPublicDestination: true,
+        publicDestinationUrl: '/topics/repetitive-manual-work',
+        primaryParentHubSlug: 'repetitive-manual-work',
+        recommendedBehavior: 'contextual_link'
+    },
+    'automation': {
+        id: 'automation',
+        term: 'אוטומציה עסקית (Automation)',
+        canonicalDefinition: 'טריגרים ופעולות מערכת שפועלים ברקע ללא צורך בהתערבות אנושית חוזרת (מענה מהיר, תזכורות ועדכונים).',
+        maturity: 'canonical',
+        hasApprovedPublicDestination: true,
+        publicDestinationUrl: '/topics/repetitive-manual-work',
+        primaryParentHubSlug: 'repetitive-manual-work',
+        recommendedBehavior: 'contextual_link'
+    },
+    'unified-inbox': {
+        id: 'unified-inbox',
+        term: 'תיבת דואר אחודה (Unified Inbox)',
+        canonicalDefinition: 'אינבוקס צוותי המרכז שיחות וואטסאפ, אינסטגרם, פייסבוק, SMS ומייל לציר תקשורת אחיד לכל לקוח.',
+        maturity: 'canonical',
+        hasApprovedPublicDestination: true,
+        publicDestinationUrl: '/topics/whatsapp-in-crm',
+        primaryParentHubSlug: 'whatsapp-in-crm',
+        recommendedBehavior: 'contextual_link'
+    },
+    'no-show': {
+        id: 'no-show',
+        term: 'אי-הגעה לפגישה (No-Show)',
+        canonicalDefinition: 'תופעה שבה לקוח מתאם פגישה ביומן ולא מופיע אליה עקב שכחה, חוסר תזכורת או היעדר מחויבות.',
+        maturity: 'canonical',
+        hasApprovedPublicDestination: true,
+        publicDestinationUrl: '/topics/repetitive-manual-work',
+        primaryParentHubSlug: 'repetitive-manual-work',
+        recommendedBehavior: 'contextual_link'
+    }
+};
+
+/**
+ * Returns all approved public Hubs for navigation, footers, and sitemaps.
+ */
+export function getApprovedPublicHubs(): KnowledgeNode[] {
+    return Object.values(KNOWLEDGE_NODES).filter(node => 
+        node.hasPublicPage && node.isIndexable && (node.nodeType === 'pain_hub' || node.nodeType === 'micro_hub' || node.nodeType === 'topic')
+    );
+}
+
+/**
+ * Canonical Recognition Situations for the Homepage and assessment triggers.
+ * Derived directly from the core pain hubs in the Knowledge Graph.
+ */
+export interface RecognitionSituation {
+    id: string;
+    text: string;
+    hubSlug: string;
+    url: string;
+}
+
+export function getCanonicalRecognitionSituations(): RecognitionSituation[] {
+    return [
+        { id: 'lost-leads', text: 'לידים שלא מקבלים מענה בזמן', hubSlug: 'lost-leads', url: '/topics/lost-leads' },
+        { id: 'whatsapp-in-crm', text: 'וואטסאפ שלא מחובר לתהליך', hubSlug: 'whatsapp-in-crm', url: '/topics/whatsapp-in-crm' },
+        { id: 'sales-pipeline', text: 'לא ברור איפה כל עסקה עומדת', hubSlug: 'sales-pipeline', url: '/topics/sales-pipeline' },
+        { id: 'business-memory', text: 'מידע שנשאר בראש של העובד', hubSlug: 'business-memory', url: '/topics/business-memory' },
+        { id: 'repetitive-manual-work', text: 'עבודה ידנית שחוזרת על עצמה', hubSlug: 'repetitive-manual-work', url: '/topics/repetitive-manual-work' }
+    ];
+}
+
+/**
+ * Resolves feature card knowledge destination from the Knowledge Graph.
+ */
+export function getFeatureKnowledgeLink(featureKey: string): { url: string; label: string } {
+    const mappings: Record<string, { url: string; label: string }> = {
+        'lead-management': {
+            url: '/topics/lost-leads',
+            label: 'מדריך לאבחון ועצירת בריחת לידים'
+        },
+        'omnichannel': {
+            url: '/topics/whatsapp-in-crm',
+            label: 'איך לחבר וואטסאפ ל-CRM בצורה נכונה'
+        },
+        'sales-pipeline': {
+            url: '/topics/sales-pipeline',
+            label: 'מדריך לבניית פייפליין מכירות חזותי'
+        },
+        'automations': {
+            url: '/topics/repetitive-manual-work',
+            label: 'איך לשחרר את הצוות מעבודה ידנית'
+        },
+        'ai-bots': {
+            url: '/articles/non-technical-to-ai-automation-guide',
+            label: 'איך מתחילים עם אוטומציה ו-AI בלי להסתבך'
+        },
+        'dashboard': {
+            url: '/topics/business-memory',
+            label: 'איך לשמור על הזיכרון הארגוני והנתונים'
+        }
+    };
+
+    return mappings[featureKey] || { url: '/topics/sales-pipeline', label: 'למרכז הידע' };
+}
+
+/**
+ * Resolves How-It-Works step knowledge destination from the Knowledge Graph.
+ */
+export function getHowItWorksStepKnowledge(stepNum: string): { url: string; label: string } {
+    const mappings: Record<string, { url: string; label: string }> = {
+        '1': { url: '/topics/lost-leads', label: 'איך עוצרים בריחת לידים?' },
+        '2': { url: '/topics/whatsapp-in-crm', label: 'איך לחבר וואטסאפ לתהליך?' },
+        '3': { url: '/topics/sales-pipeline', label: 'איך בונים פייפליין חזותי?' },
+        '4': { url: '/topics/business-memory', label: 'איך שומרים על הזיכרון הארגוני?' }
+    };
+
+    return mappings[stepNum] || { url: '/topics/sales-pipeline', label: 'להעמקה במרכז הידע' };
+}

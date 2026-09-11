@@ -145,6 +145,23 @@ $$\text{Knowledge Maturity} \neq \text{Public Page Existence} \neq \text{Publica
 
 ---
 
+## 2.11 Question-to-Answer Link Policy, Graph Single Source of Truth & Markdown Rendering
+- **Question-to-Answer Link Policy**: Never use generic anchor labels (`לקריאה`, `קרא עוד`, `למידע נוסף`). Links must articulate the substantive answer, promise, or diagnostic inquiry that satisfies reader intent.
+- **Knowledge Graph as Single Source of Truth**: All knowledge nodes, approved public hubs, canonical concepts, and component knowledge selectors reside centrally in `src/data/knowledgeGraph.ts`. Presentation components query the graph via selectors (`getApprovedPublicHubs`, `getCanonicalRecognitionSituations`, `getFeatureKnowledgeLink`, `getHowItWorksStepKnowledge`) without maintaining hardcoded duplicate maps.
+- **Markdown Links Rendering**: Editorial markdown links (`[anchor](url)`) are dynamically parsed and rendered as internal client `<a>` tags with `target="_self"`, preserving SPA navigation and back-button history.
+
+---
+
+## 2.12 Mobile Knowledge UX, Persistent Desktop Navigation & Strict Meeting Separation
+- **Mobile First-Class Knowledge UX**: Compact vertical rhythm, early navigation discovery via bottom-floating pill appearing at `scrollY > 200`, bounded touch modals (`max-h-[90vh]`), and inverted header hierarchy (keeping H1 above the fold).
+- **Persistent Desktop Right-Side Navigation**: Sticky sidebar bounded strictly to viewport height (`h-[calc(100vh-7.5rem)]`) with active section auto-scroll into view and non-overflowing compact secondary CTA card.
+- **Image Captions Approved & Encouraged**: Explanatory `figcaption` below figures and visual cards (preceded by `💡`) explaining the business context and CRM mechanism.
+- **Strict Meeting vs. Contact Separation**: Never route a Meeting/Consultation CTA to a Contact form or generic lead capture. Meeting CTAs MUST open the booking calendar (`BookingModal`). Contact CTAs open `ContactModal`.
+- **Structured CTA Attribution Pipeline**: Every CTA invocation transmits structured telemetry (`CTAContext`: `sourcePage`, `sourceSection`, `sourceHub`/`sourceTopic`, `intent`, `ctaType`, `sourceLabel`) passed to GHL iframes via UTM parameters and to WhatsApp prefilled links.
+
+---
+
+
 ## 3. Route & Page Creation Architecture (Single Source of Truth)
 
 ### Adding a Static Page:

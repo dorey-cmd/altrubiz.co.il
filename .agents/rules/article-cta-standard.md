@@ -53,3 +53,26 @@ $$\text{Current Context} \rightarrow \text{Relevant Next Action} \rightarrow \te
 2. **שמירה על רצף הקריאה וההקשר:** כאשר הקורא נמצא בתוך מאמר, ממשקי יצירת קשר או תמחור צריכים להיפתח במודל (`ContactModal` או `PricingModal`) או להוביל לוואטסאפ עם הודעה מנוסחת מראש, מבלי לרענן את הדף או להפסיק את חוויית הקריאה.
 3. **תקן שפה Unisex:** כל הלחצנים והטקסטים נכתבים בשפה טבעית ונטולת מגדר ללא לוכסנים (`קביעת פגישה`, `בדיקת התאמה`, `לצפייה בחבילות`).
 4. **ייחוס תוכן מותאם:** תכנים כלליים מיוחסים ל-`צוות AltruBiz` / `אלטרוביז`. ייחוס אישי (למשל מומחים ספציפיים, מייסדים או מקרי בוחן) מבורך ומותר כאשר הוא מחזק אמינות מקצועית ו-E-E-A-T.
+
+---
+
+## 4. הפרדה קבועה בין פגישה ביומן לבין טופס יצירת קשר (Meeting vs. Contact Invariant)
+- **איסור ניתוב שגוי**: לעולם אין לנתב כפתור או קריאה לפעולה של "קביעת פגישה / תיאום ביומן" אל טופס השארת פרטים כללי (`ContactModal` או `#contact`).
+- **יומן ייעודי**: כל הנעה לתיאום פגישה, אבחון או בדיקת התאמה בזמן אמת פותחת את מודל היומן הייעודי (`BookingModal`) עם לוח הפגישות המשולב של המערכת.
+- **טופס פרטים**: פניות מסוג `השארת פרטים`, `חזרו אליי` או `בדיקת התאמה כללית` נפתחות ב-`ContactModal`.
+
+---
+
+## 5. צינור הייחוס המובנה (Structured CTA Attribution Pipeline)
+כל קריאה לפעולה באתר (במאמרים, מרכזי ידע, Header, Footer ומודלים) מעבירה אובייקט ייחוס מובנה (`CTAContext`) הכולל:
+- `sourcePage`: כתובת ה-URL של העמוד המקורי (למשל `/topics/lost-leads` או `/articles/leads-lost-between-chairs`).
+- `sourceSection`: מזהה המקטע הספציפי שבו לחץ הקורא (למשל `solutions`, `reality-check`, `toc_sidebar`).
+- `sourceHub` / `sourceTopic`: נושא הידע או האשכול המקורי.
+- `intent`: כוונת המשתמש (`meeting`, `consultation`, `pricing_inquiry`, `contact_general`).
+- `ctaType`: סוג הקריאה לפעולה (`modal_booking`, `modal_contact`, `sidebar_cta`, `inline_strip`, `pricing_card`, `footer_cta`).
+- `sourceLabel`: תווית ייחודית לקמפיין ולמעקב.
+
+### אופן העברת הנתונים:
+1. **טפסי ויומני GHL מוטמעים במודלים**: פונקציית `buildAttributedIframeUrl` מוסיפה את נתוני הייחוס כפרמטרי UTM מובנים (`utm_source`, `utm_medium`, `utm_campaign`, `utm_content`, `source_page`, `source_article`, `intent`).
+2. **קישורי WhatsApp**: פונקציית `buildAttributedWhatsAppUrl` מצרפת את חתימת ההקשר אל הודעת הוואטסאפ המנוסחת מראש, ומאפשרת לצוות המענה לדעת מיידית מאיזה עמוד ומקטע הגיע הפונה.
+

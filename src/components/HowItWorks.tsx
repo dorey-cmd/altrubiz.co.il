@@ -2,53 +2,44 @@
 
 import { motion } from 'framer-motion';
 import { Lightbulb } from 'lucide-react';
+import { getHowItWorksStepKnowledge } from '../data/knowledgeGraph';
 
-interface StepItem {
+interface StepItemDef {
     num: string;
     title: string;
     desc: string;
     pain: string;
     img: string;
-    hubUrl: string;
-    hubLabel: string;
 }
 
-const steps: StepItem[] = [
+const STEP_DEFINITIONS: StepItemDef[] = [
     {
         num: "1",
         title: "לכידה",
         desc: "דפי נחיתה, טפסים, לוחות שנה, סקרים, טלפוניה.",
         pain: "כשאין איסוף מסודר עשרות לידים נעלמים ומתמוססים בלי ששמים לב",
-        img: "https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/689697db6346f45dc55634f4.png",
-        hubUrl: "/topics/lost-leads",
-        hubLabel: "איך עוצרים בריחת לידים?"
+        img: "https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/689697db6346f45dc55634f4.png"
     },
     {
         num: "2",
         title: "טיפוח",
         desc: "מסרים אוטומטיים מותאמים אישית בוואטסאפ, SMS, מייל, רשתות חברתיות ושיחות קוליות.",
         pain: "חוסר עקביות במעקב גורם להפסדים ישירים של לקוחות פוטנציאליים",
-        img: "https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/689697db3b96f70dc1c2b0c5.png",
-        hubUrl: "/topics/whatsapp-in-crm",
-        hubLabel: "איך לחבר וואטסאפ לתהליך?"
+        img: "https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/689697db3b96f70dc1c2b0c5.png"
     },
     {
         num: "3",
         title: "סגירה",
         desc: "קביעת פגישות, הצעות מחיר, תיעוד מלא.",
         pain: "פגישות שמתפספסות והצעות שלא נענות שוות כסף אבוד בעסק",
-        img: "https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/689697dbf0447344096548de.png",
-        hubUrl: "/topics/sales-pipeline",
-        hubLabel: "איך בונים פייפליין חזותי?"
+        img: "https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/689697dbf0447344096548de.png"
     },
     {
         num: "4",
         title: "שימור",
         desc: "אוטומציות שירות ותמיכה, מעקב לקוחות, נאמנות.",
         pain: "לקוחות שנשכחים אחרי העסקה מובילים להפסד מכירות המשך",
-        img: "https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/689697db10ecc40bcf69ee3e.png",
-        hubUrl: "/topics/business-memory",
-        hubLabel: "איך שומרים על הזיכרון הארגוני?"
+        img: "https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/689697db10ecc40bcf69ee3e.png"
     }
 ];
 
@@ -57,6 +48,14 @@ interface HowItWorksProps {
 }
 
 export const HowItWorks: React.FC<HowItWorksProps> = ({ onNavigate }) => {
+    const steps = STEP_DEFINITIONS.map(step => {
+        const knowledge = getHowItWorksStepKnowledge(step.num);
+        return {
+            ...step,
+            hubUrl: knowledge.url,
+            hubLabel: knowledge.label
+        };
+    });
     return (
         <section id="how-it-works" className="py-24 bg-slate-50 text-right relative overflow-hidden" dir="rtl">
             {/* Decorative Background */}

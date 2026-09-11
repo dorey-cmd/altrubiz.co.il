@@ -106,13 +106,21 @@ Articles and guides draw from a library of tested presentation patterns based on
 - **Problem Callout Card**: `bg-rose-50/80 border-r-4 border-rose-500 rounded-l-2xl p-5 text-slate-800` highlighting operational friction.
 - **Quick Win Box**: `bg-gradient-to-br from-amber-50/90 via-emerald-50/70 to-teal-50/90 border-2 border-emerald-300/80 rounded-2xl p-6` with the `Zap` icon for immediate, 5-minute practical actions.
 - **Visual Break Card ("שוברים שגרה")**: Real-world workplace scenes highlighting operational friction paired with practical takeaways.
-- **Sticky Dynamic Table of Contents (TOC)**: Desktop sidebar (`w-72 sticky top-28`) with real-time active section tracking via `IntersectionObserver`.
-- **Mobile Floating Jump Pill**: Bottom-floating pill triggering an instant section-jump bottom sheet.
+- **Persistent Desktop Right-Side Navigation (TOC)**:
+  - Desktop sidebar (`w-72 sticky top-28`) bounded strictly to viewport height (`h-[calc(100vh-7.5rem)] flex flex-col justify-between`).
+  - Active section tracking with auto-scroll into view (`scrollIntoView({ block: 'nearest' })`) within the scrollable TOC list (`flex-1 min-h-0 overflow-y-auto`).
+  - Integrated secondary CTA card is compact (`shrink-0`) so the sidebar never exceeds the viewport or gets clipped.
+- **Mobile as Distinct First-Class Knowledge UX**:
+  - Compact vertical rhythm on mobile screens (`p-5`, tighter gaps) preserving visual continuity.
+  - Early navigational discovery: bottom-floating jump pill appears at `scrollY > 200` to prevent readers feeling lost in long guides.
+  - Full-screen / bounded touch modals (`max-h-[90vh]`) with compact header chrome maximizing the interactive form/calendar area.
+  - Inverted header hierarchy: Breadcrumbs, parent hub pill, and read time sit above H1; author, date, category, and sharing controls sit cleanly below H1 to guarantee H1 stays above the fold on mobile.
 
 ---
 
-## 7. Imagery & Screenshot Language
-- **Real Product Screenshots**: Preferred for system capabilities (Pipelines, Inboxes, Calendars). Displayed in an intentional frame: `rounded-2xl border border-slate-200/90 shadow-md bg-white overflow-hidden` with centered captions preceded by `💡`.
+## 7. Imagery, Diagrams & Caption Language
+- **Real Product Screenshots & Process Maps**: Preferred for system capabilities (Pipelines, Inboxes, Calendars). Displayed in an intentional frame: `rounded-2xl border border-slate-200/90 shadow-md bg-white overflow-hidden`.
+- **Approved & Encouraged Captions**: Explanatory `figcaption` below figures and visual cards (preceded by `💡`) explaining the business context, symptom, or CRM mechanism in human terms.
 - **Custom 3D Isometric Metaphors**: Used for conceptual themes (lead capture, multi-channel connections). Maintain consistent lighting, soft shadows, and clean backgrounds.
 - **Prohibition**: Generic stock photos of smiling people in business suits are strictly prohibited.
 

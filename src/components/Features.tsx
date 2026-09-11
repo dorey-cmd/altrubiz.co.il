@@ -2,66 +2,52 @@ import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 
 
-interface FeatureItem {
+import { getCanonicalRecognitionSituations, getFeatureKnowledgeLink } from '../data/knowledgeGraph';
+
+interface FeatureDef {
+    key: string;
     title: string;
     desc: string;
     icon: string;
-    hubUrl: string;
-    hubLabel: string;
 }
 
-const features: FeatureItem[] = [
+const FEATURE_DEFINITIONS: FeatureDef[] = [
     {
+        key: "lead-management",
         title: "ניהול לידים חכם בזמן אמת",
         desc: "כל ליד במקום אחד, תמונת מצב ברגע נתון.",
-        icon: "https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/689697db3b96f7dfadc2b0c6.png",
-        hubUrl: "/topics/lost-leads",
-        hubLabel: "מדריך לאבחון ועצירת בריחת לידים"
+        icon: "https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/689697db3b96f7dfadc2b0c6.png"
     },
     {
+        key: "omnichannel",
         title: "תקשורת רב־ערוצית",
         desc: "וואטסאפ, טיקטוק, רשתות חברתיות, טלפון, SMS, מייל.",
-        icon: "https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/689697db6346f41abf5634f5.png",
-        hubUrl: "/topics/whatsapp-in-crm",
-        hubLabel: "איך לחבר וואטסאפ ל-CRM בצורה נכונה"
+        icon: "https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/689697db6346f41abf5634f5.png"
     },
     {
+        key: "sales-pipeline",
         title: "תהליך מכירה מסודר ואחיד",
         desc: "אחידות שמייצרת אמון והמרות.",
-        icon: "https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/689697db48d9ff2bd218bab5.png",
-        hubUrl: "/topics/sales-pipeline",
-        hubLabel: "מדריך לבניית פייפליין מכירות חזותי"
+        icon: "https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/689697db48d9ff2bd218bab5.png"
     },
     {
+        key: "automations",
         title: "אוטומציות שחוסכות זמן",
         desc: "עקביות בלי מאמץ.",
-        icon: "https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/689697db6346f46b0a5634f3.png",
-        hubUrl: "/topics/repetitive-manual-work",
-        hubLabel: "איך לשחרר את הצוות מעבודה ידנית"
+        icon: "https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/689697db6346f46b0a5634f3.png"
     },
     {
+        key: "ai-bots",
         title: "בוטים מבוססי בינה מלאכותית",
         desc: "מענה איכותי סביב השעון.",
-        icon: "https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/689697dba1ed26466abb3609.png",
-        hubUrl: "/articles/non-technical-to-ai-automation-guide",
-        hubLabel: "איך מתחילים עם אוטומציה ו-AI בלי להסתבך"
+        icon: "https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/689697dba1ed26466abb3609.png"
     },
     {
+        key: "dashboard",
         title: "דשבורד מקיף ומדדים",
         desc: "מעקב ביצועים וניתוח נתונים בזמן אמת.",
-        icon: "https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/689697da6346f473045634f2.png",
-        hubUrl: "/topics/business-memory",
-        hubLabel: "איך לשמור על הזיכרון הארגוני והנתונים"
+        icon: "https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/689697da6346f473045634f2.png"
     }
-];
-
-// Natural recognition situations that visitors immediately relate to
-const recognitionSituations = [
-    { text: "לידים שלא מקבלים מענה בזמן", url: "/topics/lost-leads" },
-    { text: "וואטסאפ שלא מחובר לתהליך", url: "/topics/whatsapp-in-crm" },
-    { text: "לא ברור איפה כל עסקה עומדת", url: "/topics/sales-pipeline" },
-    { text: "מידע שנשאר בראש של העובד", url: "/topics/business-memory" },
-    { text: "עבודה ידנית שחוזרת על עצמה", url: "/topics/repetitive-manual-work" }
 ];
 
 interface FeaturesProps {
@@ -77,6 +63,16 @@ export const Features: React.FC<FeaturesProps> = ({ onNavigate }) => {
 
     const yBackground = useTransform(scrollYProgress, [0, 1], [0, -100]);
     const rotateBackground = useTransform(scrollYProgress, [0, 1], [0, 45]);
+
+    const recognitionSituations = getCanonicalRecognitionSituations();
+    const features = FEATURE_DEFINITIONS.map(f => {
+        const link = getFeatureKnowledgeLink(f.key);
+        return {
+            ...f,
+            hubUrl: link.url,
+            hubLabel: link.label
+        };
+    });
 
     const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, url: string) => {
         if (onNavigate) {

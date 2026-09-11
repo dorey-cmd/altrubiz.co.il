@@ -1,12 +1,16 @@
 import React from 'react';
+import { getApprovedPublicHubs } from '../data/knowledgeGraph';
+import { ModalPresentationOptions } from '../types/attribution';
 
 interface FooterProps {
     onNavigate?: (path: string) => void;
-    onOpenBookingModal?: () => void;
-    onOpenContactModal?: () => void;
+    onOpenBookingModal?: (options?: ModalPresentationOptions) => void;
+    onOpenContactModal?: (options?: ModalPresentationOptions) => void;
 }
 
 export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenBookingModal, onOpenContactModal }) => {
+    const approvedHubs = getApprovedPublicHubs();
+
     const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
         if (onNavigate && href.startsWith('/')) {
             e.preventDefault();
@@ -33,47 +37,22 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenBookingModal, 
                     אלטרוביז CRM. כל מה שצריך כדי להכניס את השיטה לסיסטם - בוטים, אוטומציות וחיבורי WhatsApp חכמים.
                 </p>
 
-                {/* Approved Knowledge Hubs Bar */}
+                {/* Approved Knowledge Hubs Bar - Centralized from Knowledge Graph */}
                 <div className="border-t border-slate-100 pt-5 pb-3 w-full max-w-4xl mb-6">
                     <div className="text-xs text-slate-500 font-bold mb-3">
                         נושאי ידע ופתרונות עומק:
                     </div>
                     <div className="flex flex-wrap justify-center items-center gap-2 text-xs">
-                        <a 
-                            href="/topics/lost-leads" 
-                            onClick={(e) => handleLinkClick(e, '/topics/lost-leads')}
-                            className="text-slate-700 hover:text-primary transition-colors font-medium bg-slate-50 hover:bg-blue-50/70 border border-slate-200/80 px-3 py-1 rounded-full shadow-2xs"
-                        >
-                            לידים שנופלים בין הכיסאות
-                        </a>
-                        <a 
-                            href="/topics/whatsapp-in-crm" 
-                            onClick={(e) => handleLinkClick(e, '/topics/whatsapp-in-crm')}
-                            className="text-slate-700 hover:text-primary transition-colors font-medium bg-slate-50 hover:bg-blue-50/70 border border-slate-200/80 px-3 py-1 rounded-full shadow-2xs"
-                        >
-                            וואטסאפ ב-CRM
-                        </a>
-                        <a 
-                            href="/topics/sales-pipeline" 
-                            onClick={(e) => handleLinkClick(e, '/topics/sales-pipeline')}
-                            className="text-slate-700 hover:text-primary transition-colors font-medium bg-slate-50 hover:bg-blue-50/70 border border-slate-200/80 px-3 py-1 rounded-full shadow-2xs"
-                        >
-                            פייפליין ותהליך מכירה
-                        </a>
-                        <a 
-                            href="/topics/business-memory" 
-                            onClick={(e) => handleLinkClick(e, '/topics/business-memory')}
-                            className="text-slate-700 hover:text-primary transition-colors font-medium bg-slate-50 hover:bg-blue-50/70 border border-slate-200/80 px-3 py-1 rounded-full shadow-2xs"
-                        >
-                            זיכרון ארגוני ותיעוד לקוחות
-                        </a>
-                        <a 
-                            href="/topics/repetitive-manual-work" 
-                            onClick={(e) => handleLinkClick(e, '/topics/repetitive-manual-work')}
-                            className="text-slate-700 hover:text-primary transition-colors font-medium bg-slate-50 hover:bg-blue-50/70 border border-slate-200/80 px-3 py-1 rounded-full shadow-2xs"
-                        >
-                            עבודה ידנית שחוזרת על עצמה
-                        </a>
+                        {approvedHubs.map(hub => (
+                            <a 
+                                key={hub.slug}
+                                href={hub.url} 
+                                onClick={(e) => handleLinkClick(e, hub.url)}
+                                className="text-slate-700 hover:text-primary transition-colors font-medium bg-slate-50 hover:bg-blue-50/70 border border-slate-200/80 px-3 py-1 rounded-full shadow-2xs"
+                            >
+                                {hub.shortLabel || hub.title}
+                            </a>
+                        ))}
                     </div>
                 </div>
 
@@ -83,7 +62,18 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenBookingModal, 
                         type="button"
                         onClick={() => {
                             if (onOpenBookingModal) {
-                                onOpenBookingModal();
+                                onOpenBookingModal({
+                                    title: 'קביעת פגישה לבדיקת התאמה אישית',
+                                    subtitle: 'נשמח להכיר את הפעילות שלכם ולבדוק התאמה לפתרונות AltruBiz CRM.',
+                                    badge: 'תיאום פגישה ביומן',
+                                    attribution: {
+                                        sourcePage: typeof window !== 'undefined' ? window.location.pathname : '/',
+                                        sourceSection: 'footer',
+                                        intent: 'schedule_meeting',
+                                        ctaType: 'meeting',
+                                        sourceLabel: 'קביעת פגישה ביומן (Footer)'
+                                    }
+                                });
                             } else if (onNavigate) {
                                 onNavigate('/#contact');
                             }

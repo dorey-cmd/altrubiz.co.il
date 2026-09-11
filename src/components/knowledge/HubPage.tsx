@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
     AlertTriangle, 
     CheckCircle2, 
@@ -27,22 +27,15 @@ import { KnowledgeNode, getKnowledgeNodeBySlug } from '../../data/knowledgeGraph
 import { getArticleBySlug } from '../../data/articles';
 import { Breadcrumbs } from '../common/Breadcrumbs';
 import { Button } from '../ui/Button';
+import { ModalPresentationOptions } from '../../types/attribution';
+import { buildAttributedWhatsAppUrl } from '../../lib/attribution';
+import { renderFormattedText } from '../../lib/formatText';
 
 interface HubPageProps {
     node: KnowledgeNode;
     onNavigate: (path: string) => void;
-    onOpenContactModal?: (options?: {
-        title?: string;
-        subtitle?: string;
-        badge?: string;
-        whatsappPrefill?: string;
-    }) => void;
-    onOpenBookingModal?: (options?: {
-        title?: string;
-        subtitle?: string;
-        badge?: string;
-        whatsappPrefill?: string;
-    }) => void;
+    onOpenContactModal?: (options?: ModalPresentationOptions) => void;
+    onOpenBookingModal?: (options?: ModalPresentationOptions) => void;
     onOpenPricingModal?: () => void;
 }
 
@@ -104,6 +97,7 @@ export const HubPage: React.FC<HubPageProps> = ({
     const [activeSectionId, setActiveSectionId] = useState<string>('overview');
     const [showMobileNav, setShowMobileNav] = useState<boolean>(false);
     const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState<boolean>(false);
+    const activeNavRef = useRef<HTMLButtonElement>(null);
 
     const toggleFaq = (index: number) => {
         setOpenFaqIndex(openFaqIndex === index ? null : index);
@@ -135,10 +129,10 @@ export const HubPage: React.FC<HubPageProps> = ({
         ...(hub?.faqs && hub.faqs.length > 0 ? [{ id: 'faqs', title: 'שאלות ותשובות', icon: HelpCircle }] : [])
     ];
 
-    // Track active section on scroll
+    // Track scroll for early mobile nav pill
     useEffect(() => {
         const handleScroll = () => {
-            if (window.scrollY > 400) {
+            if (window.scrollY > 200) {
                 setShowMobileNav(true);
             } else {
                 setShowMobileNav(false);
@@ -148,6 +142,13 @@ export const HubPage: React.FC<HubPageProps> = ({
         window.addEventListener('scroll', handleScroll, { passive: true });
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
+
+    // Auto-scroll active section button in desktop sticky rail
+    useEffect(() => {
+        if (activeNavRef.current) {
+            activeNavRef.current.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        }
+    }, [activeSectionId]);
 
     useEffect(() => {
         const observedIds = navSections.map(s => s.id);
@@ -451,10 +452,10 @@ export const HubPage: React.FC<HubPageProps> = ({
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="lg:grid lg:grid-cols-[280px_1fr] xl:grid-cols-[300px_1fr] gap-10 items-start">
                     
-                    {/* Desktop Sticky Navigation & Orientation Rail (Right Column in RTL) */}
-                    <aside className="hidden lg:block sticky top-28 space-y-4">
-                        <nav aria-label="ניווט במדריך" className="bg-white/95 backdrop-blur-md border border-slate-200/90 rounded-3xl p-5 shadow-sm">
-                            <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-100">
+                    {/* Desktop Sticky Navigation & Orientation Rail (Right Column in RTL, bounded height & persistent) */}
+                    <aside className="hidden lg:flex flex-col justify-between sticky top-24 h-[calc(100vh-7.5rem)] space-y-3">
+                        <nav aria-label="ניווט במדריך" className="bg-white/95 backdrop-blur-md border border-slate-200/90 rounded-3xl p-4 shadow-sm flex flex-col flex-1 min-h-0">
+                            <div className="flex items-center justify-between pb-2.5 mb-2.5 border-b border-slate-100 shrink-0">
                                 <div className="flex items-center gap-2 font-black text-slate-900 text-sm">
                                     <Compass size={17} className="text-primary" />
                                     <span>מפת המדריך</span>
@@ -464,13 +465,14 @@ export const HubPage: React.FC<HubPageProps> = ({
                                 </span>
                             </div>
 
-                            <div className="space-y-1">
+                            <div className="space-y-1 flex-1 min-h-0 overflow-y-auto pl-1 pr-0.5 custom-scrollbar">
                                 {navSections.map((sec) => {
                                     const IconComponent = sec.icon;
                                     const isActive = activeSectionId === sec.id;
                                     return (
                                         <button
                                             key={sec.id}
+                                            ref={isActive ? activeNavRef : null}
                                             onClick={() => scrollToSection(sec.id)}
                                             className={`w-full flex items-center gap-2.5 p-2 rounded-xl text-xs transition-all text-right ${
                                                 isActive 
@@ -485,7 +487,7 @@ export const HubPage: React.FC<HubPageProps> = ({
                                 })}
                             </div>
 
-                            <div className="pt-3 mt-3 border-t border-slate-100">
+                            <div className="pt-2.5 mt-2 border-t border-slate-100 shrink-0">
                                 <button
                                     onClick={() => {
                                         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -499,48 +501,68 @@ export const HubPage: React.FC<HubPageProps> = ({
                             </div>
                         </nav>
 
-                        {/* Sticky Action Card (Contextual Booking CTA) */}
-                        <div className="bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 text-white rounded-3xl p-5 shadow-xl border border-slate-800 relative overflow-hidden">
-                            <div className="absolute top-0 right-0 w-32 h-32 bg-primary/25 rounded-full blur-2xl pointer-events-none" />
-                            <div className="relative z-10 space-y-2.5">
-                                <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-cyan-400/20 text-cyan-300 border border-cyan-400/30 text-[11px] font-bold">
-                                    <Calendar size={12} />
+                        {/* Sticky Action Card (Contextual Booking CTA - Subordinate & Compact) */}
+                        <div className="shrink-0 bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 text-white rounded-2xl p-4 shadow-lg border border-slate-800 relative overflow-hidden">
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-primary/20 rounded-full blur-2xl pointer-events-none" />
+                            <div className="relative z-10 space-y-2">
+                                <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-cyan-400/20 text-cyan-300 border border-cyan-400/30 text-[10px] font-bold">
+                                    <Calendar size={11} />
                                     <span>בדיקת התאמה אישית</span>
                                 </div>
-                                <h4 className="font-extrabold text-sm text-white leading-snug">
+                                <h4 className="font-extrabold text-xs sm:text-sm text-white leading-snug">
                                     רוצים לחבר את זה לעסק?
                                 </h4>
-                                <p className="text-xs text-slate-300 leading-relaxed">
+                                <p className="text-[11px] text-slate-300 leading-relaxed">
                                     בפגישה קצרה נמפה את האתגר שלכם ונראה פתרון מעשי ב-CRM.
                                 </p>
-                                <div className="pt-1 space-y-2">
+                                <div className="pt-0.5 space-y-1.5">
                                     <Button
                                         variant="primary"
                                         size="sm"
-                                        className="w-full font-bold text-xs py-2.5 shadow-md shadow-primary/25 flex items-center justify-center gap-1.5"
+                                        className="w-full font-bold text-xs py-2 shadow-sm shadow-primary/25 flex items-center justify-center gap-1.5"
                                         onClick={() => {
                                             if (onOpenBookingModal) {
                                                 onOpenBookingModal({
                                                     title: `קביעת פגישה: ${node.title}`,
                                                     subtitle: `בפגישה נמפה את תהליך העבודה שלכם ונבחן מענה מעשי עבור ${node.title}`,
-                                                    badge: 'תיאום פגישה ביומן'
+                                                    badge: 'תיאום פגישה ביומן',
+                                                    attribution: {
+                                                        sourcePage: node.url,
+                                                        sourceSection: activeSectionId,
+                                                        sourceHub: node.slug,
+                                                        sourceTopic: node.slug,
+                                                        intent: 'booking',
+                                                        ctaType: 'sidebar_cta',
+                                                        sourceLabel: `hub_sidebar_${node.slug}`
+                                                    }
                                                 });
                                             } else {
                                                 onNavigate('/#contact');
                                             }
                                         }}
                                     >
-                                        <Calendar size={14} />
+                                        <Calendar size={13} />
                                         <span>קביעת פגישת אבחון ביומן</span>
                                     </Button>
 
                                     <a
-                                        href={`https://wa.me/972544350000?text=${encodeURIComponent(`שלום צוות AltruBiz, קראתי את מרכז הידע בנושא "${node.title}" ואשמח להתייעץ`)}`}
+                                        href={buildAttributedWhatsAppUrl(
+                                            `שלום צוות AltruBiz, קראתי את מרכז הידע בנושא "${node.title}" ואשמח להתייעץ לגבי העסק שלנו.`,
+                                            {
+                                                sourcePage: node.url,
+                                                sourceSection: activeSectionId,
+                                                sourceHub: node.slug,
+                                                sourceTopic: node.slug,
+                                                intent: 'consultation',
+                                                ctaType: 'sidebar_cta',
+                                                sourceLabel: `hub_sidebar_whatsapp_${node.slug}`
+                                            }
+                                        )}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="w-full flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-slate-200 border border-white/10 text-xs font-semibold transition-colors"
+                                        className="w-full flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-xl bg-white/10 hover:bg-white/15 text-slate-200 border border-white/10 text-[11px] font-semibold transition-colors"
                                     >
-                                        <MessageCircle size={14} className="text-[#25D366]" />
+                                        <MessageCircle size={13} className="text-[#25D366]" />
                                         <span>התייעצות מהירה בוואטסאפ</span>
                                     </a>
                                 </div>
@@ -576,7 +598,7 @@ export const HubPage: React.FC<HubPageProps> = ({
                                         <span>הגדרת האתגר והשפעתו על העסק</span>
                                     </h2>
                                     <p className="text-slate-800 text-base sm:text-lg leading-relaxed font-medium">
-                                        {hub.problemDefinition}
+                                        {renderFormattedText(hub.problemDefinition, onNavigate)}
                                     </p>
                                 </div>
                             )}
@@ -621,7 +643,7 @@ export const HubPage: React.FC<HubPageProps> = ({
                                             {hub.whyItHappens.map((item, idx) => (
                                                 <li key={idx} className="flex items-start gap-3 text-slate-700 text-sm sm:text-base leading-relaxed">
                                                     <span className="w-2 h-2 rounded-full bg-rose-500 mt-2 shrink-0" />
-                                                    <span>{item}</span>
+                                                    <span>{renderFormattedText(item, onNavigate)}</span>
                                                 </li>
                                             ))}
                                         </ul>
@@ -637,7 +659,7 @@ export const HubPage: React.FC<HubPageProps> = ({
                                             {hub.businessCost.map((cost, idx) => (
                                                 <div key={idx} className="bg-white/90 backdrop-blur rounded-2xl p-4 border border-amber-200/60 flex items-start gap-2.5">
                                                     <span className="w-2 h-2 rounded-full bg-amber-500 mt-2 shrink-0" />
-                                                    <span className="text-xs sm:text-sm text-slate-800 font-medium leading-relaxed">{cost}</span>
+                                                    <span className="text-xs sm:text-sm text-slate-800 font-medium leading-relaxed">{renderFormattedText(cost, onNavigate)}</span>
                                                 </div>
                                             ))}
                                         </div>
@@ -706,7 +728,7 @@ export const HubPage: React.FC<HubPageProps> = ({
                                     {hub.primaryQuickWin.title}
                                 </h2>
                                 <p className="text-slate-700 text-sm sm:text-base leading-relaxed mb-5">
-                                    {hub.primaryQuickWin.text}
+                                    {renderFormattedText(hub.primaryQuickWin.text, onNavigate)}
                                 </p>
                                 {hub.primaryQuickWin.actionSteps && (
                                     <div className="bg-white/90 backdrop-blur rounded-2xl p-5 border border-emerald-200/80">
@@ -717,7 +739,7 @@ export const HubPage: React.FC<HubPageProps> = ({
                                             {hub.primaryQuickWin.actionSteps.map((step, idx) => (
                                                 <li key={idx} className="flex items-center gap-2.5 text-xs sm:text-sm text-slate-800 font-medium">
                                                     <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                                                    <span>{step}</span>
+                                                    <span>{renderFormattedText(step, onNavigate)}</span>
                                                 </li>
                                             ))}
                                         </ul>
@@ -756,7 +778,7 @@ export const HubPage: React.FC<HubPageProps> = ({
                                             <div className="space-y-2.5 mb-5">
                                                 {sec.content.map((p, idx) => (
                                                     <p key={idx} className="text-slate-700 text-sm leading-relaxed">
-                                                        {p}
+                                                        {renderFormattedText(p, onNavigate)}
                                                     </p>
                                                 ))}
                                             </div>
@@ -787,7 +809,7 @@ export const HubPage: React.FC<HubPageProps> = ({
                                                                         </h5>
                                                                     </div>
                                                                     <div className="mt-2.5 flex items-center text-xs font-semibold text-secondary group-hover:translate-x-[-2px] transition-transform">
-                                                                        <span>לקריאה</span>
+                                                                        <span>קריאת המדריך המעשי לפתרון</span>
                                                                         <ArrowLeft className="w-3.5 h-3.5 mr-1" />
                                                                     </div>
                                                                 </div>
@@ -848,7 +870,7 @@ export const HubPage: React.FC<HubPageProps> = ({
                                             <div key={idx} className="bg-white/5 border border-white/10 rounded-2xl p-5">
                                                 <h3 className="text-lg font-bold text-white mb-2">{sol.title}</h3>
                                                 <p className="text-slate-300 text-xs sm:text-sm leading-relaxed mb-3">
-                                                    {sol.description}
+                                                    {renderFormattedText(sol.description, onNavigate)}
                                                 </p>
                                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-slate-200">
                                                     {sol.featureHighlights.map((feat, fIdx) => (
@@ -871,7 +893,16 @@ export const HubPage: React.FC<HubPageProps> = ({
                                                 title: `קביעת פגישת אבחון: ${node.title}`,
                                                 subtitle: `בפגישה נמפה את צורת העבודה שלכם ונבחן פתרון מותאם עבור ${node.title}`,
                                                 badge: 'תיאום פגישה ביומן',
-                                                whatsappPrefill: `שלום צוות AltruBiz, קראתי את מרכז הידע בנושא "${node.title}" ואשמח לתאם פגישה`
+                                                whatsappPrefill: `שלום צוות AltruBiz, קראתי את מרכז הידע בנושא "${node.title}" ואשמח לתאם פגישה`,
+                                                attribution: {
+                                                    sourcePage: node.url,
+                                                    sourceSection: 'solutions',
+                                                    sourceHub: node.slug,
+                                                    sourceTopic: node.slug,
+                                                    intent: 'meeting',
+                                                    ctaType: 'modal_booking',
+                                                    sourceLabel: `hub_solutions_meeting_${node.slug}`
+                                                }
                                             }) : onNavigate('/#contact')}
                                             className="font-bold text-sm shadow-xl flex items-center justify-center gap-2"
                                         >
@@ -886,7 +917,16 @@ export const HubPage: React.FC<HubPageProps> = ({
                                                 onClick={() => onOpenContactModal({
                                                     title: `השארת פרטים: ${node.title}`,
                                                     subtitle: 'השאירו פרטים ונחזור אליכם בהקדם כדי להבין את צורכי העסק ולבדוק התאמה.',
-                                                    badge: 'השארת פרטים'
+                                                    badge: 'השארת פרטים',
+                                                    attribution: {
+                                                        sourcePage: node.url,
+                                                        sourceSection: 'solutions',
+                                                        sourceHub: node.slug,
+                                                        sourceTopic: node.slug,
+                                                        intent: 'contact_general',
+                                                        ctaType: 'modal_contact',
+                                                        sourceLabel: `hub_solutions_contact_${node.slug}`
+                                                    }
                                                 })}
                                                 className="bg-slate-800 hover:bg-slate-700 text-white border border-slate-600 font-bold text-sm flex items-center justify-center gap-2"
                                             >
@@ -906,7 +946,18 @@ export const HubPage: React.FC<HubPageProps> = ({
                                         )}
 
                                         <a
-                                            href={`https://wa.me/972544350000?text=${encodeURIComponent(`שלום צוות AltruBiz, קראתי את מרכז הידע בנושא "${node.title}" ואשמח להתייעץ לגבי העסק שלנו.`)}`}
+                                            href={buildAttributedWhatsAppUrl(
+                                                `שלום צוות AltruBiz, קראתי את מרכז הידע בנושא "${node.title}" ואשמח להתייעץ לגבי העסק שלנו.`,
+                                                {
+                                                    sourcePage: node.url,
+                                                    sourceSection: 'solutions',
+                                                    sourceHub: node.slug,
+                                                    sourceTopic: node.slug,
+                                                    intent: 'consultation',
+                                                    ctaType: 'footer_cta',
+                                                    sourceLabel: `hub_solutions_whatsapp_${node.slug}`
+                                                }
+                                            )}
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             className="inline-flex items-center justify-center gap-2 text-xs sm:text-sm text-slate-300 hover:text-emerald-400 font-medium transition-colors py-2 px-3"
@@ -948,7 +999,7 @@ export const HubPage: React.FC<HubPageProps> = ({
                                                 </button>
                                                 {isOpen && (
                                                     <div className="p-4 pt-0 text-slate-600 text-xs sm:text-sm leading-relaxed border-t border-slate-100 bg-slate-50/50">
-                                                        {faq.answer}
+                                                        {renderFormattedText(faq.answer, onNavigate)}
                                                     </div>
                                                 )}
                                             </div>
@@ -1072,7 +1123,16 @@ export const HubPage: React.FC<HubPageProps> = ({
                                         onOpenBookingModal({
                                             title: `קביעת פגישת אבחון: ${node.title}`,
                                             subtitle: `בפגישה נמפה את צורת העבודה שלכם ונבחן פתרון מותאם עבור ${node.title}`,
-                                            badge: 'תיאום פגישה ביומן'
+                                            badge: 'תיאום פגישה ביומן',
+                                            attribution: {
+                                                sourcePage: node.url,
+                                                sourceSection: activeSectionId || 'mobile_drawer',
+                                                sourceHub: node.slug,
+                                                sourceTopic: node.slug,
+                                                intent: 'meeting',
+                                                ctaType: 'modal_booking',
+                                                sourceLabel: `hub_mobile_drawer_booking_${node.slug}`
+                                            }
                                         });
                                     } else {
                                         onNavigate('/#contact');

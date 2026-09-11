@@ -47,7 +47,24 @@ $$\text{Public Page Eligibility} = \text{Qualitative Knowledge Maturity} + \text
 
 ---
 
-## 4. Progressive Knowledge UX Hierarchy
+## 4. Question-to-Answer Link Policy (Anti-Generic Labeling)
+Every contextual semantic link or navigation trigger must frame the substantive promise or answer that satisfies reader intent:
+- **Strict Prohibition**: Never use generic anchor text or button labels such as `לקריאה`, `קרא עוד`, or `למידע נוסף`.
+- **Meaningful Anchors**: Anchor text must clearly describe the knowledge destination or practical payoff:
+  - *Correct*: `להעמקה באבחון המלא היכנסו אל [מרכז הידע: לידים נופלים בין הכיסאות](/topics/lost-leads)`
+  - *Correct*: `קריאת המדריך המעשי לפתרון`
+  - *Correct*: `איך עוצרים בריחת לידים?`
+  - *Prohibited*: `לקריאה לחצו כאן` / `קרא עוד`
+
+---
+
+## 5. Markdown Links & In-Text Client Navigation
+- **Dynamic Parsing**: In-text markdown links formatted as `[anchor](url)` are parsed and rendered via `renderFormattedText` into accessible internal client `<a>` tags.
+- **Same-Window Navigation**: Internal links must use `target="_self"` (intercepting client navigation) to preserve reading momentum and browser Back history. External URLs open in new tabs with `rel="noopener noreferrer"`.
+
+---
+
+## 6. Progressive Knowledge UX Hierarchy
 Depending on reader familiarity, context, and cognitive depth, interactions follow a progressive model:
 1. **First Meaningful Encounter**: Contextual semantic link to the canonical destination (when mature public destination exists).
 2. **Repeated / Supporting Encounter**: Unobtrusive short in-place definition (tooltip/popover) when useful, preserving reading momentum.
@@ -57,7 +74,19 @@ Depending on reader familiarity, context, and cognitive depth, interactions foll
 
 ---
 
-## 5. Tooltip & Quick Definition UX Invariants
+## 7. Knowledge Graph as Single Source of Truth
+Presentation components must never maintain hardcoded, duplicate knowledge mappings:
+- All canonical hubs, concepts, problem relationships, and navigation selectors reside in `src/data/knowledgeGraph.ts`.
+- Components query the graph through dedicated selectors:
+  - `getApprovedPublicHubs()`
+  - `getCanonicalRecognitionSituations()`
+  - `getFeatureKnowledgeLink()`
+  - `getHowItWorksStepKnowledge()`
+- Updating a node or relation in `src/data/knowledgeGraph.ts` automatically propagates across Features, HowItWorks, Footers, and Hub views.
+
+---
+
+## 8. Tooltip & Quick Definition UX Invariants
 The tooltip/popover layer exists strictly to **remind, clarify, and support**—never to interrupt:
 1. **Never unprompted**: Opens only on deliberate user intent (hover with intentional delay on desktop, tap on touch).
 2. **Never blocking**: Must not shift layout, obscure adjacent lines, or trap scrolling.
@@ -68,7 +97,7 @@ The tooltip/popover layer exists strictly to **remind, clarify, and support**—
 
 ---
 
-## 6. Navigational & Density Invariants
+## 9. Navigational & Density Invariants
 - **Same-Window Invariant**: Internal knowledge links **must open in the same tab** (`target="_self"` by default) so browser Back restores reading position.
 - **No Numerical Quotas**: Rules such as "3 links per article" or "1 link per 200 words" are strictly prohibited. Density is governed by editorial relevance.
 - **Stable Destinations**: Semantic links always point to the canonical destination for that entity.
@@ -76,21 +105,21 @@ The tooltip/popover layer exists strictly to **remind, clarify, and support**—
 
 ---
 
-## 7. Knowledge CTA Intent
+## 10. Knowledge CTA Intent
 The CTA architecture explicitly recognizes **Knowledge Action** alongside Commercial, Diagnostic, Product, and Social actions:
 - An editorial invitation to learn (e.g. *"לא בטוחים מה זה Pipeline ואיך הוא עובד אצלכם? להבין איך פייפליין עובד"*).
 - Distinct from commercial booking or contact requests.
 
 ---
 
-## 8. The Two Mandatory Experience Tests
+## 11. The Two Mandatory Experience Tests
 Before adding any semantic link or interaction, apply both tests:
 1. **The Human Reader Test**: *"If I were reading this as a human business owner rather than crawling it as an SEO bot, would I be glad this word was interactive?"* (If NO $\rightarrow$ do not link).
 2. **The Visual Density Test**: *"If all interactive elements were highlighted at once, would this page still feel like an elegant article written for humans?"* (If NO $\rightarrow$ over-linked).
 
 ---
 
-## 9. Four-Layer Operational Separation
+## 12. Four-Layer Operational Separation
 1. **Knowledge Architecture**: Defines canonical entities, definitions, and relationships in `src/data/knowledgeGraph.ts`.
 2. **Relevance Engine**: Determines whether an encounter represents a genuine learning moment.
 3. **Experience Architecture**: Selects presentation (link, tooltip, Knowledge CTA, or clean prose).
@@ -98,9 +127,12 @@ Before adding any semantic link or interaction, apply both tests:
 
 ---
 
-## 10. Permanent Prohibitions
+## 13. Permanent Prohibitions
 - NO numerical maturity thresholds or link quotas.
 - NO automatic regex keyword replacement.
+- NO generic anchor texts (`לקריאה`, `קרא עוד`, `למידע נוסף`).
 - NO `target="_blank"` on internal knowledge links.
 - NO false hub collapsing or mismatched redirects.
+- NO hardcoded duplicate topic/concept maps in UI components.
 - NO visitor tracking, cookies, or localStorage state for knowledge progression at this stage.
+

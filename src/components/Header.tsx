@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { Menu, X, BookOpen } from 'lucide-react';
 import { Button } from './ui/Button';
+import { ModalPresentationOptions } from '../types/attribution';
 
 interface HeaderProps {
     onNavigate?: (path: string) => void;
-    onOpenBookingModal?: () => void;
+    onOpenBookingModal?: (options?: ModalPresentationOptions) => void;
 }
 
 export const Header = ({ onNavigate, onOpenBookingModal }: HeaderProps) => {
@@ -22,7 +23,18 @@ export const Header = ({ onNavigate, onOpenBookingModal }: HeaderProps) => {
         e.preventDefault();
         setIsMenuOpen(false);
         if (onOpenBookingModal) {
-            onOpenBookingModal();
+            onOpenBookingModal({
+                title: 'קביעת פגישת בדיקת התאמה אישית',
+                subtitle: 'בחרו מועד שנוח לכם ביומן ונשוחח על האתגרים בעסק ואיך לחבר פתרון אוטומטי מותאם.',
+                badge: 'תיאום שיחה ביומן',
+                attribution: {
+                    sourcePage: typeof window !== 'undefined' ? window.location.pathname : '/',
+                    sourceSection: 'global-header',
+                    intent: 'schedule_meeting',
+                    ctaType: 'meeting',
+                    sourceLabel: 'קביעת פגישה ביומן (Header)'
+                }
+            });
         } else if (onNavigate) {
             onNavigate('/#contact');
         }

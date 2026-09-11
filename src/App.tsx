@@ -23,24 +23,18 @@ import { HubPage } from './components/knowledge/HubPage'
 import { getRouteConfig } from './lib/routes'
 import { ContactModal } from './components/common/ContactModal'
 import { PricingModal } from './components/common/PricingModal'
-import { BookingModal, BookingModalOptions } from './components/common/BookingModal'
-
-interface ContactModalOptions {
-    title?: string;
-    subtitle?: string;
-    badge?: string;
-    whatsappPrefill?: string;
-}
+import { BookingModal } from './components/common/BookingModal'
+import { ModalPresentationOptions } from './types/attribution'
 
 function App() {
     const [path, setPath] = useState(window.location.pathname);
     const [isContactModalOpen, setIsContactModalOpen] = useState(false);
-    const [contactModalOptions, setContactModalOptions] = useState<ContactModalOptions | null>(null);
+    const [contactModalOptions, setContactModalOptions] = useState<ModalPresentationOptions | null>(null);
     const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
-    const [bookingModalOptions, setBookingModalOptions] = useState<BookingModalOptions | null>(null);
+    const [bookingModalOptions, setBookingModalOptions] = useState<ModalPresentationOptions | null>(null);
     const [isPricingModalOpen, setIsPricingModalOpen] = useState(false);
 
-    const handleOpenContactModal = useCallback((options?: ContactModalOptions) => {
+    const handleOpenContactModal = useCallback((options?: ModalPresentationOptions) => {
         if (options) {
             setContactModalOptions(options);
         } else {
@@ -53,7 +47,7 @@ function App() {
         setIsContactModalOpen(false);
     }, []);
 
-    const handleOpenBookingModal = useCallback((options?: BookingModalOptions) => {
+    const handleOpenBookingModal = useCallback((options?: ModalPresentationOptions) => {
         if (options) {
             setBookingModalOptions(options);
         } else {
@@ -208,6 +202,7 @@ function App() {
                 subtitle={contactModalOptions?.subtitle}
                 badge={contactModalOptions?.badge}
                 whatsappPrefill={contactModalOptions?.whatsappPrefill}
+                attribution={contactModalOptions?.attribution}
             />
             <BookingModal
                 isOpen={isBookingModalOpen}
@@ -216,6 +211,7 @@ function App() {
                 subtitle={bookingModalOptions?.subtitle}
                 badge={bookingModalOptions?.badge}
                 whatsappPrefill={bookingModalOptions?.whatsappPrefill}
+                attribution={bookingModalOptions?.attribution}
             />
             <PricingModal
                 isOpen={isPricingModalOpen}
@@ -223,12 +219,26 @@ function App() {
                 onOpenContactModal={() => handleOpenContactModal({
                     title: 'השארת פרטים לבחירת חבילה',
                     subtitle: 'נשמח להכיר את הפעילות שלכם ולהתאים את החבילה והאוטומציות המדויקות ביותר.',
-                    badge: 'בדיקת התאמה'
+                    badge: 'בדיקת התאמה',
+                    attribution: {
+                        sourcePage: path,
+                        sourceSection: 'pricing-modal',
+                        intent: 'pricing_inquiry',
+                        ctaType: 'contact',
+                        sourceLabel: 'השארת פרטים לבחירת חבילה'
+                    }
                 })}
                 onOpenBookingModal={() => handleOpenBookingModal({
                     title: 'קביעת שיחת התאמה לבחירת חבילה',
                     subtitle: 'נשמח להכיר את הפעילות שלכם ולהתאים את החבילה והאוטומציות המדויקות ביותר.',
-                    badge: 'תיאום שיחה ביומן'
+                    badge: 'תיאום שיחה ביומן',
+                    attribution: {
+                        sourcePage: path,
+                        sourceSection: 'pricing-modal',
+                        intent: 'schedule_meeting',
+                        ctaType: 'meeting',
+                        sourceLabel: 'קביעת שיחת התאמה לבחירת חבילה'
+                    }
                 })}
             />
         </div>
