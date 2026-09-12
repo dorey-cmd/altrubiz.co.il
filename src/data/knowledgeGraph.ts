@@ -183,7 +183,9 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
             'missed-call-text-back-guide',
             'lead-reactivation-guide',
             'excel-to-crm-pipeline-guide',
-            'crm-quick-wins-guide'
+            'crm-quick-wins-guide',
+            'quote-follow-up-guide',
+            'customer-handoff-context-guide'
         ],
         recommendedNextSlugs: ['whatsapp-in-crm', 'sales-pipeline', 'salespeople-hate-crm-adoption-guide'],
         relevantNextActions: ['meeting', 'whatsapp', 'pricing', 'guide', 'assessment'],
@@ -191,7 +193,7 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
         isIndexable: true,
         maturity: 'canonical',
         dateCreated: '2026-09-10',
-        dateUpdated: '2026-09-10',
+        dateUpdated: '2026-09-12',
         hubData: {
             problemDefinition: 'בריחת לידים היא המצב שבו אנשים שפנו לעסק והביעו עניין פעיל בשירות או במוצר שלכם מתפוגגים בלי שנרכשה עסקה, מבלי שסירבו במפורש, ורק בגלל עיכוב במענה, שיחה שלא נענתה, חוסר מעקב או מידע מפוזר.',
             whyItHappens: [
@@ -270,6 +272,17 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
                     ],
                     manifestationId: 'stalled-old-leads',
                     relatedArticleSlugs: ['lead-reactivation-guide', 'excel-to-crm-pipeline-guide']
+                },
+                {
+                    id: 'quote-follow-up-neglect',
+                    title: '4. תופעת השטח: הצעת מחיר שנשלחה ואף אחד לא חוזר אליה',
+                    subtitle: 'השקט שאחרי השליחה הוא הרגע שבו הכי קל לאבד את העסקה',
+                    content: [
+                        'לקוח מקבל הצעת מחיר, מבקש לחשוב, ומעבר לזה לא סוכם שום דבר קונקרטי. בלי צעד הבא מוגדר וגלוי, ההצעה נשארת תלויה בזיכרון של מישהו בצוות, וברוב המקרים היא פשוט נשכחת.',
+                        'הפתרון אינו לרדוף אחרי הלקוח, אלא לוודא שלכל הצעת מחיר יש תזכורת ותאריך מעקב ברורים כבר ברגע שהיא נשלחת, כך שאף עסקה לא תלויה בכך שמישהו "יזכור" לחזור אליה.'
+                    ],
+                    manifestationId: 'quote-follow-up-neglect',
+                    relatedArticleSlugs: ['quote-follow-up-guide']
                 }
             ],
             solutionPaths: [
@@ -473,14 +486,15 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
             'salespeople-hate-crm-adoption-guide',
             'crm-adoption-thursday-test-guide',
             'follow-up-tasks-crm-guide',
-            'crm-quick-wins-guide'
+            'crm-quick-wins-guide',
+            'quote-follow-up-guide'
         ],
         relevantNextActions: ['meeting', 'whatsapp', 'pricing', 'guide', 'assessment'],
         availableCtas: ['meeting', 'pricing', 'whatsapp'],
         isIndexable: true,
         maturity: 'canonical',
         dateCreated: '2026-09-10',
-        dateUpdated: '2026-09-10',
+        dateUpdated: '2026-09-12',
         hubData: {
             problemDefinition: 'תהליך מכירה ללא פייפליין חזותי מנוהל כרצף שיחות ומחברות פרטיות. עסקאות נתקעות ללא שלב ברור, מנהלים לא יודעים מה הצפי לסוף החודש, ואנשי המכירות רואים ב-CRM "עול דיווח" במקום כלי שמייצר להם עמלות.',
             whyItHappens: [
@@ -558,7 +572,7 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
                         'בניית מנגנון פולואפ שיטתי ב-CRM המשלב משימות נציג עם הודעות WhatsApp עדינות מבטיחה נוכחות מקצועית עד לקבלת החלטה סופית.'
                     ],
                     manifestationId: 'forgotten-follow-up',
-                    relatedArticleSlugs: ['follow-up-tasks-crm-guide']
+                    relatedArticleSlugs: ['follow-up-tasks-crm-guide', 'quote-follow-up-guide']
                 }
             ],
             solutionPaths: [
@@ -616,6 +630,7 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
         recommendedNextSlugs: ['whatsapp-in-crm', 'sales-pipeline', 'lost-leads'],
         relatedArticleSlugs: [
             'business-memory-crm-guide',
+            'customer-handoff-context-guide',
             'crm-duplicate-contacts-prevention-guide',
             'omnichannel-communication-unified-inbox-crm-guide',
             'client-onboarding-process-guide'
@@ -625,7 +640,7 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
         isIndexable: true,
         maturity: 'canonical',
         dateCreated: '2026-09-10',
-        dateUpdated: '2026-09-10',
+        dateUpdated: '2026-09-12',
         hubData: {
             problemDefinition: 'הזיכרון הארגוני הוא הנכס היקר ביותר בעסק: מידע על העדפות לקוח, סיכומים מסחריים והבטחות שניתנו. כשהמידע כלוא בראשי העובדים או בהודעות וואטסאפ פרטיות, כל עזיבת עובד או חופשה מוחקת חלק מהעסק ומייצרת נזק ישיר למכירות ולשירות.',
             whyItHappens: [
@@ -704,6 +719,17 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
                     ],
                     manifestationId: 'onboarding-blindspot',
                     relatedArticleSlugs: ['client-onboarding-process-guide', 'omnichannel-communication-unified-inbox-crm-guide']
+                },
+                {
+                    id: 'context-loss-between-conversations',
+                    title: '4. תופעת השטח: "אבל את זה כבר הסברתי אתמול" – אובדן הקשר בין שיחות',
+                    subtitle: 'המידע קיים בעסק אך לא עובר יחד עם השיחה הבאה',
+                    content: [
+                        'החיכוך השקט והמתסכל ביותר מתרחש כשלקוח נדרש לחזור שוב על הצרכים, התקציב או הסיכומים מול נציג חדש או בערוץ תקשורת אחר.',
+                        'הפתרון אינו לחייב תיעוד של כל מילה או דוחות ארוכים, אלא להבטיח שחמשת פריטי ההקשר הקריטיים שורדים את המעבר בין ערוצים ואנשי צוות.'
+                    ],
+                    manifestationId: 'context-loss-between-conversations',
+                    relatedArticleSlugs: ['customer-handoff-context-guide']
                 }
             ],
             solutionPaths: [
