@@ -485,14 +485,15 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
             'salespeople-hate-crm-adoption-guide',
             'crm-adoption-thursday-test-guide',
             'follow-up-tasks-crm-guide',
-            'crm-quick-wins-guide'
+            'crm-quick-wins-guide',
+            'quote-follow-up-guide'
         ],
         relevantNextActions: ['meeting', 'whatsapp', 'pricing', 'guide', 'assessment'],
         availableCtas: ['meeting', 'pricing', 'whatsapp'],
         isIndexable: true,
         maturity: 'canonical',
         dateCreated: '2026-09-10',
-        dateUpdated: '2026-09-10',
+        dateUpdated: '2026-09-12',
         hubData: {
             problemDefinition: 'תהליך מכירה ללא פייפליין חזותי מנוהל כרצף שיחות ומחברות פרטיות. עסקאות נתקעות ללא שלב ברור, מנהלים לא יודעים מה הצפי לסוף החודש, ואנשי המכירות רואים ב-CRM "עול דיווח" במקום כלי שמייצר להם עמלות.',
             whyItHappens: [
@@ -570,7 +571,7 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
                         'בניית מנגנון פולואפ שיטתי ב-CRM המשלב משימות נציג עם הודעות WhatsApp עדינות מבטיחה נוכחות מקצועית עד לקבלת החלטה סופית.'
                     ],
                     manifestationId: 'forgotten-follow-up',
-                    relatedArticleSlugs: ['follow-up-tasks-crm-guide']
+                    relatedArticleSlugs: ['follow-up-tasks-crm-guide', 'quote-follow-up-guide']
                 }
             ],
             solutionPaths: [

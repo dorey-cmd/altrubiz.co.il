@@ -37,6 +37,10 @@ SEMANTIC ANALYSIS (State A destinations vs State B definitions)
         ↓
 KNOWLEDGE GRAPH INTEGRATION (Taxonomy, Parent Hub, Bidirectional Edges)
         ↓
+MULTI-DIMENSIONAL TOPOLOGY PASS (audit every Hub, not just the Parent Hub)
+        ↓
+VISUAL EDITORIAL PASS (hero/social decision + inline visual plan; see below)
+        ↓
 CONTEXTUAL CONVERSION CONFIGURATION (Lead magnet, CTA intent)
         ↓
 CONTENT REVIEW BRANCH (content/review/<slug>)
@@ -120,6 +124,19 @@ Review capability URLs are strictly ephemeral:
 - They are NEVER included in sitemaps, `llms.txt`, or Knowledge Graph nodes.
 - They exist only for the duration of the owner review cycle.
 
+
+---
+
+## 4.1. Article Experience Normalization: Mandatory Pre-Review Gates
+
+An ingestion is not review-ready merely because the article renders, one Parent Hub links to it, and the test suite passes. Before a review branch is opened, both of the following must be performed and their findings reported to the owner:
+
+- **Visual Editorial Pass**: an explicit visual plan (hero/social decision + inline visual evaluation), never a silent fallback to the global default image and never mechanically forced imagery.
+- **Multi-Dimensional Knowledge Topology Pass**: classification across primary/secondary pain, processes, technologies, business objects, outcomes, and an audit of every existing Hub (not only the chosen Parent Hub) for genuine secondary relevance, with rejected candidates documented.
+
+Full authoritative specification: [`article-experience-and-topology-pass.md`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/specs/article-experience-and-topology-pass.md).
+
+Neither gate authorizes rewriting approved editorial copy — they govern structure, assets, and graph relationships, reported before implementation, never applied silently to already-approved article content.
 
 ---
 
