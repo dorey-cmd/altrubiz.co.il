@@ -5197,8 +5197,8 @@ export const ARTICLES: Article[] = [
     {
         slug: 'customer-handoff-context-guide',
         publicPath: '/customer-handoff-context',
-        publicationStatus: 'review',
-        indexable: false,
+        publicationStatus: 'published',
+        indexable: true,
         title: '"כבר סיפרתי את זה אתמול": כשהמידע נשאר מאחור בין שיחה לשיחה',
         subtitle: 'למה עסק נראה מבחוץ כגוף אחד אבל מבפנים פועל כאוסף של שיחות נפרדות, ואיך מעבירים הקשר אמיתי ולא רק שלבים',
         seoTitle: '"כבר סיפרתי את זה אתמול": כשהמידע נשאר מאחור בין שיחה לשיחה | AltruBiz CRM',

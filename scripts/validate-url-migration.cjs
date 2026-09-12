@@ -73,7 +73,9 @@ const EXPECTED_ARTICLES = {
     'non-technical-to-ai-automation-guide': '/automation-without-tech-skills',
     'client-onboarding-process-guide': '/client-onboarding',
     'salespeople-hate-crm-adoption-guide': '/salespeople-hate-crm',
-    'omnichannel-communication-unified-inbox-crm-guide': '/unified-inbox'
+    'omnichannel-communication-unified-inbox-crm-guide': '/unified-inbox',
+    'quote-follow-up-guide': '/quote-follow-up',
+    'customer-handoff-context-guide': '/customer-handoff-context'
 };
 
 const OLD_URL_REDIRECT_MAP = {
