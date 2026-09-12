@@ -126,6 +126,11 @@
             "permanent": true
         },
         {
+            "source": "/articles/customer-handoff-context",
+            "destination": "/customer-handoff-context",
+            "permanent": true
+        },
+        {
             "source": "/articles/whatsapp-messaging-guidelines.md",
             "destination": "/whatsapp-messaging-guidelines.md",
             "permanent": true
@@ -208,6 +213,11 @@
         {
             "source": "/articles/omnichannel-communication-unified-inbox-crm-guide.md",
             "destination": "/unified-inbox.md",
+            "permanent": true
+        },
+        {
+            "source": "/articles/customer-handoff-context.md",
+            "destination": "/customer-handoff-context.md",
             "permanent": true
         }
     ],
