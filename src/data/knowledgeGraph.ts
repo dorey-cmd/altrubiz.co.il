@@ -184,7 +184,8 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
             'lead-reactivation-guide',
             'excel-to-crm-pipeline-guide',
             'crm-quick-wins-guide',
-            'quote-follow-up-guide'
+            'quote-follow-up-guide',
+            'customer-handoff-context-guide'
         ],
         recommendedNextSlugs: ['whatsapp-in-crm', 'sales-pipeline', 'salespeople-hate-crm-adoption-guide'],
         relevantNextActions: ['meeting', 'whatsapp', 'pricing', 'guide', 'assessment'],
@@ -629,6 +630,7 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
         recommendedNextSlugs: ['whatsapp-in-crm', 'sales-pipeline', 'lost-leads'],
         relatedArticleSlugs: [
             'business-memory-crm-guide',
+            'customer-handoff-context-guide',
             'crm-duplicate-contacts-prevention-guide',
             'omnichannel-communication-unified-inbox-crm-guide',
             'client-onboarding-process-guide'
@@ -638,7 +640,7 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
         isIndexable: true,
         maturity: 'canonical',
         dateCreated: '2026-09-10',
-        dateUpdated: '2026-09-10',
+        dateUpdated: '2026-09-12',
         hubData: {
             problemDefinition: 'הזיכרון הארגוני הוא הנכס היקר ביותר בעסק: מידע על העדפות לקוח, סיכומים מסחריים והבטחות שניתנו. כשהמידע כלוא בראשי העובדים או בהודעות וואטסאפ פרטיות, כל עזיבת עובד או חופשה מוחקת חלק מהעסק ומייצרת נזק ישיר למכירות ולשירות.',
             whyItHappens: [
@@ -717,6 +719,17 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
                     ],
                     manifestationId: 'onboarding-blindspot',
                     relatedArticleSlugs: ['client-onboarding-process-guide', 'omnichannel-communication-unified-inbox-crm-guide']
+                },
+                {
+                    id: 'context-loss-between-conversations',
+                    title: '4. תופעת השטח: "אבל את זה כבר הסברתי אתמול" – אובדן הקשר בין שיחות',
+                    subtitle: 'המידע קיים בעסק אך לא עובר יחד עם השיחה הבאה',
+                    content: [
+                        'החיכוך השקט והמתסכל ביותר מתרחש כשלקוח נדרש לחזור שוב על הצרכים, התקציב או הסיכומים מול נציג חדש או בערוץ תקשורת אחר.',
+                        'הפתרון אינו לחייב תיעוד של כל מילה או דוחות ארוכים, אלא להבטיח שחמשת פריטי ההקשר הקריטיים שורדים את המעבר בין ערוצים ואנשי צוות.'
+                    ],
+                    manifestationId: 'context-loss-between-conversations',
+                    relatedArticleSlugs: ['customer-handoff-context-guide']
                 }
             ],
             solutionPaths: [
