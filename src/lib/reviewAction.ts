@@ -9,7 +9,56 @@
  * - Handles offline / mock / preview fallback gracefully.
  */
 
-import { ReviewActionPayload, ReviewActionResult } from '../types/review';
+import { ReviewActionPayload, ReviewActionResult, ReviewTokenValidationResult } from '../types/review';
+
+/**
+ * Validates a Capability Review Token against the serverless endpoint.
+ * Fails closed if host is production, token is invalid/revoked, or server unreachable.
+ */
+export async function validateReviewToken(articleId: string, token: string): Promise<ReviewTokenValidationResult> {
+    if (!token || typeof token !== 'string' || token.trim().length < 32) {
+        return { valid: false, reason: 'Token does not meet cryptographic minimum length' };
+    }
+
+    if (typeof window !== 'undefined') {
+        const hostname = window.location.hostname;
+        if (hostname === 'altrubiz.co.il' || hostname === 'www.altrubiz.co.il') {
+            return { valid: false, reason: 'Production domain immunity' };
+        }
+    }
+
+    try {
+        const response = await fetch('/api/validate-review-token', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ token: token.trim(), articleId })
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            return {
+                valid: Boolean(data.valid),
+                articleId: data.articleId || articleId,
+                reason: data.reason
+            };
+        }
+
+        return { valid: false, reason: 'Validation endpoint returned error' };
+    } catch (err: any) {
+        // In local dev with explicit mock flag only
+        const isLocalDevMockAllowed = typeof import.meta !== 'undefined' && 
+            import.meta.env?.DEV && 
+            import.meta.env?.VITE_ALLOW_MOCK_REVIEW === 'true';
+
+        if (isLocalDevMockAllowed) {
+            return { valid: true, articleId };
+        }
+
+        return { valid: false, reason: 'Validation service unreachable' };
+    }
+}
 
 export async function sendReviewAction(payload: ReviewActionPayload): Promise<ReviewActionResult> {
     const endpoint = '/api/review-action';

@@ -18,6 +18,7 @@ export interface ReviewActionPayload {
     feedback?: string;
     timestamp: string;
     author?: string;
+    reviewToken?: string;
 }
 
 export interface ReviewActionResult {
@@ -28,3 +29,10 @@ export interface ReviewActionResult {
     timestamp: string;
     details?: Record<string, any>;
 }
+
+export interface ReviewTokenValidationResult {
+    valid: boolean;
+    articleId?: string;
+    reason?: string;
+}
+

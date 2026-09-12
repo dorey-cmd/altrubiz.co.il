@@ -13,7 +13,7 @@ import {
 } from 'lucide-react';
 import { Article } from '../../data/articles';
 import { ReviewActionType, ReviewActionPayload } from '../../types/review';
-import { sendReviewAction } from '../../lib/reviewAction';
+import { sendReviewAction, validateReviewToken } from '../../lib/reviewAction';
 
 interface ReviewCockpitProps {
     article: Article;
@@ -22,17 +22,19 @@ interface ReviewCockpitProps {
 }
 
 /**
- * Fail-Closed Authorization Guard for Review Cockpit
+ * Fail-Closed Authorization Guard for Review Cockpit (Capability URL Model)
  * 
  * Invariants:
- * 1. Production domain (altrubiz.co.il / www.altrubiz.co.il) can NEVER render Review Cockpit under any circumstance.
+ * 1. Production domain (altrubiz.co.il / www.altrubiz.co.il) can NEVER render Review Cockpit.
  * 2. URL query parameters (?review=true) alone can NEVER authorize Review Cockpit.
- * 3. Requires BOTH:
+ * 3. Requires:
  *    A. The article itself is strictly in 'review' status (never published or draft).
  *    AND
- *    B. The deployment environment is explicitly configured as Review Mode (VITE_REVIEW_MODE === 'true').
+ *    B. A cryptographically strong review_token (min 32 chars) in the URL query string.
+ *    AND
+ *    C. Server-side validation confirms the token is valid, scoped, and unrevoked.
  */
-export function isReviewModeAuthorized(articleStatus: string): boolean {
+export function isReviewModeAuthorized(articleStatus: string, tokenOverride?: string): boolean {
     if (typeof window !== 'undefined') {
         const hostname = window.location.hostname;
         if (hostname === 'altrubiz.co.il' || hostname === 'www.altrubiz.co.il') {
@@ -40,10 +42,24 @@ export function isReviewModeAuthorized(articleStatus: string): boolean {
         }
     }
 
-    const isExplicitReviewDeployment = typeof import.meta !== 'undefined' && import.meta.env?.VITE_REVIEW_MODE === 'true';
-    const isReviewArticle = articleStatus === 'review';
+    if (articleStatus !== 'review') {
+        return false;
+    }
 
-    return isExplicitReviewDeployment && isReviewArticle;
+    let token = tokenOverride;
+    if (!token && typeof window !== 'undefined') {
+        const search = window.location.search;
+        if (search) {
+            const params = new URLSearchParams(search);
+            token = params.get('review_token') || undefined;
+        }
+    }
+
+    if (!token || typeof token !== 'string' || token.trim().length < 32) {
+        return false;
+    }
+
+    return true;
 }
 
 export const ReviewCockpit: React.FC<ReviewCockpitProps> = ({ 
@@ -51,7 +67,8 @@ export const ReviewCockpit: React.FC<ReviewCockpitProps> = ({
     branchName = `content/review/${article.slug}`,
     onActionCompleted 
 }) => {
-    const [isReviewMode, setIsReviewMode] = useState<boolean>(() => isReviewModeAuthorized(article.publicationStatus));
+    const [isAuthorized, setIsAuthorized] = useState<boolean>(false);
+    const [reviewToken, setReviewToken] = useState<string>('');
     const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
     
     // Modals
@@ -61,10 +78,36 @@ export const ReviewCockpit: React.FC<ReviewCockpitProps> = ({
     const [statusMessage, setStatusMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
     useEffect(() => {
-        setIsReviewMode(isReviewModeAuthorized(article.publicationStatus));
-    }, [article.publicationStatus]);
+        let isMounted = true;
 
-    if (!isReviewMode) {
+        if (!isReviewModeAuthorized(article.publicationStatus)) {
+            setIsAuthorized(false);
+            return;
+        }
+
+        const params = new URLSearchParams(window.location.search);
+        const token = params.get('review_token') || '';
+        setReviewToken(token);
+
+        // Server-Side Verification of Capability URL
+        validateReviewToken(article.slug, token)
+            .then(res => {
+                if (isMounted) {
+                    setIsAuthorized(Boolean(res.valid));
+                }
+            })
+            .catch(() => {
+                if (isMounted) {
+                    setIsAuthorized(false);
+                }
+            });
+
+        return () => {
+            isMounted = false;
+        };
+    }, [article.slug, article.publicationStatus]);
+
+    if (!isAuthorized) {
         return null;
     }
 
@@ -78,6 +121,7 @@ export const ReviewCockpit: React.FC<ReviewCockpitProps> = ({
             publicPath: article.publicPath,
             branch: branchName,
             reviewUrl: typeof window !== 'undefined' ? window.location.href : '',
+            reviewToken: reviewToken,
             feedback: feedback || '',
             timestamp: new Date().toISOString()
         };
@@ -89,7 +133,15 @@ export const ReviewCockpit: React.FC<ReviewCockpitProps> = ({
             setFeedbackText('');
 
             if (result.success) {
-                setStatusMessage({ type: 'success', text: result.message });
+                setStatusMessage({ 
+                    type: 'success', 
+                    text: `${result.message} (קישור הסקירה בוטל אוטומטית)` 
+                });
+                // Invalidate token locally on client after completion
+                setTimeout(() => {
+                    setIsAuthorized(false);
+                }, 3000);
+
                 if (onActionCompleted) {
                     onActionCompleted(action, result.message);
                 }

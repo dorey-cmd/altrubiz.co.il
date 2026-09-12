@@ -43,12 +43,14 @@ CONTENT REVIEW BRANCH (content/review/<slug>)
         ↓
 PREVIEW DEPLOYMENT (Production-equivalent Vercel preview)
         ↓
+ISSUE EPHEMERAL CAPABILITY URL (?review_token=<unguessable-token>)
+        ↓
 OWNER REVIEW IN-SITU (Real website experience + Review Cockpit)
         ↓
-DECISION:
-  ├── COMMENTS  → Agent revises same review branch → Preview updates → Repeat loop
-  ├── DISCARD   → Abandon review branch → Nothing touches master
-  └── PUBLISH   → Explicit Owner Approval:
+OWNER DECISION:
+  ├── COMMENTS  → Invalidate old token → Revise branch → Deploy → Issue NEW token & URL
+  ├── DISCARD   → Invalidate token permanently → Close review branch
+  └── PUBLISH   → Invalidate token permanently → Explicit Owner Approval:
                         ↓
                  RELEASE GATE (npm run release:gate)
                         ↓
@@ -83,24 +85,41 @@ DECISION:
 - **Sitemap Inclusion**: Strict inclusion of published + indexable articles in `public/sitemap.xml`.
 - **Prerendered Social HTML**: 1200x630 OpenGraph and Twitter card HTML prerendering in `dist/`.
 - **Conversion Fallback**: Context fallback inheritance if explicit configuration is omitted.
-- **Review Cockpit**: Automatic injection on review branches without affecting production visitors.
+- **Review Cockpit Capability Guard**: Ephemeral injection on review previews via capability token without affecting production.
 
 ---
 
-## 4. Review Branch & Preview Experience
+## 4. Capability URL Review Authorization & Token Lifecycle
 
-1. **One Branch Per Article**:
-   Every new article is authored on a dedicated review branch:
-   `content/review/<public-slug>`
-2. **Production-Equivalent Preview**:
-   Branch pushes trigger a Vercel Preview deployment with identical typography, components, navigation, and conversion modals as production.
-3. **Authorized Review Cockpit**:
-   When viewed in Review Mode (`publicationStatus === 'review'` or `?review=true`), the bottom dock appears offering the owner three actions:
-   - **PUBLISH**: Approves the article for production deployment.
-   - **COMMENTS**: Opens free-text feedback input; updates the same branch.
-   - **DISCARD**: Abandons the candidate and closes the review branch.
-4. **Zero Production Leakage**:
-   While in `review` status, the article is configured with `noindex: true` and is strictly excluded from `sitemap.xml`, `llms.txt`, and `llms-full.txt`.
+AltruBiz enforces a **Capability URL Model** for owner review. No user login, password, identity account, or Vercel Deployment Protection is required.
+
+### 1. Capability URL Principle
+Each review cycle receives one cryptographically strong, unguessable, scoped review token:
+```
+https://<preview-host>/<article-path>?review_token=<strong-random-token>
+```
+Possession of the valid review capability URL is the sole authorization.
+
+### 2. Strict Security & Production Immunity
+- **Production Host Hard Rule**: `altrubiz.co.il` and `www.altrubiz.co.il` NEVER render Review Cockpit under any circumstance, regardless of query parameters or tokens.
+- **No Query-Parameter Bypass**: `?review=true` or any arbitrary parameter is strictly rejected.
+- **Cryptographic Strength**: Tokens must be at least 32 characters of high-entropy randomness.
+- **Article Scoping**: A token generated for Article A cannot authorize Article B.
+- **Server-Side Validation**: Tokens are verified server-side (`/api/validate-review-token` and `/api/review-action`). Worker secrets remain server-only.
+
+### 3. Token Lifecycle & Immediate Invalidation
+Tokens are strictly single-cycle credentials:
+- **PUBLISH**: Invalidate token permanently; trigger release gate and proceed to production.
+- **DISCARD**: Invalidate token permanently; abandon review branch.
+- **COMMENTS**: Invalidate current token immediately; agent revises content on branch; preview updates; a fresh, newly minted capability token is issued; owner receives a NEW review link.
+- Old review links become instantly useless.
+
+### 4. Ephemeral Review URLs (Zero Permanent Artifacts)
+Review capability URLs are strictly ephemeral:
+- They are NEVER canonical.
+- They are NEVER included in sitemaps, `llms.txt`, or Knowledge Graph nodes.
+- They exist only for the duration of the owner review cycle.
+
 
 ---
 

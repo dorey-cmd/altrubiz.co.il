@@ -1,26 +1,29 @@
 #!/usr/bin/env node
 
 /**
- * AltruBiz Review Cockpit & Review Action Test Suite (Hardened)
+ * AltruBiz Review Cockpit & Review Action Test Suite (Capability URL Model)
  * 
  * Verifies:
  * 1. Review Cockpit component exists and is mounted in ArticlePage.
- * 2. Fail-Closed Review Authorization:
- *    - Production domain (altrubiz.co.il) NEVER activates Review Cockpit (even with ?review=true).
+ * 2. Fail-Closed Capability URL Review Authorization:
+ *    - Production domain (altrubiz.co.il) NEVER activates Review Cockpit (even with valid token).
+ *    - Production domain (www.altrubiz.co.il) NEVER activates Review Cockpit.
  *    - ?review=true alone NEVER activates Review Cockpit.
+ *    - Short or weak tokens (< 32 chars) NEVER activate Review Cockpit.
  *    - Published articles NEVER show Review Cockpit.
- *    - Draft articles NEVER show Review Cockpit.
- *    - Review Cockpit activates ONLY on non-production with BOTH review status AND VITE_REVIEW_MODE === 'true'.
- * 3. Structured Review Actions conform to provider-agnostic contract (publish, comment, discard).
- * 4. Comments action collects structured free-text feedback.
- * 5. Discard action requires confirmation and does not touch master.
- * 6. Publish action mandates release:gate validation before production.
- * 7. Server-Side Fail-Closed Boundary:
+ *    - Review Cockpit activates ONLY on non-production with BOTH review status AND valid unguessable token.
+ * 3. Server-Side Token Store & Instant Revocation:
+ *    - Validates minimum cryptographic length (32 chars).
+ *    - Enforces article-scoping (cannot use token for article A on article B).
+ *    - Enforces immediate token revocation upon action decision.
+ * 4. Structured Review Actions conform to provider-agnostic contract (publish, comment, discard).
+ * 5. Server-Side Fail-Closed Boundary:
+ *    - api/validate-review-token fails closed on production host and invalid/revoked tokens.
+ *    - api/review-action requires reviewToken and fails closed (403) on invalid/revoked tokens.
  *    - When REVIEW_WEBHOOK_URL is missing, server returns 503 WORKER_NOT_CONFIGURED (never fake success).
- * 8. Client-Side Fail-Closed Boundary:
- *    - When API is unreachable, fails closed with clear worker-not-connected message.
+ * 6. Client-Side Fail-Closed Boundary:
  *    - Mock simulation is strictly restricted to local dev with VITE_ALLOW_MOCK_REVIEW === 'true'.
- * 9. Zero secrets or API keys exist in frontend JavaScript bundles.
+ * 7. Zero secrets or API keys exist in frontend JavaScript bundles.
  */
 
 const fs = require('fs');
@@ -33,6 +36,8 @@ const ARTICLE_PAGE_PATH = path.join(ROOT_DIR, 'src', 'components', 'articles', '
 const REVIEW_TYPES_PATH = path.join(ROOT_DIR, 'src', 'types', 'review.ts');
 const REVIEW_ACTION_LIB_PATH = path.join(ROOT_DIR, 'src', 'lib', 'reviewAction.ts');
 const SERVERLESS_API_PATH = path.join(ROOT_DIR, 'api', 'review-action.ts');
+const TOKEN_VALIDATE_API_PATH = path.join(ROOT_DIR, 'api', 'validate-review-token.ts');
+const TOKEN_STORE_PATH = path.join(ROOT_DIR, 'api', '_tokenStore.ts');
 
 let passed = 0;
 let failed = 0;
@@ -67,12 +72,9 @@ if (articlePageContent.includes('<ReviewCockpit') && articlePageContent.includes
     fail('ReviewCockpit is NOT mounted in ArticlePage.tsx!');
 }
 
-// 2. Auditing Fail-Closed Review Authorization Logic
-console.log('\n\x1b[36m2. Auditing Fail-Closed Review Mode Authorization Logic...\x1b[0m');
+// 2. Auditing Capability URL Authorization Logic
+console.log('\n\x1b[36m2. Auditing Fail-Closed Capability URL Authorization Logic...\x1b[0m');
 
-const cockpitContent = fs.readFileSync(COCKPIT_PATH, 'utf8');
-
-// Compile isReviewModeAuthorized function in-memory to test exact behavioral matrix
 const cockpitBundle = esbuild.buildSync({
     entryPoints: [COCKPIT_PATH],
     bundle: true,
@@ -88,41 +90,118 @@ const evalFn = new Function('module', 'exports', 'require', cockpitBundle.output
 evalFn(cockpitMod, cockpitMod.exports, require);
 const { isReviewModeAuthorized } = cockpitMod.exports;
 
+const strongValidToken = 'rev_article-test_a8f9c7e12d4b6a8f9c7e12d4b6a8f9c7';
+
 // Test 2.1: Production domain hard rule (altrubiz.co.il)
-global.window = { location: { hostname: 'altrubiz.co.il', search: '?review=true' } };
+global.window = { location: { hostname: 'altrubiz.co.il', search: `?review_token=${strongValidToken}` } };
 if (isReviewModeAuthorized('review') === false && isReviewModeAuthorized('published') === false) {
-    pass('Production domain (altrubiz.co.il) strictly returns false for Review Cockpit (even with ?review=true).');
+    pass('Production domain (altrubiz.co.il) strictly returns false for Review Cockpit (even with valid token).');
 } else {
-    fail('Production domain allowed Review Cockpit to activate!');
+    fail('Production domain allowed Review Cockpit to activate with token!');
 }
 
 // Test 2.2: www.altrubiz.co.il domain hard rule
-global.window = { location: { hostname: 'www.altrubiz.co.il', search: '?review=true' } };
+global.window = { location: { hostname: 'www.altrubiz.co.il', search: `?review_token=${strongValidToken}` } };
 if (isReviewModeAuthorized('review') === false) {
     pass('Production domain (www.altrubiz.co.il) strictly returns false for Review Cockpit.');
 } else {
     fail('www.altrubiz.co.il domain allowed Review Cockpit to activate!');
 }
 
-// Test 2.3: Query param ?review=true on published article on preview domain
+// Test 2.3: Query param ?review=true alone (no token)
 global.window = { location: { hostname: 'preview.altrubiz.co.il', search: '?review=true' } };
+if (isReviewModeAuthorized('review') === false) {
+    pass('Query parameter ?review=true alone NEVER activates Review Cockpit.');
+} else {
+    fail('?review=true activated Review Cockpit!');
+}
+
+// Test 2.4: Short or weak token
+global.window = { location: { hostname: 'preview.altrubiz.co.il', search: '?review_token=weak123' } };
+if (isReviewModeAuthorized('review') === false) {
+    pass('Short/weak token (< 32 chars) strictly fails closed (returns false).');
+} else {
+    fail('Short/weak token activated Review Cockpit!');
+}
+
+// Test 2.5: Valid token on published article
+global.window = { location: { hostname: 'preview.altrubiz.co.il', search: `?review_token=${strongValidToken}` } };
 if (isReviewModeAuthorized('published') === false) {
     pass('Published articles on preview environments NEVER activate Review Cockpit.');
 } else {
     fail('Published article activated Review Cockpit!');
 }
 
-// Test 2.4: Query param alone without VITE_REVIEW_MODE env flag
-if (isReviewModeAuthorized('review') === false) {
-    pass('Review article without VITE_REVIEW_MODE === "true" strictly fails closed (returns false).');
+// Test 2.6: Valid token on review article on preview domain
+if (isReviewModeAuthorized('review') === true) {
+    pass('Preview domain with valid 32+ char capability token on review article successfully authorizes initial render.');
 } else {
-    fail('Review article activated without explicit VITE_REVIEW_MODE configuration!');
+    fail('Valid capability token failed to authorize review article on preview host!');
 }
 
 delete global.window;
 
-// 3. Auditing Action Contract & Modals
-console.log('\n\x1b[36m3. Auditing Three Owner Actions (Publish, Comments, Discard)...\x1b[0m');
+// 3. Auditing Server-Side Token Store & Revocation
+console.log('\n\x1b[36m3. Auditing Server-Side Token Store & Revocation Logic...\x1b[0m');
+
+const tokenStoreBundle = esbuild.buildSync({
+    entryPoints: [TOKEN_STORE_PATH],
+    bundle: true,
+    format: 'cjs',
+    platform: 'node',
+    write: false,
+    target: 'node18',
+    loader: { '.ts': 'ts' }
+});
+
+const tokenStoreMod = { exports: {} };
+const evalTokenStore = new Function('module', 'exports', 'require', tokenStoreBundle.outputFiles[0].text);
+evalTokenStore(tokenStoreMod, tokenStoreMod.exports, require);
+const { verifyReviewToken, revokeReviewToken, isReviewTokenRevoked } = tokenStoreMod.exports;
+
+// Test 3.1: Token length requirement
+const shortCheck = verifyReviewToken('too-short-token', 'my-article', 'preview.host');
+if (!shortCheck.valid && shortCheck.reason.includes('cryptographic minimum')) {
+    pass('verifyReviewToken rejects tokens below 32 chars.');
+} else {
+    fail('verifyReviewToken accepted a short token!');
+}
+
+// Test 3.2: Production host immunity in verifyReviewToken
+const prodCheck = verifyReviewToken(strongValidToken, 'article-test', 'altrubiz.co.il');
+if (!prodCheck.valid && prodCheck.reason.includes('Production domain immunity')) {
+    pass('verifyReviewToken strictly enforces production domain immunity.');
+} else {
+    fail('verifyReviewToken allowed production host!');
+}
+
+// Test 3.3: Article scoping check
+const wrongArticleCheck = verifyReviewToken(strongValidToken, 'different-article', 'preview.host');
+if (!wrongArticleCheck.valid && wrongArticleCheck.reason.includes('scoped to a different article')) {
+    pass('verifyReviewToken enforces article-scoped tokens (cannot use token for article A on article B).');
+} else {
+    fail('verifyReviewToken allowed token across mismatched articles!');
+}
+
+// Test 3.4: Immediate revocation lifecycle
+const dynamicToken = 'rev_article-test_0123456789abcdef0123456789abcdef';
+const beforeRevoke = verifyReviewToken(dynamicToken, 'article-test', 'preview.host');
+if (beforeRevoke.valid) {
+    revokeReviewToken(dynamicToken);
+    const afterRevoke = verifyReviewToken(dynamicToken, 'article-test', 'preview.host');
+    if (!afterRevoke.valid && afterRevoke.reason.includes('revoked')) {
+        pass('revokeReviewToken successfully invalidates capability token immediately.');
+    } else {
+        fail('Token remained valid after revocation!');
+    }
+} else {
+    fail('Dynamic token failed initial verification before revocation test!');
+}
+
+// 4. Auditing Three Owner Actions (Publish, Comments, Discard)
+console.log('\n\x1b[36m4. Auditing Three Owner Actions (Publish, Comments, Discard)...\x1b[0m');
+
+const cockpitContent = fs.readFileSync(COCKPIT_PATH, 'utf8');
 
 if (cockpitContent.includes("handleExecuteAction('publish')") && cockpitContent.includes('אישור פרסום מאמר')) {
     pass('PUBLISH action implemented with explicit confirmation modal.');
@@ -142,11 +221,29 @@ if (cockpitContent.includes("handleExecuteAction('discard')") && cockpitContent.
     fail('DISCARD action or confirmation missing in Review Cockpit!');
 }
 
-// 4. Auditing Server-Side Fail-Closed Boundary (api/review-action.ts)
-console.log('\n\x1b[36m4. Auditing Serverless Fail-Closed Boundary (api/review-action.ts)...\x1b[0m');
+// 5. Auditing Serverless Fail-Closed Boundary (api/review-action.ts & api/validate-review-token.ts)
+console.log('\n\x1b[36m5. Auditing Serverless Endpoints & Fail-Closed Boundary...\x1b[0m');
+
+if (fs.existsSync(TOKEN_VALIDATE_API_PATH)) {
+    pass('api/validate-review-token.ts exists as dedicated capability verification endpoint.');
+} else {
+    fail('api/validate-review-token.ts is missing!');
+}
 
 if (fs.existsSync(SERVERLESS_API_PATH)) {
     const apiContent = fs.readFileSync(SERVERLESS_API_PATH, 'utf8');
+    if (apiContent.includes('INVALID_CAPABILITY_TOKEN') && apiContent.includes('verifyReviewToken')) {
+        pass('api/review-action.ts enforces capability token validation before accepting actions.');
+    } else {
+        fail('api/review-action.ts does not validate capability review token!');
+    }
+
+    if (apiContent.includes('revokeReviewToken(reviewToken)')) {
+        pass('api/review-action.ts enforces immediate token revocation upon action submission.');
+    } else {
+        fail('api/review-action.ts does not revoke review token upon action submission!');
+    }
+
     if (apiContent.includes('WORKER_NOT_CONFIGURED') && apiContent.includes('503')) {
         pass('Serverless API fails closed (503 WORKER_NOT_CONFIGURED) when REVIEW_WEBHOOK_URL is missing.');
     } else {
@@ -162,10 +259,16 @@ if (fs.existsSync(SERVERLESS_API_PATH)) {
     fail('Serverless function api/review-action.ts not found!');
 }
 
-// 5. Auditing Client-Side Fail-Closed & Mock Mode Isolation (src/lib/reviewAction.ts)
-console.log('\n\x1b[36m5. Auditing Client-Side Fail-Closed & Mock Mode Isolation...\x1b[0m');
+// 6. Auditing Client-Side Fail-Closed & Mock Mode Isolation (src/lib/reviewAction.ts)
+console.log('\n\x1b[36m6. Auditing Client-Side Fail-Closed & Mock Mode Isolation...\x1b[0m');
 
 const reviewActionContent = fs.readFileSync(REVIEW_ACTION_LIB_PATH, 'utf8');
+if (reviewActionContent.includes('validateReviewToken') && reviewActionContent.includes('/api/validate-review-token')) {
+    pass('Client library exports validateReviewToken connected to serverless validation endpoint.');
+} else {
+    fail('Client library missing validateReviewToken function!');
+}
+
 if (reviewActionContent.includes('VITE_ALLOW_MOCK_REVIEW === \'true\'') && reviewActionContent.includes('import.meta.env?.DEV')) {
     pass('Mock simulation is strictly gated behind explicit DEV flag AND VITE_ALLOW_MOCK_REVIEW === "true".');
 } else {
@@ -178,10 +281,10 @@ if (reviewActionContent.includes('Review automation is not connected yet') || re
     fail('Client missing user-friendly worker-not-connected error message!');
 }
 
-// 6. Auditing Security Boundary & Secret Isolation
-console.log('\n\x1b[36m6. Auditing Security & Secret Isolation...\x1b[0m');
+// 7. Auditing Security Boundary & Secret Isolation
+console.log('\n\x1b[36m7. Auditing Security & Secret Isolation...\x1b[0m');
 
-const clientFiles = [COCKPIT_PATH, REVIEW_ACTION_LIB_PATH, ARTICLE_PAGE_PATH];
+const clientFiles = [COCKPIT_PATH, REVIEW_ACTION_LIB_PATH, ARTICLE_PAGE_PATH, REVIEW_TYPES_PATH];
 const secretPatterns = [
     /ghp_[a-zA-Z0-9]{36}/,
     /github_token/i,

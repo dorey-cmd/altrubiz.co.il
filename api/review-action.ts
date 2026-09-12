@@ -11,6 +11,8 @@
  * Zero credentials leak into client bundles.
  */
 
+import { verifyReviewToken, revokeReviewToken } from './_tokenStore.js';
+
 export default async function handler(req: any, res: any) {
     // Only accept POST requests
     if (req.method !== 'POST') {
@@ -23,7 +25,7 @@ export default async function handler(req: any, res: any) {
 
     try {
         const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
-        const { action, articleId, publicPath, branch, reviewUrl, feedback, timestamp } = body || {};
+        const { action, articleId, publicPath, branch, reviewUrl, feedback, timestamp, reviewToken } = body || {};
 
         if (!action || !['publish', 'comment', 'discard'].includes(action)) {
             return res.status(400).json({
@@ -39,6 +41,18 @@ export default async function handler(req: any, res: any) {
             });
         }
 
+        // Validate Capability Review Token (Fail Closed)
+        const host = req.headers?.host || req.headers?.['x-forwarded-host'] || '';
+        const tokenVerification = verifyReviewToken(reviewToken, articleId, host);
+        if (!tokenVerification.valid) {
+            return res.status(403).json({
+                success: false,
+                code: 'INVALID_CAPABILITY_TOKEN',
+                message: 'קישור הסקירה אינו תקף, פג תוקף, או בוטל (Invalid or revoked review capability token).',
+                reason: tokenVerification.reason
+            });
+        }
+
         // Check optional authorization header if REVIEW_SECRET_KEY is configured
         const expectedSecret = process.env.REVIEW_SECRET_KEY;
         if (expectedSecret) {
@@ -51,12 +65,17 @@ export default async function handler(req: any, res: any) {
             }
         }
 
+        // Capability Token Lifecycle Invariant:
+        // Token is valid ONLY for the current cycle. Invalidate immediately upon decision.
+        revokeReviewToken(reviewToken);
+
         const reviewEvent = {
             action,
             articleId,
             publicPath: publicPath || `/${articleId}`,
             branch: branch || `content/review/${articleId}`,
             reviewUrl: reviewUrl || '',
+            reviewToken: reviewToken || '',
             feedback: feedback || '',
             timestamp: timestamp || new Date().toISOString(),
             environment: process.env.VERCEL_ENV || process.env.NODE_ENV || 'development'
