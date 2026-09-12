@@ -33,7 +33,7 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate, onOpen
 
     const breadcrumbItems = [
         { name: 'דף הבית', path: '/' },
-        { name: 'מרכז ידע ומאמרים', path: '/articles' }
+        { name: 'מרכז ידע ומאמרים', path: '/knowledge' }
     ];
 
     const categories = ['all', ...Array.from(new Set(ARTICLES.map(a => a.category)))];
@@ -126,7 +126,7 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate, onOpen
                                         {/* Cover Image Container */}
                                         {article.coverImage && (
                                             <div 
-                                                onClick={() => onNavigate(`/articles/${article.slug}`)}
+                                                onClick={() => onNavigate(article.publicPath)}
                                                 className="w-full md:w-56 lg:w-60 flex-shrink-0 cursor-pointer overflow-hidden rounded-2xl bg-slate-100 shadow-xs relative aspect-video md:aspect-auto min-h-[170px]"
                                             >
                                                 <img 
@@ -157,7 +157,7 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate, onOpen
 
                                                 <h2 className="text-lg sm:text-xl font-black text-slate-900 group-hover:text-secondary transition-colors mb-2 leading-snug">
                                                     <button 
-                                                        onClick={() => onNavigate(`/articles/${article.slug}`)}
+                                                        onClick={() => onNavigate(article.publicPath)}
                                                         className="text-right hover:underline"
                                                     >
                                                         {article.title}
@@ -178,7 +178,7 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate, onOpen
                                                 </div>
 
                                                 <button
-                                                    onClick={() => onNavigate(`/articles/${article.slug}`)}
+                                                    onClick={() => onNavigate(article.publicPath)}
                                                     className="w-full sm:w-auto group/btn inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl bg-secondary hover:bg-[#009cd7] active:scale-[0.98] text-white text-xs sm:text-sm font-bold shadow-md shadow-secondary/20 hover:shadow-lg hover:shadow-secondary/30 transition-all duration-200"
                                                 >
                                                     <span>{article.cardCta || 'איך פותרים את זה בעסק?'}</span>
@@ -211,7 +211,7 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate, onOpen
                                 אבחון מהיר של צווארי הבקבוק במשפך המכירות: למה מענה מתעכב, איך שיחות מתפספסות ואיך מערכת CRM פותרת את זה לצמיתות.
                             </p>
                             <button
-                                onClick={() => onNavigate('/topics/lost-leads')}
+                                onClick={() => onNavigate('/lost-leads')}
                                 className="w-full group/btn inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs sm:text-sm font-bold shadow-sm transition-all"
                             >
                                 <span>למרכז האבחון והפתרון</span>
@@ -236,7 +236,7 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate, onOpen
                                 איך לחבר את ערוץ התקשורת המרכזי של העסק לתיבת הודעות אחת מסודרת עם מענה ב-5 הדקות הראשונות וללא איבוד היסטוריה.
                             </p>
                             <button
-                                onClick={() => onNavigate('/topics/whatsapp-in-crm')}
+                                onClick={() => onNavigate('/whatsapp-in-crm')}
                                 className="w-full group/btn inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-secondary hover:bg-[#009cd7] text-white text-xs sm:text-sm font-bold shadow-sm shadow-secondary/20 transition-all"
                             >
                                 <span>למדריך וואטסאפ ב-CRM</span>

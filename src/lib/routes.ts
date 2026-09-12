@@ -7,7 +7,7 @@
  */
 
 import { ARTICLES, Article } from '../data/articles';
-import { KnowledgeNode, getAllHubs, getKnowledgeNodeBySlug, getParentHubForArticle } from '../data/knowledgeGraph';
+import { KnowledgeNode, getAllHubs, getParentHubForArticle } from '../data/knowledgeGraph';
 
 export { ARTICLES, getAllHubs, getParentHubForArticle };
 
@@ -65,19 +65,19 @@ export const STATIC_ROUTES_REGISTRY: Record<string, RouteConfig> = {
             { name: 'אודות AltruBiz', path: '/about' }
         ]
     },
-    '/articles': {
-        path: '/articles',
+    '/knowledge': {
+        path: '/knowledge',
         title: 'מרכז ידע, מדריכים ומאמרים מקצועיים | AltruBiz CRM',
         description: 'מאגר המאמרים והמדריכים של AltruBiz: הנחיות לדיוור WhatsApp, מדיניות פלטפורמות, אוטומציות עסקיות וניהול לידים.',
         keywords: ['מרכז ידע CRM', 'מדריכי אוטומציה', 'דיוור וואטסאפ לעסקים', 'מאמרי שיווק דיגיטלי'],
-        canonicalUrl: `${BASE_CANONICAL_DOMAIN}/articles`,
+        canonicalUrl: `${BASE_CANONICAL_DOMAIN}/knowledge`,
         schemaType: 'CollectionPage',
         inSitemap: true,
         sitemapPriority: 0.9,
         sitemapChangeFreq: 'weekly',
         breadcrumbs: [
             { name: 'דף הבית', path: '/' },
-            { name: 'מרכז ידע ומאמרים', path: '/articles' }
+            { name: 'מרכז ידע ומאמרים', path: '/knowledge' }
         ]
     },
     '/offer': {
@@ -95,7 +95,7 @@ export const STATIC_ROUTES_REGISTRY: Record<string, RouteConfig> = {
  * Generate dynamic route configuration for an article
  */
 export function buildArticleRouteConfig(article: Article): RouteConfig {
-    const articlePath = `/articles/${article.slug}`;
+    const articlePath = article.publicPath;
     const absoluteOgImage = `${BASE_CANONICAL_DOMAIN}/images/articles/og/${article.slug}.jpg`;
     const smartOgDescription = article.keyTakeaway || article.heroSummary || article.description;
 
@@ -109,13 +109,13 @@ export function buildArticleRouteConfig(article: Article): RouteConfig {
         inSitemap: true,
         sitemapPriority: 0.9,
         sitemapChangeFreq: 'monthly',
-        alternateMarkdown: article.markdownUrl || `${articlePath}.md`,
+        alternateMarkdown: article.markdownUrl || `/articles/${article.slug}.md`,
         ogImage: absoluteOgImage,
         ogTitle: `${article.title} | AltruBiz CRM`,
         ogDescription: smartOgDescription,
         breadcrumbs: [
             { name: 'דף הבית', path: '/' },
-            { name: 'מרכז ידע ומאמרים', path: '/articles' },
+            { name: 'מרכז ידע ומאמרים', path: '/knowledge' },
             { name: article.title, path: articlePath }
         ],
         article
@@ -140,7 +140,7 @@ export function buildHubRouteConfig(node: KnowledgeNode): RouteConfig {
         ogDescription: node.description,
         breadcrumbs: [
             { name: 'דף הבית', path: '/' },
-            { name: 'מרכז ידע', path: '/articles' },
+            { name: 'מרכז ידע', path: '/knowledge' },
             { name: node.title, path: hubPath }
         ],
         hubNode: node
@@ -155,7 +155,7 @@ export function getRoutesRegistry(): Record<string, RouteConfig> {
 
     // Dynamically register all articles from data/articles.ts
     for (const article of ARTICLES) {
-        const articlePath = `/articles/${article.slug}`;
+        const articlePath = article.publicPath;
         if (!registry[articlePath]) {
             registry[articlePath] = buildArticleRouteConfig(article);
         }
@@ -182,22 +182,15 @@ export function getRouteConfig(path: string): RouteConfig | undefined {
     const normalized = path.replace(/\/$/, '') || '/';
     if (registry[normalized]) return registry[normalized];
 
-    // Check if path is an article
-    if (normalized.startsWith('/articles/')) {
-        const slug = normalized.replace('/articles/', '');
-        const article = ARTICLES.find(a => a.slug === slug);
-        if (article) {
-            return buildArticleRouteConfig(article);
-        }
+    // Fallback: try matching article by publicPath or hub by url
+    const matchedArticle = ARTICLES.find(a => a.publicPath === normalized);
+    if (matchedArticle) {
+        return buildArticleRouteConfig(matchedArticle);
     }
 
-    // Check if path is a knowledge hub
-    if (normalized.startsWith('/topics/')) {
-        const slug = normalized.replace('/topics/', '');
-        const hub = getKnowledgeNodeBySlug(slug);
-        if (hub) {
-            return buildHubRouteConfig(hub);
-        }
+    const matchedHub = getAllHubs().find(h => h.url === normalized);
+    if (matchedHub) {
+        return buildHubRouteConfig(matchedHub);
     }
 
     return undefined;

@@ -115,16 +115,16 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenBookingModal, 
                     </a>
                     <span className="text-gray-300 hidden sm:inline">•</span>
                     <a 
-                        href="/articles" 
-                        onClick={(e) => handleLinkClick(e, '/articles')}
+                        href="/knowledge" 
+                        onClick={(e) => handleLinkClick(e, '/knowledge')}
                         className="text-primary font-semibold hover:underline"
                     >
                         מרכז ידע ומאמרים
                     </a>
                     <span className="text-gray-300 hidden sm:inline">•</span>
                     <a 
-                        href="/articles/whatsapp-messaging-guidelines" 
-                        onClick={(e) => handleLinkClick(e, '/articles/whatsapp-messaging-guidelines')}
+                        href="/whatsapp-messaging-guidelines" 
+                        onClick={(e) => handleLinkClick(e, '/whatsapp-messaging-guidelines')}
                         className="text-gray-600 hover:text-primary transition-colors"
                     >
                         מדריך דיוור WhatsApp ו-Meta

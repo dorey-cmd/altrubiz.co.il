@@ -106,7 +106,7 @@ export const HubPage: React.FC<HubPageProps> = ({
 
     const breadcrumbItems = [
         { name: 'דף הבית', path: '/' },
-        { name: 'מרכז ידע', path: '/articles' },
+        { name: 'מרכז ידע', path: '/knowledge' },
         { name: node.title, path: node.url }
     ];
 
@@ -821,7 +821,7 @@ export const HubPage: React.FC<HubPageProps> = ({
                                                             return (
                                                                 <div 
                                                                     key={slug} 
-                                                                    onClick={() => onNavigate(`/articles/${art.slug}`)}
+                                                                    onClick={() => onNavigate(art.publicPath)}
                                                                     className="group p-3.5 rounded-2xl bg-slate-50 border border-slate-200 hover:border-secondary/50 hover:bg-cyan-50/30 transition-all cursor-pointer flex flex-col justify-between"
                                                                 >
                                                                     <div>
@@ -859,7 +859,7 @@ export const HubPage: React.FC<HubPageProps> = ({
                                         {relatedArticles.map((art) => (
                                             <div 
                                                 key={art.slug} 
-                                                onClick={() => onNavigate(`/articles/${art.slug}`)}
+                                                onClick={() => onNavigate(art.publicPath)}
                                                 className="p-3 bg-white rounded-xl border border-slate-200 hover:border-slate-300 hover:shadow-xs transition-all cursor-pointer flex items-center justify-between"
                                             >
                                                 <div className="pr-1 truncate">
@@ -1060,7 +1060,7 @@ export const HubPage: React.FC<HubPageProps> = ({
                                             return (
                                                 <button
                                                     key={slug}
-                                                    onClick={() => onNavigate(`/articles/${art.slug}`)}
+                                                    onClick={() => onNavigate(art.publicPath)}
                                                     className="px-3.5 py-2 rounded-xl bg-white border border-slate-200 hover:border-slate-300 text-slate-800 font-medium text-xs flex items-center gap-1.5 hover:shadow-xs transition-all"
                                                 >
                                                     <BookOpen className="w-3.5 h-3.5 text-blue-500" />

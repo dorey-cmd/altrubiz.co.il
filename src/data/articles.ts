@@ -50,6 +50,7 @@ export interface ArticleSection {
 
 export interface Article {
     slug: string;
+    publicPath: string;
     title: string;
     subtitle?: string;
     seoTitle: string;
@@ -89,6 +90,7 @@ export interface Article {
 export const ARTICLES: Article[] = [
     {
         slug: 'whatsapp-messaging-guidelines',
+        publicPath: '/whatsapp-messaging-guidelines',
         title: 'המלצות לשימוש נכון ובטוח בדיוור WhatsApp באמצעות AltruBiz',
         subtitle: 'כללי האצבע, מדיניות Meta, והנחיות מעשיות למניעת חסימות והגבלות בחשבון העסקי',
         seoTitle: 'המלצות לשימוש נכון ובטוח בדיוור WhatsApp | AltruBiz CRM',
@@ -112,7 +114,7 @@ export const ARTICLES: Article[] = [
             name: 'צוות AltruBiz',
             role: 'מומחי אוטומציה ותקשורת עסקית'
         },
-        canonicalUrl: 'https://altrubiz.co.il/articles/whatsapp-messaging-guidelines',
+        canonicalUrl: 'https://altrubiz.co.il/whatsapp-messaging-guidelines',
         markdownUrl: '/articles/whatsapp-messaging-guidelines.md',
         heroSummary: 'WhatsApp הוא כלי מצוין לתקשורת עם לקוחות, אך הוא ערוץ שנמצא בשליטה מלאה של Meta. המטרה שלנו ב-AltruBiz היא לסייע בשימוש אחראי במערכת ולהקטין ככל האפשר את הסיכון לאי נעימויות מול Meta.',
         keyTakeaway: 'מומלץ לשלוח הודעות WhatsApp אך ורק לאנשים שמכירים את העסק, מצפים לשמוע ממנו ונתנו הסכמה מתאימה לקבל הודעות ב-WhatsApp. אם עולה השאלה "האם האנשים האלה באמת יצפו לקבל מאיתנו את ההודעה הזאת?" ויש ספק - עדיף לא לשלוח.',
@@ -300,6 +302,7 @@ export const ARTICLES: Article[] = [
     },
     {
         slug: 'crm-quick-wins-guide',
+        publicPath: '/crm-quick-wins',
         title: '10 פעולות מהירות ב-CRM שמייצרות ערך מיידי בעסק (Quick Wins)',
         subtitle: 'איך להתחיל לעבוד נכון עם אוטומציה וניהול לקוחות בלי להסתבך עם פרויקטים אינסופיים - מדריך מעשי + מבחן 10 הדקות',
         seoTitle: '10 פעולות Quick Win ב-CRM ואוטומציה שמייצרות ערך מיידי | AltruBiz CRM',
@@ -323,7 +326,7 @@ export const ARTICLES: Article[] = [
             name: 'צוות AltruBiz',
             role: 'מומחי אוטומציה וסיסטם עסקי'
         },
-        canonicalUrl: 'https://altrubiz.co.il/articles/crm-quick-wins-guide',
+        canonicalUrl: 'https://altrubiz.co.il/crm-quick-wins',
         markdownUrl: '/articles/crm-quick-wins-guide.md',
         heroSummary: 'בעלי עסקים רבים נרתעים מ-CRM ומאוטומציה כי הם חושבים שצריך שבועות של אפיון, קורסים מורכבים והפיכת כל העסק ביום אחד. האמת הפוכה: לא צריך ללמוד את כל המערכת מראש – מתחילים מ-Quick Win אחד שמייצר הקלה מיידית, פותר צוואר בקבוק כואב ורואים תוצאות בעסק כבר היום.',
         keyTakeaway: 'אין צורך לבנות את כל הסיסטם בבת אחת: מתחילים מפעולה אחת ברשימה שפותרת את צוואר הבקבוק הכי כואב בעסק כבר היום. מפעילים אותה בתוך 10 דקות, ורק לאחר שרואים תוצאה ומדידה מתקדמים לשלב הבא.',
@@ -599,6 +602,7 @@ export const ARTICLES: Article[] = [
     },
     {
         slug: 'lead-first-5-minutes-guide',
+        publicPath: '/lead-first-5-minutes',
         title: 'ליד נכנס עכשיו: מה צריך לקרות ב-5 הדקות הבאות?',
         subtitle: 'איך לבנות תהליך קליטה ומענה מיידי שמונע בריחת לקוחות וסוגר פגישות אוטומטית – גם באמצע יום עבודה עמוס',
         seoTitle: 'ליד נכנס עכשיו: מה צריך לקרות ב-5 הדקות הבאות? | AltruBiz CRM',
@@ -622,7 +626,7 @@ export const ARTICLES: Article[] = [
             name: 'צוות AltruBiz',
             role: 'מומחי אוטומציה ותהליכי מכירה'
         },
-        canonicalUrl: 'https://altrubiz.co.il/articles/lead-first-5-minutes-guide',
+        canonicalUrl: 'https://altrubiz.co.il/lead-first-5-minutes',
         markdownUrl: '/articles/lead-first-5-minutes-guide.md',
         heroSummary: 'השעה 10:17. מישהו ראה מודעה שלכם, לחץ, קרא, התלבט והחליט להשאיר שם וטלפון. כרגע אתם מעניינים אותו. אם לא קורה כלום ב-5 הדקות הבאות כי אתם בפגישה או בשיחה, ב-11:14 כשתחזרו אליו הוא כבר יגיד: "כבר דיברתי עם מישהו אחר". מדריך זה מציג שלב אחר שלב איך לבנות חמש דקות ראשונות מושלמות לכל ליד – בפשטות וללא שום צורך במערכות מסובכות.',
         keyTakeaway: 'אוטומציה טובה אינה נמדדת במספר ההודעות או במורכבות התרשימים, אלא ברגע קטן שבו משהו קורה מיד: הליד מקבל אישור אנושי, הצוות מקבל התראה ממוקדת, ויש אפשרות עצמאית לקבוע פגישה – גם בזמן שאתם בפגישה אחרת.',
@@ -909,6 +913,7 @@ export const ARTICLES: Article[] = [
     },
     {
         slug: 'missed-call-text-back-guide',
+        publicPath: '/missed-call-text-back',
         title: 'לא עניתם לטלפון? זה לא אומר שהליד צריך ללכת',
         subtitle: 'איך להפוך שיחות שלא נענו להזדמנויות מכירה ופגישות ביומן באמצעות מענה אוטומטי חכם (Missed Call Text Back)',
         seoTitle: 'לא עניתם לטלפון? זה לא אומר שהליד צריך ללכת | AltruBiz CRM',
@@ -932,7 +937,7 @@ export const ARTICLES: Article[] = [
             name: 'צוות AltruBiz',
             role: 'מומחי אוטומציה ותהליכי מכירה'
         },
-        canonicalUrl: 'https://altrubiz.co.il/articles/missed-call-text-back-guide',
+        canonicalUrl: 'https://altrubiz.co.il/missed-call-text-back',
         markdownUrl: '/articles/missed-call-text-back-guide.md',
         heroSummary: 'הטלפון מצלצל כשאתם בפגישה. אתם רואים מספר לא מוכר וחושבים "תכף אחזור אליו". 12 דקות חולפות, נכנסת הודעת וואטסאפ, מכינים קפה, וב-16:40 חוזרים אליו – ואין תשובה. בסוף היום השיחה הזו הופכת לעוד מספר אפור בהיסטוריית השיחות. אבל אולי זה היה לקוח מוכן לסגירה? מדריך זה מציג איך לבנות רשת ביטחון אוטומטית שהופכת שיחה שלא נענתה לשיחה שנפתחת מיד.',
         keyTakeaway: 'רשת ביטחון אוטומטית לשיחות שלא נענו (Missed Call Text Back) אינה מחליפה אתכם ברובוט – היא פשוט מונעת מהלקוח לחזור לגוגל ולפנות למתחרה הבא בזמן שאתם עסוקים.',
@@ -1217,6 +1222,7 @@ export const ARTICLES: Article[] = [
     },
     {
         slug: 'excel-to-crm-pipeline-guide',
+        publicPath: '/excel-to-pipeline',
         title: 'האקסל שלכם לא מקולקל: הוא פשוט לא יודע למי צריך לחזור היום',
         subtitle: 'איך לעבור מטבלאות סטטיות לפייפליין מכירות חזותי שמראה איפה הכסף תקוע ומי מחכה למענה – בלי פרויקטים מסובכים',
         seoTitle: 'האקסל שלכם לא מקולקל: מתי לעבור ל-Pipeline ב-CRM | AltruBiz CRM',
@@ -1240,7 +1246,7 @@ export const ARTICLES: Article[] = [
             name: 'צוות AltruBiz',
             role: 'מומחי CRM ותהליכי מכירה'
         },
-        canonicalUrl: 'https://altrubiz.co.il/articles/excel-to-crm-pipeline-guide',
+        canonicalUrl: 'https://altrubiz.co.il/excel-to-pipeline',
         markdownUrl: '/articles/excel-to-crm-pipeline-guide.md',
         heroSummary: 'יש לכם 83 לידים באקסל. יפה מאוד. עכשיו שאלה קטנה: למי מהם צריך לחזור היום? אפשר למיין לפי תאריך, לבדוק עמודת סטטוס, לתהות מתי זה "לחזור בהמשך", ולגלות ליד שמסומן כ"חם!!!" מלפני חודשיים. Excel לא עשה שום דבר רע – הוא שמר בדיוק מה שביקשתם. הבעיה היא שאתם כבר לא צריכים רק רשימה של שמות, אלא לדעת מה קורה איתם. וזה בדיוק המקום שבו Pipeline הופך להיות כלי עבודה חיוני.',
         keyTakeaway: 'טבלה מצוינת בלשמור מידע ולארגן נתונים. פייפליין ב-CRM נועד לנהל תהליך עבודה ומערכת יחסים לאורך זמן – כך שבכל רגע נתון ברור מה הצעד הבא עם כל ליד ואיפה הכסף תקוע.',
@@ -1524,6 +1530,7 @@ export const ARTICLES: Article[] = [
     },
     {
         slug: 'business-memory-crm-guide',
+        publicPath: '/crm-as-business-memory',
         title: 'העובד יצא לחופש. למה גם חצי מהעסק יצא איתו?',
         subtitle: '"מישהו יודע מה סגרנו עם משפחת כהן?" – שתיקה. "רונית בתאילנד." איך להפוך את AltruBiz CRM לזיכרון המרכזי של העסק כדי שהמידע לא ייסע עם העובדים',
         seoTitle: 'העובד יצא לחופש. למה גם חצי מהעסק יצא איתו? | AltruBiz CRM',
@@ -1549,7 +1556,7 @@ export const ARTICLES: Article[] = [
             name: 'צוות AltruBiz',
             role: 'מומחי מערכות CRM ואוטומציה עסקית'
         },
-        canonicalUrl: 'https://altrubiz.co.il/articles/business-memory-crm-guide',
+        canonicalUrl: 'https://altrubiz.co.il/crm-as-business-memory',
         markdownUrl: 'https://altrubiz.co.il/articles/business-memory-crm-guide.md',
         heroSummary: '"מישהו יודע מה סגרנו עם משפחת כהן?" – שתיקה. "רונית טיפלה בהם." – "איפה זה כתוב?" – "רונית בתאילנד." פתאום מתברר שהעובדת לא יצאה לחופשה לבד – היא לקחה איתה חלק מהעסק. המידע נמצא קצת בראש, קצת בוואטסאפ, קצת במייל ובמחברת, וזה עובד נהדר עד שרונית איננה. במקום לתסכל את הצוות או לאלץ עובדים להפוך לקלדנים, הופכים את AltruBiz CRM לזיכרון המרכזי של העסק: כרטיס אחד שמרכז את כל הסיפור, ההקשר והצעד הבא במינימום מאמץ.',
         keyTakeaway: 'עסק בריא לא מתנהל על הזיכרון הפרטי של עובדים. AltruBiz CRM הופכת את המידע לנגיש ומרכזי: תיעוד שיחות ב-20 שניות, ריכוז הודעות וכרטיס לקוח חכם שמונע תלות באדם בודד.',
@@ -1843,6 +1850,7 @@ export const ARTICLES: Article[] = [
     },
     {
         slug: 'lead-reactivation-guide',
+        publicPath: '/lead-reactivation',
         title: 'לפני שאתם משלמים על עוד ליד - בואו נראה מה קרה לאלה שכבר קניתם',
         subtitle: 'יש רעיון מהפכני שכדאי לבדוק לפני שמגדילים את תקציב הפרסום: בואו נגלה מה קרה ללידים שכבר שילמתם עליהם',
         seoTitle: 'לפני שמשלמים על עוד ליד: מדריך החייאת לידים ישנים ב-CRM | AltruBiz',
@@ -1865,7 +1873,7 @@ export const ARTICLES: Article[] = [
             name: 'צוות AltruBiz',
             role: 'מומחי מערכות CRM ואוטומציה עסקית'
         },
-        canonicalUrl: 'https://altrubiz.co.il/articles/lead-reactivation-guide',
+        canonicalUrl: 'https://altrubiz.co.il/lead-reactivation',
         markdownUrl: 'https://altrubiz.co.il/articles/lead-reactivation-guide.md',
         heroSummary: 'יש רעיון מהפכני שכדאי להציע לפני שמגדילים את תקציב הפרסום: בואו נראה מה קרה ללידים שכבר שילמתם עליהם. ה-Excel ההוא, הרשימה מהקמפיין הקודם, האנשים שביקשו הצעה או אמרו "דבר איתי בחודש הבא". איפשהו בתוך הרשימות האלה יושבים לקוחות שכבר הרימו יד ואמרו: מעניין אותי.',
         keyTakeaway: 'לפני שמגדילים תקציב פרסום, שווה לבדוק את הלידים שכבר קיימים במאגר. פילוח נכון ל-4 קבוצות ופנייה אנושית ממוקדת יכולים להחזיר שיחות רלוונטיות לחיים ולייצר עסקאות בלי להוציא שקל נוסף על מודעות.',
@@ -2105,6 +2113,7 @@ export const ARTICLES: Article[] = [
     },
     {
         slug: 'follow-up-tasks-crm-guide',
+        publicPath: '/follow-up-tasks',
         title: 'אם כתבתם לעצמכם "לחזור אליו בחמישי" - המאמר הזה בשבילכם',
         subtitle: 'איך להפסיק לנהל פולואפ בראש, בפתקים או בוואטסאפ: להפוך משימות ותזכורות לשקט נפשי ולעסקאות סגורות',
         seoTitle: 'אם כתבתם לעצמכם "לחזור אליו בחמישי" | ניהול פולואפ ומשימות ב-CRM | AltruBiz',
@@ -2127,7 +2136,7 @@ export const ARTICLES: Article[] = [
             name: 'צוות AltruBiz',
             role: 'מומחי מערכות CRM ואוטומציה עסקית'
         },
-        canonicalUrl: 'https://altrubiz.co.il/articles/follow-up-tasks-crm-guide',
+        canonicalUrl: 'https://altrubiz.co.il/follow-up-tasks',
         markdownUrl: 'https://altrubiz.co.il/articles/follow-up-tasks-crm-guide.md',
         heroSummary: 'יום שני. דיברתם עם לקוח פוטנציאלי, הייתה שיחה מעולה והוא אמר: "תחזור אליי בחמישי". כותבים "לחזור בחמישי" בפתק, ביומן או בראש. מגיע חמישי ב-22:43 בלילה במקלחת: "אוי... דני!". מדריך זה מוקדש לפתרון בעיה פשוטה שאוטומציה פותרת בקלות בלי צורך ב-AI.',
         keyTakeaway: 'המוח האנושי נועד לחשוב וליצור, לא לשמש כמחסן תזכורות. כשהופכים פולואפ למשימות מוגדרות עם הקשר ברור ב-CRM, הראש מתפנה לשיחות ולמכירות, ואף לקוח לא נשכח בדרך.',
@@ -2357,6 +2366,7 @@ export const ARTICLES: Article[] = [
     },
     {
         slug: 'automated-meeting-scheduling-guide',
+        publicPath: '/automated-meeting-scheduling',
         title: 'כמה הודעות צריך כדי לקבוע פגישה אחת? כנראה יותר מדי',
         subtitle: 'איך להפסיק את משחק הפינג-פונג של "מתי נוח לך?" ולעבור לקביעת פגישות חכמה שמחוברת ישירות ליומן ול-CRM',
         seoTitle: 'כמה הודעות צריך כדי לקבוע פגישה? | תיאום פגישות אוטומטי ב-CRM | AltruBiz',
@@ -2379,7 +2389,7 @@ export const ARTICLES: Article[] = [
             name: 'צוות AltruBiz',
             role: 'מומחי מערכות CRM ואוטומציה עסקית'
         },
-        canonicalUrl: 'https://altrubiz.co.il/articles/automated-meeting-scheduling-guide',
+        canonicalUrl: 'https://altrubiz.co.il/automated-meeting-scheduling',
         markdownUrl: 'https://altrubiz.co.il/articles/automated-meeting-scheduling-guide.md',
         heroSummary: 'בואו נשחזר תהליך עסקי מוכר: "מתי נוח?" - "שלישי." - "בוקר או אחה"צ?" - "15:00?" - "תפוס, 15:30?". עברו 11 הודעות, אף אחד עדיין לא קיבל שירות, ופשוט ניסינו למצוא שעה פנויה. תיאום בין שני יומנים הוא פעולה שקל להעביר לאוטומציה חכמה.',
         keyTakeaway: 'תיאום פגישות ידני גוזל עשרות שעות בשנה ומעכב עסקאות. קישור חכם לקביעת פגישה ביומן מסנכרן זמינות בזמן אמת, שולח תזכורות אוטומטיות ומאפשר ללקוחות לתאם או להזיז פגישות עצמאית בלחיצת כפתור.',
@@ -2609,6 +2619,7 @@ export const ARTICLES: Article[] = [
     },
     {
         slug: 'crm-duplicate-contacts-prevention-guide',
+        publicPath: '/prevent-duplicate-contacts',
         title: 'כמה יוסי כהן יש לכם? כך מונעים מ-CRM מסודר להפוך למחסן כפילויות',
         subtitle: 'איך למנוע מלידים חוזרים להתפצל לעשרות כרטיסים שונים: מדריך מעשי לניהול דאטה נקייה, איחוד כפילויות וסיפור לקוח שלם ב-CRM',
         seoTitle: 'כמה יוסי כהן יש לכם? | מניעת כפילויות וניהול אנשי קשר ב-CRM | AltruBiz',
@@ -2631,7 +2642,7 @@ export const ARTICLES: Article[] = [
             name: 'צוות AltruBiz',
             role: 'מומחי מערכות CRM ואוטומציה עסקית'
         },
-        canonicalUrl: 'https://altrubiz.co.il/articles/crm-duplicate-contacts-prevention-guide',
+        canonicalUrl: 'https://altrubiz.co.il/prevent-duplicate-contacts',
         markdownUrl: 'https://altrubiz.co.il/articles/crm-duplicate-contacts-prevention-guide.md',
         heroSummary: 'יוסי כהן השאיר פרטים בפייסבוק בינואר. במרץ הוא נכנס שוב דרך האתר. ביוני הוא התקשר ממספר אחר. פתאום יש לנו שלושה כרטיסים שונים של אותו אדם, כל אחד מחזיק פיסת מידע אחרת, ואף אחד לא יודע את הסיפור המלא. הדרך למנוע מ-CRM מסודר להפוך לבלגן מתחילה בעיקרון פשוט: אדם אחד צריך להישאר סיפור אחד.',
         keyTakeaway: 'דאטה נקייה ב-CRM היא לא רק עניין אסתטי של טבלאות מסודרות, אלא הבסיס לאמון במערכת. כשלכל לקוח יש כרטיס אחד המרכז את כל מקורות ההגעה והשיחות, מקבלים תמונה עסקית אמינה ומנהלים שיחות מדויקות בלי מבוכות.',
@@ -2881,6 +2892,7 @@ export const ARTICLES: Article[] = [
     },
     {
         slug: 'crm-adoption-thursday-test-guide',
+        publicPath: '/crm-thursday-test',
         title: 'ה-CRM הכי טוב בעולם לא שווה כלום אם ביום חמישי חזרתם לאקסל',
         subtitle: 'איך להטמיע CRM שבאמת עובדים איתו: למה מערכות עמוסות פיצ\'רים ננטשות, מהו "מבחן יום חמישי", ואיך להתחיל מ-3 פעולות פשוטות שמחזיקות מעמד',
         seoTitle: 'ה-CRM הכי טוב לא שווה כלום אם חזרתם לאקסל | מדריך הטמעה | AltruBiz',
@@ -2903,7 +2915,7 @@ export const ARTICLES: Article[] = [
             name: 'צוות AltruBiz',
             role: 'מומחי מערכות CRM ואוטומציה עסקית'
         },
-        canonicalUrl: 'https://altrubiz.co.il/articles/crm-adoption-thursday-test-guide',
+        canonicalUrl: 'https://altrubiz.co.il/crm-thursday-test',
         markdownUrl: 'https://altrubiz.co.il/articles/crm-adoption-thursday-test-guide.md',
         heroSummary: 'יום ראשון: קניתם CRM נוצץ עם AI, Workflows ו-Pipelines. ביום שני ייבאתם אנשי קשר. ביום שלישי העובדים שאלו איפה רושמים הערה. וביום חמישי... כולם חזרו לאקסל כי שם כולם יודעים מה לעשות. לקנות מערכת שאף אחד לא משתמש בה זו אחת הטעויות היקרות בעסקים. המדריך הזה מוקדש להטמעה חכמה שמחזיקה מעמד.',
         keyTakeaway: 'הצלחה של CRM לא נמדדת בכמות הפיצ\'רים או בהבטחות הנוצצות על AI, אלא בשינוי ההתנהגות היומיומי של הצוות. עדיף להתחיל מ-3 הרגלים פשוטים שהעסק באמת מקיים מאשר ממערכת מורכבת שביום חמישי ננטשת לטובת האקסל.',
@@ -3163,6 +3175,7 @@ export const ARTICLES: Article[] = [
     },
     {
         slug: 'customer-reviews-reputation-crm-guide',
+        publicPath: '/customer-review-requests',
         title: 'הלקוח אמר שאתם מדהימים. חבל שרק אתם שמעתם',
         subtitle: 'איך הופכים מחמאות פרטיות ב-WhatsApp לביקורות בגוגל ולמוניטין שמביא לקוחות חדשים',
         seoTitle: 'הלקוח אמר שאתם מדהימים? | ניהול ביקורות ומוניטין ב-CRM | AltruBiz',
@@ -3188,7 +3201,7 @@ export const ARTICLES: Article[] = [
             name: 'צוות AltruBiz',
             role: 'מומחי מערכות CRM ואוטומציה עסקית'
         },
-        canonicalUrl: 'https://altrubiz.co.il/articles/customer-reviews-reputation-crm-guide',
+        canonicalUrl: 'https://altrubiz.co.il/customer-review-requests',
         markdownUrl: 'https://altrubiz.co.il/articles/customer-reviews-reputation-crm-guide.md',
         heroSummary: 'לקוחות מרוצים ממשיכים בשגרת יומם, בעוד לקוחות מתוסכלים מוצאים את הזמן לכתוב ביקורת מפורטת. כדי שהמוניטין הדיגיטלי ישקף את האיכות האמיתית של העסק, לא צריך לרדוף אחרי חמישה כוכבים אלא לבנות תהליך עקבי: לזהות את רגעי שביעות הרצון, לשלוח בקשה פשוטה וישירה בוואטסאפ, ולהפוך את המחמאות הפרטיות לנכס שיווקי ציבורי.',
         keyTakeaway: 'לקוחות מרוצים לא נמנעים מלכתוב ביקורת בגלל חוסר שביעות רצון, אלא בגלל חיכוך וחוסר תזמון. שליחת קישור ישיר וידידותי ב-WhatsApp ברגע סיום מוצלח של שירות מייצרת זרם ביקורות אותנטיות והופכת מוניטין לנכס צומח.',
@@ -3483,6 +3496,7 @@ export const ARTICLES: Article[] = [
     },
     {
         slug: 'preventing-meeting-no-shows-guide',
+        publicPath: '/prevent-no-shows',
         title: 'הלקוח קבע פגישה. ב-14:12 אתם עדיין לבד בזום',
         subtitle: 'איך למנוע No-Show, לבנות אישור ותזכורות חכמות, ולהחזיר לקוחות שנעלמו בלי להרגיש נודניקים',
         seoTitle: 'הלקוח קבע ולבד בזום? | מניעת No-Show ביומן וב-CRM | AltruBiz',
@@ -3508,7 +3522,7 @@ export const ARTICLES: Article[] = [
             name: 'צוות AltruBiz',
             role: 'מומחי מערכות CRM ואוטומציה עסקית'
         },
-        canonicalUrl: 'https://altrubiz.co.il/articles/preventing-meeting-no-shows-guide',
+        canonicalUrl: 'https://altrubiz.co.il/prevent-no-shows',
         markdownUrl: 'https://altrubiz.co.il/articles/preventing-meeting-no-shows-guide.md',
         heroSummary: 'קביעת פגישה ביומן אינה סוף התהליך אלא תחילתו. פער של כמה ימים, עומס יומיומי או חוסר בהירות לגבי הקישור והשעה גורמים לכיסאות ריקים בזום. במקום להאשים את הלקוח או לרדוף אחריו, סיסטם פשוט של אישור מיידי, תזכורת שירותית, אפשרות קלה לשינוי מועד ונוהל Recovery הופכים פגישות שנקבעו לפגישות שמתקיימות בפועל.',
         keyTakeaway: 'פגישה שנקבעה (Booked) אינה ערובה להגעה (Showed). הפחתת No-Shows אינה דורשת לחץ או אוטומציות מורכבות, אלא הסרת חוסר ודאות: אישור מיידי עם קישור ברור, תזכורת קצרה ב-WhatsApp יום לפני, כפתור פשוט לשינוי מועד ופתיחת דלת לחזרה מכבדת אם הלקוח פספס.',
@@ -3839,6 +3853,7 @@ export const ARTICLES: Article[] = [
     },
     {
         slug: 'non-technical-to-ai-automation-guide',
+        publicPath: '/automation-without-tech-skills',
         title: 'הוא ביקש מאיתנו דבר אחד: "רק אל תתנו לי להתעסק עם המערכת"',
         subtitle: 'איך בעל מקצוע שהצהיר שהוא "לא טכנולוגי" התחיל לבנות אוטומציות ופתרונות AI בעצמו בעסק שלו',
         seoTitle: 'רק אל תתנו לי להתעסק עם המערכת: מ"אני לא טכנולוגי" לשליטה באוטומציות ו-AI | AltruBiz CRM',
@@ -3861,7 +3876,7 @@ export const ARTICLES: Article[] = [
             name: 'צוות AltruBiz',
             role: 'מומחי מערכות CRM ואוטומציה עסקית'
         },
-        canonicalUrl: 'https://altrubiz.co.il/articles/non-technical-to-ai-automation-guide',
+        canonicalUrl: 'https://altrubiz.co.il/automation-without-tech-skills',
         markdownUrl: '/articles/non-technical-to-ai-automation-guide.md',
         heroBadge: 'סיפור מקרה ואימוץ טכנולוגיה',
         heroSummary: 'בפגישה הראשונה הוא הבהיר לנו דבר אחד: "אני לא טכנולוגי. אתם תעשו הכול, רק אל תתנו לי להתעסק בזה". היום הוא מראה לנו תוכנות ואוטומציות שהוא בנה בעצמו בעזרת AI. מה קורה כשטכנולוגיה מפסיקה לסבך ומתחילה לתת ערך מיידי?',
@@ -4106,6 +4121,7 @@ export const ARTICLES: Article[] = [
     },
     {
         slug: 'client-onboarding-process-guide',
+        publicPath: '/client-onboarding',
         title: 'הלקוח אמר "כן". ואז התחיל הבלגן',
         subtitle: 'מדריך מעשי לבניית תהליך Onboarding מסודר ב-CRM: איך למנוע שחיקת אמון אחרי המכירה ולהפוך סגירת עסקה להתחלה חלקה',
         seoTitle: 'הלקוח אמר כן ואז התחיל הבלגן: מדריך Onboarding וקליטת לקוחות ב-CRM | AltruBiz CRM',
@@ -4129,7 +4145,7 @@ export const ARTICLES: Article[] = [
             name: 'צוות AltruBiz',
             role: 'מומחי מערכות CRM ואוטומציה עסקית'
         },
-        canonicalUrl: 'https://altrubiz.co.il/articles/client-onboarding-process-guide',
+        canonicalUrl: 'https://altrubiz.co.il/client-onboarding',
         markdownUrl: '/articles/client-onboarding-process-guide.md',
         heroSummary: 'העסקה נסגרה והלקוח בחר בכם בהתלהבות. אבל דווקא עכשיו, שרשרת של מיילים מבולבלים, טפסים כפולים ובקשות חוזרות גורמת לו להרגיש שהוא מנהל את הפרויקט עבורכם. מדריך מעשי לבניית מסע Onboarding שמייצר בהירות, סדר ושקט.',
         keyTakeaway: 'הרושם הראשון אחרי המכירה חשוב לא פחות מהרושם שלפניה. תהליך Onboarding איכותי אינו טופס בודד, אלא ניהול חכם של מה שכבר התקבל מול מה שעדיין חסר להתחלת העבודה – תוך שימוש באוטומציה שמפנה זמן למגע אישי.',
@@ -4383,6 +4399,7 @@ export const ARTICLES: Article[] = [
     },
     {
         slug: 'salespeople-hate-crm-adoption-guide',
+        publicPath: '/salespeople-hate-crm',
         title: 'למה אנשי מכירות שונאים CRM - ואיך בונים אחד שהם באמת יעדכנו',
         subtitle: 'מבירוקרטיה מעיקה לכלי עבודה שמוכר: מדריך מעשי לבניית CRM שמחזיר ערך למי שמזין אותו',
         seoTitle: 'למה אנשי מכירות שונאים CRM ואיך בונים מערכת שהם באמת יעדכנו | AltruBiz CRM',
@@ -4406,7 +4423,7 @@ export const ARTICLES: Article[] = [
             name: 'צוות AltruBiz',
             role: 'מומחי מערכות CRM ואוטומציה עסקית'
         },
-        canonicalUrl: 'https://altrubiz.co.il/articles/salespeople-hate-crm-adoption-guide',
+        canonicalUrl: 'https://altrubiz.co.il/salespeople-hate-crm',
         markdownUrl: '/articles/salespeople-hate-crm-adoption-guide.md',
         heroSummary: 'המערכת קיימת, ה-Pipeline בנוי והעברתם הדרכות – ובכל זאת אנשי המכירות עדיין מנהלים עסקאות במחברת, בוואטסאפ או בראש. במקום להאשים את העובדים, הגיע הזמן לבנות CRM שמחזיר להם ערך בבוקר ולא רק דורש מהם לעבוד בשביל הדשבורד.',
         keyTakeaway: 'אנשי מכירות לא מעדכנים CRM כשהוא נבנה ככלי ביקורת ומעקב עבור ההנהלה. הפתרון הוא לעבור את "מבחן 30 השניות": לתת למערכת להזין אוטומטית את מה שהיא כבר יודעת, לצמצם שדות מיותרים, ולהפוך את העדכון של אתמול לרשימת המשימות הרווחית של היום.',
@@ -4626,6 +4643,7 @@ export const ARTICLES: Article[] = [
     },
     {
         slug: 'omnichannel-communication-unified-inbox-crm-guide',
+        publicPath: '/unified-inbox',
         title: '"שלחתי לכם הודעה באינסטגרם" - ארבע מילים שגורמות לעסק להתחיל לחפש',
         subtitle: 'למה הלקוחות שלכם מנהלים שיחה אחת בעוד העסק מנהל חמש – ואיך מרכזים ערוצי תקשורת ב-CRM אחוד',
         seoTitle: '"שלחתי לכם הודעה באינסטגרם": ניהול תקשורת רב-ערוצית ו-Inbox אחוד | AltruBiz CRM',
@@ -4651,7 +4669,7 @@ export const ARTICLES: Article[] = [
             name: 'צוות AltruBiz',
             role: 'מומחי מערכות CRM ואוטומציה עסקית'
         },
-        canonicalUrl: 'https://altrubiz.co.il/articles/omnichannel-communication-unified-inbox-crm-guide',
+        canonicalUrl: 'https://altrubiz.co.il/unified-inbox',
         markdownUrl: '/articles/omnichannel-communication-unified-inbox-crm-guide.md',
         heroSummary: 'לקוח שולח הודעה באינסטגרם, מגיב במייל, ומתקשר למחרת. מבחינתו זו שיחה אחת עם עסק אחד. מבחינת העסק – נוצרות שלוש שיחות נפרדות ללא הקשר. גלו איך לחבר את כל הדלתות ל-Inbox אחוד ב-CRM.',
         keyTakeaway: 'הלקוח אינו מבדיל בין ערוצי התקשורת ורואה בכל פנייה שיחה אחת רציפה. ריכוז WhatsApp, אינסטגרם, מייל וטלפון ב-Unified Inbox של CRM מונע אובדן הקשר, מונע מענה כפול ומאפשר לצוות להגיב במהירות עם התמונה המלאה.',

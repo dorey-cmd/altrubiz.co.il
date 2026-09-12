@@ -2,7 +2,7 @@
 title: "האקסל שלכם לא מקולקל: הוא פשוט לא יודע למי צריך לחזור היום"
 description: "מדריך מעשי למעבר מניהול לידים באקסל לפייפליין מכירות חזותי ב-CRM: זיהוי צווארי בקבוק, הגדרת שלבים פשוטים ומעקב פולואפ שמייצר מכירות."
 slug: "excel-to-crm-pipeline-guide"
-canonical_url: "https://altrubiz.co.il/articles/excel-to-crm-pipeline-guide"
+canonical_url: "https://altrubiz.co.il/excel-to-pipeline"
 published_date: "2025-02-26"
 modified_date: "2025-02-26"
 author: "צוות AltruBiz"

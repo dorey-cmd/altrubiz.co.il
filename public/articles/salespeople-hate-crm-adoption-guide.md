@@ -2,7 +2,7 @@
 title: "למה אנשי מכירות שונאים CRM - ואיך בונים אחד שהם באמת יעדכנו"
 description: "מדריך מעשי להטמעת CRM שאנשי מכירות אוהבים: מבחן 30 השניות, צמצום שדות מיותרים, אוטומציה של הזנת נתונים והפיכת המערכת לכלי שמייצר מכירות."
 slug: "salespeople-hate-crm-adoption-guide"
-canonical_url: "https://altrubiz.co.il/articles/salespeople-hate-crm-adoption-guide"
+canonical_url: "https://altrubiz.co.il/salespeople-hate-crm"
 published_date: "2026-09-10"
 modified_date: "2026-09-10"
 author: "צוות AltruBiz"

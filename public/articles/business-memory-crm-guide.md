@@ -2,7 +2,7 @@
 title: "העובד יצא לחופש. למה גם חצי מהעסק יצא איתו?"
 description: "עובד יצא לחופש ולקח איתו את כל המידע? מדריך מעשי להפיכת ה-CRM לזיכרון המרכזי של העסק: מניעת תלות בעובדים, תיעוד חכם במינימום מאמץ ושימור ידע עסקי."
 slug: "business-memory-crm-guide"
-canonical_url: "https://altrubiz.co.il/articles/business-memory-crm-guide"
+canonical_url: "https://altrubiz.co.il/crm-as-business-memory"
 published_date: "2026-09-08"
 modified_date: "2026-09-09"
 author: "צוות AltruBiz"

@@ -2,7 +2,7 @@
 title: "הלקוח אמר שאתם מדהימים. חבל שרק אתם שמעתם"
 description: "מדריך מעשי להפיכת מחמאות מרוצות ב-WhatsApp לביקורות אמיתיות ב-Google: איך לבקש בלי להרגיש נודניקים, מתי הרגע הנכון, ואיך CRM הופך מוניטין לסיסטם."
 slug: "customer-reviews-reputation-crm-guide"
-canonical_url: "https://altrubiz.co.il/articles/customer-reviews-reputation-crm-guide"
+canonical_url: "https://altrubiz.co.il/customer-review-requests"
 published_date: "2026-09-09"
 modified_date: "2026-09-09"
 author: "צוות AltruBiz"

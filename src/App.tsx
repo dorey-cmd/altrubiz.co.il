@@ -17,8 +17,6 @@ import { ArticlesIndex } from './components/articles/ArticlesIndex'
 import { ArticlePage } from './components/articles/ArticlePage'
 import { AboutPage } from './components/AboutPage'
 import { SEOHead } from './components/common/SEOHead'
-import { getArticleBySlug } from './data/articles'
-import { getKnowledgeNodeBySlug } from './data/knowledgeGraph'
 import { HubPage } from './components/knowledge/HubPage'
 import { getRouteConfig } from './lib/routes'
 import { ContactModal } from './components/common/ContactModal'
@@ -111,23 +109,13 @@ function App() {
 
     const isOffer = path === '/offer';
     const isAbout = path === '/about';
-    const isArticlesIndex = path === '/articles';
-    const isArticlePage = path.startsWith('/articles/');
-    const isHubPage = path.startsWith('/topics/');
-
-    let currentArticle = null;
-    if (isArticlePage) {
-        const slug = path.replace('/articles/', '').replace(/\/$/, '');
-        currentArticle = getArticleBySlug(slug);
-    }
-
-    let currentHubNode = null;
-    if (isHubPage) {
-        const slug = path.replace('/topics/', '').replace(/\/$/, '');
-        currentHubNode = getKnowledgeNodeBySlug(slug);
-    }
+    const isKnowledgeIndex = path === '/knowledge';
 
     const routeConfig = getRouteConfig(path);
+    const currentArticle = routeConfig?.article || null;
+    const currentHubNode = routeConfig?.hubNode || null;
+    const isArticlePage = !!currentArticle;
+    const isHubPage = !!currentHubNode;
 
     return (
         <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-yellow-200">
@@ -147,7 +135,7 @@ function App() {
                         onOpenBookingModal={handleOpenBookingModal} 
                     />
                 </main>
-            ) : isArticlesIndex ? (
+            ) : isKnowledgeIndex ? (
                 <main className="relative z-10">
                     <ArticlesIndex 
                         onNavigate={handleNavigate} 

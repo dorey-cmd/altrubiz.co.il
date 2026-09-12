@@ -100,11 +100,11 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
                 >
                     <p className="leading-relaxed text-sm md:text-base">ניהול לקוחות מבוזר מבזבז שעות יקרות ומפספס הזדמנויות - ובסוף זה כסף שנשאר על הרצפה.</p>
                     <a
-                        href="/topics/lost-leads"
+                        href="/lost-leads"
                         onClick={(e) => {
                             if (onNavigate) {
                                 e.preventDefault();
-                                onNavigate('/topics/lost-leads');
+                                onNavigate('/lost-leads');
                             }
                         }}
                         className="inline-flex items-center gap-1.5 text-xs sm:text-sm text-yellow-400 hover:text-yellow-300 font-bold whitespace-nowrap bg-white/5 hover:bg-white/10 border border-yellow-400/25 px-3.5 py-1.5 rounded-full transition-all shrink-0 group cursor-pointer"

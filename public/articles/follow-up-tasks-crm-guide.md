@@ -2,7 +2,7 @@
 title: "אם כתבתם לעצמכם \"לחזור אליו בחמישי\" - המאמר הזה בשבילכם"
 description: "מדריך לניהול פולואפ ומשימות ב-CRM: איך להוציא משימות מהראש, מתי תזכורת מספיקה ומתי צריך אוטומציה, ואיך לוודא שאף לקוח לא נופל בין הכיסאות."
 slug: "follow-up-tasks-crm-guide"
-canonical_url: "https://altrubiz.co.il/articles/follow-up-tasks-crm-guide"
+canonical_url: "https://altrubiz.co.il/follow-up-tasks"
 published_date: "2026-09-09"
 modified_date: "2026-09-09"
 author: "צוות AltruBiz"

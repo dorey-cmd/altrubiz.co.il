@@ -2,7 +2,7 @@
 title: "הוא ביקש מאיתנו דבר אחד: \"רק אל תתנו לי להתעסק עם המערכת\""
 description: "סיפור מקרה ותובנות מעשיות: איך בעל עסק שחשש מטכנולוגיה גילה שקודם מקבלים ערך ורק אז סקרנות, ואיך CRM ו-AI מכפילים יכולות של אנשי מקצוע."
 slug: "non-technical-to-ai-automation-guide"
-canonical_url: "https://altrubiz.co.il/articles/non-technical-to-ai-automation-guide"
+canonical_url: "https://altrubiz.co.il/automation-without-tech-skills"
 published_date: "2026-09-09"
 modified_date: "2026-09-09"
 author: "צוות AltruBiz"

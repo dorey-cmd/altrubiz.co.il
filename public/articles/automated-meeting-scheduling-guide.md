@@ -2,7 +2,7 @@
 title: "כמה הודעות צריך כדי לקבוע פגישה אחת? כנראה יותר מדי"
 description: "מדריך לתיאום פגישות אוטומטי: איך לחסוך 50 שעות בשנה על משחקי פינג-פונג בוואטסאפ, לחבר יומן דיגיטלי ל-CRM ולשלוח לינק חכם שמסנכרן זמינות אמיתית."
 slug: "automated-meeting-scheduling-guide"
-canonical_url: "https://altrubiz.co.il/articles/automated-meeting-scheduling-guide"
+canonical_url: "https://altrubiz.co.il/automated-meeting-scheduling"
 published_date: "2026-09-09"
 modified_date: "2026-09-09"
 author: "צוות AltruBiz"

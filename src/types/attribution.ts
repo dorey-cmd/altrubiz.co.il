@@ -34,7 +34,7 @@ export type CTAType =
     | 'footer_cta';
 
 export interface CTAContext {
-    /** The originating public URL or pathname (e.g. '/', '/articles/excel-to-crm-pipeline-guide') */
+    /** The originating public URL or pathname (e.g. '/', '/excel-to-pipeline') */
     sourcePage: string;
     /** The specific section ID or milestone name (e.g. 'action-03', 'hero-pain-bar', 'reality-check') */
     sourceSection?: string;

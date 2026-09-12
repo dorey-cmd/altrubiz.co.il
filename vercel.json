@@ -9,6 +9,121 @@
             "source": "/caldorey",
             "destination": "https://link.altrubiz.co.il/widget/bookings/caldorey",
             "permanent": true
+        },
+        {
+            "source": "/articles",
+            "destination": "/knowledge",
+            "permanent": true
+        },
+        {
+            "source": "/topics/lost-leads",
+            "destination": "/lost-leads",
+            "permanent": true
+        },
+        {
+            "source": "/topics/whatsapp-in-crm",
+            "destination": "/whatsapp-in-crm",
+            "permanent": true
+        },
+        {
+            "source": "/topics/sales-pipeline",
+            "destination": "/sales-pipeline",
+            "permanent": true
+        },
+        {
+            "source": "/topics/business-memory",
+            "destination": "/business-memory",
+            "permanent": true
+        },
+        {
+            "source": "/topics/repetitive-manual-work",
+            "destination": "/repetitive-manual-work",
+            "permanent": true
+        },
+        {
+            "source": "/articles/whatsapp-messaging-guidelines",
+            "destination": "/whatsapp-messaging-guidelines",
+            "permanent": true
+        },
+        {
+            "source": "/articles/crm-quick-wins-guide",
+            "destination": "/crm-quick-wins",
+            "permanent": true
+        },
+        {
+            "source": "/articles/lead-first-5-minutes-guide",
+            "destination": "/lead-first-5-minutes",
+            "permanent": true
+        },
+        {
+            "source": "/articles/missed-call-text-back-guide",
+            "destination": "/missed-call-text-back",
+            "permanent": true
+        },
+        {
+            "source": "/articles/excel-to-crm-pipeline-guide",
+            "destination": "/excel-to-pipeline",
+            "permanent": true
+        },
+        {
+            "source": "/articles/business-memory-crm-guide",
+            "destination": "/crm-as-business-memory",
+            "permanent": true
+        },
+        {
+            "source": "/articles/lead-reactivation-guide",
+            "destination": "/lead-reactivation",
+            "permanent": true
+        },
+        {
+            "source": "/articles/follow-up-tasks-crm-guide",
+            "destination": "/follow-up-tasks",
+            "permanent": true
+        },
+        {
+            "source": "/articles/automated-meeting-scheduling-guide",
+            "destination": "/automated-meeting-scheduling",
+            "permanent": true
+        },
+        {
+            "source": "/articles/crm-duplicate-contacts-prevention-guide",
+            "destination": "/prevent-duplicate-contacts",
+            "permanent": true
+        },
+        {
+            "source": "/articles/crm-adoption-thursday-test-guide",
+            "destination": "/crm-thursday-test",
+            "permanent": true
+        },
+        {
+            "source": "/articles/customer-reviews-reputation-crm-guide",
+            "destination": "/customer-review-requests",
+            "permanent": true
+        },
+        {
+            "source": "/articles/preventing-meeting-no-shows-guide",
+            "destination": "/prevent-no-shows",
+            "permanent": true
+        },
+        {
+            "source": "/articles/non-technical-to-ai-automation-guide",
+            "destination": "/automation-without-tech-skills",
+            "permanent": true
+        },
+        {
+            "source": "/articles/client-onboarding-process-guide",
+            "destination": "/client-onboarding",
+            "permanent": true
+        },
+        {
+            "source": "/articles/salespeople-hate-crm-adoption-guide",
+            "destination": "/salespeople-hate-crm",
+            "permanent": true
+        },
+        {
+            "source": "/articles/omnichannel-communication-unified-inbox-crm-guide",
+            "destination": "/unified-inbox",
+            "permanent": true
         }
     ],
     "rewrites": [

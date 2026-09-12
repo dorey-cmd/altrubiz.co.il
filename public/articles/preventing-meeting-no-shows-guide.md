@@ -2,7 +2,7 @@
 title: "הלקוח קבע פגישה. ב-14:12 אתם עדיין לבד בזום"
 description: "מדריך מעשי למניעת No-Show בפגישות זום ויומן: איך לבנות הודעת אישור ברורה, לתזמן תזכורות שירותיות, לאפשר שינוי מועד בקלות ולהחזיר לקוחות שנעלמו."
 slug: "preventing-meeting-no-shows-guide"
-canonical_url: "https://altrubiz.co.il/articles/preventing-meeting-no-shows-guide"
+canonical_url: "https://altrubiz.co.il/prevent-no-shows"
 published_date: "2026-09-09"
 modified_date: "2026-09-09"
 author: "צוות AltruBiz"

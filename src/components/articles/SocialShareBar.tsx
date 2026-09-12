@@ -7,6 +7,7 @@ export interface SocialShareBarProps {
     keyTakeaway?: string;
     heroSummary?: string;
     slug: string;
+    publicPath?: string;
     coverImage?: {
         src: string;
         alt: string;
@@ -58,6 +59,7 @@ export const SocialShareBar: React.FC<SocialShareBarProps> = ({
     keyTakeaway,
     heroSummary,
     slug,
+    publicPath,
     coverImage,
     variant = 'header',
     className = ''
@@ -67,10 +69,11 @@ export const SocialShareBar: React.FC<SocialShareBarProps> = ({
 
     // Dynamic clean URL
     const getShareUrl = () => {
+        const path = publicPath || `/${slug}`;
         if (typeof window !== 'undefined') {
-            return `${window.location.origin}/articles/${slug}`;
+            return `${window.location.origin}${path}`;
         }
-        return `https://altrubiz.co.il/articles/${slug}`;
+        return `https://altrubiz.co.il${path}`;
     };
 
     // The smart, punchy sentence to share

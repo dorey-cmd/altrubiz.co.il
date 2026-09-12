@@ -85,7 +85,7 @@ async function runScrollAudit() {
         // ----------------------------------------------------
         console.log('1. Auditing Desktop ArticlePage Scroll Sovereignty & STICKY BEHAVIOR (1280x800)...');
         const page = await browser.newPage({ viewport: { width: 1280, height: 800 } });
-        await page.goto(`${baseUrl}/articles/omnichannel-communication-unified-inbox-crm-guide`, { waitUntil: 'networkidle' });
+        await page.goto(`${baseUrl}/unified-inbox`, { waitUntil: 'networkidle' });
 
         // Initial measurement at top of page (before sticky activates)
         const initialGeometry = await page.evaluate(() => {
@@ -224,9 +224,9 @@ async function runScrollAudit() {
         // ----------------------------------------------------
         // Test 4: HubPage Passive Scroll Sovereignty & Sticky Sidebar
         // ----------------------------------------------------
-        console.log('\n4. Auditing HubPage (/topics/lost-leads) Scroll Sovereignty & Sticky Navigation...');
+        console.log('\n4. Auditing HubPage (/lost-leads) Scroll Sovereignty & Sticky Navigation...');
         const hubPage = await browser.newPage({ viewport: { width: 1280, height: 800 } });
-        await hubPage.goto(`${baseUrl}/topics/lost-leads`, { waitUntil: 'networkidle' });
+        await hubPage.goto(`${baseUrl}/lost-leads`, { waitUntil: 'networkidle' });
 
         let prevHubScroll = 0;
         const observedHubSections = new Set();
@@ -279,7 +279,7 @@ async function runScrollAudit() {
         // ----------------------------------------------------
         console.log('\n5. Auditing Mobile Navigation, Reading Progress & Hub Bridge (390x844)...');
         const mobilePage = await browser.newPage({ viewport: { width: 390, height: 844 } });
-        await mobilePage.goto(`${baseUrl}/articles/omnichannel-communication-unified-inbox-crm-guide`, { waitUntil: 'networkidle' });
+        await mobilePage.goto(`${baseUrl}/unified-inbox`, { waitUntil: 'networkidle' });
 
         // Scroll to 800px on mobile
         await mobilePage.evaluate(() => {
@@ -323,7 +323,7 @@ async function runScrollAudit() {
 
         // Check drawer contents: section list, booking button, and parent Hub bridge
         const drawerInfo = await mobilePage.evaluate(() => {
-            const hubLink = document.querySelector('div[class*="fixed inset-0"] a[href^="/topics/"]');
+            const hubLink = document.querySelector('div[class*="fixed inset-0"] a[href="/whatsapp-in-crm"]') || document.querySelector('div[class*="fixed inset-0"] a[href^="/"]');
             const bookingBtn = document.querySelector('div[class*="fixed inset-0"] button[class*="bg-primary"]');
             const sectionButtons = document.querySelectorAll('div[class*="fixed inset-0"] div[class*="overflow-y-auto"] button');
             return {
@@ -358,7 +358,7 @@ async function runScrollAudit() {
         // ----------------------------------------------------
         console.log('\n6. Auditing Article Header Hierarchy & Visual Dominance...');
         const headerArticle = await browser.newPage({ viewport: { width: 1280, height: 800 } });
-        await headerArticle.goto(`${baseUrl}/articles/omnichannel-communication-unified-inbox-crm-guide`, { waitUntil: 'networkidle' });
+        await headerArticle.goto(`${baseUrl}/unified-inbox`, { waitUntil: 'networkidle' });
 
         const headerAudit = await headerArticle.evaluate(() => {
             const header = document.querySelector('article header');
@@ -382,7 +382,7 @@ async function runScrollAudit() {
             const hasReadTimeAboveH1 = elementsBeforeH1.some(el => (el.textContent || '').includes('דקות קריאה'));
 
             // Check parent hub link below H1
-            const parentHubTag = header.querySelector('a[href^="/topics/"]');
+            const parentHubTag = header.querySelector('a[href="/whatsapp-in-crm"]') || header.querySelector('a[href^="/"]');
             const parentHubTagText = parentHubTag ? parentHubTag.textContent.trim() : null;
             const parentHubHref = parentHubTag ? parentHubTag.getAttribute('href') : null;
             const isParentHubBelowH1 = parentHubTag && (h1.compareDocumentPosition(parentHubTag) & Node.DOCUMENT_POSITION_FOLLOWING);
@@ -431,17 +431,16 @@ async function runScrollAudit() {
 
         // Check related content links in article footer
         const articleRelatedLinks = await headerArticle.evaluate(() => {
-            const footer = document.querySelector('footer') || document.querySelector('div[class*="border-t"]');
-            const links = Array.from(document.querySelectorAll('a[href^="/articles/"]'));
+            const links = Array.from(document.querySelectorAll('a[href^="/"]'));
             return links.map(a => ({ text: a.textContent.trim(), href: a.getAttribute('href') }));
         });
 
         // Check HubPage related article links
         const hubTopicPage = await browser.newPage({ viewport: { width: 1280, height: 800 } });
-        await hubTopicPage.goto(`${baseUrl}/topics/sales-pipeline`, { waitUntil: 'networkidle' });
+        await hubTopicPage.goto(`${baseUrl}/sales-pipeline`, { waitUntil: 'networkidle' });
 
         const hubArticleLinks = await hubTopicPage.evaluate(() => {
-            const links = Array.from(document.querySelectorAll('a[href^="/articles/"]'));
+            const links = Array.from(document.querySelectorAll('a[href^="/"]'));
             return links.map(a => ({ text: a.textContent.trim(), href: a.getAttribute('href') }));
         });
 
@@ -460,11 +459,11 @@ async function runScrollAudit() {
         // Test 8: Contextual Semantic Linking (State A & State B)
         // ----------------------------------------------------
         console.log('\n8. Auditing Contextual Semantic Linking (State A & State B)...');
-        await headerArticle.goto(`${baseUrl}/articles/excel-to-crm-pipeline-guide`, { waitUntil: 'networkidle' });
+        await headerArticle.goto(`${baseUrl}/excel-to-pipeline`, { waitUntil: 'networkidle' });
 
         const semanticAudit = await headerArticle.evaluate(() => {
             // State A: mature concept links to Hub (e.g. pipeline -> /topics/sales-pipeline)
-            const pipelineLinks = Array.from(document.querySelectorAll('article a[href="/topics/sales-pipeline"]'));
+            const pipelineLinks = Array.from(document.querySelectorAll('article a[href="/sales-pipeline"]'));
             
             // State B: progressive definition buttons (e.g. CRM, follow-up, contact)
             const definitionButtons = Array.from(document.querySelectorAll('article button[aria-haspopup="dialog"]'));
@@ -481,7 +480,7 @@ async function runScrollAudit() {
         });
 
         if (semanticAudit.pipelineLinksCount === 0) {
-            throw new Error('State A: Contextual link for "pipeline" to "/topics/sales-pipeline" not found in article body!');
+            throw new Error('State A: Contextual link for "pipeline" to "/sales-pipeline" not found in article body!');
         }
         if (semanticAudit.pipelineFirstTarget === '_blank') {
             throw new Error('State A: Contextual concept link used target="_blank"! Internal links must use same-window navigation.');
@@ -548,7 +547,7 @@ async function runScrollAudit() {
         console.log('\n9. Auditing Mobile 390px / 430px Progressive Knowledge Interaction...');
         for (const width of [390, 430]) {
             const mob = await browser.newPage({ viewport: { width, height: 844 }, hasTouch: true });
-            await mob.goto(`${baseUrl}/articles/excel-to-crm-pipeline-guide`, { waitUntil: 'networkidle' });
+            await mob.goto(`${baseUrl}/excel-to-pipeline`, { waitUntil: 'networkidle' });
 
             // Tap on concept button
             await mob.click('article button[aria-haspopup="dialog"]');

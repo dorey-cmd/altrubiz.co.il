@@ -2,7 +2,7 @@
 title: "לא עניתם לטלפון? זה לא אומר שהליד צריך ללכת"
 description: "מדריך מעשי להצלת שיחות שלא נענו בעסק: שליחת מענה מיידי בוואטסאפ או SMS, בירור צורך הלקוח, מניעת אובדן פניות וקביעת פגישות אוטומטית."
 slug: "missed-call-text-back-guide"
-canonical_url: "https://altrubiz.co.il/articles/missed-call-text-back-guide"
+canonical_url: "https://altrubiz.co.il/missed-call-text-back"
 published_date: "2025-02-24"
 modified_date: "2025-02-24"
 author: "צוות AltruBiz"

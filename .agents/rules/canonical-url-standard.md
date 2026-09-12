@@ -14,16 +14,46 @@ Every public indexable HTML page must always identify **one and only one** expli
 
 This rule is a permanent Knowledge Operating System invariant and does NOT depend on whether a URL has ever changed. It applies automatically to all current and future page types:
 - **Home Page** (`/`)
-- **Business Situation pages**
-- **Topic / Hub pages** (Pain Hubs, Micro Hubs)
-- **Concept pages**
-- **Feature / Capability pages**
-- **Sales Journey pages**
-- **Diagnostic & Assessment pages**
-- **Articles & Guides** (`/articles/<slug>`)
+- **Knowledge Center** (`/knowledge`)
+- **Topic / Hub pages** (e.g. `/lost-leads`, `/sales-pipeline`)
+- **Articles & Guides** (e.g. `/excel-to-pipeline`, `/unified-inbox`)
+- **Business Situation & Concept pages**
+- **Feature & Capability pages**
+- **Sales Journey, Diagnostic & Assessment pages**
 - **Product pages**
-- **Future knowledge-node page types**
-- **Future localized representations**
+- **Future knowledge-node page types & localized representations**
+
+---
+
+## 1.1 Permanent URL Architecture Principles (Flat & Semantic)
+
+1. **Shortest Meaningful Stable URL**:
+   - Every public URL must be concise, expressive, and durable over the multi-year business lifecycle.
+   - Strip filler words and bureaucratic suffixes (e.g. `-guide`, `-in-crm-overview`).
+2. **Flat by Default**:
+   - Content lives at the root level (`/<slug>`) unless a hierarchical folder represents a real, distinct user-facing destination/workflow.
+   - **No `/articles/` prefix**: Content is not nested under `/articles/` merely because its internal data type is an article.
+   - **No `/topics/` prefix**: Hubs are not nested under `/topics/` merely because they act as knowledge aggregators.
+3. **English Lowercase ASCII & Hyphens**:
+   - Only lowercase English letters (`a-z`), numbers (`0-9`), and hyphens (`-`).
+   - Strictly forbidden: underscores (`_`), camelCase, uppercase characters, or percent-encoded non-ASCII characters.
+4. **Identity Belongs in the URL; Relationships Belong in the Knowledge Graph**:
+   - The URL identifies *what the entity is* (e.g. `/lead-reactivation`).
+   - Topic clustering, parent hubs, and conceptual relationships are managed in the Knowledge Graph (`src/data/knowledgeGraph.ts`), not forced into nested directory paths.
+5. **Topic Similarity Does Not Justify Nesting**:
+   - Similar or related topics remain flat peers in the URL space. Nesting creates brittle URLs that break when editorial taxonomy shifts.
+6. **Parent Path Meaning & The "Parent Deletion Test"**:
+   - A subfolder exists *only* if the parent path is itself a valuable, independently browseable destination.
+   - If deleting the slug segment leaves a parent URL that has no standalone user purpose, flat routing must be used instead.
+7. **Human, SEO, AI & Sharing Invariants**:
+   - A human must be able to read, speak, or type the URL cleanly.
+   - Answer engines (LLMs) and search engines must infer subject matter directly from the slug.
+   - Social messaging previews (WhatsApp, Slack) must look authoritative and clean when shared.
+8. **Title Intent Guides Slug**:
+   - Slugs should reflect the user search intent or core business problem solved by the page, not incidental drafting artifacts.
+9. **Real Permanent Redirects on Migration**:
+   - Any migrated URL must receive a direct, permanent redirect (`permanent: true` / 308 on Vercel) to its final canonical URL.
+   - Strictly zero redirect chains (A -> B directly, never A -> B -> C).
 
 ---
 

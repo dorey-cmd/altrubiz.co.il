@@ -2,7 +2,7 @@
 title: "לפני שאתם משלמים על עוד ליד - בואו נראה מה קרה לאלה שכבר קניתם"
 description: "מדריך מעשי להחייאת לידים ישנים: איך להוציא עסקאות מהאקסל ומהקמפיינים הקודמים לפני שמגדילים תקציב פרסום, כולל פילוח ל-4 קבוצות ותסריטי פנייה אנושיים."
 slug: "lead-reactivation-guide"
-canonical_url: "https://altrubiz.co.il/articles/lead-reactivation-guide"
+canonical_url: "https://altrubiz.co.il/lead-reactivation"
 published_date: "2026-09-09"
 modified_date: "2026-09-09"
 author: "צוות AltruBiz"

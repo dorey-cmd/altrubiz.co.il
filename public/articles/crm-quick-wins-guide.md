@@ -2,7 +2,7 @@
 title: "10 פעולות מהירות ב-CRM שמייצרות ערך מיידי בעסק (Quick Wins)"
 description: "מדריך מעשי לבעלי עסקים: 10 פעולות מהירות ב-CRM ואוטומציה שמייצרות תוצאות מיידיות בלי להסתבך, מבחן 10 הדקות ואיך להתחיל מ-Quick Win ראשון."
 slug: "crm-quick-wins-guide"
-canonical_url: "https://altrubiz.co.il/articles/crm-quick-wins-guide"
+canonical_url: "https://altrubiz.co.il/crm-quick-wins"
 published_date: "2025-02-20"
 modified_date: "2025-02-20"
 author: "צוות AltruBiz"

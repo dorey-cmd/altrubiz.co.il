@@ -61,8 +61,8 @@ function buildFoundationHeader() {
           <nav aria-label="ניווט ראשי" class="hidden md:flex items-center gap-8 mx-auto">
             <a href="/#how-it-works" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">איך זה עובד</a>
             <a href="/#why-altrubiz" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">למה אלטרוביז?</a>
-            <a href="/topics/lost-leads" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">אבחון בריחת לידים</a>
-            <a href="/articles" class="inline-flex items-center gap-1.5 text-primary bg-blue-50/80 hover:bg-blue-100/80 px-3.5 py-1 rounded-full transition-colors text-sm font-semibold border border-blue-200/60">מאמרים וידע</a>
+            <a href="/lost-leads" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">אבחון בריחת לידים</a>
+            <a href="/knowledge" class="inline-flex items-center gap-1.5 text-primary bg-blue-50/80 hover:bg-blue-100/80 px-3.5 py-1 rounded-full transition-colors text-sm font-semibold border border-blue-200/60">מאמרים וידע</a>
           </nav>
           <div class="hidden md:flex items-center gap-3">
             <a href="/#contact" class="inline-flex items-center justify-center font-bold text-sm px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-md">קביעת פגישה</a>
@@ -119,7 +119,8 @@ let generatedCount = 0;
 
 for (const article of articles) {
     const slug = article.slug;
-    const articlePath = `/articles/${slug}`;
+    const articlePath = article.publicPath;
+    const publicPathRel = article.publicPath.replace(/^\//, '');
     const canonicalUrl = `${BASE_DOMAIN}${articlePath}`;
     const title = `${article.title} | AltruBiz CRM`;
     const description = article.description || '';
@@ -199,7 +200,7 @@ ${buildFoundationHeader()}
         <nav aria-label="פירורי לחם" class="flex items-center gap-2 text-xs sm:text-sm text-slate-500">
           <a href="/" class="hover:text-primary transition-colors">דף הבית</a>
           <span>&gt;</span>
-          <a href="/articles" class="hover:text-primary transition-colors">מרכז ידע ומאמרים</a>
+          <a href="/knowledge" class="hover:text-primary transition-colors">מרכז ידע ומאמרים</a>
           ${parentHub ? `<span>&gt;</span>\n          <a href="${parentHub.url}" class="hover:text-primary transition-colors">${escapeAttr(parentHub.title)}</a>` : ''}
           <span>&gt;</span>
           <span class="text-slate-900 font-medium">${escapeAttr(article.title)}</span>
@@ -266,14 +267,14 @@ ${buildFoundationHeader()}
     html = replaceRootContent(html, articleRootHtml);
 
     // Write out to dist/articles/${slug}/index.html and dist/articles/${slug}.html
-    const articleDir = path.join(DIST_DIR, 'articles', slug);
+    const articleDir = path.join(DIST_DIR, publicPathRel);
     if (!fs.existsSync(articleDir)) {
         fs.mkdirSync(articleDir, { recursive: true });
     }
     fs.writeFileSync(path.join(articleDir, 'index.html'), html, 'utf8');
-    fs.writeFileSync(path.join(DIST_DIR, 'articles', `${slug}.html`), html, 'utf8');
+    fs.writeFileSync(path.join(DIST_DIR, `${publicPathRel}.html`), html, 'utf8');
 
-    console.log(`  ✔ Prerendered social preview HTML: /articles/${slug}`);
+    console.log(`  ✔ Prerendered social preview HTML: ${article.publicPath}`);
     generatedCount++;
 }
 
@@ -286,7 +287,7 @@ const staticPages = [
         image: `${BASE_DOMAIN}/images/og-altrubiz-main.jpg`
     },
     {
-        path: 'articles',
+        path: 'knowledge',
         title: 'מרכז ידע, מדריכים ומאמרים מקצועיים | AltruBiz CRM',
         description: 'מאגר המאמרים והמדריכים של AltruBiz: הנחיות לדיוור WhatsApp, מדיניות פלטפורמות, אוטומציות עסקיות, מניעת No-Show וניהול לידים.',
         image: `${BASE_DOMAIN}/images/og-altrubiz-main.jpg`
@@ -371,7 +372,8 @@ const hubs = getAllHubs ? getAllHubs() : [];
 for (const hub of hubs) {
     let html = baseTemplate;
     const hubSlug = hub.slug;
-    const canonical = `${BASE_DOMAIN}/topics/${hubSlug}`;
+    const canonical = `${BASE_DOMAIN}${hub.url}`;
+    const hubRel = hub.url.replace(/^\//, '');
     const hubTitle = `${hub.title} | AltruBiz CRM`;
 
     html = html.replace(/<title>[\s\S]*?<\/title>/i, `<title>${escapeAttr(hubTitle)}</title>`);
@@ -396,7 +398,7 @@ ${buildFoundationHeader()}
         <nav aria-label="פירורי לחם" class="flex items-center gap-2 text-xs sm:text-sm text-slate-500">
           <a href="/" class="hover:text-primary transition-colors">דף הבית</a>
           <span>&gt;</span>
-          <a href="/articles" class="hover:text-primary transition-colors">מרכז ידע</a>
+          <a href="/knowledge" class="hover:text-primary transition-colors">מרכז ידע</a>
           <span>&gt;</span>
           <span class="text-slate-900 font-medium">${escapeAttr(hub.title)}</span>
         </nav>
@@ -429,13 +431,13 @@ ${buildFoundationHeader()}
 
     html = replaceRootContent(html, hubRootHtml);
 
-    const hubDir = path.join(DIST_DIR, 'topics', hubSlug);
+    const hubDir = path.join(DIST_DIR, hubRel);
     if (!fs.existsSync(hubDir)) {
         fs.mkdirSync(hubDir, { recursive: true });
     }
     fs.writeFileSync(path.join(hubDir, 'index.html'), html, 'utf8');
-    fs.writeFileSync(path.join(DIST_DIR, 'topics', `${hubSlug}.html`), html, 'utf8');
-    console.log(`  ✔ Prerendered knowledge hub social preview HTML: /topics/${hubSlug}`);
+    fs.writeFileSync(path.join(DIST_DIR, `${hubRel}.html`), html, 'utf8');
+    console.log(`  ✔ Prerendered knowledge hub social preview HTML: ${hub.url}`);
     generatedCount++;
 }
 

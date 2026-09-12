@@ -80,8 +80,8 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onOpenContactM
                                 </p>
                             </div>
                             <a 
-                                href="/topics/lost-leads"
-                                onClick={(e) => { e.preventDefault(); onNavigate('/topics/lost-leads'); }}
+                                href="/lost-leads"
+                                onClick={(e) => { e.preventDefault(); onNavigate('/lost-leads'); }}
                                 className="text-xs font-bold text-primary group-hover:text-blue-700 flex items-center gap-1 mt-auto pt-3 border-t border-slate-200/60"
                             >
                                 <span>למדריך האבחון המלא לבריחת לידים</span>
@@ -101,8 +101,8 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onOpenContactM
                                 </p>
                             </div>
                             <a 
-                                href="/topics/whatsapp-in-crm"
-                                onClick={(e) => { e.preventDefault(); onNavigate('/topics/whatsapp-in-crm'); }}
+                                href="/whatsapp-in-crm"
+                                onClick={(e) => { e.preventDefault(); onNavigate('/whatsapp-in-crm'); }}
                                 className="text-xs font-bold text-primary group-hover:text-blue-700 flex items-center gap-1 mt-auto pt-3 border-t border-slate-200/60"
                             >
                                 <span>למדריך המקיף לוואטסאפ ב-CRM</span>
@@ -122,8 +122,8 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onOpenContactM
                                 </p>
                             </div>
                             <a 
-                                href="/articles/lead-first-5-minutes-guide"
-                                onClick={(e) => { e.preventDefault(); onNavigate('/articles/lead-first-5-minutes-guide'); }}
+                                href="/lead-first-5-minutes"
+                                onClick={(e) => { e.preventDefault(); onNavigate('/lead-first-5-minutes'); }}
                                 className="text-xs font-bold text-primary group-hover:text-blue-700 flex items-center gap-1 mt-auto pt-3 border-t border-slate-200/60"
                             >
                                 <span>לקריאת המדריך למענה מהיר</span>
@@ -143,8 +143,8 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onOpenContactM
                                 </p>
                             </div>
                             <a 
-                                href="/articles/omnichannel-communication-unified-inbox-crm-guide"
-                                onClick={(e) => { e.preventDefault(); onNavigate('/articles/omnichannel-communication-unified-inbox-crm-guide'); }}
+                                href="/unified-inbox"
+                                onClick={(e) => { e.preventDefault(); onNavigate('/unified-inbox'); }}
                                 className="text-xs font-bold text-primary group-hover:text-blue-700 flex items-center gap-1 mt-auto pt-3 border-t border-slate-200/60"
                             >
                                 <span>למדריך התקשורת הרב-ערוצית</span>
@@ -164,8 +164,8 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onOpenContactM
                                 </p>
                             </div>
                             <a 
-                                href="/articles/salespeople-hate-crm-adoption-guide"
-                                onClick={(e) => { e.preventDefault(); onNavigate('/articles/salespeople-hate-crm-adoption-guide'); }}
+                                href="/salespeople-hate-crm"
+                                onClick={(e) => { e.preventDefault(); onNavigate('/salespeople-hate-crm'); }}
                                 className="text-xs font-bold text-primary group-hover:text-blue-700 flex items-center gap-1 mt-auto pt-3 border-t border-slate-200/60"
                             >
                                 <span>למדריך אימוץ ה-CRM במכירות</span>

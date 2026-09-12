@@ -2,7 +2,7 @@
 title: "ה-CRM הכי טוב בעולם לא שווה כלום אם ביום חמישי חזרתם לאקסל"
 description: "מדריך להטמעת CRM שעובדים איתו באמת: מהו מבחן יום חמישי, למה אסור לקנות פיצ'רים במקום שינוי הרגלים, ואיך להתחיל מ-3 פעולות בסיסיות שמייצרות סדר ושקט."
 slug: "crm-adoption-thursday-test-guide"
-canonical_url: "https://altrubiz.co.il/articles/crm-adoption-thursday-test-guide"
+canonical_url: "https://altrubiz.co.il/crm-thursday-test"
 published_date: "2026-09-09"
 modified_date: "2026-09-09"
 author: "צוות AltruBiz"

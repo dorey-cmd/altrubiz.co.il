@@ -55,9 +55,9 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
 
     const breadcrumbItems = [
         { name: 'דף הבית', path: '/' },
-        { name: 'מרכז ידע', path: '/articles' },
+        { name: 'מרכז ידע', path: '/knowledge' },
         ...(parentHub ? [{ name: parentHub.title, path: parentHub.url }] : []),
-        { name: article.title, path: `/articles/${article.slug}` }
+        { name: article.title, path: article.publicPath }
     ];
 
     const scrollToSection = (id: string) => {
@@ -236,7 +236,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                 href={buildAttributedWhatsAppUrl(
                                     inlineCta.whatsappText || `שלום צוות AltruBiz, קראתי את המאמר "${article.title}" ואשמח להתייעץ.`,
                                     {
-                                        sourcePage: `/articles/${article.slug}`,
+                                        sourcePage: article.publicPath,
                                         sourceSection: activeSectionId,
                                         sourceArticle: article.slug,
                                         sourceTopic: parentHub?.slug,
@@ -264,7 +264,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                             subtitle: inlineCta.description,
                                             badge: inlineCta.badge || 'בדיקת התאמה',
                                             attribution: {
-                                                sourcePage: `/articles/${article.slug}`,
+                                                sourcePage: article.publicPath,
                                                 sourceSection: activeSectionId,
                                                 sourceArticle: article.slug,
                                                 sourceTopic: parentHub?.slug,
@@ -289,7 +289,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
         // 2. Quote & Quick Share Card
         if (variant === 'quote-share') {
             const quoteText = inlineCta.quote || inlineCta.title;
-            const articleUrl = typeof window !== 'undefined' ? window.location.href : `https://altrubiz.co.il/articles/${article.slug}`;
+            const articleUrl = typeof window !== 'undefined' ? window.location.href : `https://altrubiz.co.il${article.publicPath}`;
             const whatsappShareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(
                 `💡 "${quoteText}"\n\nמתוך המאמר: *${article.title}*\n${articleUrl}`
             )}`;
@@ -368,7 +368,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                         subtitle: inlineCta.description,
                                         badge: inlineCta.badge || 'בדיקת התאמה',
                                         attribution: {
-                                            sourcePage: `/articles/${article.slug}`,
+                                            sourcePage: article.publicPath,
                                             sourceSection: activeSectionId,
                                             sourceArticle: article.slug,
                                             sourceTopic: parentHub?.slug,
@@ -437,7 +437,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                             subtitle: 'נשמח להכיר את הפעילות ולהתאים את המענה המדויק.',
                                             badge: 'תיאום שיחה ביומן',
                                             attribution: {
-                                                sourcePage: `/articles/${article.slug}`,
+                                                sourcePage: article.publicPath,
                                                 sourceSection: activeSectionId,
                                                 sourceArticle: article.slug,
                                                 sourceTopic: parentHub?.slug,
@@ -491,7 +491,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                         subtitle: inlineCta.description,
                                         badge: inlineCta.badge || 'תיאום פגישה ביומן',
                                         attribution: {
-                                            sourcePage: `/articles/${article.slug}`,
+                                            sourcePage: article.publicPath,
                                             sourceSection: activeSectionId,
                                             sourceArticle: article.slug,
                                             sourceTopic: parentHub?.slug,
@@ -513,7 +513,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                             href={buildAttributedWhatsAppUrl(
                                 inlineCta.whatsappText || `שלום צוות AltruBiz, קראתי את המאמר "${article.title}" ואשמח לבדוק איך זה יכול לעבוד אצלנו בעסק`,
                                 {
-                                    sourcePage: `/articles/${article.slug}`,
+                                    sourcePage: article.publicPath,
                                     sourceSection: activeSectionId,
                                     sourceArticle: article.slug,
                                     sourceTopic: parentHub?.slug,
@@ -1038,6 +1038,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                         keyTakeaway={article.keyTakeaway}
                         heroSummary={article.heroSummary}
                         slug={article.slug}
+                        publicPath={article.publicPath}
                         coverImage={article.coverImage}
                         variant="header"
                     />
@@ -1168,7 +1169,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                                     subtitle: 'נמפה תהליך אחד בעסק ונראה איך לפשט אותו עם AltruBiz CRM.',
                                                     badge: 'תיאום פגישה ביומן',
                                                     attribution: {
-                                                        sourcePage: `/articles/${article.slug}`,
+                                                        sourcePage: article.publicPath,
                                                         sourceSection: activeSectionId,
                                                         sourceArticle: article.slug,
                                                         sourceTopic: parentHub?.slug,
@@ -1189,7 +1190,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                         href={buildAttributedWhatsAppUrl(
                                             `שלום צוות AltruBiz, קראתי את המאמר "${article.title}" ואשמח להתייעץ לגבי העסק שלנו.`,
                                             {
-                                                sourcePage: `/articles/${article.slug}`,
+                                                sourcePage: article.publicPath,
                                                 sourceSection: activeSectionId,
                                                 sourceArticle: article.slug,
                                                 sourceTopic: parentHub?.slug,
@@ -1375,6 +1376,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                 keyTakeaway={article.keyTakeaway}
                                 heroSummary={article.heroSummary}
                                 slug={article.slug}
+                                publicPath={article.publicPath}
                                 coverImage={article.coverImage}
                                 variant="featured"
                             />
@@ -1435,7 +1437,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                                     subtitle: article.cta ? article.cta.description : 'צוות AltruBiz יסייע לכם לחבר את התהליכים, הלידים והאוטומציה העסקית בצורה מותאמת אישית לפעילות שלכם.',
                                                     badge: 'תיאום פגישה ביומן',
                                                     attribution: {
-                                                        sourcePage: `/articles/${article.slug}`,
+                                                        sourcePage: article.publicPath,
                                                         sourceSection: 'article-footer-cta',
                                                         sourceArticle: article.slug,
                                                         sourceTopic: parentHub?.slug,
@@ -1461,7 +1463,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                         href={buildAttributedWhatsAppUrl(
                                             article.cta?.whatsappText || `שלום צוות AltruBiz, קראתי את המאמר "${article.title}" ואשמח לבדוק איך זה יכול לעבוד אצלנו בעסק`,
                                             {
-                                                sourcePage: `/articles/${article.slug}`,
+                                                sourcePage: article.publicPath,
                                                 sourceSection: 'article-footer-cta',
                                                 sourceArticle: article.slug,
                                                 sourceTopic: parentHub?.slug,
@@ -1506,7 +1508,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
 
                                     <button
                                         type="button"
-                                        onClick={() => onNavigate('/articles')}
+                                        onClick={() => onNavigate('/knowledge')}
                                         className="inline-flex items-center gap-2 text-white/80 hover:text-white px-5 py-3.5 rounded-xl border border-white/20 hover:border-white/40 transition-colors text-sm font-medium"
                                     >
                                         <ChevronLeft size={16} />
@@ -1619,11 +1621,11 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                         <div className="pt-3 border-t border-slate-100 space-y-2">
                             {parentHub ? (
                                 <a
-                                    href={`/topics/${parentHub.slug}`}
+                                    href={parentHub.url}
                                     onClick={(e) => {
                                         e.preventDefault();
                                         setIsMobileDrawerOpen(false);
-                                        onNavigate(`/topics/${parentHub.slug}`);
+                                        onNavigate(parentHub.url);
                                     }}
                                     className="w-full py-2.5 px-3 bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-200/70 rounded-xl font-bold text-xs flex items-center justify-between gap-2 transition-colors"
                                 >
@@ -1635,11 +1637,11 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                 </a>
                             ) : (
                                 <a
-                                    href="/articles"
+                                    href="/knowledge"
                                     onClick={(e) => {
                                         e.preventDefault();
                                         setIsMobileDrawerOpen(false);
-                                        onNavigate('/articles');
+                                        onNavigate('/knowledge');
                                     }}
                                     className="w-full py-2.5 px-3 bg-slate-50 hover:bg-slate-100 text-slate-800 border border-slate-200 rounded-xl font-bold text-xs flex items-center justify-between gap-2 transition-colors"
                                 >
@@ -1662,7 +1664,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                             subtitle: 'נמפה תהליך אחד בעסק ונראה איך לפשט אותו עם AltruBiz CRM.',
                                             badge: 'תיאום פגישה ביומן',
                                             attribution: {
-                                                sourcePage: `/articles/${article.slug}`,
+                                                sourcePage: article.publicPath,
                                                 sourceSection: activeSectionId,
                                                 sourceArticle: article.slug,
                                                 sourceTopic: parentHub?.slug,

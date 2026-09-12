@@ -84,13 +84,13 @@ async function runTests() {
         // -------------------------------------------------------------
         // TEST 1: Desktop Browser - State A & State B Verification
         // -------------------------------------------------------------
-        console.log('--- TEST 1: Desktop Verification on /articles/excel-to-crm-pipeline-guide ---');
+        console.log('--- TEST 1: Desktop Verification on /excel-to-pipeline ---');
         const context = await browser.newContext({
             viewport: { width: 1440, height: 900 }
         });
         const page = await context.newPage();
 
-        const targetUrl = `${server.baseUrl}/articles/excel-to-crm-pipeline-guide`;
+        const targetUrl = `${server.baseUrl}/excel-to-pipeline`;
         await page.goto(targetUrl, { waitUntil: 'networkidle' });
         await page.waitForTimeout(500);
 
@@ -106,10 +106,10 @@ async function runTests() {
             console.log('  ✔ PASS: Zero raw "concept:*" strings leaked in visible body text.');
         }
 
-        // Verify State A (Link to /topics/sales-pipeline for "פייפליין")
-        const stateALink = await page.$('a[href="/topics/sales-pipeline"]');
+        // Verify State A (Link to /sales-pipeline for "פייפליין")
+        const stateALink = await page.$('a[href="/sales-pipeline"]');
         if (!stateALink) {
-            console.error('❌ FAIL: State A link pointing to /topics/sales-pipeline not found!');
+            console.error('❌ FAIL: State A link pointing to /sales-pipeline not found!');
             failed = true;
         } else {
             const linkText = await stateALink.innerText();

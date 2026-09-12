@@ -2,7 +2,7 @@
 title: "המלצות לשימוש נכון ובטוח בדיוור WhatsApp באמצעות AltruBiz"
 description: "מדריך מקיף וכללים מעשיים לדיוור בטוח ב-WhatsApp לעסקים: עמידה במדיניות Meta, קבלת הסכמה, תבניות מאושרות ומניעת חסימות בחשבון."
 slug: "whatsapp-messaging-guidelines"
-canonical_url: "https://altrubiz.co.il/articles/whatsapp-messaging-guidelines"
+canonical_url: "https://altrubiz.co.il/whatsapp-messaging-guidelines"
 published_date: "2025-02-15"
 modified_date: "2025-02-15"
 author: "צוות AltruBiz"

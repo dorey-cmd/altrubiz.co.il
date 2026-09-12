@@ -2,7 +2,7 @@
 title: "כמה יוסי כהן יש לכם? כך מונעים מ-CRM מסודר להפוך למחסן כפילויות"
 description: "מדריך למניעת כפילויות ב-CRM: איך למנוע פיצול לידים חוזרים, לשמור על היסטוריית שיחות מלאה בכרטיס אחד ולעבור את מבחן יוסי כהן בהצלחה."
 slug: "crm-duplicate-contacts-prevention-guide"
-canonical_url: "https://altrubiz.co.il/articles/crm-duplicate-contacts-prevention-guide"
+canonical_url: "https://altrubiz.co.il/prevent-duplicate-contacts"
 published_date: "2026-09-09"
 modified_date: "2026-09-09"
 author: "צוות AltruBiz"

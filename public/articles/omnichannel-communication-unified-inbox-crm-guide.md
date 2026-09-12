@@ -2,7 +2,7 @@
 title: "\"שלחתי לכם הודעה באינסטגרם\" - ארבע מילים שגורמות לעסק להתחיל לחפש"
 description: "איך שיחה אחת של לקוח הופכת לחמש שיחות נפרדות בעסק, למה אובדן הקשר מסוכן יותר מאיבוד הודעה, ואיך מרכזים WhatsApp, אינסטגרם ומייל ל-CRM אחוד."
 slug: "omnichannel-communication-unified-inbox-crm-guide"
-canonical_url: "https://altrubiz.co.il/articles/omnichannel-communication-unified-inbox-crm-guide"
+canonical_url: "https://altrubiz.co.il/unified-inbox"
 published_date: "2026-09-10"
 modified_date: "2026-09-10"
 author: "צוות AltruBiz"

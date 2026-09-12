@@ -2,7 +2,7 @@
 title: "הלקוח אמר \"כן\". ואז התחיל הבלגן"
 description: "מדריך מקיף לתהליך Onboarding מסודר ב-CRM: איך לקלוט לקוחות חדשים ללא בלגן, למנוע תסכול אחרי המכירה ולחבר אוטומציה חכמה עם מגע אנושי."
 slug: "client-onboarding-process-guide"
-canonical_url: "https://altrubiz.co.il/articles/client-onboarding-process-guide"
+canonical_url: "https://altrubiz.co.il/client-onboarding"
 published_date: "2026-09-10"
 modified_date: "2026-09-10"
 author: "צוות AltruBiz"

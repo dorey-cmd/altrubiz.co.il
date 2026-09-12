@@ -74,15 +74,15 @@ export const Header = ({ onNavigate, onOpenBookingModal }: HeaderProps) => {
                             למה אלטרוביז?
                         </a>
                         <a 
-                            href="/topics/lost-leads" 
-                            onClick={(e) => handleLinkClick(e, '/topics/lost-leads')}
+                            href="/lost-leads" 
+                            onClick={(e) => handleLinkClick(e, '/lost-leads')}
                             className="text-gray-600 hover:text-primary transition-colors text-sm font-medium"
                         >
                             אבחון בריחת לידים
                         </a>
                         <a 
-                            href="/articles" 
-                            onClick={(e) => handleLinkClick(e, '/articles')}
+                            href="/knowledge" 
+                            onClick={(e) => handleLinkClick(e, '/knowledge')}
                             className="inline-flex items-center gap-1.5 text-primary hover:text-blue-700 bg-blue-50/80 hover:bg-blue-100/80 px-3.5 py-1 rounded-full transition-colors text-sm font-semibold border border-blue-200/60"
                         >
                             <BookOpen size={14} />
@@ -137,15 +137,15 @@ export const Header = ({ onNavigate, onOpenBookingModal }: HeaderProps) => {
                             למה אלטרוביז?
                         </a>
                         <a 
-                            href="/topics/lost-leads" 
-                            onClick={(e) => handleLinkClick(e, '/topics/lost-leads')}
+                            href="/lost-leads" 
+                            onClick={(e) => handleLinkClick(e, '/lost-leads')}
                             className="block px-3 py-2 text-gray-700 hover:text-primary hover:bg-blue-50 rounded-lg text-base font-medium"
                         >
                             אבחון בריחת לידים
                         </a>
                         <a 
-                            href="/articles" 
-                            onClick={(e) => handleLinkClick(e, '/articles')}
+                            href="/knowledge" 
+                            onClick={(e) => handleLinkClick(e, '/knowledge')}
                             className="block px-3 py-2 text-primary font-semibold hover:bg-blue-50 rounded-lg flex items-center gap-2 text-base"
                         >
                             <BookOpen size={16} />

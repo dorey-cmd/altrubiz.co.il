@@ -2,7 +2,7 @@
 title: "ליד נכנס עכשיו: מה צריך לקרות ב-5 הדקות הבאות?"
 description: "מדריך מעשי לבניית 5 הדקות הראשונות של ליד חדש: אישור הגעה מיידי, התראה לחבר הצוות הנכון, מעבר ישיר ליומן פגישות ומניעת אובדן לקוחות."
 slug: "lead-first-5-minutes-guide"
-canonical_url: "https://altrubiz.co.il/articles/lead-first-5-minutes-guide"
+canonical_url: "https://altrubiz.co.il/lead-first-5-minutes"
 published_date: "2025-02-22"
 modified_date: "2025-02-22"
 author: "צוות AltruBiz"

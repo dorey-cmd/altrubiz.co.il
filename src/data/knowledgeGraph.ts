@@ -161,7 +161,7 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
     'hub-lost-leads': {
         id: 'hub-lost-leads',
         slug: 'lost-leads',
-        url: '/topics/lost-leads',
+        url: '/lost-leads',
         nodeType: 'pain_hub',
         hasPublicPage: true,
         title: 'לידים נופלים בין הכיסאות: המדריך לאבחון, עצירת נטישה וסגירת עסקאות',
@@ -307,7 +307,7 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
     'hub-whatsapp-in-crm': {
         id: 'hub-whatsapp-in-crm',
         slug: 'whatsapp-in-crm',
-        url: '/topics/whatsapp-in-crm',
+        url: '/whatsapp-in-crm',
         nodeType: 'micro_hub',
         hasPublicPage: true,
         title: 'וואטסאפ ב-CRM: איך לחבר את הערוץ הכי חזק בעסק לסיסטם אוטומטי ובטוח',
@@ -450,7 +450,7 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
     'hub-sales-pipeline': {
         id: 'hub-sales-pipeline',
         slug: 'sales-pipeline',
-        url: '/topics/sales-pipeline',
+        url: '/sales-pipeline',
         nodeType: 'pain_hub',
         hasPublicPage: true,
         title: 'תהליך מכירה ופייפליין חזותי: המדריך המעשי לבניית משפך שלא תלוי בזיכרון',
@@ -596,7 +596,7 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
     'hub-business-memory': {
         id: 'hub-business-memory',
         slug: 'business-memory',
-        url: '/topics/business-memory',
+        url: '/business-memory',
         nodeType: 'pain_hub',
         hasPublicPage: true,
         title: 'זיכרון ארגוני ותיעוד לקוחות: איך להפסיק לאבד מידע קריטי כשהעובדים מתחלפים',
@@ -741,7 +741,7 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
     'hub-repetitive-manual-work': {
         id: 'hub-repetitive-manual-work',
         slug: 'repetitive-manual-work',
-        url: '/topics/repetitive-manual-work',
+        url: '/repetitive-manual-work',
         nodeType: 'pain_hub',
         hasPublicPage: true,
         title: 'עבודה ידנית שחוזרת על עצמה: המדריך לשחרור צווארי בקבוק באמצעות אוטומציות חכמות',
@@ -1020,7 +1020,7 @@ export const CANONICAL_CONCEPTS: Record<string, CanonicalConcept> = {
         canonicalDefinition: 'משפך וציר עבודה חזותי המציג בכל רגע נתון היכן עומדת כל עסקה, מה הצעד הבא ומתי נדרש מעקב.',
         maturity: 'canonical',
         hasApprovedPublicDestination: true,
-        publicDestinationUrl: '/topics/sales-pipeline',
+        publicDestinationUrl: '/sales-pipeline',
         primaryParentHubSlug: 'sales-pipeline',
         recommendedBehavior: 'contextual_link'
     },
@@ -1031,7 +1031,7 @@ export const CANONICAL_CONCEPTS: Record<string, CanonicalConcept> = {
         canonicalDefinition: 'טריגרים ופעולות מערכת שפועלים ברקע ללא צורך בהתערבות אנושית חוזרת (מענה מהיר, תזכורות ועדכונים).',
         maturity: 'canonical',
         hasApprovedPublicDestination: true,
-        publicDestinationUrl: '/topics/repetitive-manual-work',
+        publicDestinationUrl: '/repetitive-manual-work',
         primaryParentHubSlug: 'repetitive-manual-work',
         recommendedBehavior: 'contextual_link'
     },
@@ -1042,7 +1042,7 @@ export const CANONICAL_CONCEPTS: Record<string, CanonicalConcept> = {
         canonicalDefinition: 'סדרת שלבים ופעולות קבועות בעסק הקובעות בדיוק מה קורה מרגע כניסת פנייה ועד סיום השירות.',
         maturity: 'canonical',
         hasApprovedPublicDestination: true,
-        publicDestinationUrl: '/topics/repetitive-manual-work',
+        publicDestinationUrl: '/repetitive-manual-work',
         primaryParentHubSlug: 'repetitive-manual-work',
         recommendedBehavior: 'contextual_link'
     },
@@ -1053,7 +1053,7 @@ export const CANONICAL_CONCEPTS: Record<string, CanonicalConcept> = {
         canonicalDefinition: 'מצב שבו מתעניינים שפנו לעסק מתאדים ללא מענה מסודר, ללא פולואפ או בעקבות שיחה שלא נענתה.',
         maturity: 'canonical',
         hasApprovedPublicDestination: true,
-        publicDestinationUrl: '/topics/lost-leads',
+        publicDestinationUrl: '/lost-leads',
         primaryParentHubSlug: 'lost-leads',
         recommendedBehavior: 'contextual_link'
     },
@@ -1064,7 +1064,7 @@ export const CANONICAL_CONCEPTS: Record<string, CanonicalConcept> = {
         canonicalDefinition: 'חיבור ערוץ ה-WhatsApp ישירות למערכת ה-CRM לצורך מענה מיידי, תיעוד מלא ואוטומציות מאושרות.',
         maturity: 'canonical',
         hasApprovedPublicDestination: true,
-        publicDestinationUrl: '/topics/whatsapp-in-crm',
+        publicDestinationUrl: '/whatsapp-in-crm',
         primaryParentHubSlug: 'whatsapp-in-crm',
         recommendedBehavior: 'contextual_link'
     },
@@ -1075,7 +1075,7 @@ export const CANONICAL_CONCEPTS: Record<string, CanonicalConcept> = {
         canonicalDefinition: 'ריכוז היסטוריית הלקוחות, הסיכומים והמסמכים במאגר מרכזי כך שהמידע אינו תלוי בעובד ספציפי.',
         maturity: 'canonical',
         hasApprovedPublicDestination: true,
-        publicDestinationUrl: '/topics/business-memory',
+        publicDestinationUrl: '/business-memory',
         primaryParentHubSlug: 'business-memory',
         recommendedBehavior: 'contextual_link'
     },
@@ -1086,7 +1086,7 @@ export const CANONICAL_CONCEPTS: Record<string, CanonicalConcept> = {
         canonicalDefinition: 'אינבוקס צוותי המרכז שיחות וואטסאפ, אינסטגרם, פייסבוק, SMS ומייל לציר תקשורת אחיד לכל לקוח.',
         maturity: 'canonical',
         hasApprovedPublicDestination: true,
-        publicDestinationUrl: '/topics/whatsapp-in-crm',
+        publicDestinationUrl: '/whatsapp-in-crm',
         primaryParentHubSlug: 'whatsapp-in-crm',
         recommendedBehavior: 'contextual_link'
     },
@@ -1198,11 +1198,11 @@ export interface RecognitionSituation {
 
 export function getCanonicalRecognitionSituations(): RecognitionSituation[] {
     return [
-        { id: 'lost-leads', text: 'לידים שלא מקבלים מענה בזמן', hubSlug: 'lost-leads', url: '/topics/lost-leads' },
-        { id: 'whatsapp-in-crm', text: 'וואטסאפ שלא מחובר לתהליך', hubSlug: 'whatsapp-in-crm', url: '/topics/whatsapp-in-crm' },
-        { id: 'sales-pipeline', text: 'לא ברור איפה כל עסקה עומדת', hubSlug: 'sales-pipeline', url: '/topics/sales-pipeline' },
-        { id: 'business-memory', text: 'מידע שנשאר בראש של העובד', hubSlug: 'business-memory', url: '/topics/business-memory' },
-        { id: 'repetitive-manual-work', text: 'עבודה ידנית שחוזרת על עצמה', hubSlug: 'repetitive-manual-work', url: '/topics/repetitive-manual-work' }
+        { id: 'lost-leads', text: 'לידים שלא מקבלים מענה בזמן', hubSlug: 'lost-leads', url: '/lost-leads' },
+        { id: 'whatsapp-in-crm', text: 'וואטסאפ שלא מחובר לתהליך', hubSlug: 'whatsapp-in-crm', url: '/whatsapp-in-crm' },
+        { id: 'sales-pipeline', text: 'לא ברור איפה כל עסקה עומדת', hubSlug: 'sales-pipeline', url: '/sales-pipeline' },
+        { id: 'business-memory', text: 'מידע שנשאר בראש של העובד', hubSlug: 'business-memory', url: '/business-memory' },
+        { id: 'repetitive-manual-work', text: 'עבודה ידנית שחוזרת על עצמה', hubSlug: 'repetitive-manual-work', url: '/repetitive-manual-work' }
     ];
 }
 
@@ -1212,32 +1212,32 @@ export function getCanonicalRecognitionSituations(): RecognitionSituation[] {
 export function getFeatureKnowledgeLink(featureKey: string): { url: string; label: string } {
     const mappings: Record<string, { url: string; label: string }> = {
         'lead-management': {
-            url: '/topics/lost-leads',
+            url: '/lost-leads',
             label: 'מדריך לאבחון ועצירת בריחת לידים'
         },
         'omnichannel': {
-            url: '/topics/whatsapp-in-crm',
+            url: '/whatsapp-in-crm',
             label: 'איך לחבר וואטסאפ ל-CRM בצורה נכונה'
         },
         'sales-pipeline': {
-            url: '/topics/sales-pipeline',
+            url: '/sales-pipeline',
             label: 'מדריך לבניית פייפליין מכירות חזותי'
         },
         'automations': {
-            url: '/topics/repetitive-manual-work',
+            url: '/repetitive-manual-work',
             label: 'איך לשחרר את הצוות מעבודה ידנית'
         },
         'ai-bots': {
-            url: '/articles/non-technical-to-ai-automation-guide',
+            url: '/automation-without-tech-skills',
             label: 'איך מתחילים עם אוטומציה ו-AI בלי להסתבך'
         },
         'dashboard': {
-            url: '/topics/business-memory',
+            url: '/business-memory',
             label: 'איך לשמור על הזיכרון הארגוני והנתונים'
         }
     };
 
-    return mappings[featureKey] || { url: '/topics/sales-pipeline', label: 'למרכז הידע' };
+    return mappings[featureKey] || { url: '/sales-pipeline', label: 'למרכז הידע' };
 }
 
 /**
@@ -1245,11 +1245,11 @@ export function getFeatureKnowledgeLink(featureKey: string): { url: string; labe
  */
 export function getHowItWorksStepKnowledge(stepNum: string): { url: string; label: string } {
     const mappings: Record<string, { url: string; label: string }> = {
-        '1': { url: '/topics/lost-leads', label: 'איך עוצרים בריחת לידים?' },
-        '2': { url: '/topics/whatsapp-in-crm', label: 'איך לחבר וואטסאפ לתהליך?' },
-        '3': { url: '/topics/sales-pipeline', label: 'איך בונים פייפליין חזותי?' },
-        '4': { url: '/topics/business-memory', label: 'איך שומרים על הזיכרון הארגוני?' }
+        '1': { url: '/lost-leads', label: 'איך עוצרים בריחת לידים?' },
+        '2': { url: '/whatsapp-in-crm', label: 'איך לחבר וואטסאפ לתהליך?' },
+        '3': { url: '/sales-pipeline', label: 'איך בונים פייפליין חזותי?' },
+        '4': { url: '/business-memory', label: 'איך שומרים על הזיכרון הארגוני?' }
     };
 
-    return mappings[stepNum] || { url: '/topics/sales-pipeline', label: 'להעמקה במרכז הידע' };
+    return mappings[stepNum] || { url: '/sales-pipeline', label: 'להעמקה במרכז הידע' };
 }
