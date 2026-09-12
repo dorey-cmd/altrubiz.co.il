@@ -55,12 +55,13 @@ function reportFail(msg) {
 }
 
 function checkServer(url) {
+    const client = url.startsWith('https') ? require('https') : require('http');
     return new Promise((resolve) => {
-        const req = http.get(url, (res) => {
+        const req = client.get(url, (res) => {
             resolve(res.statusCode >= 200 && res.statusCode < 400);
         });
         req.on('error', () => resolve(false));
-        req.setTimeout(2000, () => {
+        req.setTimeout(4000, () => {
             req.destroy();
             resolve(false);
         });
