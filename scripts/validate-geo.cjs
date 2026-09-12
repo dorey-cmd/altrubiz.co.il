@@ -144,17 +144,25 @@ for (const art of articlesList) {
     }
 
     // Check markdown mirror file
-    const cleanPath = (art.publicPath || art.canonicalUrl.replace('https://altrubiz.co.il', '')).replace(/^\//, '');
-    const mdFile = path.join(PUBLIC_DIR, `${cleanPath}.md`);
-    if (fs.existsSync(mdFile)) {
-        const mdContent = fs.readFileSync(mdFile, 'utf8');
-        if (mdContent.startsWith('---') && mdContent.includes('title:')) {
-            reportPass(`Article "${art.slug}" has valid markdown mirror with YAML frontmatter in public/${cleanPath}.md`);
+    // Markdown mirrors are generated exclusively for published articles (see scripts/sync-articles-md.cjs,
+    // getPublishedArticles()). Review/draft articles must NEVER get a machine-readable mirror exposed under
+    // public/, per the "Zero Automatic Publication / Indexing" invariant (.agents/rules/publication-indexability-governance.md) -
+    // an unapproved draft's full content must not leak to a bare, unprotected static URL.
+    if (art.publicationStatus === 'published') {
+        const cleanPath = (art.publicPath || art.canonicalUrl.replace('https://altrubiz.co.il', '')).replace(/^\//, '');
+        const mdFile = path.join(PUBLIC_DIR, `${cleanPath}.md`);
+        if (fs.existsSync(mdFile)) {
+            const mdContent = fs.readFileSync(mdFile, 'utf8');
+            if (mdContent.startsWith('---') && mdContent.includes('title:')) {
+                reportPass(`Article "${art.slug}" has valid markdown mirror with YAML frontmatter in public/${cleanPath}.md`);
+            } else {
+                reportFail(`Article markdown file "${cleanPath}.md" is missing YAML frontmatter`, true);
+            }
         } else {
-            reportFail(`Article markdown file "${cleanPath}.md" is missing YAML frontmatter`, true);
+            reportFail(`Missing markdown mirror for LLMs: public/${cleanPath}.md`, true);
         }
     } else {
-        reportFail(`Missing markdown mirror for LLMs: public/${cleanPath}.md`, true);
+        reportPass(`Article "${art.slug}" is "${art.publicationStatus}" - correctly excluded from public markdown mirror generation`);
     }
 }
 

@@ -183,7 +183,8 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
             'missed-call-text-back-guide',
             'lead-reactivation-guide',
             'excel-to-crm-pipeline-guide',
-            'crm-quick-wins-guide'
+            'crm-quick-wins-guide',
+            'quote-follow-up-guide'
         ],
         recommendedNextSlugs: ['whatsapp-in-crm', 'sales-pipeline', 'salespeople-hate-crm-adoption-guide'],
         relevantNextActions: ['meeting', 'whatsapp', 'pricing', 'guide', 'assessment'],
@@ -191,7 +192,7 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
         isIndexable: true,
         maturity: 'canonical',
         dateCreated: '2026-09-10',
-        dateUpdated: '2026-09-10',
+        dateUpdated: '2026-09-12',
         hubData: {
             problemDefinition: 'בריחת לידים היא המצב שבו אנשים שפנו לעסק והביעו עניין פעיל בשירות או במוצר שלכם מתפוגגים בלי שנרכשה עסקה, מבלי שסירבו במפורש, ורק בגלל עיכוב במענה, שיחה שלא נענתה, חוסר מעקב או מידע מפוזר.',
             whyItHappens: [
@@ -270,6 +271,17 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
                     ],
                     manifestationId: 'stalled-old-leads',
                     relatedArticleSlugs: ['lead-reactivation-guide', 'excel-to-crm-pipeline-guide']
+                },
+                {
+                    id: 'quote-follow-up-neglect',
+                    title: '4. תופעת השטח: הצעת מחיר שנשלחה ואף אחד לא חוזר אליה',
+                    subtitle: 'השקט שאחרי השליחה הוא הרגע שבו הכי קל לאבד את העסקה',
+                    content: [
+                        'לקוח מקבל הצעת מחיר, מבקש לחשוב, ומעבר לזה לא סוכם שום דבר קונקרטי. בלי צעד הבא מוגדר וגלוי, ההצעה נשארת תלויה בזיכרון של מישהו בצוות, וברוב המקרים היא פשוט נשכחת.',
+                        'הפתרון אינו לרדוף אחרי הלקוח, אלא לוודא שלכל הצעת מחיר יש תזכורת ותאריך מעקב ברורים כבר ברגע שהיא נשלחת, כך שאף עסקה לא תלויה בכך שמישהו "יזכור" לחזור אליה.'
+                    ],
+                    manifestationId: 'quote-follow-up-neglect',
+                    relatedArticleSlugs: ['quote-follow-up-guide']
                 }
             ],
             solutionPaths: [
