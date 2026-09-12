@@ -801,7 +801,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
 
                 {section.subtitle && (
                     <p className="text-slate-600 mb-6 font-normal">
-                        {section.subtitle}
+                        {renderFormattedText(section.subtitle, onNavigate)}
                     </p>
                 )}
 

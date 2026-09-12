@@ -1081,13 +1081,21 @@ export const CANONICAL_CONCEPTS: Record<string, CanonicalConcept> = {
     },
     'unified-inbox': {
         id: 'unified-inbox',
-        term: 'אינבוקס אחוד (Unified Inbox)',
-        synonyms: ['אינבוקס אחוד', 'תיבת דואר אחודה', 'Unified Inbox'],
-        canonicalDefinition: 'אינבוקס צוותי המרכז שיחות וואטסאפ, אינסטגרם, פייסבוק, SMS ומייל לציר תקשורת אחיד לכל לקוח.',
+        term: 'אינבוקס אחוד ותקשורת רב-ערוצית (Unified Inbox & Omnichannel)',
+        synonyms: [
+            'אינבוקס אחוד',
+            'תיבת דואר אחודה',
+            'Unified Inbox',
+            'Omnichannel',
+            'תקשורת רב-ערוצית',
+            'omnichannel communication',
+            'כל ערוצי התקשורת במקום אחד',
+            'תיבת תקשורת מאוחדת'
+        ],
+        canonicalDefinition: 'מרחב עבודה מרכזי המאחד שיחות מכל ערוצי התקשורת (וואטסאפ, אינסטגרם, פייסבוק, SMS ומייל) לציר שיחה אחד רציף ומשותף לכל לקוח.',
         maturity: 'canonical',
         hasApprovedPublicDestination: true,
-        publicDestinationUrl: '/whatsapp-in-crm',
-        primaryParentHubSlug: 'whatsapp-in-crm',
+        publicDestinationUrl: '/unified-inbox',
         recommendedBehavior: 'contextual_link'
     },
     'crm': {
@@ -1160,6 +1168,10 @@ export function resolveCanonicalConcept(idOrAlias: string): CanonicalConcept | u
         'noshow': 'no-show',
         'no_show': 'no-show',
         'unified_inbox': 'unified-inbox',
+        'unified-inbox': 'unified-inbox',
+        'omnichannel': 'unified-inbox',
+        'omnichannel_communication': 'unified-inbox',
+        'omnichannel-communication': 'unified-inbox',
         'whatsapp_in_crm': 'whatsapp-in-crm',
         'business_memory': 'business-memory',
         'lost_leads': 'lost-leads'
