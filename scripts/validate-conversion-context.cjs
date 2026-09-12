@@ -35,7 +35,7 @@ const { chromium } = require('playwright-core');
 const http = require('http');
 
 const CHROME_PATH = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
-const TARGET_URL = process.env.TARGET_URL || 'http://localhost:4173';
+const TARGET_URL = (process.env.TARGET_URL || 'http://localhost:4173').trim().replace(/\/+$/, '');
 
 console.log('\n========================================================');
 console.log('   AltruBiz Context-Aware Conversion Engine Audit       ');
