@@ -43,7 +43,7 @@ const hubs = routesLoader.getAllHubs();
 const canonicalConcepts = routesLoader.CANONICAL_CONCEPTS;
 const routesRegistry = routesLoader.getRoutesRegistry();
 
-const publicArticles = articles.filter(a => !a.noindex && !a.draft);
+const publicArticles = routesLoader.getIndexableArticles ? routesLoader.getIndexableArticles() : articles.filter(a => a.publicationStatus === 'published' && a.indexable === true);
 
 // -------------------------------------------------------------
 // 1. Every approved public article has exactly one machine companion

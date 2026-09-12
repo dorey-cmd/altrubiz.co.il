@@ -21,35 +21,14 @@ const path = require('path');
 
 const CHROME_PATH = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
 
-// 17 approved article publicPaths
-const ARTICLE_PATHS = [
-    '/whatsapp-messaging-guidelines',
-    '/crm-quick-wins',
-    '/lead-first-5-minutes',
-    '/missed-call-text-back',
-    '/excel-to-pipeline',
-    '/crm-as-business-memory',
-    '/lead-reactivation',
-    '/follow-up-tasks',
-    '/automated-meeting-scheduling',
-    '/prevent-duplicate-contacts',
-    '/crm-thursday-test',
-    '/customer-review-requests',
-    '/prevent-no-shows',
-    '/automation-without-tech-skills',
-    '/client-onboarding',
-    '/salespeople-hate-crm',
-    '/unified-inbox'
-];
+const { getPublishedArticles, getAllHubs } = require('./routes-loader.cjs');
 
-// 5 approved public Hubs
-const HUB_PATHS = [
-    '/lost-leads',
-    '/whatsapp-in-crm',
-    '/sales-pipeline',
-    '/business-memory',
-    '/repetitive-manual-work'
-];
+// Dynamically derive approved article and hub publicPaths
+const publishedArticles = getPublishedArticles();
+const ARTICLE_PATHS = publishedArticles.map(a => a.publicPath);
+
+// Approved public Hubs
+const HUB_PATHS = getAllHubs().map(h => h.url);
 
 function checkServer(url) {
     return new Promise((resolve) => {

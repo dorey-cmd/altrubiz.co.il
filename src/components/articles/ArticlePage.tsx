@@ -29,6 +29,7 @@ import { SocialShareBar } from './SocialShareBar';
 import { ModalPresentationOptions } from '../../types/attribution';
 import { buildAttributedWhatsAppUrl } from '../../lib/attribution';
 import { renderFormattedText } from '../../lib/formatText';
+import { ReviewCockpit } from '../common/ReviewCockpit';
 
 interface ArticlePageProps {
     article: Article;
@@ -1695,6 +1696,9 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                     </div>
                 </div>
             )}
+
+            {/* Editorial Review Cockpit (Active only in authorized review mode) */}
+            <ReviewCockpit article={article} />
         </article>
     );
 };

@@ -16,8 +16,8 @@ const articles = routesLoader.getArticles();
 const hubs = routesLoader.getAllHubs();
 const canonicalConcepts = routesLoader.CANONICAL_CONCEPTS;
 
-// Filter approved, indexable public articles
-const publicArticles = articles.filter(a => !a.noindex && !a.draft);
+// Filter approved, indexable public articles using central selector
+const publicArticles = routesLoader.getIndexableArticles ? routesLoader.getIndexableArticles() : articles.filter(a => a.publicationStatus === 'published' && a.indexable === true);
 
 // 1. Generate public/llms.txt (Concise machine navigation map)
 function generateLlmsTxt() {

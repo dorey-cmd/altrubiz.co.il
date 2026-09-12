@@ -584,6 +584,7 @@ async function runScrollAudit() {
         if (browser) await browser.close();
         close();
     }
+    process.exit(0);
 }
 
 runScrollAudit().catch((err) => {

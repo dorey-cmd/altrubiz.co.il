@@ -49,7 +49,11 @@ export interface ArticleSection {
     };
 }
 
+export type PublicationStatus = 'draft' | 'review' | 'published';
+
 export interface Article {
+    publicationStatus: PublicationStatus;
+    indexable: boolean;
     slug: string;
     publicPath: string;
     title: string;
@@ -93,6 +97,8 @@ export const ARTICLES: Article[] = [
     {
         slug: 'whatsapp-messaging-guidelines',
         publicPath: '/whatsapp-messaging-guidelines',
+        publicationStatus: 'published',
+        indexable: true,
         title: 'המלצות לשימוש נכון ובטוח בדיוור WhatsApp באמצעות AltruBiz',
         subtitle: 'כללי האצבע, מדיניות Meta, והנחיות מעשיות למניעת חסימות והגבלות בחשבון העסקי',
         seoTitle: 'המלצות לשימוש נכון ובטוח בדיוור WhatsApp | AltruBiz CRM',
@@ -305,6 +311,8 @@ export const ARTICLES: Article[] = [
     {
         slug: 'crm-quick-wins-guide',
         publicPath: '/crm-quick-wins',
+        publicationStatus: 'published',
+        indexable: true,
         title: '10 פעולות מהירות ב-CRM שמייצרות ערך מיידי בעסק (Quick Wins)',
         subtitle: 'איך להתחיל לעבוד נכון עם אוטומציה וניהול לקוחות בלי להסתבך עם פרויקטים אינסופיים - מדריך מעשי + מבחן 10 הדקות',
         seoTitle: '10 פעולות Quick Win ב-CRM ואוטומציה שמייצרות ערך מיידי | AltruBiz CRM',
@@ -605,6 +613,8 @@ export const ARTICLES: Article[] = [
     {
         slug: 'lead-first-5-minutes-guide',
         publicPath: '/lead-first-5-minutes',
+        publicationStatus: 'published',
+        indexable: true,
         title: 'ליד נכנס עכשיו: מה צריך לקרות ב-5 הדקות הבאות?',
         subtitle: 'איך לבנות תהליך קליטה ומענה מיידי שמונע בריחת לקוחות וסוגר פגישות אוטומטית – גם באמצע יום עבודה עמוס',
         seoTitle: 'ליד נכנס עכשיו: מה צריך לקרות ב-5 הדקות הבאות? | AltruBiz CRM',
@@ -916,6 +926,8 @@ export const ARTICLES: Article[] = [
     {
         slug: 'missed-call-text-back-guide',
         publicPath: '/missed-call-text-back',
+        publicationStatus: 'published',
+        indexable: true,
         title: 'לא עניתם לטלפון? זה לא אומר שהליד צריך ללכת',
         subtitle: 'איך להפוך שיחות שלא נענו להזדמנויות מכירה ופגישות ביומן באמצעות מענה אוטומטי חכם (Missed Call Text Back)',
         seoTitle: 'לא עניתם לטלפון? זה לא אומר שהליד צריך ללכת | AltruBiz CRM',
@@ -1225,6 +1237,8 @@ export const ARTICLES: Article[] = [
     {
         slug: 'excel-to-crm-pipeline-guide',
         publicPath: '/excel-to-pipeline',
+        publicationStatus: 'published',
+        indexable: true,
         title: 'האקסל שלכם לא מקולקל: הוא פשוט לא יודע למי צריך לחזור היום',
         subtitle: 'איך לעבור מטבלאות סטטיות לפייפליין מכירות חזותי שמראה איפה הכסף תקוע ומי מחכה למענה – בלי פרויקטים מסובכים',
         seoTitle: 'האקסל שלכם לא מקולקל: מתי לעבור ל-Pipeline ב-CRM | AltruBiz CRM',
@@ -1533,6 +1547,8 @@ export const ARTICLES: Article[] = [
     {
         slug: 'business-memory-crm-guide',
         publicPath: '/crm-as-business-memory',
+        publicationStatus: 'published',
+        indexable: true,
         title: 'העובד יצא לחופש. למה גם חצי מהעסק יצא איתו?',
         subtitle: '"מישהו יודע מה סגרנו עם משפחת כהן?" – שתיקה. "רונית בתאילנד." איך להפוך את AltruBiz CRM לזיכרון המרכזי של העסק כדי שהמידע לא ייסע עם העובדים',
         seoTitle: 'העובד יצא לחופש. למה גם חצי מהעסק יצא איתו? | AltruBiz CRM',
@@ -1853,6 +1869,8 @@ export const ARTICLES: Article[] = [
     {
         slug: 'lead-reactivation-guide',
         publicPath: '/lead-reactivation',
+        publicationStatus: 'published',
+        indexable: true,
         title: 'לפני שאתם משלמים על עוד ליד - בואו נראה מה קרה לאלה שכבר קניתם',
         subtitle: 'יש רעיון מהפכני שכדאי לבדוק לפני שמגדילים את תקציב הפרסום: בואו נגלה מה קרה ללידים שכבר שילמתם עליהם',
         seoTitle: 'לפני שמשלמים על עוד ליד: מדריך החייאת לידים ישנים ב-CRM | AltruBiz',
@@ -2116,6 +2134,8 @@ export const ARTICLES: Article[] = [
     {
         slug: 'follow-up-tasks-crm-guide',
         publicPath: '/follow-up-tasks',
+        publicationStatus: 'published',
+        indexable: true,
         title: 'אם כתבתם לעצמכם "לחזור אליו בחמישי" - המאמר הזה בשבילכם',
         subtitle: 'איך להפסיק לנהל פולואפ בראש, בפתקים או בוואטסאפ: להפוך משימות ותזכורות לשקט נפשי ולעסקאות סגורות',
         seoTitle: 'אם כתבתם לעצמכם "לחזור אליו בחמישי" | ניהול פולואפ ומשימות ב-CRM | AltruBiz',
@@ -2369,6 +2389,8 @@ export const ARTICLES: Article[] = [
     {
         slug: 'automated-meeting-scheduling-guide',
         publicPath: '/automated-meeting-scheduling',
+        publicationStatus: 'published',
+        indexable: true,
         title: 'כמה הודעות צריך כדי לקבוע פגישה אחת? כנראה יותר מדי',
         subtitle: 'איך להפסיק את משחק הפינג-פונג של "מתי נוח לך?" ולעבור לקביעת פגישות חכמה שמחוברת ישירות ליומן ול-CRM',
         seoTitle: 'כמה הודעות צריך כדי לקבוע פגישה? | תיאום פגישות אוטומטי ב-CRM | AltruBiz',
@@ -2622,6 +2644,8 @@ export const ARTICLES: Article[] = [
     {
         slug: 'crm-duplicate-contacts-prevention-guide',
         publicPath: '/prevent-duplicate-contacts',
+        publicationStatus: 'published',
+        indexable: true,
         title: 'כמה יוסי כהן יש לכם? כך מונעים מ-CRM מסודר להפוך למחסן כפילויות',
         subtitle: 'איך למנוע מלידים חוזרים להתפצל לעשרות כרטיסים שונים: מדריך מעשי לניהול דאטה נקייה, איחוד כפילויות וסיפור לקוח שלם ב-CRM',
         seoTitle: 'כמה יוסי כהן יש לכם? | מניעת כפילויות וניהול אנשי קשר ב-CRM | AltruBiz',
@@ -2895,6 +2919,8 @@ export const ARTICLES: Article[] = [
     {
         slug: 'crm-adoption-thursday-test-guide',
         publicPath: '/crm-thursday-test',
+        publicationStatus: 'published',
+        indexable: true,
         title: 'ה-CRM הכי טוב בעולם לא שווה כלום אם ביום חמישי חזרתם לאקסל',
         subtitle: 'איך להטמיע CRM שבאמת עובדים איתו: למה מערכות עמוסות פיצ\'רים ננטשות, מהו "מבחן יום חמישי", ואיך להתחיל מ-3 פעולות פשוטות שמחזיקות מעמד',
         seoTitle: 'ה-CRM הכי טוב לא שווה כלום אם חזרתם לאקסל | מדריך הטמעה | AltruBiz',
@@ -3178,6 +3204,8 @@ export const ARTICLES: Article[] = [
     {
         slug: 'customer-reviews-reputation-crm-guide',
         publicPath: '/customer-review-requests',
+        publicationStatus: 'published',
+        indexable: true,
         title: 'הלקוח אמר שאתם מדהימים. חבל שרק אתם שמעתם',
         subtitle: 'איך הופכים מחמאות פרטיות ב-WhatsApp לביקורות בגוגל ולמוניטין שמביא לקוחות חדשים',
         seoTitle: 'הלקוח אמר שאתם מדהימים? | ניהול ביקורות ומוניטין ב-CRM | AltruBiz',
@@ -3499,6 +3527,8 @@ export const ARTICLES: Article[] = [
     {
         slug: 'preventing-meeting-no-shows-guide',
         publicPath: '/prevent-no-shows',
+        publicationStatus: 'published',
+        indexable: true,
         title: 'הלקוח קבע פגישה. ב-14:12 אתם עדיין לבד בזום',
         subtitle: 'איך למנוע No-Show, לבנות אישור ותזכורות חכמות, ולהחזיר לקוחות שנעלמו בלי להרגיש נודניקים',
         seoTitle: 'הלקוח קבע ולבד בזום? | מניעת No-Show ביומן וב-CRM | AltruBiz',
@@ -3856,6 +3886,8 @@ export const ARTICLES: Article[] = [
     {
         slug: 'non-technical-to-ai-automation-guide',
         publicPath: '/automation-without-tech-skills',
+        publicationStatus: 'published',
+        indexable: true,
         title: 'הוא ביקש מאיתנו דבר אחד: "רק אל תתנו לי להתעסק עם המערכת"',
         subtitle: 'איך בעל מקצוע שהצהיר שהוא "לא טכנולוגי" התחיל לבנות אוטומציות ופתרונות AI בעצמו בעסק שלו',
         seoTitle: 'רק אל תתנו לי להתעסק עם המערכת: מ"אני לא טכנולוגי" לשליטה באוטומציות ו-AI | AltruBiz CRM',
@@ -4124,6 +4156,8 @@ export const ARTICLES: Article[] = [
     {
         slug: 'client-onboarding-process-guide',
         publicPath: '/client-onboarding',
+        publicationStatus: 'published',
+        indexable: true,
         title: 'הלקוח אמר "כן". ואז התחיל הבלגן',
         subtitle: 'מדריך מעשי לבניית תהליך Onboarding מסודר ב-CRM: איך למנוע שחיקת אמון אחרי המכירה ולהפוך סגירת עסקה להתחלה חלקה',
         seoTitle: 'הלקוח אמר כן ואז התחיל הבלגן: מדריך Onboarding וקליטת לקוחות ב-CRM | AltruBiz CRM',
@@ -4402,6 +4436,8 @@ export const ARTICLES: Article[] = [
     {
         slug: 'salespeople-hate-crm-adoption-guide',
         publicPath: '/salespeople-hate-crm',
+        publicationStatus: 'published',
+        indexable: true,
         title: 'למה אנשי מכירות שונאים CRM - ואיך בונים אחד שהם באמת יעדכנו',
         subtitle: 'מבירוקרטיה מעיקה לכלי עבודה שמוכר: מדריך מעשי לבניית CRM שמחזיר ערך למי שמזין אותו',
         seoTitle: 'למה אנשי מכירות שונאים CRM ואיך בונים מערכת שהם באמת יעדכנו | AltruBiz CRM',
@@ -4646,6 +4682,8 @@ export const ARTICLES: Article[] = [
     {
         slug: 'omnichannel-communication-unified-inbox-crm-guide',
         publicPath: '/unified-inbox',
+        publicationStatus: 'published',
+        indexable: true,
         title: '"שלחתי לכם הודעה באינסטגרם" - ארבע מילים שגורמות לעסק להתחיל לחפש',
         subtitle: 'למה הלקוחות שלכם מנהלים שיחה אחת בעוד העסק מנהל חמש – ואיך מרכזים ערוצי תקשורת ב-CRM אחוד',
         seoTitle: '"שלחתי לכם הודעה באינסטגרם": ניהול תקשורת רב-ערוצית ו-Inbox אחוד | AltruBiz CRM',
@@ -4926,4 +4964,33 @@ export const ARTICLES: Article[] = [
 
 export function getArticleBySlug(slug: string): Article | undefined {
     return ARTICLES.find(a => a.slug === slug);
+}
+
+export function getAllArticles(): Article[] {
+    return ARTICLES;
+}
+
+export function getPublishedArticles(): Article[] {
+    return ARTICLES.filter(a => a.publicationStatus === 'published');
+}
+
+export function getIndexableArticles(): Article[] {
+    return ARTICLES.filter(a => a.publicationStatus === 'published' && a.indexable === true);
+}
+
+export function getReviewArticles(): Article[] {
+    return ARTICLES.filter(a => a.publicationStatus === 'review');
+}
+
+export function getDraftArticles(): Article[] {
+    return ARTICLES.filter(a => a.publicationStatus === 'draft');
+}
+
+export function getMachineEligibleArticles(): Article[] {
+    return getIndexableArticles();
+}
+
+export function getArticleByPublicPath(publicPath: string): Article | undefined {
+    const normalized = publicPath.startsWith('/') ? publicPath : `/${publicPath}`;
+    return ARTICLES.find(a => a.publicPath === normalized || a.publicPath === publicPath);
 }

@@ -33,9 +33,9 @@
 
 const { chromium } = require('playwright-core');
 const http = require('http');
+const { spawn } = require('child_process');
 
 const CHROME_PATH = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
-const TARGET_URL = (process.env.TARGET_URL || 'http://localhost:4173').trim().replace(/\/+$/, '');
 
 console.log('\n========================================================');
 console.log('   AltruBiz Context-Aware Conversion Engine Audit       ');
@@ -68,13 +68,48 @@ function checkServer(url) {
     });
 }
 
-async function runTests() {
-    const isUp = await checkServer(TARGET_URL);
-    if (!isUp) {
-        console.error(`Error: Server at ${TARGET_URL} is not responding!`);
-        process.exit(1);
+async function ensureServer() {
+    if (process.env.TARGET_URL) {
+        console.log(`✔ Target server specified: ${process.env.TARGET_URL}`);
+        return { baseUrl: process.env.TARGET_URL.trim().replace(/\/+$/, ''), close: () => {} };
     }
 
+    // Check if port 4173 is already up
+    const isUp = await checkServer('http://localhost:4173/');
+    if (isUp) {
+        console.log('✔ Connected to active server on http://localhost:4173');
+        return { baseUrl: 'http://localhost:4173', close: () => {} };
+    }
+
+    // Otherwise launch an ephemeral preview server on port 4179
+    console.log('Starting ephemeral preview server on http://localhost:4179...');
+    const serverProcess = spawn('npx', ['vite', 'preview', '--port', '4179'], {
+        shell: true,
+        stdio: 'pipe'
+    });
+
+    for (let i = 0; i < 30; i++) {
+        await new Promise(r => setTimeout(r, 500));
+        const up = await checkServer('http://localhost:4179/');
+        if (up) {
+            console.log('✔ Ephemeral server ready on http://localhost:4179');
+            return {
+                baseUrl: 'http://localhost:4179',
+                close: () => {
+                    try {
+                        serverProcess.kill();
+                    } catch {}
+                }
+            };
+        }
+    }
+
+    throw new Error('Failed to start preview server for conversion test.');
+}
+
+async function runTests() {
+    const server = await ensureServer();
+    const TARGET_URL = server.baseUrl;
     console.log(`Connecting to preview server at ${TARGET_URL}...\n`);
 
     const browser = await chromium.launch({
@@ -379,15 +414,16 @@ async function runTests() {
 
     } finally {
         await browser.close();
+        if (server && server.close) {
+            server.close();
+        }
     }
 
     console.log('\n========================================================');
     console.log(`Conversion Engine Validation Summary: ${passed} Passed, ${failed} Failed`);
     console.log('========================================================\n');
 
-    if (failed > 0) {
-        process.exit(1);
-    }
+    process.exit(failed > 0 ? 1 : 0);
 }
 
 runTests().catch(err => {

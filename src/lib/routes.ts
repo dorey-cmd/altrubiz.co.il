@@ -6,10 +6,35 @@
  * Articles from src/data/articles.ts are dynamically registered automatically.
  */
 
-import { ARTICLES, Article } from '../data/articles';
+import { 
+    ARTICLES, 
+    Article, 
+    getAllArticles, 
+    getPublishedArticles, 
+    getIndexableArticles, 
+    getReviewArticles, 
+    getDraftArticles, 
+    getMachineEligibleArticles, 
+    getArticleBySlug, 
+    getArticleByPublicPath 
+} from '../data/articles';
 import { KnowledgeNode, getAllHubs, getParentHubForArticle, CANONICAL_CONCEPTS, resolveCanonicalConcept } from '../data/knowledgeGraph';
 
-export { ARTICLES, getAllHubs, getParentHubForArticle, CANONICAL_CONCEPTS, resolveCanonicalConcept };
+export { 
+    ARTICLES, 
+    getAllArticles, 
+    getPublishedArticles, 
+    getIndexableArticles, 
+    getReviewArticles, 
+    getDraftArticles, 
+    getMachineEligibleArticles, 
+    getArticleBySlug, 
+    getArticleByPublicPath, 
+    getAllHubs, 
+    getParentHubForArticle, 
+    CANONICAL_CONCEPTS, 
+    resolveCanonicalConcept 
+};
 
 export interface RouteBreadcrumb {
     name: string;
@@ -98,6 +123,7 @@ export function buildArticleRouteConfig(article: Article): RouteConfig {
     const articlePath = article.publicPath;
     const absoluteOgImage = `${BASE_CANONICAL_DOMAIN}/images/articles/og/${article.slug}.jpg`;
     const smartOgDescription = article.keyTakeaway || article.heroSummary || article.description;
+    const isIndexable = article.publicationStatus === 'published' && article.indexable === true;
 
     return {
         path: articlePath,
@@ -106,10 +132,11 @@ export function buildArticleRouteConfig(article: Article): RouteConfig {
         keywords: article.keywords,
         canonicalUrl: article.canonicalUrl || `${BASE_CANONICAL_DOMAIN}${articlePath}`,
         schemaType: 'TechArticle',
-        inSitemap: true,
-        sitemapPriority: 0.9,
+        inSitemap: isIndexable,
+        noindex: !isIndexable,
+        sitemapPriority: isIndexable ? 0.9 : undefined,
         sitemapChangeFreq: 'monthly',
-        alternateMarkdown: article.markdownUrl || `${articlePath}.md`,
+        alternateMarkdown: isIndexable ? (article.markdownUrl || `${articlePath}.md`) : undefined,
         ogImage: absoluteOgImage,
         ogTitle: `${article.title} | AltruBiz CRM`,
         ogDescription: smartOgDescription,

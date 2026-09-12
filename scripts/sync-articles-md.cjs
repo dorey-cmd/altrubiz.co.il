@@ -17,7 +17,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { getArticles, resolveCanonicalConcept } = require('./routes-loader.cjs');
+const { getPublishedArticles, resolveCanonicalConcept } = require('./routes-loader.cjs');
 
 const ROOT_DIR = path.resolve(__dirname, '..');
 const PUBLIC_DIR = path.join(ROOT_DIR, 'public');
@@ -27,8 +27,8 @@ console.log('\n\x1b[1m\x1b[36m==================================================
 console.log('\x1b[1m   AltruBiz Article Markdown Mirror Sync (Round 3C)     \x1b[0m');
 console.log('\x1b[1m\x1b[36m========================================================\x1b[0m\n');
 
-const articles = getArticles();
-console.log(`Found ${articles.length} article(s) in TypeScript registry.`);
+const articles = getPublishedArticles();
+console.log(`Found ${articles.length} published article(s) eligible for machine mirror sync.`);
 
 function generateFrontmatter(article) {
     const canonicalUrl = article.canonicalUrl || `https://altrubiz.co.il${article.publicPath}`;

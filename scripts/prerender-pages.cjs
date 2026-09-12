@@ -10,7 +10,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { getArticles, getAllHubs, getParentHubForArticle } = require('./routes-loader.cjs');
+const { getIndexableArticles, getAllHubs, getParentHubForArticle } = require('./routes-loader.cjs');
 
 const ROOT_DIR = path.resolve(__dirname, '..');
 const DIST_DIR = path.join(ROOT_DIR, 'dist');
@@ -29,7 +29,7 @@ if (!fs.existsSync(templatePath)) {
 }
 
 const baseTemplate = fs.readFileSync(templatePath, 'utf8');
-const articles = getArticles();
+const articles = getIndexableArticles();
 
 console.log('\n========================================================');
 console.log('   AltruBiz Social Share & OpenGraph HTML Prerenderer   ');
