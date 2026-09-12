@@ -21,8 +21,10 @@ export const SEOHead: React.FC<SEOHeadProps> = ({ routeConfig, article, faqs }) 
     useEffect(() => {
         if (!routeConfig) return;
 
-        // 1. Set Document Title
-        document.title = routeConfig.title;
+        // 1. Set Document Title (preserve temporary conversion titles when modal is active)
+        if (!window.history.state?.isConversionModal) {
+            document.title = routeConfig.title;
+        }
 
         // Helper to set or update meta tag
         const setMeta = (nameAttr: 'name' | 'property', attrValue: string, content: string) => {

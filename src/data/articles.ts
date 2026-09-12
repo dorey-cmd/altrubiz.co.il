@@ -1,3 +1,4 @@
+import { ArticleConversionConfig } from '../types/conversion';
 import { FAQItem, ARTICLE_WHATSAPP_FAQS } from '../lib/seo';
 
 export interface ArticleSection {
@@ -85,6 +86,7 @@ export interface Article {
     };
     sections: ArticleSection[];
     faqs?: FAQItem[];
+    conversionConfig?: ArticleConversionConfig;
 }
 
 export const ARTICLES: Article[] = [

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { Header } from './components/Header'
 import { Hero } from './components/Hero'
 import { WhatsAppFloat } from './components/WhatsAppFloat'
@@ -23,6 +23,7 @@ import { ContactModal } from './components/common/ContactModal'
 import { PricingModal } from './components/common/PricingModal'
 import { BookingModal } from './components/common/BookingModal'
 import { ModalPresentationOptions } from './types/attribution'
+import { resolveConversionContext } from './lib/conversionEngine'
 
 function App() {
     const [path, setPath] = useState(window.location.pathname);
@@ -32,31 +33,146 @@ function App() {
     const [bookingModalOptions, setBookingModalOptions] = useState<ModalPresentationOptions | null>(null);
     const [isPricingModalOpen, setIsPricingModalOpen] = useState(false);
 
-    const handleOpenContactModal = useCallback((options?: ModalPresentationOptions) => {
-        if (options) {
-            setContactModalOptions(options);
-        } else {
-            setContactModalOptions(null);
+    const originalUrlRef = useRef<string | null>(null);
+    const originalTitleRef = useRef<string | null>(null);
+    const isModalOpenRef = useRef({ booking: false, contact: false });
+
+    useEffect(() => {
+        isModalOpenRef.current = { booking: isBookingModalOpen, contact: isContactModalOpen };
+    }, [isBookingModalOpen, isContactModalOpen]);
+
+    useEffect(() => {
+        if (isBookingModalOpen && bookingModalOptions?.title) {
+            document.title = `${bookingModalOptions.title.replace(/\|.*$/, '').trim()} | AltruBiz`;
+        } else if (isContactModalOpen && contactModalOptions?.title) {
+            document.title = `${contactModalOptions.title.replace(/\|.*$/, '').trim()} | AltruBiz`;
         }
+    }, [isBookingModalOpen, isContactModalOpen, bookingModalOptions, contactModalOptions]);
+
+    const restoreOriginalState = useCallback(() => {
+        if (originalTitleRef.current !== null) {
+            document.title = originalTitleRef.current;
+            originalTitleRef.current = null;
+        }
+    }, []);
+
+    const handleOpenContactModal = useCallback((options?: ModalPresentationOptions) => {
+        setIsPricingModalOpen(false);
+
+        const route = getRouteConfig(window.location.pathname);
+        const article = route?.article || null;
+        const hubNode = route?.hubNode || null;
+
+        const ctx = resolveConversionContext({
+            conversionType: 'contact',
+            pagePath: window.location.pathname,
+            pageTitle: route?.title,
+            sectionId: options?.attribution?.sourceSection,
+            intent: options?.attribution?.intent,
+            ctaType: options?.attribution?.ctaType || 'contact',
+            sourceLabel: options?.attribution?.sourceLabel,
+            explicitTitle: options?.title,
+            explicitSubtitle: options?.subtitle,
+            explicitBadge: options?.badge,
+            sourceArticleSlug: options?.attribution?.sourceArticle || article?.slug,
+            sourceHubSlug: options?.attribution?.sourceTopic || hubNode?.slug,
+        });
+
+        if (originalUrlRef.current === null) {
+            originalUrlRef.current = window.location.pathname + window.location.search + window.location.hash;
+        }
+        if (originalTitleRef.current === null) {
+            originalTitleRef.current = document.title;
+        }
+
+        window.history.pushState(
+            { isConversionModal: true, conversionType: 'contact', temporaryUrl: ctx.temporaryUrl },
+            '',
+            ctx.temporaryUrl
+        );
+        document.title = ctx.documentTitle;
+
+        setContactModalOptions({
+            title: ctx.contextualTitle,
+            subtitle: ctx.contextualDescription,
+            badge: ctx.badge,
+            whatsappPrefill: options?.whatsappPrefill,
+            attribution: ctx.attribution
+        });
         setIsContactModalOpen(true);
     }, []);
 
     const handleCloseContactModal = useCallback(() => {
         setIsContactModalOpen(false);
-    }, []);
+        setContactModalOptions(null);
+        restoreOriginalState();
+
+        if (window.history.state?.isConversionModal) {
+            window.history.back();
+        } else if (originalUrlRef.current) {
+            window.history.replaceState(null, '', originalUrlRef.current);
+            originalUrlRef.current = null;
+        }
+    }, [restoreOriginalState]);
 
     const handleOpenBookingModal = useCallback((options?: ModalPresentationOptions) => {
-        if (options) {
-            setBookingModalOptions(options);
-        } else {
-            setBookingModalOptions(null);
+        setIsPricingModalOpen(false);
+
+        const route = getRouteConfig(window.location.pathname);
+        const article = route?.article || null;
+        const hubNode = route?.hubNode || null;
+
+        const ctx = resolveConversionContext({
+            conversionType: 'booking',
+            pagePath: window.location.pathname,
+            pageTitle: route?.title,
+            sectionId: options?.attribution?.sourceSection,
+            intent: options?.attribution?.intent,
+            ctaType: options?.attribution?.ctaType || 'meeting',
+            sourceLabel: options?.attribution?.sourceLabel,
+            explicitTitle: options?.title,
+            explicitSubtitle: options?.subtitle,
+            explicitBadge: options?.badge,
+            sourceArticleSlug: options?.attribution?.sourceArticle || article?.slug,
+            sourceHubSlug: options?.attribution?.sourceTopic || hubNode?.slug,
+        });
+
+        if (originalUrlRef.current === null) {
+            originalUrlRef.current = window.location.pathname + window.location.search + window.location.hash;
         }
+        if (originalTitleRef.current === null) {
+            originalTitleRef.current = document.title;
+        }
+
+        window.history.pushState(
+            { isConversionModal: true, conversionType: 'booking', temporaryUrl: ctx.temporaryUrl },
+            '',
+            ctx.temporaryUrl
+        );
+        document.title = ctx.documentTitle;
+
+        setBookingModalOptions({
+            title: ctx.contextualTitle,
+            subtitle: ctx.contextualDescription,
+            badge: ctx.badge,
+            whatsappPrefill: options?.whatsappPrefill,
+            attribution: ctx.attribution
+        });
         setIsBookingModalOpen(true);
     }, []);
 
     const handleCloseBookingModal = useCallback(() => {
         setIsBookingModalOpen(false);
-    }, []);
+        setBookingModalOptions(null);
+        restoreOriginalState();
+
+        if (window.history.state?.isConversionModal) {
+            window.history.back();
+        } else if (originalUrlRef.current) {
+            window.history.replaceState(null, '', originalUrlRef.current);
+            originalUrlRef.current = null;
+        }
+    }, [restoreOriginalState]);
 
     const handleOpenPricingModal = useCallback(() => {
         setIsPricingModalOpen(true);
@@ -67,10 +183,19 @@ function App() {
     }, []);
 
     const handleNavigate = useCallback((targetPath: string) => {
+        if (isModalOpenRef.current.booking || isModalOpenRef.current.contact) {
+            setIsBookingModalOpen(false);
+            setIsContactModalOpen(false);
+            setBookingModalOptions(null);
+            setContactModalOptions(null);
+            restoreOriginalState();
+            originalUrlRef.current = null;
+        }
+
         // If requesting contact form while not on homepage, open the styled popup modal
         if (targetPath === '/#contact' || targetPath === '#contact') {
             if (window.location.pathname !== '/') {
-                setIsContactModalOpen(true);
+                handleOpenContactModal();
                 return;
             }
         }
@@ -96,16 +221,24 @@ function App() {
         window.history.pushState({}, '', targetPath);
         setPath(targetPath);
         window.scrollTo({ top: 0, behavior: 'smooth' });
-    }, []);
+    }, [handleOpenContactModal, restoreOriginalState]);
 
     useEffect(() => {
         const handleLocationChange = () => {
+            if (isModalOpenRef.current.booking || isModalOpenRef.current.contact) {
+                setIsBookingModalOpen(false);
+                setIsContactModalOpen(false);
+                setBookingModalOptions(null);
+                setContactModalOptions(null);
+                restoreOriginalState();
+                originalUrlRef.current = null;
+            }
             setPath(window.location.pathname);
         };
 
         window.addEventListener('popstate', handleLocationChange);
         return () => window.removeEventListener('popstate', handleLocationChange);
-    }, []);
+    }, [restoreOriginalState]);
 
     const isOffer = path === '/offer';
     const isAbout = path === '/about';

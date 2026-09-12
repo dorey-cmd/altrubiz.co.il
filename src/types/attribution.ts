@@ -63,3 +63,6 @@ export interface ModalPresentationOptions {
     whatsappPrefill?: string;
     attribution?: CTAContext;
 }
+
+export * from './conversion';
+
