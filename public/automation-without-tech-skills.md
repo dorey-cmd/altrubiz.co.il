@@ -218,4 +218,4 @@ tags: ["אימוץ CRM","אוטומציה עסקית","AI לעסקים","ייע�
 **ת:** למפות פעולה אחת ידנית שחוזרת על עצמה וגוזלת זמן – כגון תזכורות ללקוחות, החזרת שיחות או מעקב משימות. לאחר מכן, בודקים יחד בפגישת התאמה קצרה איך AltruBiz CRM יכולה להריץ את הפעולה הזו אוטומטית ולחסוך שעות עבודה שבועיות.
 
 ---
-*לצפייה בגרסה המקורית של המאמר: [https://altrubiz.co.il/articles/non-technical-to-ai-automation-guide](https://altrubiz.co.il/articles/non-technical-to-ai-automation-guide)*
+*לצפייה בגרסה המקורית של המאמר: [https://altrubiz.co.il/automation-without-tech-skills](https://altrubiz.co.il/automation-without-tech-skills)*

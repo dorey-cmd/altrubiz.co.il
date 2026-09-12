@@ -124,6 +124,102 @@
             "source": "/articles/omnichannel-communication-unified-inbox-crm-guide",
             "destination": "/unified-inbox",
             "permanent": true
+        },
+        {
+            "source": "/articles/whatsapp-messaging-guidelines.md",
+            "destination": "/whatsapp-messaging-guidelines.md",
+            "permanent": true
+        },
+        {
+            "source": "/articles/crm-quick-wins-guide.md",
+            "destination": "/crm-quick-wins.md",
+            "permanent": true
+        },
+        {
+            "source": "/articles/lead-first-5-minutes-guide.md",
+            "destination": "/lead-first-5-minutes.md",
+            "permanent": true
+        },
+        {
+            "source": "/articles/missed-call-text-back-guide.md",
+            "destination": "/missed-call-text-back.md",
+            "permanent": true
+        },
+        {
+            "source": "/articles/excel-to-crm-pipeline-guide.md",
+            "destination": "/excel-to-pipeline.md",
+            "permanent": true
+        },
+        {
+            "source": "/articles/business-memory-crm-guide.md",
+            "destination": "/crm-as-business-memory.md",
+            "permanent": true
+        },
+        {
+            "source": "/articles/lead-reactivation-guide.md",
+            "destination": "/lead-reactivation.md",
+            "permanent": true
+        },
+        {
+            "source": "/articles/follow-up-tasks-crm-guide.md",
+            "destination": "/follow-up-tasks.md",
+            "permanent": true
+        },
+        {
+            "source": "/articles/automated-meeting-scheduling-guide.md",
+            "destination": "/automated-meeting-scheduling.md",
+            "permanent": true
+        },
+        {
+            "source": "/articles/crm-duplicate-contacts-prevention-guide.md",
+            "destination": "/prevent-duplicate-contacts.md",
+            "permanent": true
+        },
+        {
+            "source": "/articles/crm-adoption-thursday-test-guide.md",
+            "destination": "/crm-thursday-test.md",
+            "permanent": true
+        },
+        {
+            "source": "/articles/customer-reviews-reputation-crm-guide.md",
+            "destination": "/customer-review-requests.md",
+            "permanent": true
+        },
+        {
+            "source": "/articles/preventing-meeting-no-shows-guide.md",
+            "destination": "/prevent-no-shows.md",
+            "permanent": true
+        },
+        {
+            "source": "/articles/non-technical-to-ai-automation-guide.md",
+            "destination": "/automation-without-tech-skills.md",
+            "permanent": true
+        },
+        {
+            "source": "/articles/client-onboarding-process-guide.md",
+            "destination": "/client-onboarding.md",
+            "permanent": true
+        },
+        {
+            "source": "/articles/salespeople-hate-crm-adoption-guide.md",
+            "destination": "/salespeople-hate-crm.md",
+            "permanent": true
+        },
+        {
+            "source": "/articles/omnichannel-communication-unified-inbox-crm-guide.md",
+            "destination": "/unified-inbox.md",
+            "permanent": true
+        }
+    ],
+    "headers": [
+        {
+            "source": "/(.*)\\.md",
+            "headers": [
+                {
+                    "key": "X-Robots-Tag",
+                    "value": "noindex, follow"
+                }
+            ]
         }
     ],
     "rewrites": [

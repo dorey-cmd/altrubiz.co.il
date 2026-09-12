@@ -3,37 +3,41 @@
 /**
  * Automated Article Markdown Companion Synchronizer for AltruBiz
  * 
- * Ensures every article defined in src/data/articles.ts has a corresponding,
- * perfectly synchronized plaintext Markdown mirror in public/articles/${slug}.md
- * with YAML frontmatter, clear heading hierarchies, and machine-readable context
- * for LLMs / AI retrieval agents.
+ * Generates and synchronizes canonical plaintext Markdown mirrors at:
+ * public/<publicPath>.md (e.g. public/excel-to-pipeline.md)
+ * 
+ * Guarantees:
+ * - Deterministic transformation from TypeScript single source of truth.
+ * - State A concepts transformed to absolute canonical HTTPS URLs.
+ * - State B concepts rendered as clean editorial prose with auto-generated machine glossary.
+ * - Unknown concept safety (fails immediately if unresolvable concept: syntax found).
+ * - Exact canonical_url frontmatter pointing to the public HTML route.
+ * - Zero raw concept:* pseudo-links in output.
  */
 
 const fs = require('fs');
 const path = require('path');
-const { getArticles } = require('./routes-loader.cjs');
+const { getArticles, resolveCanonicalConcept } = require('./routes-loader.cjs');
 
 const ROOT_DIR = path.resolve(__dirname, '..');
-const PUBLIC_ARTICLES_DIR = path.join(ROOT_DIR, 'public', 'articles');
-
-if (!fs.existsSync(PUBLIC_ARTICLES_DIR)) {
-    fs.mkdirSync(PUBLIC_ARTICLES_DIR, { recursive: true });
-}
+const PUBLIC_DIR = path.join(ROOT_DIR, 'public');
+const PUBLIC_ARTICLES_LEGACY_DIR = path.join(PUBLIC_DIR, 'articles');
 
 console.log('\n\x1b[1m\x1b[36m========================================================\x1b[0m');
-console.log('\x1b[1m   AltruBiz Article Markdown Mirror Sync                \x1b[0m');
+console.log('\x1b[1m   AltruBiz Article Markdown Mirror Sync (Round 3C)     \x1b[0m');
 console.log('\x1b[1m\x1b[36m========================================================\x1b[0m\n');
 
 const articles = getArticles();
 console.log(`Found ${articles.length} article(s) in TypeScript registry.`);
 
 function generateFrontmatter(article) {
+    const canonicalUrl = article.canonicalUrl || `https://altrubiz.co.il${article.publicPath}`;
     const lines = [
         '---',
         `title: ${JSON.stringify(article.title)}`,
         `description: ${JSON.stringify(article.description)}`,
         `slug: ${JSON.stringify(article.slug)}`,
-        `canonical_url: ${JSON.stringify(article.canonicalUrl || `https://altrubiz.co.il/articles/${article.slug}`)}`,
+        `canonical_url: ${JSON.stringify(canonicalUrl)}`,
         `published_date: ${JSON.stringify(article.datePublished)}`,
         `modified_date: ${JSON.stringify(article.dateModified || article.datePublished)}`,
         `author: ${JSON.stringify(article.author?.name || 'צוות AltruBiz')}`,
@@ -46,12 +50,47 @@ function generateFrontmatter(article) {
 }
 
 function buildMarkdownFromArticle(article) {
+    const stateBConceptsFound = new Map();
+
+    function transformText(text) {
+        if (!text || typeof text !== 'string') return text;
+
+        // Transform [anchor](concept:id)
+        let transformed = text.replace(/\[([^\]]+)\]\(concept:([a-z0-9-_]+)\)/gi, (match, anchor, conceptId) => {
+            const concept = resolveCanonicalConcept(conceptId);
+            if (!concept) {
+                throw new Error(`[CRITICAL] Unresolved concept "${conceptId}" in article "${article.slug}"!`);
+            }
+
+            if (concept.hasApprovedPublicDestination && concept.publicDestinationUrl) {
+                // State A: Absolute canonical HTTPS URL
+                return `[${anchor}](https://altrubiz.co.il${concept.publicDestinationUrl})`;
+            }
+
+            // State B: Track for glossary and render as clean prose
+            stateBConceptsFound.set(concept.id, concept);
+            return anchor;
+        });
+
+        // Ensure no raw concept: remains
+        if (/concept:[a-z0-9-_]+/i.test(transformed)) {
+            throw new Error(`[CRITICAL] Raw concept:* pseudo-link leaked in transformed text: "${transformed}"`);
+        }
+
+        // Make internal relative links absolute for markdown portability
+        transformed = transformed.replace(/\[([^\]]+)\]\((\/[^)]+)\)/g, (match, anchor, relPath) => {
+            return `[${anchor}](https://altrubiz.co.il${relPath})`;
+        });
+
+        return transformed;
+    }
+
     const parts = [];
     parts.push(generateFrontmatter(article));
     parts.push(`# ${article.title}\n`);
 
     if (article.subtitle) {
-        parts.push(`*${article.subtitle}*\n`);
+        parts.push(`*${transformText(article.subtitle)}*\n`);
     }
 
     if (article.coverImage) {
@@ -59,11 +98,11 @@ function buildMarkdownFromArticle(article) {
     }
 
     if (article.heroSummary) {
-        parts.push(`## תקציר ומטרה\n\n${article.heroSummary}\n`);
+        parts.push(`## תקציר ומטרה\n\n${transformText(article.heroSummary)}\n`);
     }
 
     if (article.keyTakeaway) {
-        parts.push(`> **עיקרון מוביל (Key Takeaway):**\n> ${article.keyTakeaway}\n`);
+        parts.push(`> **עיקרון מוביל (Key Takeaway):**\n> ${transformText(article.keyTakeaway)}\n`);
     }
 
     // Render sections
@@ -72,56 +111,56 @@ function buildMarkdownFromArticle(article) {
             parts.push(`## ${section.title}\n`);
             
             if (section.subtitle) {
-                parts.push(`*${section.subtitle}*\n`);
+                parts.push(`*${transformText(section.subtitle)}*\n`);
             }
 
             if (section.problem) {
-                parts.push(`> ❌ **הבעיה בעסק:** ${section.problem}\n`);
+                parts.push(`> ❌ **הבעיה בעסק:** ${transformText(section.problem)}\n`);
             }
 
             if (section.content && Array.isArray(section.content)) {
                 for (const p of section.content) {
-                    parts.push(`${p}\n`);
+                    parts.push(`${transformText(p)}\n`);
                 }
             }
 
             if (section.quickWin) {
-                parts.push(`> ⚡ **Quick Win (מה אפשר לעשות עכשיו):** ${section.quickWin.text}\n`);
+                parts.push(`> ⚡ **Quick Win (מה אפשר לעשות עכשיו):** ${transformText(section.quickWin.text)}\n`);
             }
 
             if (section.image) {
                 parts.push(`![${section.image.alt}](${section.image.src})\n`);
                 if (section.image.caption) {
-                    parts.push(`*💡 ${section.image.caption}*\n`);
+                    parts.push(`*💡 ${transformText(section.image.caption)}*\n`);
                 }
             }
 
             if (section.breakRoutine) {
-                parts.push(`> 📸 **שוברים שגרה:** *${section.breakRoutine.scene}*\n> 💡 *כיתוב: ${section.breakRoutine.caption}*\n`);
+                parts.push(`> 📸 **שוברים שגרה:** *${transformText(section.breakRoutine.scene)}*\n> 💡 *כיתוב: ${transformText(section.breakRoutine.caption)}*\n`);
             }
 
             if (section.callout) {
                 const calloutPrefix = section.callout.type === 'danger' ? '⛔' : 
                                       section.callout.type === 'warning' ? '⚠️' : 
                                       section.callout.type === 'success' ? '✅' : 'ℹ️';
-                parts.push(`> ${calloutPrefix} **${section.callout.title || 'שימו לב'}:** ${section.callout.text}\n`);
+                parts.push(`> ${calloutPrefix} **${section.callout.title || 'שימו לב'}:** ${transformText(section.callout.text)}\n`);
             }
 
             if (section.orderedItems && Array.isArray(section.orderedItems)) {
                 for (const item of section.orderedItems) {
-                    parts.push(`### ${item.title}\n${item.description}\n`);
+                    parts.push(`### ${item.title}\n${transformText(item.description)}\n`);
                 }
             }
 
             if (section.listItems && Array.isArray(section.listItems)) {
                 for (const item of section.listItems) {
-                    parts.push(`- ${item}`);
+                    parts.push(`- ${transformText(item)}`);
                 }
                 parts.push('');
             }
 
             if (section.inlineCta) {
-                parts.push(`> 🎯 **${section.inlineCta.title}**\n> ${section.inlineCta.description}\n> [${section.inlineCta.buttonText}](https://altrubiz.co.il/#contact)\n`);
+                parts.push(`> 🎯 **${section.inlineCta.title}**\n> ${transformText(section.inlineCta.description)}\n> [${section.inlineCta.buttonText}](https://altrubiz.co.il/#contact)\n`);
             }
         }
     }
@@ -130,11 +169,21 @@ function buildMarkdownFromArticle(article) {
     if (article.faqs && Array.isArray(article.faqs) && article.faqs.length > 0) {
         parts.push(`## שאלות נפוצות ותשובות מעשיות (FAQ)\n`);
         for (const faq of article.faqs) {
-            parts.push(`### ש: ${faq.question}\n**ת:** ${faq.answer}\n`);
+            parts.push(`### ש: ${transformText(faq.question)}\n**ת:** ${transformText(faq.answer)}\n`);
         }
     }
 
-    parts.push(`---\n*לצפייה בגרסה המקורית של המאמר: [https://altrubiz.co.il/articles/${article.slug}](https://altrubiz.co.il/articles/${article.slug})*`);
+    // Append State B Machine Glossary if any State B concepts appeared
+    if (stateBConceptsFound.size > 0) {
+        parts.push(`## מושגים שמופיעים במאמר\n`);
+        for (const concept of stateBConceptsFound.values()) {
+            parts.push(`- **${concept.term}** — ${concept.canonicalDefinition}`);
+        }
+        parts.push('');
+    }
+
+    const canonicalUrl = article.canonicalUrl || `https://altrubiz.co.il${article.publicPath}`;
+    parts.push(`---\n*לצפייה בגרסה המקורית של המאמר: [${canonicalUrl}](${canonicalUrl})*`);
     return parts.join('\n');
 }
 
@@ -143,23 +192,20 @@ let updatedCount = 0;
 let upToDateCount = 0;
 
 for (const article of articles) {
-    const mdPath = path.join(PUBLIC_ARTICLES_DIR, `${article.slug}.md`);
+    const cleanPublicPath = article.publicPath.replace(/^\//, '');
+    const mdPath = path.join(PUBLIC_DIR, `${cleanPublicPath}.md`);
+
+    const generatedContent = buildMarkdownFromArticle(article);
 
     if (!fs.existsSync(mdPath)) {
-        // Generate new markdown file
-        const mdContent = buildMarkdownFromArticle(article);
-        fs.writeFileSync(mdPath, mdContent, 'utf8');
-        console.log(`\x1b[32m✔ [NEW] Created LLM markdown mirror:\x1b[0m public/articles/${article.slug}.md`);
+        fs.writeFileSync(mdPath, generatedContent, 'utf8');
+        console.log(`\x1b[32m✔ [NEW] Created public machine mirror:\x1b[0m public/${cleanPublicPath}.md`);
         createdCount++;
     } else {
-        // File exists - check if frontmatter needs sync
         const existingContent = fs.readFileSync(mdPath, 'utf8');
-        const frontmatterMatch = existingContent.match(/^---\r?\n([\s\S]*?)\r?\n---(\r?\n[\s\S]*)$/);
-
-        const generatedContent = buildMarkdownFromArticle(article);
         if (existingContent.trim() !== generatedContent.trim()) {
             fs.writeFileSync(mdPath, generatedContent, 'utf8');
-            console.log(`\x1b[33m⚡ [UPDATED] Synced markdown body & metadata:\x1b[0m public/articles/${article.slug}.md`);
+            console.log(`\x1b[33m⚡ [UPDATED] Synced machine body & metadata:\x1b[0m public/${cleanPublicPath}.md`);
             updatedCount++;
         } else {
             upToDateCount++;
@@ -167,4 +213,20 @@ for (const article of articles) {
     }
 }
 
-console.log(`\n\x1b[32m✔ Markdown sync complete: ${createdCount} created, ${updatedCount} updated, ${upToDateCount} up to date.\x1b[0m\n`);
+// Clean up legacy files from public/articles/ if present
+if (fs.existsSync(PUBLIC_ARTICLES_LEGACY_DIR)) {
+    const legacyFiles = fs.readdirSync(PUBLIC_ARTICLES_LEGACY_DIR);
+    for (const f of legacyFiles) {
+        if (f.endsWith('.md')) {
+            fs.unlinkSync(path.join(PUBLIC_ARTICLES_LEGACY_DIR, f));
+        }
+    }
+    try {
+        fs.rmdirSync(PUBLIC_ARTICLES_LEGACY_DIR);
+        console.log('✔ Cleaned up legacy public/articles/ directory.');
+    } catch (e) {
+        // Ignored if directory has other files
+    }
+}
+
+console.log(`\n\x1b[32m✔ Public machine mirror sync complete: ${createdCount} created, ${updatedCount} updated, ${upToDateCount} up to date.\x1b[0m\n`);

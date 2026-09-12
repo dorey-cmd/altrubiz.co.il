@@ -7,9 +7,9 @@
  */
 
 import { ARTICLES, Article } from '../data/articles';
-import { KnowledgeNode, getAllHubs, getParentHubForArticle } from '../data/knowledgeGraph';
+import { KnowledgeNode, getAllHubs, getParentHubForArticle, CANONICAL_CONCEPTS, resolveCanonicalConcept } from '../data/knowledgeGraph';
 
-export { ARTICLES, getAllHubs, getParentHubForArticle };
+export { ARTICLES, getAllHubs, getParentHubForArticle, CANONICAL_CONCEPTS, resolveCanonicalConcept };
 
 export interface RouteBreadcrumb {
     name: string;
@@ -109,7 +109,7 @@ export function buildArticleRouteConfig(article: Article): RouteConfig {
         inSitemap: true,
         sitemapPriority: 0.9,
         sitemapChangeFreq: 'monthly',
-        alternateMarkdown: article.markdownUrl || `/articles/${article.slug}.md`,
+        alternateMarkdown: article.markdownUrl || `${articlePath}.md`,
         ogImage: absoluteOgImage,
         ogTitle: `${article.title} | AltruBiz CRM`,
         ogDescription: smartOgDescription,

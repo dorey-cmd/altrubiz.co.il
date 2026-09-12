@@ -225,4 +225,4 @@ tags: ["ביקורות גוגל","ניהול מוניטין","אוטומציה",
 **ת:** שומרים על טון מקצועי, קצר ורגוע: מביעים צער על החוויה, נמנעים מלהתווכח על עובדות בפומבי, ומזמינים את הלקוח להמשך בירור ישיר בטלפון או בוואטסאפ. תגובה מאופקת ועניינית מראה לכל הקוראים הבאים שמדובר בעסק אחראי ומכבד.
 
 ---
-*לצפייה בגרסה המקורית של המאמר: [https://altrubiz.co.il/articles/customer-reviews-reputation-crm-guide](https://altrubiz.co.il/articles/customer-reviews-reputation-crm-guide)*
+*לצפייה בגרסה המקורית של המאמר: [https://altrubiz.co.il/customer-review-requests](https://altrubiz.co.il/customer-review-requests)*

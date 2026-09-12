@@ -59,5 +59,7 @@ module.exports = {
     getArticles: () => loadRoutes().ARTICLES,
     getAllHubs: () => (loadRoutes().getAllHubs ? loadRoutes().getAllHubs() : []),
     getParentHubForArticle: (slug) => (loadRoutes().getParentHubForArticle ? loadRoutes().getParentHubForArticle(slug) : undefined),
+    get CANONICAL_CONCEPTS() { return loadRoutes().CANONICAL_CONCEPTS || {}; },
+    resolveCanonicalConcept: (id) => (loadRoutes().resolveCanonicalConcept ? loadRoutes().resolveCanonicalConcept(id) : undefined),
     BASE_CANONICAL_DOMAIN: 'https://altrubiz.co.il'
 };

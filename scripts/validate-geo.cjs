@@ -144,16 +144,17 @@ for (const art of articlesList) {
     }
 
     // Check markdown mirror file
-    const mdFile = path.join(PUBLIC_DIR, 'articles', `${art.slug}.md`);
+    const cleanPath = (art.publicPath || art.canonicalUrl.replace('https://altrubiz.co.il', '')).replace(/^\//, '');
+    const mdFile = path.join(PUBLIC_DIR, `${cleanPath}.md`);
     if (fs.existsSync(mdFile)) {
         const mdContent = fs.readFileSync(mdFile, 'utf8');
         if (mdContent.startsWith('---') && mdContent.includes('title:')) {
-            reportPass(`Article "${art.slug}" has valid markdown mirror with YAML frontmatter in public/articles/`);
+            reportPass(`Article "${art.slug}" has valid markdown mirror with YAML frontmatter in public/${cleanPath}.md`);
         } else {
-            reportFail(`Article markdown file "${art.slug}.md" is missing YAML frontmatter`, true);
+            reportFail(`Article markdown file "${cleanPath}.md" is missing YAML frontmatter`, true);
         }
     } else {
-        reportFail(`Missing markdown mirror for LLMs: public/articles/${art.slug}.md`, true);
+        reportFail(`Missing markdown mirror for LLMs: public/${cleanPath}.md`, true);
     }
 }
 
@@ -217,6 +218,20 @@ if (!fs.existsSync(sitemapPath)) {
         reportFail('sitemap.xml contains URL fragment hashes (#), which are forbidden in XML sitemaps', true);
     } else {
         reportPass('No fragment hashes (#) found in sitemap.xml');
+    }
+
+    // Check that sitemap contains zero .md companion files
+    if (sitemapContent.includes('.md</loc>')) {
+        reportFail('sitemap.xml contains .md companion URLs! Sitemap must contain ONLY approved canonical HTML destinations.', true);
+    } else {
+        reportPass('sitemap.xml correctly contains zero .md companion URLs');
+    }
+
+    // Check that sitemap contains zero llms files
+    if (sitemapContent.includes('llms.txt') || sitemapContent.includes('llms-full.txt')) {
+        reportFail('sitemap.xml contains llms discovery files! Sitemap must contain ONLY approved canonical HTML destinations.', true);
+    } else {
+        reportPass('sitemap.xml correctly contains zero llms discovery files');
     }
 
     // Check all public routes are included

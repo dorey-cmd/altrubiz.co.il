@@ -44,22 +44,6 @@ for (const route of publicRoutes) {
         priority,
         comment: isArticle ? `Article: ${route.article.slug}` : `Route: ${route.path}`
     });
-
-    // Check if markdown companion file exists for articles
-    if (isArticle && route.article.slug) {
-        const mdFilePath = path.join(PUBLIC_DIR, 'articles', `${route.article.slug}.md`);
-        if (fs.existsSync(mdFilePath)) {
-            const mdStats = fs.statSync(mdFilePath);
-            const mdLastMod = mdStats.mtime ? mdStats.mtime.toISOString().split('T')[0] : lastmod;
-            sitemapEntries.push({
-                url: `${route.canonicalUrl}.md`,
-                lastmod: mdLastMod,
-                changefreq: 'monthly',
-                priority: '0.7',
-                comment: `Plaintext Markdown mirror for LLM: ${route.article.slug}`
-            });
-        }
-    }
 }
 
 // Assemble XML
