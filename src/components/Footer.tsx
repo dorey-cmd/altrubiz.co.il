@@ -114,12 +114,20 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenBookingModal, 
                         שאלות נפוצות
                     </a>
                     <span className="text-gray-300 hidden sm:inline">•</span>
-                    <a 
-                        href="/knowledge" 
+                    <a
+                        href="/knowledge"
                         onClick={(e) => handleLinkClick(e, '/knowledge')}
                         className="text-primary font-semibold hover:underline"
                     >
                         מרכז ידע ומאמרים
+                    </a>
+                    <span className="text-gray-300 hidden sm:inline">•</span>
+                    <a
+                        href="/roi-calculator"
+                        onClick={(e) => handleLinkClick(e, '/roi-calculator')}
+                        className="text-gray-600 hover:text-primary transition-colors font-medium"
+                    >
+                        מחשבון ROI ללידים
                     </a>
                     <span className="text-gray-300 hidden sm:inline">•</span>
                     <a 

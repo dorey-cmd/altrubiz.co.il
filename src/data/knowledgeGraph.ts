@@ -646,7 +646,8 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
             'customer-handoff-context-guide',
             'crm-duplicate-contacts-prevention-guide',
             'omnichannel-communication-unified-inbox-crm-guide',
-            'client-onboarding-process-guide'
+            'client-onboarding-process-guide',
+            'practical-ai-for-business-guide'
         ],
         relevantNextActions: ['meeting', 'whatsapp', 'pricing', 'guide', 'assessment'],
         availableCtas: ['meeting', 'pricing', 'whatsapp'],
@@ -803,7 +804,8 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
             'preventing-meeting-no-shows-guide',
             'client-onboarding-process-guide',
             'non-technical-to-ai-automation-guide',
-            'customer-reviews-reputation-crm-guide'
+            'customer-reviews-reputation-crm-guide',
+            'practical-ai-for-business-guide'
         ],
         relevantNextActions: ['meeting', 'whatsapp', 'pricing', 'guide', 'assessment'],
         availableCtas: ['meeting', 'pricing', 'whatsapp'],
@@ -889,6 +891,17 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
                     ],
                     manifestationId: 'automation-fear',
                     relatedArticleSlugs: ['non-technical-to-ai-automation-guide', 'customer-reviews-reputation-crm-guide', 'client-onboarding-process-guide']
+                },
+                {
+                    id: 'practical-ai-adoption',
+                    title: '4. תופעת השטח: מתלהבים מ-AI אבל טובעים בכלים ומילים מסובכות',
+                    subtitle: 'איך להתחיל מפעולה אחת שכבר מכירים היטב במקום לנסות "להפוך לעסק AI"',
+                    content: [
+                        'בעלי עסקים רבים נחשפים לעשרות כלי AI, סרטונים ומונחים מפוצצים (Agents, Prompts, APIs), ומרגישים מוצפים ומבולבלים.',
+                        'הדרך הנכונה אינה להתחיל מטכנולוגיה, אלא לזהות פעולה ידנית מוכרת שחוזרת על עצמה, לבחון סולם אימוץ מדורג (עוזר לי -> מכין לי -> מבצע בשבילי), ולהכניס עזרה ממוקדת של 20% בלבד לפני שמרחיבים הלאה.'
+                    ],
+                    manifestationId: 'ai-adoption-confusion',
+                    relatedArticleSlugs: ['practical-ai-for-business-guide', 'non-technical-to-ai-automation-guide']
                 }
             ],
             solutionPaths: [
@@ -1210,6 +1223,25 @@ export const CANONICAL_CONCEPTS: Record<string, CanonicalConcept> = {
         hasApprovedPublicDestination: false,
         primaryParentHubSlug: 'sales-pipeline',
         recommendedBehavior: 'progressive_definition'
+    },
+    'ai-adoption': {
+        id: 'ai-adoption',
+        term: 'אימוץ AI מעשי בעסק (Practical AI Adoption)',
+        synonyms: [
+            'אימוץ AI',
+            'בינה מלאכותית בעסק',
+            'AI בעסק',
+            'הטמעת AI',
+            'AI Adoption',
+            'Practical AI',
+            'בינה מלאכותית מעשית',
+            'כלי AI לעסקים'
+        ],
+        canonicalDefinition: 'שילוב הדרגתי של בינה מלאכותית בתהליכי עבודה קיימים ומוגדרים, תוך התחלה בסיוע נקודתי וקיצור עבודה שחוזרת על עצמה, לפני הרחבה לאוטונומיה.',
+        maturity: 'emerging',
+        hasApprovedPublicDestination: false,
+        primaryParentHubSlug: 'repetitive-manual-work',
+        recommendedBehavior: 'progressive_definition'
     }
 };
 
@@ -1248,7 +1280,13 @@ export function resolveCanonicalConcept(idOrAlias: string): CanonicalConcept | u
         'lead_prioritization': 'lead-qualification',
         'lead-prioritization': 'lead-qualification',
         'lead_scoring': 'lead-qualification',
-        'lead-scoring': 'lead-qualification'
+        'lead-scoring': 'lead-qualification',
+        'ai_adoption': 'ai-adoption',
+        'ai-adoption': 'ai-adoption',
+        'practical_ai': 'ai-adoption',
+        'practical-ai': 'ai-adoption',
+        'ai_in_business': 'ai-adoption',
+        'ai-in-business': 'ai-adoption'
     };
     
     if (aliasMap[cleanId] && CANONICAL_CONCEPTS[aliasMap[cleanId]]) {

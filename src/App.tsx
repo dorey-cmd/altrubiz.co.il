@@ -16,6 +16,7 @@ import { StarDust } from './components/StarDust'
 import { ArticlesIndex } from './components/articles/ArticlesIndex'
 import { ArticlePage } from './components/articles/ArticlePage'
 import { AboutPage } from './components/AboutPage'
+import { RoiCalculatorPage } from './components/RoiCalculatorPage'
 import { SEOHead } from './components/common/SEOHead'
 import { HubPage } from './components/knowledge/HubPage'
 import { getRouteConfig } from './lib/routes'
@@ -242,6 +243,7 @@ function App() {
 
     const isOffer = path === '/offer';
     const isAbout = path === '/about';
+    const isRoiCalculator = path === '/roi-calculator';
     const isKnowledgeIndex = path === '/knowledge';
 
     const routeConfig = getRouteConfig(path);
@@ -262,10 +264,18 @@ function App() {
             {/* Page Views */}
             {isAbout ? (
                 <main className="relative z-10">
-                    <AboutPage 
-                        onNavigate={handleNavigate} 
-                        onOpenContactModal={handleOpenContactModal} 
-                        onOpenBookingModal={handleOpenBookingModal} 
+                    <AboutPage
+                        onNavigate={handleNavigate}
+                        onOpenContactModal={handleOpenContactModal}
+                        onOpenBookingModal={handleOpenBookingModal}
+                    />
+                </main>
+            ) : isRoiCalculator ? (
+                <main className="relative z-10">
+                    <RoiCalculatorPage
+                        onNavigate={handleNavigate}
+                        onOpenContactModal={handleOpenContactModal}
+                        onOpenBookingModal={handleOpenBookingModal}
                     />
                 </main>
             ) : isKnowledgeIndex ? (

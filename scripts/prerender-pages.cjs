@@ -291,6 +291,12 @@ const staticPages = [
         title: 'מרכז ידע, מדריכים ומאמרים מקצועיים | AltruBiz CRM',
         description: 'מאגר המאמרים והמדריכים של AltruBiz: הנחיות לדיוור WhatsApp, מדיניות פלטפורמות, אוטומציות עסקיות, מניעת No-Show וניהול לידים.',
         image: `${BASE_DOMAIN}/images/og-altrubiz-main.jpg`
+    },
+    {
+        path: 'roi-calculator',
+        title: 'מחשבון ROI ללידים | כמה כסף אתם מפספסים כל חודש - AltruBiz CRM',
+        description: 'מחשבון אינטראקטיבי: הזינו את נתוני הלידים והסגירה שלכם וגלו כמה פוטנציאל מכירה נמצא כיום בסיכון וכמה שווה שיפור קטן בתהליך.',
+        image: `${BASE_DOMAIN}/images/og-altrubiz-main.jpg`
     }
 ];
 
@@ -309,6 +315,8 @@ for (const sp of staticPages) {
 
     const staticH1 = sp.path === 'about' 
         ? 'אודות AltruBiz (אלטרוביז)' 
+        : sp.path === 'roi-calculator'
+        ? 'מחשבון ROI ללידים - כמה כסף אתם מפספסים כל חודש'
         : 'מדריכים, תובנות ומאמרים מקצועיים';
 
     const staticRootHtml = sp.path === 'about' ? `
@@ -327,6 +335,27 @@ ${buildFoundationHeader()}
         </div>
         <h1 class="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight leading-tight mb-6">
           אודות AltruBiz (אלטרוביז)
+        </h1>
+        <p class="max-w-3xl mx-auto text-lg sm:text-xl text-slate-600 leading-relaxed">
+          ${escapeAttr(sp.description)}
+        </p>
+      </header>
+    </div>` : sp.path === 'roi-calculator' ? `
+${buildFoundationHeader()}
+    <div class="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50 text-slate-900 pt-24 pb-20 font-sans" dir="rtl">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
+        <nav aria-label="פירורי לחם" class="flex items-center gap-2 text-xs sm:text-sm text-slate-500">
+          <a href="/" class="hover:text-primary transition-colors">דף הבית</a>
+          <span>&gt;</span>
+          <span class="text-slate-900 font-medium">מחשבון ROI ללידים</span>
+        </nav>
+      </div>
+      <header class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-16 text-center">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-blue-50 text-primary text-xs sm:text-sm font-semibold mb-4 border border-blue-100">
+          <span>כלי אבחון וחישוב ROI</span>
+        </div>
+        <h1 class="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight leading-tight mb-6">
+          מחשבון ROI ללידים - כמה כסף אתם מפספסים כל חודש
         </h1>
         <p class="max-w-3xl mx-auto text-lg sm:text-xl text-slate-600 leading-relaxed">
           ${escapeAttr(sp.description)}

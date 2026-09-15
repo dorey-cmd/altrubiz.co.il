@@ -99,19 +99,34 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
                     className="mt-12 bg-black/60 backdrop-blur-sm border border-white/10 p-4 rounded-2xl text-gray-300 text-sm md:text-base max-w-2xl flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-right"
                 >
                     <p className="leading-relaxed text-sm md:text-base">ניהול לקוחות מבוזר מבזבז שעות יקרות ומפספס הזדמנויות - ובסוף זה כסף שנשאר על הרצפה.</p>
-                    <a
-                        href="/lost-leads"
-                        onClick={(e) => {
-                            if (onNavigate) {
-                                e.preventDefault();
-                                onNavigate('/lost-leads');
-                            }
-                        }}
-                        className="inline-flex items-center gap-1.5 text-xs sm:text-sm text-yellow-400 hover:text-yellow-300 font-bold whitespace-nowrap bg-white/5 hover:bg-white/10 border border-yellow-400/25 px-3.5 py-1.5 rounded-full transition-all shrink-0 group cursor-pointer"
-                    >
-                        <span>איך עוצרים את הבריחה?</span>
-                        <span className="group-hover:-translate-x-0.5 transition-transform font-bold">←</span>
-                    </a>
+                    <div className="flex flex-col sm:flex-row items-center gap-2 shrink-0">
+                        <a
+                            href="/roi-calculator"
+                            onClick={(e) => {
+                                if (onNavigate) {
+                                    e.preventDefault();
+                                    onNavigate('/roi-calculator');
+                                }
+                            }}
+                            className="inline-flex items-center gap-1.5 text-xs sm:text-sm text-white hover:text-yellow-300 font-bold whitespace-nowrap bg-white/10 hover:bg-white/20 border border-white/20 px-3.5 py-1.5 rounded-full transition-all group cursor-pointer"
+                        >
+                            <span>לבדוק כמה כסף אתם מפספסים</span>
+                            <span className="group-hover:-translate-x-0.5 transition-transform font-bold">←</span>
+                        </a>
+                        <a
+                            href="/lost-leads"
+                            onClick={(e) => {
+                                if (onNavigate) {
+                                    e.preventDefault();
+                                    onNavigate('/lost-leads');
+                                }
+                            }}
+                            className="inline-flex items-center gap-1.5 text-xs sm:text-sm text-yellow-400 hover:text-yellow-300 font-bold whitespace-nowrap bg-white/5 hover:bg-white/10 border border-yellow-400/25 px-3.5 py-1.5 rounded-full transition-all group cursor-pointer"
+                        >
+                            <span>איך עוצרים את הבריחה?</span>
+                            <span className="group-hover:-translate-x-0.5 transition-transform font-bold">←</span>
+                        </a>
+                    </div>
                 </motion.div>
             </motion.div>
         </section>

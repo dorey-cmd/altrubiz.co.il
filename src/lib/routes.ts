@@ -113,6 +113,21 @@ export const STATIC_ROUTES_REGISTRY: Record<string, RouteConfig> = {
         schemaType: 'WebPage',
         inSitemap: false,
         noindex: true
+    },
+    '/roi-calculator': {
+        path: '/roi-calculator',
+        title: 'מחשבון ROI ללידים | כמה כסף אתם מפספסים כל חודש - AltruBiz CRM',
+        description: 'מחשבון אינטראקטיבי: הזינו את נתוני הלידים והסגירה שלכם וגלו כמה פוטנציאל מכירה נמצא כיום בסיכון וכמה שווה שיפור קטן בתהליך.',
+        keywords: ['מחשבון ROI', 'מחשבון לידים', 'עלות לידים אבודים', 'CRM ROI'],
+        canonicalUrl: `${BASE_CANONICAL_DOMAIN}/roi-calculator`,
+        schemaType: 'WebPage',
+        inSitemap: true,
+        sitemapPriority: 0.8,
+        sitemapChangeFreq: 'monthly',
+        breadcrumbs: [
+            { name: 'דף הבית', path: '/' },
+            { name: 'מחשבון ROI ללידים', path: '/roi-calculator' }
+        ]
     }
 };
 

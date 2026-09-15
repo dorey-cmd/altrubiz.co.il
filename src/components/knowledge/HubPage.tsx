@@ -773,6 +773,32 @@ export const HubPage: React.FC<HubPageProps> = ({
                             </section>
                         )}
 
+                        {/* ROI Calculator callout - specific to the lost-leads hub */}
+                        {node.slug === 'lost-leads' && (
+                            <section className="mb-14 scroll-mt-28 bg-gradient-to-br from-primary/5 via-blue-50/60 to-transparent border border-blue-200 rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-5">
+                                <div>
+                                    <div className="flex items-center gap-2 text-primary font-bold text-xs uppercase tracking-wider mb-2">
+                                        <Zap className="w-4 h-4" />
+                                        <span>כלי אבחון מהיר</span>
+                                    </div>
+                                    <h2 className="text-xl sm:text-2xl font-black text-slate-900 mb-2">
+                                        כמה כסף כבר נמצא אצלכם ונופל בין הכיסאות?
+                                    </h2>
+                                    <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
+                                        מחשבון קצר: הזינו את נתוני הלידים והסגירה שלכם וגלו כמה פוטנציאל מכירה נמצא כיום בסיכון.
+                                    </p>
+                                </div>
+                                <Button
+                                    variant="primary"
+                                    size="lg"
+                                    onClick={() => onNavigate('/roi-calculator')}
+                                    className="font-bold shrink-0 whitespace-nowrap"
+                                >
+                                    לחשב עכשיו
+                                </Button>
+                            </section>
+                        )}
+
                         {/* Section 5: Field Manifestations & Supporting Deep Guides */}
                         <section id="manifestations" className="mb-14 scroll-mt-28">
                             <div className="mb-6">
