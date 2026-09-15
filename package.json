@@ -9,6 +9,7 @@
     "articles:sync-md": "node scripts/sync-articles-md.cjs",
     "llms:generate": "node scripts/generate-llms-txt.cjs",
     "sitemap:generate": "node scripts/generate-sitemap.cjs",
+    "robots:generate": "node scripts/generate-robots-txt.cjs",
     "test:geo": "node scripts/validate-geo.cjs",
     "test:machine": "node scripts/validate-machine-knowledge-surface.cjs",
     "test:render": "node scripts/validate-route-render.cjs",
@@ -22,7 +23,7 @@
     "release:gate": "node scripts/release-gate.cjs",
     "geo:audit": "node scripts/validate-geo.cjs",
     "test": "npm run test:article-ready && npm run test:review-cockpit && npm run test:distribution && npm run test:geo && npm run test:machine && npm run test:render && npm run test:conversion && npm run test:scroll && npm run test:semantic",
-    "prebuild": "node scripts/generate-og-images.cjs && npm run articles:sync-md && npm run llms:generate && npm run sitemap:generate && npm run test:geo && npm run test:machine",
+    "prebuild": "node scripts/generate-og-images.cjs && npm run articles:sync-md && npm run llms:generate && npm run sitemap:generate && npm run robots:generate && npm run test:geo && npm run test:machine",
     "build": "npm run prebuild && tsc -b && vite build && node scripts/prerender-pages.cjs && npm run test:render",
     "lint": "eslint .",
     "preview": "vite preview"

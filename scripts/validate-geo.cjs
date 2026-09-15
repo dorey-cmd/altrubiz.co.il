@@ -71,9 +71,21 @@ if (!fs.existsSync(robotsPath)) {
     }
 
     if (robotsContent.includes('Disallow: /offer')) {
-        reportPass('Private offer route (/offer) correctly disallowed in robots.txt');
+        reportFail('Private offer route (/offer) must be crawlable but is disallowed in robots.txt', true);
     } else {
-        reportFail('Private offer route (/offer) should be disallowed in robots.txt', false);
+        reportPass('Offer route (/offer) is crawlable (no Disallow directive in robots.txt)');
+    }
+
+    if (robotsContent.includes('Disallow: /thank-you.html')) {
+        reportPass('Thank-you route (/thank-you.html) correctly disallowed in robots.txt');
+    } else {
+        reportFail('Thank-you route (/thank-you.html) missing Disallow directive in robots.txt', true);
+    }
+
+    if (robotsContent.includes('Content-Signal: search=yes, ai-input=yes, ai-train=yes')) {
+        reportPass('AI Content-Signal directive present in robots.txt');
+    } else {
+        reportFail('AI Content-Signal directive missing from robots.txt', false);
     }
 }
 
@@ -351,6 +363,7 @@ const requiredComponents = [
     { file: 'src/components/common/AnswerBox.tsx', desc: 'Extractable AnswerBox passage component' },
     { file: 'scripts/routes-loader.cjs', desc: 'Automated CommonJS route loader bridge' },
     { file: 'scripts/generate-sitemap.cjs', desc: 'Automated sitemap generator script' },
+    { file: 'scripts/generate-robots-txt.cjs', desc: 'Automated SiteOS robots.txt generator script' },
     { file: 'scripts/sync-articles-md.cjs', desc: 'Automated article markdown mirror synchronizer' }
 ];
 

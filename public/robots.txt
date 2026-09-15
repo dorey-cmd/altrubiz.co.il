@@ -3,17 +3,16 @@
 # Default crawlers
 User-agent: *
 Allow: /
-Disallow: /offer
 Disallow: /thank-you.html
+
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 
 # Search Engine Crawlers
 User-agent: Googlebot
 Allow: /
-Disallow: /offer
 
 User-agent: Bingbot
 Allow: /
-Disallow: /offer
 
 # Social Media & Messaging Preview Crawlers (Facebook, Instagram, LinkedIn, Twitter/X, WhatsApp, TikTok, Slack, Discord)
 User-agent: facebookexternalhit
@@ -49,23 +48,18 @@ Allow: /
 # AI Search & Answer Engine Bots
 User-agent: OAI-SearchBot
 Allow: /
-Disallow: /offer
 
 User-agent: ChatGPT-User
 Allow: /
-Disallow: /offer
 
 User-agent: PerplexityBot
 Allow: /
-Disallow: /offer
 
 User-agent: ClaudeBot
 Allow: /
-Disallow: /offer
 
 User-agent: Applebot-Extended
 Allow: /
-Disallow: /offer
 
 # Sitemaps and AI manifests
 Sitemap: https://altrubiz.co.il/sitemap.xml
