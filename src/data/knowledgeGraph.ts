@@ -185,7 +185,8 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
             'excel-to-crm-pipeline-guide',
             'crm-quick-wins-guide',
             'quote-follow-up-guide',
-            'customer-handoff-context-guide'
+            'customer-handoff-context-guide',
+            'lead-qualification-guide'
         ],
         recommendedNextSlugs: ['whatsapp-in-crm', 'sales-pipeline', 'salespeople-hate-crm-adoption-guide'],
         relevantNextActions: ['meeting', 'whatsapp', 'pricing', 'guide', 'assessment'],
@@ -487,7 +488,8 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
             'crm-adoption-thursday-test-guide',
             'follow-up-tasks-crm-guide',
             'crm-quick-wins-guide',
-            'quote-follow-up-guide'
+            'quote-follow-up-guide',
+            'lead-qualification-guide'
         ],
         relevantNextActions: ['meeting', 'whatsapp', 'pricing', 'guide', 'assessment'],
         availableCtas: ['meeting', 'pricing', 'whatsapp'],
@@ -573,6 +575,17 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
                     ],
                     manifestationId: 'forgotten-follow-up',
                     relatedArticleSlugs: ['follow-up-tasks-crm-guide', 'quote-follow-up-guide']
+                },
+                {
+                    id: 'lead-qualification-prioritization',
+                    title: '4. תופעת השטח: יש מספיק לידים, אבל אף אחד לא יודע למי לחזור קודם',
+                    subtitle: 'איך לעבור מתור שרירותי למנגנון תעדוף שמבחין בין התאמה לכוונה',
+                    content: [
+                        'בעסקים רבים הטלפון מצלצל, טפסים נכנסים, אבל בסוף היום עבדו שעות על הדברים הלא נכונים: שיחות ארוכות עם סוקרי שוק, בזמן שליד בשל חיכה שעות.',
+                        'תעדוף נכון אינו מחייב מודל מורכב או AI יקר. שילוב שתי שאלות בסיסיות (התאמה לעסק מול כוונת רכישה כרגע) מאפשר להבחין מיד בין מי שדורש מענה מיידי, מי שצריך טיפוח, ולמי להשיב בכנות שהשירות אינו מתאים.'
+                    ],
+                    manifestationId: 'lead-qualification-confusion',
+                    relatedArticleSlugs: ['lead-qualification-guide']
                 }
             ],
             solutionPaths: [
@@ -1017,6 +1030,16 @@ export const CANDIDATE_FUTURE_CONCEPTS = {
             'crm-duplicate-contacts-prevention-guide',
             'business-memory-crm-guide'
         ]
+    },
+    'lead-qualification-framework': {
+        slug: 'lead-qualification-framework',
+        title: 'סינון, תעדוף והסמכת לידים (Lead Qualification)',
+        primaryPain: 'sales-pipeline-crm-adoption',
+        relatedArticleSlugs: [
+            'lead-qualification-guide',
+            'excel-to-crm-pipeline-guide',
+            'lead-first-5-minutes-guide'
+        ]
     }
 } as const;
 
@@ -1168,6 +1191,25 @@ export const CANONICAL_CONCEPTS: Record<string, CanonicalConcept> = {
         maturity: 'canonical',
         hasApprovedPublicDestination: false,
         recommendedBehavior: 'progressive_definition'
+    },
+    'lead-qualification': {
+        id: 'lead-qualification',
+        term: 'סינון ותעדוף לידים (Lead Qualification & Prioritization)',
+        synonyms: [
+            'סינון לידים',
+            'תעדוף לידים',
+            'Lead Qualification',
+            'Lead Prioritization',
+            'הסמכת לידים',
+            'ציון לידים',
+            'Lead Scoring',
+            'דירוג לידים'
+        ],
+        canonicalDefinition: 'תהליך אבחון מהיר הבוחן התאמה עסקית, כוונת רכישה, תזמון ויכולת החלטה, כדי לקבוע למי לחזור קודם ובאיזה אופן.',
+        maturity: 'maturing',
+        hasApprovedPublicDestination: false,
+        primaryParentHubSlug: 'sales-pipeline',
+        recommendedBehavior: 'progressive_definition'
     }
 };
 
@@ -1200,7 +1242,13 @@ export function resolveCanonicalConcept(idOrAlias: string): CanonicalConcept | u
         'omnichannel-communication': 'unified-inbox',
         'whatsapp_in_crm': 'whatsapp-in-crm',
         'business_memory': 'business-memory',
-        'lost_leads': 'lost-leads'
+        'lost_leads': 'lost-leads',
+        'lead_qualification': 'lead-qualification',
+        'lead-qualification': 'lead-qualification',
+        'lead_prioritization': 'lead-qualification',
+        'lead-prioritization': 'lead-qualification',
+        'lead_scoring': 'lead-qualification',
+        'lead-scoring': 'lead-qualification'
     };
     
     if (aliasMap[cleanId] && CANONICAL_CONCEPTS[aliasMap[cleanId]]) {
