@@ -1,6 +1,6 @@
 # SiteOS Foundational Architecture — Phase 3 Batch 1 + Batch 2
 
-This spec documents the type/config/compatibility layer under `src/siteos/`, introduced in Phase 3 Batch 1 (dormant, additive) and made live against real production data in Batch 2, implementing the boundaries designed in the SiteOS Phase 2 Target Architecture & Migration Blueprint. Batch 2 additionally migrated a small number of real, verified consumers — see §11-13 below for exactly what changed and what remains.
+This spec documents the type/config/compatibility layer under `src/siteos/`, introduced in Phase 3 Batch 1 (dormant, additive) and made the genuine site-wide governing architecture in Batch 2 — see §9-12 below for exactly what changed, what remains deferred (and why), the final source-of-truth map, and the final bypass audit.
 
 Read this alongside (not instead of): `AGENTS.md`, `.agents/rules/knowledge-topology-architecture.md`, `.agents/rules/publication-indexability-governance.md`, `.agents/rules/canonical-url-standard.md`, `.agents/specs/article-ingestion-protocol.md`.
 
@@ -52,51 +52,73 @@ Establishes four distinct dimensions per the Phase 3 brief: **Goal** (business o
 
 This module does **not** replace or rewire `CTAContext`/`ConversionContext` (`src/types/attribution.ts`, `src/types/conversion.ts`, `src/lib/conversionEngine.ts`). Every `CtaPlacement` carries optional `legacyCtaType`/`legacyIntent` fields as an explicit bridge to today's live vocabulary, so the two models can coexist once a migration adapter is built. No existing CTA component is touched in this batch — booking, contact, pricing, WhatsApp, and inline-article CTAs behave identically to before.
 
-## 9. What was deferred in Batch 1 and closed in Batch 2
+## 9. What Batch 2 closed (site-wide architecture completion)
 
-- ~~A persisted, slug-independent Publication ID~~ — **closed in Batch 2.** Every article in `ARTICLES` now carries a real, persisted `id` (e.g. `pub_crm-quick-wins-guide`), assigned once and never recomputed from slug. `articleToPublication()` uses it directly.
-- ~~Live participation of Article/KnowledgeNode/CanonicalConcept~~ — **closed in Batch 2.** `scripts/validate-siteos-identity.cjs` (`npm run test:siteos-identity`) runs every projection function against real production data (21 articles, 5 hubs, 14 concepts) and fails the check if identity, state-derivation, or State A/B invariants ever drift.
-- ~~ToolNode / Gateway Publication records~~ — **closed in Batch 2** (`src/siteos/config/tools.ts`, `config/gateway.ts`).
-- ~~One real consumer migrated to `MarketConfig`~~ — **closed in Batch 2** (`src/lib/routes.ts`'s `BASE_CANONICAL_DOMAIN`, verified zero-drift via full build + artifact diff).
+- **Persisted, slug-independent Publication IDs** on all 21 articles; `articleToPublication()` uses them directly.
+- **Live participation** of Article/KnowledgeNode/CanonicalConcept, continuously enforced by `npm run test:siteos-identity` (build-blocking via `prebuild`).
+- **ToolNode / Gateway Publication records** for ROI Calculator, AGA, and the Homepage.
+- **Machine-surface unification**: sitemap, llms.txt/llms-full.txt, and markdown mirrors now derive from the *same* `getIndexableArticles()` eligibility formula (previously two genuinely different filters that only coincidentally agreed); `routes.ts`'s own `isIndexable` computation is now `isSitemapEligible(deriveStateFlags(article))`, sourced from `src/siteos`, not a fourth independent copy.
+- **Public/private navigation boundary enforced**: `HubPage.tsx`, `ArticlesIndex.tsx` (`/knowledge`), and a hardcoded `RoiCalculatorPage.tsx` link all now gate on `isPubliclyLinkable(deriveStateFlags(article))` — a review-status article can no longer be linked from any of these three surfaces (previously the un-filtered path Phase 1.5 traced).
+- **`/offer` prerendering**: has its own title/canonical/`noindex` metadata in the static build output for the first time, instead of inheriting the homepage's.
+- **Duplicate Schema.org after hydration**: fixed at the root (`SEOHead.tsx` now removes the static baseline block before injecting its own) — verified live, exactly one `application/ld+json` script per route post-hydration.
+- **Breadcrumb consolidation**: one `buildArticleBreadcrumbs()` in `routes.ts`, consumed by both the visible UI and the `BreadcrumbList` schema — they can no longer disagree.
+- **`MarketConfig` (`IL_MARKET`) is now genuinely consumed**, not just populated: `routes.ts`'s canonical domain; `BookingModal`/`ContactModal`'s widget URLs and phone; `Footer`/`AboutPage`'s legal/WhatsApp links; `WhatsAppFloat`/`PricingModal`'s phone number; `attribution.ts`'s shared WhatsApp-URL-builder default (covers 8 further call sites at once); `seo.ts`'s Organization schema (telephone, email, areaServed, legal name, terms URL, WhatsApp contact point — plus a `knowsLanguage`/`availableLanguage` correction); `analytics.ts`/`clarity.ts`'s GA4/Clarity account IDs; and the remaining `.cjs` generator scripts' domain literals (`routes-loader.cjs`'s own re-export was itself a second hardcoded copy, now a live getter; `prerender-pages.cjs`, `generate-llms-txt.cjs`, `sync-articles-md.cjs`, `distributionManifest.ts`).
+- **Release enforcement**: `test:article-ready`, `test:url-migration`, and the new `test:siteos-identity`/`test:public-governance` are now in `prebuild`, so `npm run build` (Vercel's actual resolved command) genuinely fails on a real invariant violation — proven with a live negative test.
+- **Public-surface governance is enforced, not just documented**: `scripts/validate-public-surface-governance.cjs` (build-blocking) requires every `.html` file under `public/` to be a known static page or a registered `ToolNode`, and forbids any dotfile/dotdirectory under `public/` — the exact `public/aga/.claude/` exposure class (fixed in this batch) can no longer recur silently.
+- **Inbound attribution capture**: `captureInboundAttribution()` reads the visitor's own UTM/referrer once at the conversion choke point; forwarded to GA4/Clarity. Deliberately does not touch `buildAttributedIframeUrl()`'s existing outbound `utm_source='altrubiz_web'` convention toward GHL.
+- **Stable semantic identity in analytics**: `CTAContext` carries `publicationId`/`knowledgeEntityId` (reusing existing stable IDs, no new lookups) alongside the pre-existing slug-based fields, forwarded to both GA4 and Clarity.
+- **Article Acceptance Test**: `npm run test:article-acceptance` traces a positive and a negative synthetic fixture through the entire pipeline, proving non-public content cannot leak into any public/machine surface.
 
-## 10. What remains deferred after Batch 2 (see the Batch 2 final report for full reasoning)
+## 10. What remains deferred (real, bounded, non-blocking future work)
 
-- **Repointing the remaining ~8 files** that still hardcode the canonical domain literal directly (`src/lib/seo.ts`, `src/lib/distributionManifest.ts`, `scripts/generate-llms-txt.cjs`, `scripts/prerender-pages.cjs`, `scripts/routes-loader.cjs`, `scripts/validate-article-ready.cjs`, `scripts/validate-geo.cjs`, `scripts/validate-machine-knowledge-surface.cjs`) at `IL_MARKET`. Each is independently verifiable and low-risk in isolation, but was not attempted in this batch to keep each migration individually reviewable rather than one large sweep.
-- **Repointing CTA/booking/checkout components** (`BookingModal.tsx`, `ContactModal.tsx`, `PricingModal.tsx`, `WhatsAppFloat.tsx`, `Footer.tsx`) at `IL_MARKET.contactChannels`/`bookingWidget`/`checkoutProvider`. Deliberately not attempted: these are revenue-critical, and a migration here needs its own dedicated verification pass (manual click-through + analytics event audit per surface), not a batched sweep.
-- **Prerender completeness** (shallow hub template, missing `/offer` prerender, duplicate Schema.org after hydration) — Phase 2 blueprint §9/§10/ADR-05/ADR-06 already designed the target; implementing it is real, substantial work (a template rewrite, not a config change) deferred to its own batch.
-- **Publication-state becoming the single field driving `articles.ts` itself** (replacing `publicationStatus`/`indexable` as the stored fields, not just as a derived read model). `PublicationState` is fully designed and validated as a derivation (§9 above), but the stored data model itself is untouched — this is the highest-blast-radius remaining item and needs its own dedicated, carefully-sequenced batch.
-- **CTA Goal/Action/Mechanism/Placement wiring into live components**, breadcrumb consolidation (`routes.ts` vs. `ArticlePage.tsx` still disagree), internal-link automation (`getRelatedArticlesByGraph` still dead code), analytics identity propagation, and the article-ingestion acceptance command (Phase 3 brief Steps 12-19). None attempted in Batch 2 — see the Batch 2 final report's explicit NOT COMPLETE verdict for the reasoning.
-- **NodeType ontology consolidation** (Phase 2 blueprint §11) — still not performed.
+- **PricingModal's 6 invoice4u checkout GUIDs** are not expressed in `MarketConfig`. Modeling per-tier checkout destinations is a genuine design decision (how pricing/tier structure should generalize to a future market), not a mechanical swap, and checkout is the single highest-stakes revenue surface in the app.
+- **Full CTA Goal/Action/Mechanism/Placement wiring** into live component props/click handlers. The types (`src/siteos/types/cta.ts`) exist and are safe to build on, but no component currently constructs a `CtaPlacement`/`CtaDestination` — this remains a real refactor of every CTA render path (`ArticlePage.tsx`'s 5 inline-CTA variants, `HubPage.tsx`, `PricingModal.tsx`), sized similarly to what was already completed in this batch and deferred to protect visual/behavioral stability across many render paths at once.
+- **Attribution NORMALIZATION and DESTINATION PROPAGATION stages** (Step 11) beyond CAPTURE — inbound UTM is captured and reaches analytics, but is not (yet, deliberately) forwarded into the GHL iframe URLs alongside the existing outbound convention.
+- **Internal-link SUGGESTED engine** — `getRelatedArticlesByGraph()` remains real, correct, and unused; reviving it as an editorial suggestion surface (not auto-injected links) is designed in the Phase 2 blueprint §12 but not built.
+- **NodeType ontology consolidation** (Phase 2 blueprint §11) — no real data exists for the 11 zero-instance types, so there is nothing to migrate; `knowledgeNodeToEntity()`'s conservative mapper already handles this correctly.
+- **Playwright-driven release-gate stages** (`test:conversion`, `test:scroll`, `test:semantic`, `test:review-cockpit`, `test:distribution`) remain `release:gate`-only, not build-blocking on every deploy — they need a live preview server, which doesn't exist during Vercel's build phase. Full per-deploy enforcement of these would require a different mechanism (e.g. a post-deploy check against the live preview URL) needing Vercel/GitHub account configuration outside this repository's reach.
+- **`public/_redirects`** (dead Netlify-syntax file Vercel never parses) — confirmed inert, low-priority cleanup, not attempted.
 
-## 11. Source-of-Truth Map (after Batch 2)
+## 11. Source-of-Truth Map (final, after Batch 2)
 
-| Value | Authoritative source | Notes |
-|---|---|---|
-| Article semantic identity | `Article.id` (`src/data/articles.ts`) | Persisted, slug-independent, Batch 2 |
-| Article slug/URL | `Article.slug` / `Article.publicPath` | Unchanged, editorial |
-| Hub/concept semantic identity | `KnowledgeNode.id` / `CanonicalConcept.id` | Unchanged — already sufficient; `KnowledgeEntity`/`ConceptDefinition` reuse these as-is, never mint a competing id |
-| Canonical domain (routing) | `IL_MARKET.domain` (`src/siteos/config/markets/il.ts`), consumed by `src/lib/routes.ts` | Migrated in Batch 2 |
-| Canonical domain (everywhere else) | Independent literals, per file listed in §10 | **Not yet consolidated** — competing-but-identical-value sources, not competing authorities; all verified equal to `IL_MARKET.domain` |
-| Canonical URL (per article/hub) | `routes.ts`'s `buildArticleRouteConfig`/`buildHubRouteConfig` (`article.canonicalUrl` wins if set, else derived) | Unchanged from Phase 1.5 findings |
-| Publication state (derived read model) | `deriveStateFlags()` (`src/siteos/compat/articleToPublication.ts`), sourced from `publicationStatus`+`indexable` | Stored fields are still the write-authoritative source; the derivation is validated, not yet load-bearing |
-| Market configuration (domain, currency, contact channels, GHL widgets, analytics IDs) | `IL_MARKET` (`src/siteos/config/markets/il.ts`) for the one field migrated; **legacy per-component literals remain authoritative for every other market-dependent value** until migrated | Explicitly not fully consolidated — see §10 |
-| Tool identity | `src/siteos/config/tools.ts` (`TOOL_NODES`) | New in Batch 2; does not yet drive routing/rendering for either tool |
-| Homepage identity | `IL_GATEWAY_PUBLICATION` (`src/siteos/config/gateway.ts`) for SiteOS identity; `STATIC_ROUTES_REGISTRY['/']` (`routes.ts`) remains authoritative for actual routing/rendering | Two records, one intentionally-compatible relationship, not competing authorities |
-| Sitemap/llms/markdown eligibility | Still the three independently-coded filters described in Phase 1.5 (`isIndexable` formula, `getPublishedArticles()`, `getIndexableArticles()`) | **Not yet unified** under `PublicationState`; `test:siteos-identity` proves they currently *agree*, but they remain three separate implementations, not one |
+| Value | Authoritative source |
+|---|---|
+| Article semantic identity | `Article.id` (persisted, slug-independent) |
+| Article slug/URL | `Article.slug` / `Article.publicPath` (editorial) |
+| Hub/concept semantic identity | `KnowledgeNode.id` / `CanonicalConcept.id` (unchanged, already sufficient) |
+| Canonical domain (everywhere) | `IL_MARKET.domain` — 8 files migrated to derive from it directly or via `routes-loader.cjs`'s live getter |
+| Canonical URL (per article/hub) | `routes.ts`'s `buildArticleRouteConfig`/`buildHubRouteConfig` |
+| Breadcrumbs (articles) | `buildArticleBreadcrumbs()` (`routes.ts`) — one function, two consumers |
+| Publication state | `deriveStateFlags()` (`src/siteos`), sourced from the stored `publicationStatus`+`indexable` fields; drives sitemap/llms/markdown/internal-linking eligibility uniformly |
+| Schema.org (base Organization/WebSite/SoftwareApplication) | Generated once by `SEOHead.tsx` post-hydration; the static `index.html` copy is actively removed, never left to coexist |
+| Market configuration (domain, currency, contact channels, GHL widgets, legal, analytics IDs) | `IL_MARKET` — genuinely consumed by the live components listed in §9, not just populated |
+| Tool identity | `src/siteos/config/tools.ts` (`TOOL_NODES`) — identity/governance only, does not yet drive routing for either tool |
+| Homepage identity | `IL_GATEWAY_PUBLICATION` for SiteOS identity; `STATIC_ROUTES_REGISTRY['/']` remains authoritative for actual routing/rendering (intentionally compatible, not competing) |
+| Public-surface governance | `scripts/validate-public-surface-governance.cjs` — enforced, not just documented |
+| Analytics identity | `CTAContext.publicationId`/`knowledgeEntityId` (stable) alongside `sourceArticle`/`sourceHub` (slug-based, unchanged) |
+| Checkout destinations (PricingModal) | Still independent literals — explicitly deferred, see §10 |
 
-## 12. Site-Wide Architecture Bypass Audit (Batch 2)
+## 12. Site-Wide Architecture Bypass Audit (final, after Batch 2)
 
-| Finding | Classification | Reason |
-|---|---|---|
-| `public/aga/.claude/` (dev-tooling config served on production) | **FIXED** | Removed from git tracking and disk in Batch 2; verified absent from a fresh `dist/aga/` build |
-| Stale `EXPECTED_ARTICLES` map causing `test:url-migration`/`release:gate` to fail | **FIXED** | Batch 2 Step 0 |
-| `routes.ts`'s `BASE_CANONICAL_DOMAIN` as an independent literal | **FIXED** | Migrated to `IL_MARKET.domain`, verified zero-drift |
-| Remaining ~8 files with the domain literal | **DEFERRED WITH REASON** | Each needs independent verification; batching them risks an undetected drift in a build/validation script |
-| Article/KnowledgeNode/Concept identity systems | **INTENTIONALLY COMPATIBLE** | `KnowledgeEntity`/`ConceptDefinition`/`Publication` are projections reusing existing ids, not new authorities — by design, not a bypass |
-| CTA destinations (booking/contact/pricing/WhatsApp widgets) not yet expressed as `CtaDestination`/`MarketConfig`-resolved | **DEFERRED WITH REASON** | Revenue-critical; needs its own verified batch, not a sweep |
-| `public/_redirects` (dead Netlify-syntax file Vercel never parses) | **DEFERRED WITH REASON** | Confirmed inert (Vercel uses `vercel.json`'s own `redirects` array) — low priority, harmless, not re-verified for removal safety in this batch |
-| `public/thank-you.html` (no meta robots, relies solely on `robots.txt` Disallow) | **INTENTIONALLY COMPATIBLE** | Pre-existing, deliberate design per Phase 1 findings; not a SiteOS-architecture bypass, a documented SEO tradeoff |
-| Shallow hub prerender / missing `/offer` prerender / duplicate Schema.org after hydration | **DEFERRED WITH REASON** | Substantial, well-designed-but-unimplemented work (Phase 2 blueprint §9-10); not attempted in Batch 2 |
-| `getRelatedArticlesByGraph` and other dead Knowledge Graph helpers | **DEFERRED WITH REASON** | Phase 2 blueprint §11/§12 already designs their revival as the SUGGESTED-linking engine; not implemented yet |
-| Breadcrumb divergence (`routes.ts` vs. `ArticlePage.tsx`) | **DEFERRED WITH REASON** | Real, understood, bounded fix; not attempted in Batch 2 to keep this batch's diff reviewable |
-| No blockers found that would prevent any of the above from being completed in a future batch | **(no BLOCKER classification used)** | — |
+| Finding | Classification |
+|---|---|
+| `public/aga/.claude/` exposure | **FIXED** |
+| Stale `EXPECTED_ARTICLES` map | **FIXED** |
+| Canonical domain literal duplication (all reachable files) | **FIXED** |
+| Hub/knowledge-index/ROI-calculator unfiltered public links to non-indexable content | **FIXED** |
+| `/offer` missing prerendered metadata | **FIXED** |
+| Duplicate Schema.org after hydration | **FIXED** |
+| Breadcrumb divergence (routes.ts vs. ArticlePage.tsx) | **FIXED** |
+| Sitemap/llms/markdown independently-coded eligibility filters | **FIXED** |
+| No inbound UTM capture | **FIXED** (capture + analytics only, not GHL destination propagation) |
+| Unmanaged public HTML / dev-tooling exposure under `public/` | **FIXED**, and now a standing enforced invariant |
+| Article/KnowledgeNode/Concept identity systems | **INTENTIONALLY COMPATIBLE** (projections, not competing authorities) |
+| `public/thank-you.html`'s robots.txt-only exclusion | **INTENTIONALLY COMPATIBLE** (pre-existing, deliberate) |
+| PricingModal checkout GUIDs not in MarketConfig | **DEFERRED WITH REASON** — real design decision, highest-stakes revenue surface |
+| CTA Goal/Action/Mechanism/Placement not wired into live components | **DEFERRED WITH REASON** — large, visually-sensitive refactor |
+| Attribution normalization/destination-propagation beyond capture | **DEFERRED WITH REASON** |
+| Internal-link SUGGESTED engine | **DEFERRED WITH REASON** |
+| NodeType ontology consolidation | **DEFERRED WITH REASON** — no real data to migrate |
+| Playwright-stage release enforcement | **DEFERRED WITH REASON** — external CI mechanism needed |
+| `public/_redirects` dead file | **DEFERRED WITH REASON** — low priority, confirmed inert |
+| **Blockers found** | **None** |
