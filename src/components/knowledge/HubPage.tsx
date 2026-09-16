@@ -25,6 +25,7 @@ import {
 } from 'lucide-react';
 import { KnowledgeNode, getKnowledgeNodeBySlug } from '../../data/knowledgeGraph';
 import { getArticleBySlug } from '../../data/articles';
+import { deriveStateFlags, isPubliclyLinkable } from '../../siteos';
 import { Breadcrumbs } from '../common/Breadcrumbs';
 import { Button } from '../ui/Button';
 import { ModalPresentationOptions } from '../../types/attribution';
@@ -113,10 +114,15 @@ export const HubPage: React.FC<HubPageProps> = ({
     const hub = node.hubData;
     const visualMeta = HUB_VISUAL_ASSETS[node.slug];
 
-    // Fetch related articles objects with strict type guard
+    // Fetch related articles objects with strict type guard. Also enforces
+    // Publication-state authority (SiteOS Phase 3): a hub, itself public and
+    // indexable, must never render a live link to a review/draft article --
+    // this is the fix for the internal-linking gap Phase 1.5 traced (a
+    // non-indexable article being reachable via an unfiltered hub link).
     const relatedArticles = (node.relatedArticleSlugs || [])
         .map(slug => getArticleBySlug(slug))
-        .filter((art): art is NonNullable<typeof art> => Boolean(art));
+        .filter((art): art is NonNullable<typeof art> => Boolean(art))
+        .filter(art => isPubliclyLinkable(deriveStateFlags(art)));
 
     // Scrollspy navigation items
     const navSections = [
@@ -843,7 +849,7 @@ export const HubPage: React.FC<HubPageProps> = ({
                                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                                         {sec.relatedArticleSlugs.map(slug => {
                                                             const art = getArticleBySlug(slug);
-                                                            if (!art) return null;
+                                                            if (!art || !isPubliclyLinkable(deriveStateFlags(art))) return null;
                                                             return (
                                                                 <div 
                                                                     key={slug} 

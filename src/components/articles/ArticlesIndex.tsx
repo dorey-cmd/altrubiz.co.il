@@ -8,6 +8,14 @@ import {
 } from 'lucide-react';
 import { ARTICLES, Article } from '../../data/articles';
 import { Breadcrumbs } from '../common/Breadcrumbs';
+import { deriveStateFlags, isPubliclyLinkable } from '../../siteos';
+
+// Publication-state authority (SiteOS Phase 3): the public /knowledge index
+// must only ever list publicly-linkable (published + indexable) articles --
+// it previously listed the raw, unfiltered ARTICLES array, which meant
+// review-status articles were unconditionally discoverable here. This is
+// the fix for that gap.
+const PUBLIC_ARTICLES = ARTICLES.filter(a => isPubliclyLinkable(deriveStateFlags(a)));
 
 interface ArticlesIndexProps {
     onNavigate: (path: string) => void;
@@ -27,7 +35,7 @@ const shuffleArray = <T,>(array: T[]): T[] => {
 
 export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate, onOpenContactModal, onOpenBookingModal }) => {
     // Randomize articles on each page entry/mount
-    const [shuffledArticles] = useState<Article[]>(() => shuffleArray(ARTICLES));
+    const [shuffledArticles] = useState<Article[]>(() => shuffleArray(PUBLIC_ARTICLES));
     const [selectedCategory, setSelectedCategory] = useState<string>('all');
     const [searchQuery, setSearchQuery] = useState<string>('');
 
@@ -36,7 +44,7 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate, onOpen
         { name: 'מרכז ידע ומאמרים', path: '/knowledge' }
     ];
 
-    const categories = ['all', ...Array.from(new Set(ARTICLES.map(a => a.category)))];
+    const categories = ['all', ...Array.from(new Set(PUBLIC_ARTICLES.map(a => a.category)))];
 
     const filteredArticles = shuffledArticles.filter(article => {
         const matchesCategory = selectedCategory === 'all' || article.category === selectedCategory;

@@ -264,7 +264,7 @@ export const RoiCalculatorPage: React.FC<RoiCalculatorPageProps> = ({
                             <div className="mt-4 pt-4 border-t border-slate-100">
                                 <button
                                     type="button"
-                                    onClick={() => onNavigate('/quote-follow-up')}
+                                    onClick={() => onNavigate('/lost-leads')}
                                     className="inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:underline"
                                 >
                                     <span>מה עושים בשלב שאחרי הצעת המחיר?</span>
