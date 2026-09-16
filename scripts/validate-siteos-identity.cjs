@@ -142,6 +142,31 @@ if (conceptErrors === 0) {
     pass(`canonicalConceptToDefinition() runs live against all ${conceptKeys.length} canonical concepts (State A/public: ${stateA}, State B/definition-only: ${stateB}), preserving NODE EXISTENCE != PUBLIC PAGE EXISTENCE.`);
 }
 
+console.log('\n5. Auditing ToolNode registry & Gateway Publication...');
+const validGovernance = new Set(['governed', 'private', 'experiment', 'legacy']);
+const toolIds = new Set();
+let toolErrors = 0;
+for (const tool of siteos.TOOL_NODES) {
+    if (toolIds.has(tool.id)) {
+        fail(`Duplicate ToolNode id: "${tool.id}"`);
+        toolErrors++;
+    }
+    toolIds.add(tool.id);
+    if (!validGovernance.has(tool.governance)) {
+        fail(`ToolNode "${tool.id}" has invalid governance status: "${tool.governance}"`);
+        toolErrors++;
+    }
+}
+if (toolErrors === 0) {
+    pass(`${siteos.TOOL_NODES.length} ToolNode record(s) registered with valid, declared governance status (no tool may exist without one).`);
+}
+const gateway = siteos.IL_GATEWAY_PUBLICATION;
+if (gateway && gateway.format === 'gateway' && gateway.state && gateway.state.state === 'published') {
+    pass(`Homepage has an explicit Gateway Publication identity (id: "${gateway.id}", market: "${gateway.marketId}").`);
+} else {
+    fail('IL_GATEWAY_PUBLICATION is missing or malformed.');
+}
+
 console.log('\n========================================================');
 console.log(`SiteOS Identity Audit: ${passed} passed, ${failed} failed`);
 console.log('========================================================\n');

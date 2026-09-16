@@ -16,6 +16,8 @@ export * from './types/conceptDefinition';
 export * from './types/cta';
 export * from './config/marketConfig';
 export * from './config/markets/il';
+export * from './config/tools';
+export * from './config/gateway';
 export * from './compat/articleToPublication';
 export * from './compat/knowledgeNodeToEntity';
 export * from './compat/canonicalConceptToDefinition';
