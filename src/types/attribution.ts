@@ -54,6 +54,18 @@ export interface CTAContext {
     sourceLabel?: string;
     /** Optional campaign or variant identifier */
     campaign?: string;
+    /**
+     * SiteOS Phase 3: the visitor's own inbound UTM parameters, captured
+     * once from window.location.search at the point a conversion context
+     * is resolved (src/lib/conversionEngine.ts). Purely additive -- this
+     * closes the "no inbound UTM capture" gap Phase 1.5 found, without
+     * changing what's sent to GHL iframes (buildAttributedIframeUrl's
+     * utm_source='altrubiz_web' etc. remain that system's own outbound
+     * attribution convention, untouched).
+     */
+    inboundUtm?: Record<string, string>;
+    /** The visitor's document.referrer at the point of capture, if any. */
+    referrer?: string;
 }
 
 export interface ModalPresentationOptions {

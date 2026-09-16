@@ -14,6 +14,7 @@ import { Article, ARTICLES } from '../data/articles';
 import { getParentHubForArticle } from '../data/knowledgeGraph';
 import { trackConversion as trackConversionGA } from './analytics';
 import { trackConversion as trackConversionClarity } from './clarity';
+import { captureInboundAttribution } from './attribution';
 
 interface DomainDefaultContext {
     contextSlug: string;
@@ -264,6 +265,12 @@ export function resolveConversionContext(params: ResolveConversionParams): Conve
     const temporaryUrl = buildTemporaryConversionUrl(pagePath, conversionType, contextSlug, sectionId);
     const documentTitle = buildTemporaryDocumentTitle(contextualTitle);
 
+    // SiteOS Phase 3: capture the visitor's own inbound UTM/referrer once,
+    // at this single choke point, so every CTA that resolves a conversion
+    // context automatically carries it -- closing the "no inbound UTM
+    // capture" gap Phase 1.5 found, with no per-CTA wiring required.
+    const { inboundUtm, referrer } = captureInboundAttribution();
+
     const attribution: CTAContext = {
         sourcePage: pagePath,
         sourceSection: sectionId,
@@ -272,7 +279,10 @@ export function resolveConversionContext(params: ResolveConversionParams): Conve
         sourceHub: effectiveHubSlug,
         intent: intent as any,
         ctaType,
-        sourceLabel: sourceLabel || contextualTitle
+        sourceLabel: sourceLabel || contextualTitle,
+        campaign: inboundUtm?.utm_campaign,
+        inboundUtm,
+        referrer
     };
 
     // Fires the moment a CTA opens a conversion modal (contact/booking) —

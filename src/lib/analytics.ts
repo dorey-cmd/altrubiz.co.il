@@ -36,5 +36,12 @@ export function trackConversion(ctx: CTAContext) {
         source_article: ctx.sourceArticle,
         source_hub: ctx.sourceHub,
         source_label: ctx.sourceLabel,
+        // SiteOS Phase 3: the visitor's own inbound campaign attribution
+        // (captured once in conversionEngine.ts), additive -- absent for
+        // any visitor who didn't arrive via a UTM-tagged link.
+        ...(ctx.campaign ? { campaign: ctx.campaign } : {}),
+        ...(ctx.inboundUtm?.utm_source ? { utm_source: ctx.inboundUtm.utm_source } : {}),
+        ...(ctx.inboundUtm?.utm_medium ? { utm_medium: ctx.inboundUtm.utm_medium } : {}),
+        ...(ctx.referrer ? { referrer: ctx.referrer } : {}),
     });
 }

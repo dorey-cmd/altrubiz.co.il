@@ -1,6 +1,42 @@
 import { CTAContext } from '../types/attribution';
 import { IL_MARKET } from '../siteos';
 
+const INBOUND_UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'] as const;
+
+/**
+ * CAPTURE stage (SiteOS Phase 3 attribution unification, Step 11): reads
+ * the visitor's OWN inbound UTM parameters and referrer from the current
+ * URL, once. This is intentionally separate from buildAttributedIframeUrl
+ * below, which builds AltruBiz's own OUTBOUND attribution toward GHL
+ * (utm_source='altrubiz_web' etc.) -- the two must never be conflated:
+ * one describes where the visitor came from, the other describes which
+ * internal system handed the lead to GHL.
+ *
+ * Safe to call in any environment (returns empty values outside a
+ * browser, e.g. during a build/SSR-adjacent script execution).
+ */
+export function captureInboundAttribution(): { inboundUtm?: Record<string, string>; referrer?: string } {
+    if (typeof window === 'undefined') return {};
+
+    const inboundUtm: Record<string, string> = {};
+    try {
+        const params = new URLSearchParams(window.location.search);
+        for (const key of INBOUND_UTM_KEYS) {
+            const value = params.get(key);
+            if (value) inboundUtm[key] = value;
+        }
+    } catch {
+        // no-op: malformed query string, leave inboundUtm empty
+    }
+
+    const referrer = typeof document !== 'undefined' && document.referrer ? document.referrer : undefined;
+
+    return {
+        inboundUtm: Object.keys(inboundUtm).length > 0 ? inboundUtm : undefined,
+        referrer
+    };
+}
+
 /**
  * Builds an attributed URL for GoHighLevel form or booking widgets.
  * GoHighLevel iframes parse and absorb standard UTM and query parameters:
