@@ -10,7 +10,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { getIndexableArticles, getAllHubs, getParentHubForArticle } = require('./routes-loader.cjs');
+const { getAllArticles, getAllHubs, getParentHubForArticle } = require('./routes-loader.cjs');
 
 const ROOT_DIR = path.resolve(__dirname, '..');
 const DIST_DIR = path.join(ROOT_DIR, 'dist');
@@ -29,7 +29,7 @@ if (!fs.existsSync(templatePath)) {
 }
 
 const baseTemplate = fs.readFileSync(templatePath, 'utf8');
-const articles = getIndexableArticles();
+const articles = getAllArticles();
 
 console.log('\n========================================================');
 console.log('   AltruBiz Social Share & OpenGraph HTML Prerenderer   ');
@@ -126,12 +126,15 @@ for (const article of articles) {
     const description = article.description || '';
     const smartSummary = article.keyTakeaway || article.heroSummary || article.description || '';
     
-    // Check for dedicated 1200x630 OG image, fallback to coverImage
+    // Primary social image: the article's actual main cover image
+    const mainCover = article.coverImage?.src || '/images/og-altrubiz-main.jpg';
+    const absoluteImage = mainCover.startsWith('http') ? mainCover : `${BASE_DOMAIN}${mainCover}`;
+    const imageAlt = article.coverImage?.alt || article.title;
+
+    // Check for dedicated 1200x630 OG image
     const ogFileRel = `/images/articles/og/${slug}.jpg`;
     const hasDedicatedOg = fs.existsSync(path.join(PUBLIC_DIR, 'images', 'articles', 'og', `${slug}.jpg`));
-    const coverRel = hasDedicatedOg ? ogFileRel : (article.coverImage?.src || '/images/og-altrubiz-main.jpg');
-    const absoluteImage = coverRel.startsWith('http') ? coverRel : `${BASE_DOMAIN}${coverRel}`;
-    const imageAlt = article.coverImage?.alt || article.title;
+    const absoluteOgImage = `${BASE_DOMAIN}${ogFileRel}`;
 
     let html = baseTemplate;
 
@@ -149,8 +152,13 @@ for (const article of articles) {
         html = html.replace('</head>', `  <link rel="image_src" href="${absoluteImage}" />\n</head>`);
     }
 
-    // 4. Replace Meta Description
+    // 4. Replace Meta Description & Robots Meta
     html = html.replace(/<meta name="description"[^>]*>/i, `<meta name="description" content="${escapeAttr(description)}" />`);
+    const isIndexable = article.indexable && article.publicationStatus === 'published';
+    const robotsTag = isIndexable 
+        ? '<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />'
+        : '<meta name="robots" content="noindex, follow, max-image-preview:large" />';
+    html = html.replace(/<meta name="robots"[^>]*>/i, robotsTag);
 
     // 5. Build comprehensive OpenGraph Block
     const tagsMeta = article.tags && article.tags.length > 0 
@@ -170,7 +178,7 @@ for (const article of articles) {
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:image:alt" content="${escapeAttr(imageAlt)}" />
-  <meta property="article:published_time" content="${article.datePublished}" />
+${hasDedicatedOg && absoluteOgImage !== absoluteImage ? `  <meta property="og:image" content="${absoluteOgImage}" />\n  <meta property="og:image:secure_url" content="${absoluteOgImage}" />\n` : ''}  <meta property="article:published_time" content="${article.datePublished}" />
   <meta property="article:modified_time" content="${article.dateModified}" />
   <meta property="article:author" content="${escapeAttr(article.author.name)}" />
   <meta property="article:section" content="${escapeAttr(article.category)}" />

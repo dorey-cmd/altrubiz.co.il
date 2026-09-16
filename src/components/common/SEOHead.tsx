@@ -88,7 +88,10 @@ export const SEOHead: React.FC<SEOHeadProps> = ({ routeConfig, article, faqs }) 
         // 6. Open Graph & Social Cards
         const isArticle = routeConfig.schemaType === 'TechArticle' || routeConfig.schemaType === 'Article';
         const defaultOgImage = `${BASE_CANONICAL_DOMAIN}/images/og-altrubiz-main.jpg`;
-        const articleOgImage = article ? `${BASE_CANONICAL_DOMAIN}/images/articles/og/${article.slug}.jpg` : defaultOgImage;
+        const articleCoverImage = article?.coverImage?.src
+            ? (article.coverImage.src.startsWith('http') ? article.coverImage.src : `${BASE_CANONICAL_DOMAIN}${article.coverImage.src}`)
+            : null;
+        const articleOgImage = articleCoverImage || (article ? `${BASE_CANONICAL_DOMAIN}/images/articles/og/${article.slug}.jpg` : defaultOgImage);
         const ogImage = routeConfig.ogImage || articleOgImage;
         const ogTitle = routeConfig.ogTitle || (article?.title ? `${article.title} | AltruBiz CRM` : routeConfig.title);
         const ogDescription = routeConfig.ogDescription || article?.keyTakeaway || article?.heroSummary || routeConfig.description;

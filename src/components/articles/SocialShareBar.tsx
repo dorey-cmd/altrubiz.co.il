@@ -67,10 +67,10 @@ export const SocialShareBar: React.FC<SocialShareBarProps> = ({
     const [copied, setCopied] = useState(false);
     const [toastMessage, setToastMessage] = useState<string | null>(null);
 
-    // Dynamic clean URL
+    // Dynamic clean URL - always use production domain for external scrapers when on localhost
     const getShareUrl = () => {
         const path = publicPath || `/${slug}`;
-        if (typeof window !== 'undefined') {
+        if (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
             return `${window.location.origin}${path}`;
         }
         return `https://altrubiz.co.il${path}`;

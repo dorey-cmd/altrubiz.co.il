@@ -145,7 +145,10 @@ export const STATIC_ROUTES_REGISTRY: Record<string, RouteConfig> = {
  */
 export function buildArticleRouteConfig(article: Article): RouteConfig {
     const articlePath = article.publicPath;
-    const absoluteOgImage = `${BASE_CANONICAL_DOMAIN}/images/articles/og/${article.slug}.jpg`;
+    const coverSrc = article.coverImage?.src;
+    const absoluteOgImage = coverSrc
+        ? (coverSrc.startsWith('http') ? coverSrc : `${BASE_CANONICAL_DOMAIN}${coverSrc}`)
+        : `${BASE_CANONICAL_DOMAIN}/images/articles/og/${article.slug}.jpg`;
     const smartOgDescription = article.keyTakeaway || article.heroSummary || article.description;
     const isIndexable = article.publicationStatus === 'published' && article.indexable === true;
 

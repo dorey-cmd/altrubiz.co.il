@@ -63,6 +63,13 @@ async function processImages() {
             const sizeKb = (stat.size / 1024).toFixed(1);
             console.log(`  ✔ Generated 1200x630 OG image for ${slug} (${sizeKb} KB)`);
             count++;
+
+            // Also save under publicPath alias if different from slug
+            const publicPathClean = (article.publicPath || `/${slug}`).replace(/^\//, '');
+            if (publicPathClean && publicPathClean !== slug) {
+                const altTargetPath = path.join(OG_DIR, `${publicPathClean}.jpg`);
+                fs.copyFileSync(targetPath, altTargetPath);
+            }
         } catch (err) {
             console.error(`  ✖ Failed to generate OG image for ${slug}:`, err.message);
         }
