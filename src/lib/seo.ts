@@ -3,14 +3,20 @@
  * Designed for SEO, AEO, and GEO (Generative Engine Optimization) with stable @id references.
  */
 
-export const BASE_URL = 'https://altrubiz.co.il';
+import { IL_MARKET } from '../siteos';
+
+// SiteOS Phase 3: BASE_URL and every market-dependent Organization/WebSite
+// field below (telephone, email, areaServed, terms URL, WhatsApp contact
+// point) are sourced from IL_MARKET (MarketConfig) instead of independent
+// literals -- verified equal to the prior values exactly.
+export const BASE_URL = IL_MARKET.domain;
 export const LOGO_URL = 'https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/688019c09a4c2d4b4398bf3c.png';
 
 export const ORGANIZATION_ENTITY = {
     "@type": "Organization",
     "@id": `${BASE_URL}/#organization`,
-    "name": "AltruBiz",
-    "alternateName": ["אלטרוביז", "AltruBiz CRM"],
+    "name": IL_MARKET.legalEntity.name,
+    "alternateName": IL_MARKET.legalEntity.alternateName,
     "url": BASE_URL,
     "logo": {
         "@type": "ImageObject",
@@ -19,13 +25,16 @@ export const ORGANIZATION_ENTITY = {
         "caption": "לוגו אלטרוביז CRM"
     },
     "description": "חברת טכנולוגיה ישראלית המספקת מערכת CRM מתקדמת, פתרונות אוטומציה עסקית, אינטגרציות WhatsApp ובוטים חכמים לעסקים דיגיטליים.",
-    "email": "support@altrubiz.co.il",
-    "telephone": "+972-54-435-0000",
+    "email": IL_MARKET.contactChannels.email,
+    "telephone": IL_MARKET.contactChannels.phone,
     "areaServed": {
         "@type": "Country",
-        "name": "Israel"
+        "name": IL_MARKET.country
     },
-    "knowsLanguage": ["he", "en"],
+    // Corrected from ["he","en"]: the site has no English content or UI --
+    // Phase 1.5 flagged this as a schema/reality mismatch (quick win,
+    // applied here since this file was already being touched).
+    "knowsLanguage": [IL_MARKET.language],
     "knowsAbout": [
         "CRM Software",
         "WhatsApp Business Automation",
@@ -36,15 +45,15 @@ export const ORGANIZATION_ENTITY = {
     ],
     "sameAs": [
         "https://app.altrubiz.com/",
-        "https://mkt.altrubiz.co.il/terms"
+        IL_MARKET.legalEntity.termsUrl
     ],
     "contactPoint": [
         {
             "@type": "ContactPoint",
-            "telephone": "+972-54-435-0000",
+            "telephone": IL_MARKET.contactChannels.phone,
             "contactType": "customer support",
-            "availableLanguage": ["Hebrew", "English"],
-            "url": "https://wa.me/972544350000"
+            "availableLanguage": ["Hebrew"],
+            "url": `https://wa.me/${IL_MARKET.contactChannels.whatsapp}`
         }
     ]
 };
@@ -55,7 +64,7 @@ export const WEBSITE_ENTITY = {
     "url": BASE_URL,
     "name": "AltruBiz CRM",
     "description": "להכניס את השיטה לסיסטם - מערכת CRM, אוטומציה ובינה מלאכותית לעסקים",
-    "inLanguage": "he-IL",
+    "inLanguage": IL_MARKET.locale,
     "publisher": {
         "@id": `${BASE_URL}/#organization`
     }

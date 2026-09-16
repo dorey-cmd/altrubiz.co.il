@@ -1,7 +1,10 @@
 import Clarity from '@microsoft/clarity';
 import { CTAContext } from '../types/attribution';
+import { IL_MARKET } from '../siteos';
 
-const CLARITY_PROJECT_ID = 'yj55u92ks2';
+// SiteOS Phase 3: sourced from IL_MARKET.analytics (MarketConfig) -- see
+// the matching note in src/lib/analytics.ts.
+const CLARITY_PROJECT_ID = IL_MARKET.analytics.clarityProjectId;
 
 export function initClarity() {
     if (!import.meta.env.PROD) return;

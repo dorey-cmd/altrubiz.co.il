@@ -1,7 +1,12 @@
 import ReactGA from 'react-ga4';
 import { CTAContext } from '../types/attribution';
+import { IL_MARKET } from '../siteos';
 
-const GA_MEASUREMENT_ID = 'G-YHP284ETF9';
+// SiteOS Phase 3: sourced from IL_MARKET.analytics (MarketConfig) instead
+// of a standalone literal -- account identity is now market/environment
+// configuration, not a semantic constant, so a future second market's
+// events won't silently share this property (Phase 2 blueprint sec.15).
+const GA_MEASUREMENT_ID = IL_MARKET.analytics.ga4MeasurementId;
 
 export function initAnalytics() {
     if (!import.meta.env.PROD) return;
