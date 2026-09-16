@@ -282,7 +282,13 @@ export function resolveConversionContext(params: ResolveConversionParams): Conve
         sourceLabel: sourceLabel || contextualTitle,
         campaign: inboundUtm?.utm_campaign,
         inboundUtm,
-        referrer
+        referrer,
+        // SiteOS Phase 3: stable ids, populated only when already resolved
+        // in this scope (article.id is the persisted Publication id;
+        // parentHub.id is KnowledgeNode's existing stable, URL-independent
+        // id) -- never an extra lookup, purely additive.
+        publicationId: article?.id,
+        knowledgeEntityId: parentHub?.id
     };
 
     // Fires the moment a CTA opens a conversion modal (contact/booking) —

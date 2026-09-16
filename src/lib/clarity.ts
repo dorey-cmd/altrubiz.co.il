@@ -18,6 +18,9 @@ export function trackConversion(ctx: CTAContext) {
     Clarity.setTag('cta_type', ctx.ctaType);
     if (ctx.intent) Clarity.setTag('cta_intent', ctx.intent);
     Clarity.setTag('source_page', ctx.sourcePage);
+    // SiteOS Phase 3: stable semantic identity, when already resolved.
+    if (ctx.publicationId) Clarity.setTag('publication_id', ctx.publicationId);
+    if (ctx.knowledgeEntityId) Clarity.setTag('knowledge_entity_id', ctx.knowledgeEntityId);
     Clarity.event('generate_lead');
     Clarity.upgrade('lead_conversion');
 }

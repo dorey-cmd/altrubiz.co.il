@@ -43,5 +43,10 @@ export function trackConversion(ctx: CTAContext) {
         ...(ctx.inboundUtm?.utm_source ? { utm_source: ctx.inboundUtm.utm_source } : {}),
         ...(ctx.inboundUtm?.utm_medium ? { utm_medium: ctx.inboundUtm.utm_medium } : {}),
         ...(ctx.referrer ? { referrer: ctx.referrer } : {}),
+        // Stable semantic identity, distinct from the slug-based source_
+        // article/source_hub above -- lets reporting join events to "this
+        // knowledge" independent of any future slug rename.
+        ...(ctx.publicationId ? { publication_id: ctx.publicationId } : {}),
+        ...(ctx.knowledgeEntityId ? { knowledge_entity_id: ctx.knowledgeEntityId } : {}),
     });
 }

@@ -66,6 +66,16 @@ export interface CTAContext {
     inboundUtm?: Record<string, string>;
     /** The visitor's document.referrer at the point of capture, if any. */
     referrer?: string;
+    /**
+     * SiteOS Phase 3: stable, slug-independent identifiers, present
+     * wherever already resolved in the calling context (never a new
+     * lookup) -- distinguishes semantic Knowledge identity from the
+     * slug-based sourceArticle/sourceHub fields above (Phase 2 blueprint
+     * sec.15: analytics should be able to tell "this knowledge" apart
+     * from "this URL", which a slug alone conflates).
+     */
+    publicationId?: string;
+    knowledgeEntityId?: string;
 }
 
 export interface ModalPresentationOptions {
