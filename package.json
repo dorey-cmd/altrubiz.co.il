@@ -22,6 +22,7 @@
     "test:url-migration": "node scripts/validate-url-migration.cjs",
     "test:siteos-identity": "node scripts/validate-siteos-identity.cjs",
     "test:public-governance": "node scripts/validate-public-surface-governance.cjs",
+    "test:article-acceptance": "node scripts/validate-article-acceptance.cjs",
     "release:gate": "node scripts/release-gate.cjs",
     "geo:audit": "node scripts/validate-geo.cjs",
     "test": "npm run test:article-ready && npm run test:review-cockpit && npm run test:distribution && npm run test:geo && npm run test:machine && npm run test:render && npm run test:conversion && npm run test:scroll && npm run test:semantic && npm run test:siteos-identity && npm run test:public-governance",
