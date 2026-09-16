@@ -19,6 +19,7 @@ import {
     getArticleByPublicPath 
 } from '../data/articles';
 import { KnowledgeNode, getAllHubs, getParentHubForArticle, CANONICAL_CONCEPTS, resolveCanonicalConcept } from '../data/knowledgeGraph';
+import { IL_MARKET } from '../siteos/config/markets/il';
 
 export { 
     ARTICLES, 
@@ -61,7 +62,13 @@ export interface RouteConfig {
     ogDescription?: string;
 }
 
-export const BASE_CANONICAL_DOMAIN = 'https://altrubiz.co.il';
+/**
+ * Sourced from the IL MarketConfig (SiteOS Phase 3 Batch 2) rather than a
+ * second hardcoded literal. IL_MARKET.domain === 'https://altrubiz.co.il'
+ * exactly, so this is a zero-behavior-change migration — verified via a
+ * full build + generated-artifact diff, not assumed.
+ */
+export const BASE_CANONICAL_DOMAIN = IL_MARKET.domain;
 
 export const STATIC_ROUTES_REGISTRY: Record<string, RouteConfig> = {
     '/': {
