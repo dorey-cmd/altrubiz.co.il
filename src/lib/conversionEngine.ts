@@ -12,6 +12,8 @@ import { ConversionContext, ConversionType, ResolveConversionParams } from '../t
 import { CTAContext } from '../types/attribution';
 import { Article, ARTICLES } from '../data/articles';
 import { getParentHubForArticle } from '../data/knowledgeGraph';
+import { trackConversion as trackConversionGA } from './analytics';
+import { trackConversion as trackConversionClarity } from './clarity';
 
 interface DomainDefaultContext {
     contextSlug: string;
@@ -272,6 +274,12 @@ export function resolveConversionContext(params: ResolveConversionParams): Conve
         ctaType,
         sourceLabel: sourceLabel || contextualTitle
     };
+
+    // Fires the moment a CTA opens a conversion modal (contact/booking) —
+    // this is the single choke point every current and future CTA passes
+    // through, so it needs no per-button wiring.
+    trackConversionGA(attribution);
+    trackConversionClarity(attribution);
 
     return {
         conversionType,
