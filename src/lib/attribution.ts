@@ -1,4 +1,5 @@
 import { CTAContext } from '../types/attribution';
+import { IL_MARKET } from '../siteos';
 
 /**
  * Builds an attributed URL for GoHighLevel form or booking widgets.
@@ -52,7 +53,12 @@ export function buildAttributedWhatsAppUrl(
     arg2?: CTAContext | string,
     arg3?: CTAContext | string
 ): string {
-    let phone = '972544350000';
+    // SiteOS Phase 3: default phone sourced from IL_MARKET (MarketConfig),
+    // verified equal to the prior hardcoded literal. Every current call
+    // site that doesn't explicitly pass a phone (ArticlePage.tsx,
+    // HubPage.tsx, RoiCalculatorPage.tsx, RoiCalculatorTool.tsx) relies on
+    // this single default, so fixing it here covers all of them at once.
+    let phone = IL_MARKET.contactChannels.whatsapp;
     let baseText = 'שלום צוות AltruBiz, אשמח להתייעץ';
     let attribution: CTAContext | undefined;
 

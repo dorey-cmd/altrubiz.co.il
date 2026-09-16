@@ -1,6 +1,7 @@
 import React from 'react';
 import { getApprovedPublicHubs } from '../data/knowledgeGraph';
 import { ModalPresentationOptions } from '../types/attribution';
+import { IL_MARKET } from '../siteos';
 
 interface FooterProps {
     onNavigate?: (path: string) => void;
@@ -138,19 +139,19 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenBookingModal, 
                         מדריך דיוור WhatsApp ו-Meta
                     </a>
                     <span className="text-gray-300 hidden sm:inline">•</span>
-                    <a 
-                        href="https://mkt.altrubiz.co.il/terms" 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
+                    <a
+                        href={IL_MARKET.legalEntity.privacyUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="text-gray-500 hover:text-primary transition-colors"
                     >
                         מדיניות פרטיות
                     </a>
                     <span className="text-gray-300 hidden sm:inline">•</span>
-                    <a 
-                        href="https://mkt.altrubiz.co.il/terms" 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
+                    <a
+                        href={IL_MARKET.legalEntity.termsUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="text-gray-500 hover:text-primary transition-colors"
                     >
                         תנאי שימוש

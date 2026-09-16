@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { X, Check, Sparkles, MessageCircle, Calendar, ShieldCheck, Zap } from 'lucide-react';
+import { IL_MARKET } from '../../siteos';
 
 interface PricingModalProps {
     isOpen: boolean;
@@ -292,7 +293,7 @@ export const PricingModal: React.FC<PricingModalProps> = ({
                             )}
 
                             <a
-                                href={`https://wa.me/972544350000?text=${encodeURIComponent('שלום צוות AltruBiz, ראיתי את חבילות המחירים באתר ואשמח להתייעץ על החבילה המתאימה ביותר לעסק שלנו.')}`}
+                                href={`https://wa.me/${IL_MARKET.contactChannels.whatsapp}?text=${encodeURIComponent('שלום צוות AltruBiz, ראיתי את חבילות המחירים באתר ואשמח להתייעץ על החבילה המתאימה ביותר לעסק שלנו.')}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-slate-950 text-xs font-extrabold shadow-sm transition-all"

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { X, MessageCircle, Sparkles } from 'lucide-react';
 import { CTAContext } from '../../types/attribution';
 import { buildAttributedIframeUrl, buildAttributedWhatsAppUrl } from '../../lib/attribution';
+import { IL_MARKET } from '../../siteos';
 
 interface ContactModalProps {
     isOpen: boolean;
@@ -44,13 +45,15 @@ export const ContactModal: React.FC<ContactModalProps> = ({
 
     if (!isOpen) return null;
 
+    // SiteOS Phase 3: sourced from IL_MARKET (MarketConfig), verified equal
+    // to the prior hardcoded literals exactly.
     const iframeSrc = buildAttributedIframeUrl(
-        'https://link.altrubiz.co.il/widget/form/QAHIbtkoD9k8JUIs8uKD',
+        IL_MARKET.bookingWidget.contactWidgetUrl,
         attribution
     );
 
     const whatsappUrl = buildAttributedWhatsAppUrl(
-        '972544350000',
+        IL_MARKET.contactChannels.whatsapp,
         whatsappPrefill,
         attribution
     );

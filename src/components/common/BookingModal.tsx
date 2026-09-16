@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { X, Calendar, MessageCircle } from 'lucide-react';
 import { CTAContext } from '../../types/attribution';
 import { buildAttributedIframeUrl, buildAttributedWhatsAppUrl } from '../../lib/attribution';
+import { IL_MARKET } from '../../siteos';
 
 export interface BookingModalOptions {
     title?: string;
@@ -63,13 +64,17 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 
     if (!isOpen) return null;
 
+    // SiteOS Phase 3: sourced from IL_MARKET (MarketConfig) instead of an
+    // independent hardcoded literal -- IL_MARKET.bookingWidget.bookingWidgetUrl
+    // and IL_MARKET.contactChannels.whatsapp are verified equal to the prior
+    // literals exactly.
     const iframeSrc = buildAttributedIframeUrl(
-        'https://link.altrubiz.co.il/widget/booking/afkzW0ORpY08WTgmcfqU',
+        IL_MARKET.bookingWidget.bookingWidgetUrl,
         attribution
     );
 
     const whatsappUrl = buildAttributedWhatsAppUrl(
-        '972544350000',
+        IL_MARKET.contactChannels.whatsapp,
         whatsappPrefill,
         attribution
     );

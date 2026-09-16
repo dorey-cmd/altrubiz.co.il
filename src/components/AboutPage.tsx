@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 
 import { Breadcrumbs } from './common/Breadcrumbs';
+import { IL_MARKET } from '../siteos';
 
 interface AboutPageProps {
     onNavigate: (path: string) => void;
@@ -209,8 +210,8 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onOpenContactM
                                 <Phone className="w-5 h-5 text-primary" />
                                 <div>
                                     <div className="text-xs text-slate-400">תמיכה בוואטסאפ</div>
-                                    <a href="https://wa.me/972544350000" target="_blank" rel="noopener noreferrer" className="text-white font-bold hover:underline">
-                                        +972-54-435-0000
+                                    <a href={`https://wa.me/${IL_MARKET.contactChannels.whatsapp}`} target="_blank" rel="noopener noreferrer" className="text-white font-bold hover:underline">
+                                        {IL_MARKET.contactChannels.phone}
                                     </a>
                                 </div>
                             </div>
