@@ -305,6 +305,18 @@ const staticPages = [
         title: 'מחשבון ROI ללידים: כמה כסף הולך לאיבוד כל חודש? | AltruBiz CRM',
         description: 'מחשבון ROI אינטראקטיבי לעסקים: בדיקת כמות הלידים, שווי עסקה ושיעור הסגירה לחשיפת פוטנציאל המכירה שהולך לאיבוד וחישוב שווי החיסכון בזמן.',
         image: `${BASE_DOMAIN}/images/og-altrubiz-main.jpg`
+    },
+    {
+        // SiteOS Phase 3: /offer was previously the one static route with no
+        // prerendered HTML at all -- a non-JS request received the raw
+        // homepage document (title/canonical/schema all wrong), verified in
+        // Phase 1.5. Title/description/canonical here match
+        // STATIC_ROUTES_REGISTRY['/offer'] in src/lib/routes.ts exactly.
+        path: 'offer',
+        title: 'AltruBiz | Offer',
+        description: 'הצעת מחיר מיוחדת למערכת AltruBiz CRM',
+        image: `${BASE_DOMAIN}/images/og-altrubiz-main.jpg`,
+        noindex: true
     }
 ];
 
@@ -320,11 +332,16 @@ for (const sp of staticPages) {
     html = html.replace(/<meta name="twitter:url"[^>]*>/i, `<meta name="twitter:url" content="${canonical}" />`);
     html = html.replace(/<meta name="twitter:title"[^>]*>/i, `<meta name="twitter:title" content="${escapeAttr(sp.title)}" />`);
     html = html.replace(/<meta name="twitter:description"[^>]*>/i, `<meta name="twitter:description" content="${escapeAttr(sp.description)}" />`);
+    if (sp.noindex) {
+        html = html.replace(/<meta name="robots"[^>]*>/i, `<meta name="robots" content="noindex, follow" />`);
+    }
 
-    const staticH1 = sp.path === 'about' 
-        ? 'אודות AltruBiz (אלטרוביז)' 
+    const staticH1 = sp.path === 'about'
+        ? 'אודות AltruBiz (אלטרוביז)'
         : sp.path === 'roi-calculator'
         ? 'כמה כסף כבר נמצא אצלכם בעסק – ונופל בין הכיסאות?'
+        : sp.path === 'offer'
+        ? 'AltruBiz CRM - להכניס את השיטה לסיסטם'
         : 'מדריכים, תובנות ומאמרים מקצועיים';
 
     const staticRootHtml = sp.path === 'about' ? `
@@ -369,6 +386,20 @@ ${buildFoundationHeader()}
           ${escapeAttr(sp.description)}
         </p>
       </header>
+    </div>` : sp.path === 'offer' ? `
+${buildFoundationHeader()}
+    <div class="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50 text-slate-900 pt-24 pb-20 font-sans" dir="rtl">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-16 text-center">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-blue-50 text-primary text-xs sm:text-sm font-semibold mb-4 border border-blue-100">
+          <span>הצעה מותאמת אישית</span>
+        </div>
+        <h1 class="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight leading-tight mb-6">
+          ${staticH1}
+        </h1>
+        <p class="max-w-3xl mx-auto text-lg sm:text-xl text-slate-600 leading-relaxed">
+          ${escapeAttr(sp.description)}
+        </p>
+      </div>
     </div>` : `
 ${buildFoundationHeader()}
     <div class="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50 text-slate-900 pt-24 pb-20 font-sans" dir="rtl">
