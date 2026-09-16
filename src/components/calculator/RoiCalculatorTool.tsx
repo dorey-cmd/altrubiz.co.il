@@ -114,8 +114,8 @@ export const RoiCalculatorTool: React.FC<RoiCalculatorToolProps> = ({ onOpenBook
     const handleOpenBooking = () => {
         onOpenBookingModal?.({
             title: 'בואו נמפה את תהליך הלידים שלכם',
-            subtitle: `לפי הנתונים שהזנתם במחשבון, זיהינו כ-${formatCurrency(results.revenueAtRisk)} ₪ בחודש שהולכים כיום לאיבוד. נשוחח על התהליך הקיים ונבנה תוכנית לעצירת הנזילה.`,
-            badge: 'תוצאות המחשבון שלך',
+            subtitle: `לפי הנתונים שהוזנו במחשבון, זוהו כ-${formatCurrency(results.revenueAtRisk)} ₪ בחודש שהולכים כיום לאיבוד. נשוחח על התהליך הקיים ונבנה תוכנית ממוקדת לעצירת הנזילה.`,
+            badge: 'תוצאות מחשבון ה-ROI',
             whatsappPrefill: `שלום צוות AltruBiz, מילאתי את מחשבון ה-ROI ואשמח לתאם שיחה לגבי התוצאות.`,
             attribution: {
                 sourcePage: '/roi-calculator',
@@ -124,7 +124,7 @@ export const RoiCalculatorTool: React.FC<RoiCalculatorToolProps> = ({ onOpenBook
                 sourceTopic: 'lost-leads',
                 intent: 'assessment',
                 ctaType: 'meeting',
-                sourceLabel: 'בואו נמפה את תהליך הלידים שלי',
+                sourceLabel: 'מיפוי תהליך הלידים לפי תוצאות מחשבון ROI',
             },
         });
     };
@@ -134,7 +134,7 @@ export const RoiCalculatorTool: React.FC<RoiCalculatorToolProps> = ({ onOpenBook
             {/* Inputs */}
             <div className="p-6 sm:p-10 border-b border-slate-100">
                 <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-6">
-                    הזינו את הנתונים שלכם
+                    הזנת נתוני העסק לבדיקת הפוטנציאל
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-7">
                     <Slider
@@ -250,7 +250,7 @@ export const RoiCalculatorTool: React.FC<RoiCalculatorToolProps> = ({ onOpenBook
                 </div>
 
                 <p className="text-center text-slate-700 font-bold mt-6 text-sm sm:text-base">
-                    וכל זה לפני שהבאנו לך ליד אחד חדש.
+                    וכל זה עוד לפני שהגיע ליד אחד נוסף לעסק.
                 </p>
 
                 {/* CTA */}
@@ -262,7 +262,7 @@ export const RoiCalculatorTool: React.FC<RoiCalculatorToolProps> = ({ onOpenBook
                         className="font-bold shadow-xl flex items-center justify-center gap-2"
                     >
                         <Calendar className="w-5 h-5" />
-                        <span>בואו נמפה את תהליך הלידים שלי</span>
+                        <span>לתיאום שיחת מיפוי תהליך הלידים</span>
                     </Button>
                     <a
                         href={whatsappUrl}

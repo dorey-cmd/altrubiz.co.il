@@ -188,7 +188,7 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
             'customer-handoff-context-guide',
             'lead-qualification-guide'
         ],
-        recommendedNextSlugs: ['whatsapp-in-crm', 'sales-pipeline', 'salespeople-hate-crm-adoption-guide'],
+        recommendedNextSlugs: ['whatsapp-in-crm', 'sales-pipeline', 'roi-calculator', 'salespeople-hate-crm-adoption-guide'],
         relevantNextActions: ['meeting', 'whatsapp', 'pricing', 'guide', 'assessment'],
         availableCtas: ['meeting', 'pricing', 'whatsapp'],
         isIndexable: true,
@@ -798,7 +798,7 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
         businessObjects: ['פגישות (Appointments)', 'יומנים', 'תזכורות', 'תהליכי עבודה (Workflows)'],
         outcomes: ['חיסכון של 10-20 שעות שבועיות', 'צמצום הברזות מפגישות בלמעלה מ-70%', 'תגובה מיידית ללא מעמס אנושי'],
         relevantProducts: ['AltruBiz CRM', 'יומן תיאום פגישות אוטומטי', 'בוט AI לקביעת פגישות'],
-        recommendedNextSlugs: ['lost-leads', 'whatsapp-in-crm', 'sales-pipeline'],
+        recommendedNextSlugs: ['lost-leads', 'whatsapp-in-crm', 'roi-calculator', 'sales-pipeline'],
         relatedArticleSlugs: [
             'automated-meeting-scheduling-guide',
             'preventing-meeting-no-shows-guide',
@@ -931,6 +931,39 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
                 }
             ]
         }
+    },
+
+    // ==========================================
+    // 6. ASSESSMENT / DIAGNOSTIC: ROI Calculator
+    // ==========================================
+    'assessment-roi-calculator': {
+        id: 'assessment-roi-calculator',
+        slug: 'roi-calculator',
+        url: '/roi-calculator',
+        nodeType: 'assessment',
+        hasPublicPage: true,
+        title: 'מחשבון ROI ללידים: כמה כסף הולך לאיבוד כל חודש?',
+        shortLabel: 'מחשבון ROI ללידים',
+        subtitle: 'כלי אבחון אינטראקטיבי לחישוב פוטנציאל המכירה בסיכון ושווי החיסכון החודשי בזמן',
+        seoTitle: 'מחשבון ROI ללידים: כמה כסף הולך לאיבוד כל חודש? | AltruBiz CRM',
+        description: 'מחשבון ROI אינטראקטיבי לעסקים: בדיקת כמות הלידים, שווי עסקה ושיעור הסגירה לחשיפת פוטנציאל המכירה שהולך לאיבוד וחישוב שווי החיסכון בזמן.',
+        primaryPain: 'lost-leads',
+        secondaryPains: ['repetitive-manual-work', 'sales-pipeline-crm-adoption'],
+        userIntent: 'כמה כסף העסק מפסיד מלידים שלא נסגרים וכמה שווה שיפור באחוז הסגירה',
+        processes: ['אבחון מכירות', 'מדידת ROI', 'ייעול פייפליין', 'חיסכון בזמן'],
+        channels: ['טפסי אתר', 'מחשבון אינטראקטיבי'],
+        technologies: ['CRM', 'מחשבון ROI', 'אוטומציות'],
+        businessObjects: ['לידים', 'עסקאות', 'עלות שעה', 'אחוז סגירה'],
+        outcomes: ['הערכת כסף בסיכון', 'מיפוי שווי שיפור סגירה', 'חיסכון שעות עבודה'],
+        relevantProducts: ['AltruBiz CRM'],
+        parentHubSlug: 'lost-leads',
+        recommendedNextSlugs: ['lost-leads', 'lead-first-5-minutes-guide', 'excel-to-crm-pipeline-guide'],
+        relevantNextActions: ['meeting', 'whatsapp'],
+        availableCtas: ['meeting', 'whatsapp'],
+        isIndexable: true,
+        maturity: 'canonical',
+        dateCreated: '2026-09-16',
+        dateUpdated: '2026-09-16'
     }
 };
 

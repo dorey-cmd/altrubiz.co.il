@@ -17,6 +17,7 @@ import { ArticlesIndex } from './components/articles/ArticlesIndex'
 import { ArticlePage } from './components/articles/ArticlePage'
 import { AboutPage } from './components/AboutPage'
 import { RoiCalculatorPage } from './components/RoiCalculatorPage'
+import { ROI_CALCULATOR_FAQS } from './lib/roiCalculator'
 import { SEOHead } from './components/common/SEOHead'
 import { HubPage } from './components/knowledge/HubPage'
 import { getRouteConfig } from './lib/routes'
@@ -262,7 +263,11 @@ function App() {
     return (
         <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-yellow-200">
             {/* Declarative SEO, Canonicals, Open Graph & Structured Data Engine */}
-            <SEOHead routeConfig={routeConfig} article={currentArticle} />
+            <SEOHead 
+                routeConfig={routeConfig} 
+                article={currentArticle} 
+                faqs={isRoiCalculator ? ROI_CALCULATOR_FAQS : undefined} 
+            />
 
             <StarDust />
             <Header onNavigate={handleNavigate} onOpenBookingModal={handleOpenBookingModal} />

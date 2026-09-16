@@ -192,6 +192,35 @@ export const SEOHead: React.FC<SEOHeadProps> = ({ routeConfig, article, faqs }) 
                     graph.push(generateFAQSchema(articleFaqs));
                 }
             }
+        } else if (routeConfig.path === '/roi-calculator') {
+            graph.push({
+                "@type": "WebApplication",
+                "@id": `${routeConfig.canonicalUrl}#calculator`,
+                "name": "מחשבון ROI ללידים - AltruBiz CRM",
+                "applicationCategory": "BusinessApplication",
+                "operatingSystem": "All",
+                "browserRequirements": "Requires JavaScript",
+                "url": routeConfig.canonicalUrl,
+                "description": routeConfig.description,
+                "inLanguage": "he-IL",
+                "publisher": {
+                    "@id": `${BASE_URL}/#organization`
+                }
+            });
+            graph.push({
+                "@type": "WebPage",
+                "@id": `${routeConfig.canonicalUrl}#page`,
+                "url": routeConfig.canonicalUrl,
+                "name": routeConfig.title,
+                "description": routeConfig.description,
+                "inLanguage": "he-IL",
+                "mainEntity": {
+                    "@id": `${routeConfig.canonicalUrl}#calculator`
+                }
+            });
+            if (faqs && faqs.length > 0) {
+                graph.push(generateFAQSchema(faqs));
+            }
         } else if (routeConfig.path === '/') {
             graph.push(SOFTWARE_APPLICATION_ENTITY);
             graph.push({

@@ -294,8 +294,8 @@ const staticPages = [
     },
     {
         path: 'roi-calculator',
-        title: 'מחשבון ROI ללידים | כמה כסף אתם מפספסים כל חודש - AltruBiz CRM',
-        description: 'מחשבון אינטראקטיבי: הזינו את נתוני הלידים והסגירה שלכם וגלו כמה פוטנציאל מכירה נמצא כיום בסיכון וכמה שווה שיפור קטן בתהליך.',
+        title: 'מחשבון ROI ללידים: כמה כסף הולך לאיבוד כל חודש? | AltruBiz CRM',
+        description: 'מחשבון ROI אינטראקטיבי לעסקים: בדיקת כמות הלידים, שווי עסקה ושיעור הסגירה לחשיפת פוטנציאל המכירה שהולך לאיבוד וחישוב שווי החיסכון בזמן.',
         image: `${BASE_DOMAIN}/images/og-altrubiz-main.jpg`
     }
 ];
@@ -316,7 +316,7 @@ for (const sp of staticPages) {
     const staticH1 = sp.path === 'about' 
         ? 'אודות AltruBiz (אלטרוביז)' 
         : sp.path === 'roi-calculator'
-        ? 'מחשבון ROI ללידים - כמה כסף אתם מפספסים כל חודש'
+        ? 'כמה כסף כבר נמצא אצלכם בעסק – ונופל בין הכיסאות?'
         : 'מדריכים, תובנות ומאמרים מקצועיים';
 
     const staticRootHtml = sp.path === 'about' ? `
@@ -355,7 +355,7 @@ ${buildFoundationHeader()}
           <span>כלי אבחון וחישוב ROI</span>
         </div>
         <h1 class="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight leading-tight mb-6">
-          מחשבון ROI ללידים - כמה כסף אתם מפספסים כל חודש
+          כמה כסף כבר נמצא אצלכם בעסק – ונופל בין הכיסאות?
         </h1>
         <p class="max-w-3xl mx-auto text-lg sm:text-xl text-slate-600 leading-relaxed">
           ${escapeAttr(sp.description)}
