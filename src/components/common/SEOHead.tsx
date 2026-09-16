@@ -254,7 +254,16 @@ export const SEOHead: React.FC<SEOHeadProps> = ({ routeConfig, article, faqs }) 
             });
         }
 
-        // Inject Dynamic Schema Script
+        // Inject Dynamic Schema Script.
+        // SiteOS Phase 3: also removes the static baseline Organization/
+        // WebSite/SoftwareApplication graph shipped in index.html (which has
+        // no id, unlike our own #schema-dynamic block) -- previously left in
+        // place, causing Organization/WebSite (and SoftwareApplication on
+        // "/") to appear twice in the DOM after hydration on every route,
+        // and the homepage's SoftwareApplication schema to linger on
+        // unrelated pages. This is idempotent: after the first run there is
+        // no un-id'd application/ld+json script left to match.
+        removeElement('script[type="application/ld+json"]:not(#schema-dynamic)');
         removeElement('#schema-dynamic');
         const script = document.createElement('script');
         script.id = 'schema-dynamic';
