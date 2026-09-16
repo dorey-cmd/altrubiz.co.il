@@ -17,11 +17,11 @@ export interface RoiCalculatorInputs {
 }
 
 export const ROI_CALCULATOR_DEFAULTS: RoiCalculatorInputs = {
-    leadsPerMonth: 100,
-    avgDealValue: 2000,
-    closeRatePercent: 10,
-    hoursSpentPerMonth: 15,
-    hourlyCost: 100,
+    leadsPerMonth: 50,
+    avgDealValue: 3500,
+    closeRatePercent: 15,
+    hoursSpentPerMonth: 10,
+    hourlyCost: 150,
     targetUpliftPercent: 5,
 };
 

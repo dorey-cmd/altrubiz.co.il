@@ -19,6 +19,7 @@ import {
 import { Breadcrumbs } from './common/Breadcrumbs';
 import { AnswerBox } from './common/AnswerBox';
 import { RoiCalculatorTool } from './calculator/RoiCalculatorTool';
+import { SocialShareBar } from './articles/SocialShareBar';
 import { ROI_CALCULATOR_FAQS } from '../lib/roiCalculator';
 import { ModalPresentationOptions } from '../types/attribution';
 import { buildAttributedWhatsAppUrl } from '../lib/attribution';
@@ -93,9 +94,36 @@ export const RoiCalculatorPage: React.FC<RoiCalculatorPageProps> = ({
                     כמה כסף כבר נמצא אצלכם בעסק – ונופל בין הכיסאות?
                 </h1>
 
-                <p className="max-w-2xl mx-auto text-lg sm:text-xl text-slate-600 leading-relaxed">
+                <p className="max-w-2xl mx-auto text-lg sm:text-xl text-slate-600 leading-relaxed mb-8">
                     מחשבון אבחון מהיר: הזנת כמות הלידים, שווי העסקה ושיעור הסגירה הקיים חושפת כמה פוטנציאל מכירה כבר נמצא כיום בתוך העסק – עוד לפני שמשקיעים שקל אחד נוסף בקמפיינים ובהבאת לידים חדשים.
                 </p>
+
+                {/* Below H1: Streamlined Meta, Author & Share Row (Identical to Articles) */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 border-t border-b border-slate-200 py-3 bg-white/70 backdrop-blur-sm rounded-2xl px-4 sm:px-6 shadow-xs max-w-4xl mx-auto mb-8 text-right">
+                    <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-bold text-sm shadow-sm shrink-0">
+                            AB
+                        </div>
+                        <div>
+                            <div className="font-bold text-slate-900 text-xs sm:text-sm">צוות AltruBiz</div>
+                            <div className="flex items-center gap-2 text-[11px] text-slate-500 flex-wrap">
+                                <span>כלי אבחון וחישוב</span>
+                                <span>•</span>
+                                <span>אבחון פוטנציאל עסקי</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <SocialShareBar
+                        title="מחשבון ROI ללידים: כמה כסף הולך לאיבוד כל חודש?"
+                        description="מחשבון אבחון מהיר לחישוב פוטנציאל המכירה בסיכון, עלות הזמן המבוזבז ושווי שיפור הסגירה בעסק."
+                        keyTakeaway="לפני שמוסיפים תקציב שיווק, עוצרים את בריחת הלידים: קיצור זמן המענה ומעקב שיטתי מגדילים את ההכנסות מהפניות שכבר קיימות."
+                        heroSummary="מחשבון ROI לחישוב מדויק של בריחת לידים, חיסכון בזמן עבודה ידנית ופוטנציאל שיפור סגירה בעסק."
+                        slug="roi-calculator"
+                        publicPath="/roi-calculator"
+                        variant="header"
+                    />
+                </div>
             </header>
 
             {/* Interactive Tool Component */}
@@ -323,6 +351,19 @@ export const RoiCalculatorPage: React.FC<RoiCalculatorPageProps> = ({
                         </div>
                     </div>
                 </section>
+
+                {/* Featured Social Share Card (Identical to Articles) */}
+                <div className="pt-2">
+                    <SocialShareBar
+                        title="מחשבון ROI ללידים: כמה כסף הולך לאיבוד כל חודש?"
+                        description="מחשבון אבחון מהיר לחישוב פוטנציאל המכירה בסיכון, עלות הזמן המבוזבז ושווי שיפור הסגירה בעסק."
+                        keyTakeaway="לפני שמוסיפים תקציב שיווק, עוצרים את בריחת הלידים: קיצור זמן המענה ומעקב שיטתי מגדילים את ההכנסות מהפניות שכבר קיימות."
+                        heroSummary="מחשבון ROI לחישוב מדויק של בריחת לידים, חיסכון בזמן עבודה ידנית ופוטנציאל שיפור סגירה בעסק."
+                        slug="roi-calculator"
+                        publicPath="/roi-calculator"
+                        variant="featured"
+                    />
+                </div>
 
                 {/* 4. Frequently Asked Questions (Accordion) */}
                 <section className="space-y-6">

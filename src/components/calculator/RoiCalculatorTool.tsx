@@ -111,6 +111,11 @@ export const RoiCalculatorTool: React.FC<RoiCalculatorToolProps> = ({ onOpenBook
         setField('hoursSpentPerMonth')(next);
     };
 
+    const stepHourlyCost = (delta: number) => {
+        const next = Math.max(30, Math.min(600, inputs.hourlyCost + delta * 25));
+        setField('hourlyCost')(next);
+    };
+
     const whatsappUrl = buildAttributedWhatsAppUrl(
         `שלום צוות AltruBiz, השתמשתי במחשבון ה-ROI באתר וזיהיתי כ-${formatCurrency(results.revenueAtRisk)} ₪ בחודש שהולכים לאיבוד, וכ-${formatCurrency(results.combinedPotentialValue)} ₪ פוטנציאל משיפור בסגירה וחיסכון בזמן. אשמח להתייעץ.`,
         {
@@ -144,106 +149,93 @@ export const RoiCalculatorTool: React.FC<RoiCalculatorToolProps> = ({ onOpenBook
 
     const leadsSliderPos = leadsToPos(inputs.leadsPerMonth);
     const dealSliderPos = dealValueToPos(inputs.avgDealValue);
-    const closeSliderPercent = ((inputs.closeRatePercent - 1) / (50 - 1)) * 100;
-    const hoursSliderPercent = (inputs.hoursSpentPerMonth / 60) * 100;
 
     return (
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start" dir="rtl">
-            {/* Left Column: Interactive Inputs Card */}
-            <div className="lg:col-span-7 bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-8 shadow-xs">
-                <div className="border-b border-slate-100 pb-5 mb-7">
-                    <div className="flex items-center gap-2 text-primary font-bold text-xs uppercase tracking-wider mb-1">
-                        <Sparkles className="w-4 h-4 text-accent" />
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-7 items-start" dir="rtl">
+            {/* Left Column: Segmented & Bounded Inputs Cards */}
+            <div className="lg:col-span-7 bg-white border border-slate-200/90 rounded-3xl p-4 sm:p-6 shadow-xs space-y-3.5">
+                <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+                    <div className="flex items-center gap-2 text-primary font-bold text-xs uppercase tracking-wider">
+                        <Sparkles className="w-3.5 h-3.5 text-accent" />
                         <span>הגדרת נתוני העסק</span>
                     </div>
-                    <h2 className="text-xl sm:text-2xl font-black text-slate-900">
-                        הזנת נתוני העסק לבדיקת הפוטנציאל
-                    </h2>
-                    <p className="text-xs sm:text-sm text-slate-500 mt-1">
-                        התאמת המספרים לפי מצב העסק. הפקדים רגישים ומותאמים גם לעסקים עם מספר לידים קטן.
-                    </p>
+                    <span className="text-[11px] sm:text-xs text-slate-500 font-medium">
+                        התאמה מלאה גם למיעוט לידים
+                    </span>
                 </div>
 
-                <div className="space-y-8">
-                    {/* Control 1: Leads per Month */}
-                    <div>
-                        <div className="flex items-center justify-between mb-2">
-                            <label htmlFor="leads-range" className="text-sm sm:text-base font-bold text-slate-900">
-                                מספר לידים חדשים בחודש:
-                            </label>
-                            {/* Direct stepper & input */}
-                            <div className="flex items-center gap-1.5 bg-blue-50/80 border border-blue-200/60 rounded-full px-2 py-0.5" dir="ltr">
-                                <button
-                                    type="button"
-                                    onClick={() => stepLeads(-1)}
-                                    aria-label="הפחתת מספר לידים"
-                                    className="w-6 h-6 flex items-center justify-center text-slate-600 hover:text-primary hover:bg-white rounded-full transition-colors"
-                                >
-                                    <Minus className="w-3.5 h-3.5" />
-                                </button>
-                                <input
-                                    id="leads-input"
-                                    type="number"
-                                    inputMode="numeric"
-                                    min={5}
-                                    max={1000}
-                                    value={inputs.leadsPerMonth}
-                                    onChange={(e) => {
-                                        const n = parseInt(e.target.value, 10);
-                                        if (!isNaN(n)) setField('leadsPerMonth')(Math.max(5, Math.min(1000, n)));
-                                    }}
-                                    className="w-14 text-center font-black text-primary text-sm bg-transparent focus:outline-none"
-                                />
-                                <button
-                                    type="button"
-                                    onClick={() => stepLeads(1)}
-                                    aria-label="הוספת מספר לידים"
-                                    className="w-6 h-6 flex items-center justify-center text-slate-600 hover:text-primary hover:bg-white rounded-full transition-colors"
-                                >
-                                    <Plus className="w-3.5 h-3.5" />
-                                </button>
-                            </div>
-                        </div>
-
-                        {/* Slider Track with piecewise scaling */}
-                        <div dir="ltr" className="pt-1">
+                {/* Field 1: Leads per Month Card */}
+                <div className="bg-slate-50/70 border border-slate-200/80 rounded-2xl p-3 sm:p-3.5 hover:border-blue-200/90 transition-colors">
+                    <div className="flex items-center justify-between mb-1.5">
+                        <label htmlFor="leads-range" className="text-xs sm:text-sm font-bold text-slate-900">
+                            לידים חדשים בחודש:
+                        </label>
+                        <div className="flex items-center gap-1 bg-white border border-slate-200/90 rounded-full px-1.5 py-0.5 shadow-2xs" dir="ltr">
+                            <button
+                                type="button"
+                                onClick={() => stepLeads(-1)}
+                                aria-label="הפחתת מספר לידים"
+                                className="w-5 h-5 flex items-center justify-center text-slate-600 hover:text-primary hover:bg-slate-100 rounded-full transition-colors"
+                            >
+                                <Minus className="w-3 h-3" />
+                            </button>
                             <input
-                                id="leads-range"
-                                type="range"
-                                min={0}
-                                max={100}
-                                step={0.5}
-                                value={leadsSliderPos}
+                                id="leads-input"
+                                type="number"
+                                inputMode="numeric"
+                                min={5}
+                                max={1000}
+                                value={inputs.leadsPerMonth}
                                 onChange={(e) => {
-                                    const nextLeads = posToLeads(parseFloat(e.target.value));
-                                    setField('leadsPerMonth')(nextLeads);
+                                    const n = parseInt(e.target.value, 10);
+                                    if (!isNaN(n)) setField('leadsPerMonth')(Math.max(5, Math.min(1000, n)));
                                 }}
-                                style={{
-                                    background: `linear-gradient(to right, #2563eb 0%, #2563eb ${leadsSliderPos}%, #e2e8f0 ${leadsSliderPos}%, #e2e8f0 100%)`,
-                                }}
-                                aria-label="מספר לידים חדשים בחודש"
-                                className="w-full h-2.5 rounded-lg appearance-none cursor-pointer accent-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                                className="w-11 text-center font-black text-primary text-xs sm:text-sm bg-transparent focus:outline-none"
                             />
+                            <button
+                                type="button"
+                                onClick={() => stepLeads(1)}
+                                aria-label="הוספת מספר לידים"
+                                className="w-5 h-5 flex items-center justify-center text-slate-600 hover:text-primary hover:bg-slate-100 rounded-full transition-colors"
+                            >
+                                <Plus className="w-3 h-3" />
+                            </button>
                         </div>
+                    </div>
 
-                        {/* Value Badge Underneath */}
-                        <div className="flex justify-center mt-2">
-                            <span className="inline-flex items-center gap-1.5 bg-blue-50 text-primary border border-blue-200/60 px-3.5 py-1 rounded-full text-xs sm:text-sm font-bold shadow-xs">
-                                <span>{formatCurrency(inputs.leadsPerMonth)}</span>
-                                <span className="text-slate-600 font-medium">לידים בחודש</span>
-                            </span>
-                        </div>
+                    <div dir="ltr" className="py-1">
+                        <input
+                            id="leads-range"
+                            type="range"
+                            min={0}
+                            max={100}
+                            step={0.5}
+                            value={leadsSliderPos}
+                            onChange={(e) => {
+                                const nextLeads = posToLeads(parseFloat(e.target.value));
+                                setField('leadsPerMonth')(nextLeads);
+                            }}
+                            style={{
+                                background: `linear-gradient(to right, #2563eb 0%, #2563eb ${leadsSliderPos}%, #e2e8f0 ${leadsSliderPos}%, #e2e8f0 100%)`,
+                            }}
+                            aria-label="מספר לידים חדשים בחודש"
+                            className="w-full h-2 rounded-lg appearance-none cursor-pointer accent-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                        />
+                    </div>
 
-                        {/* Quick Presets Pills */}
-                        <div className="flex items-center justify-center flex-wrap gap-1.5 mt-2.5">
+                    <div className="flex items-center justify-between flex-wrap gap-1 mt-1 pt-0.5">
+                        <span className="text-[11px] font-bold text-primary">
+                            {formatCurrency(inputs.leadsPerMonth)} לידים
+                        </span>
+                        <div className="flex items-center gap-1 flex-wrap">
                             {[10, 25, 50, 100, 250, 500].map((preset) => (
                                 <button
                                     key={preset}
                                     type="button"
                                     onClick={() => setField('leadsPerMonth')(preset)}
-                                    className={`px-3 py-1 rounded-full text-xs font-bold transition-all ${
+                                    className={`px-2 py-0.5 rounded-full text-[11px] font-bold transition-all ${
                                         inputs.leadsPerMonth === preset
-                                            ? 'bg-primary text-white shadow-xs ring-2 ring-primary/20'
+                                            ? 'bg-primary text-white shadow-2xs'
                                             : 'bg-white hover:bg-slate-100 text-slate-600 border border-slate-200'
                                     }`}
                                 >
@@ -252,85 +244,83 @@ export const RoiCalculatorTool: React.FC<RoiCalculatorToolProps> = ({ onOpenBook
                             ))}
                         </div>
                     </div>
+                </div>
 
-                    {/* Control 2: Average Deal Value */}
-                    <div>
-                        <div className="flex items-center justify-between mb-2">
-                            <label htmlFor="deal-range" className="text-sm sm:text-base font-bold text-slate-900">
-                                שווי עסקה ממוצעת לסגירה:
-                            </label>
-                            <div className="flex items-center gap-1.5 bg-blue-50/80 border border-blue-200/60 rounded-full px-2 py-0.5" dir="ltr">
-                                <button
-                                    type="button"
-                                    onClick={() => stepDealValue(-1)}
-                                    aria-label="הפחתת שווי עסקה"
-                                    className="w-6 h-6 flex items-center justify-center text-slate-600 hover:text-primary hover:bg-white rounded-full transition-colors"
-                                >
-                                    <Minus className="w-3.5 h-3.5" />
-                                </button>
-                                <div className="flex items-center">
-                                    <span className="text-xs font-bold text-primary pe-1">₪</span>
-                                    <input
-                                        id="deal-input"
-                                        type="number"
-                                        inputMode="numeric"
-                                        min={500}
-                                        max={50000}
-                                        value={inputs.avgDealValue}
-                                        onChange={(e) => {
-                                            const n = parseInt(e.target.value, 10);
-                                            if (!isNaN(n)) setField('avgDealValue')(Math.max(500, Math.min(50000, n)));
-                                        }}
-                                        className="w-16 text-center font-black text-primary text-sm bg-transparent focus:outline-none"
-                                    />
-                                </div>
-                                <button
-                                    type="button"
-                                    onClick={() => stepDealValue(1)}
-                                    aria-label="הוספת שווי עסקה"
-                                    className="w-6 h-6 flex items-center justify-center text-slate-600 hover:text-primary hover:bg-white rounded-full transition-colors"
-                                >
-                                    <Plus className="w-3.5 h-3.5" />
-                                </button>
+                {/* Field 2: Average Deal Value Card */}
+                <div className="bg-slate-50/70 border border-slate-200/80 rounded-2xl p-3 sm:p-3.5 hover:border-blue-200/90 transition-colors">
+                    <div className="flex items-center justify-between mb-1.5">
+                        <label htmlFor="deal-range" className="text-xs sm:text-sm font-bold text-slate-900">
+                            שווי עסקה ממוצעת:
+                        </label>
+                        <div className="flex items-center gap-1 bg-white border border-slate-200/90 rounded-full px-1.5 py-0.5 shadow-2xs" dir="ltr">
+                            <button
+                                type="button"
+                                onClick={() => stepDealValue(-1)}
+                                aria-label="הפחתת שווי עסקה"
+                                className="w-5 h-5 flex items-center justify-center text-slate-600 hover:text-primary hover:bg-slate-100 rounded-full transition-colors"
+                            >
+                                <Minus className="w-3 h-3" />
+                            </button>
+                            <div className="flex items-center">
+                                <span className="text-[10px] font-bold text-primary pe-0.5">₪</span>
+                                <input
+                                    id="deal-input"
+                                    type="number"
+                                    inputMode="numeric"
+                                    min={500}
+                                    max={50000}
+                                    value={inputs.avgDealValue}
+                                    onChange={(e) => {
+                                        const n = parseInt(e.target.value, 10);
+                                        if (!isNaN(n)) setField('avgDealValue')(Math.max(500, Math.min(50000, n)));
+                                    }}
+                                    className="w-14 text-center font-black text-primary text-xs sm:text-sm bg-transparent focus:outline-none"
+                                />
                             </div>
+                            <button
+                                type="button"
+                                onClick={() => stepDealValue(1)}
+                                aria-label="הוספת שווי עסקה"
+                                className="w-5 h-5 flex items-center justify-center text-slate-600 hover:text-primary hover:bg-slate-100 rounded-full transition-colors"
+                            >
+                                <Plus className="w-3 h-3" />
+                            </button>
                         </div>
+                    </div>
 
-                        <div dir="ltr" className="pt-1">
-                            <input
-                                id="deal-range"
-                                type="range"
-                                min={0}
-                                max={100}
-                                step={0.5}
-                                value={dealSliderPos}
-                                onChange={(e) => {
-                                    const nextVal = posToDealValue(parseFloat(e.target.value));
-                                    setField('avgDealValue')(nextVal);
-                                }}
-                                style={{
-                                    background: `linear-gradient(to right, #2563eb 0%, #2563eb ${dealSliderPos}%, #e2e8f0 ${dealSliderPos}%, #e2e8f0 100%)`,
-                                }}
-                                aria-label="שווי עסקה ממוצעת לסגירה"
-                                className="w-full h-2.5 rounded-lg appearance-none cursor-pointer accent-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
-                            />
-                        </div>
+                    <div dir="ltr" className="py-1">
+                        <input
+                            id="deal-range"
+                            type="range"
+                            min={0}
+                            max={100}
+                            step={0.5}
+                            value={dealSliderPos}
+                            onChange={(e) => {
+                                const nextVal = posToDealValue(parseFloat(e.target.value));
+                                setField('avgDealValue')(nextVal);
+                            }}
+                            style={{
+                                background: `linear-gradient(to right, #2563eb 0%, #2563eb ${dealSliderPos}%, #e2e8f0 ${dealSliderPos}%, #e2e8f0 100%)`,
+                            }}
+                            aria-label="שווי עסקה ממוצעת"
+                            className="w-full h-2 rounded-lg appearance-none cursor-pointer accent-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                        />
+                    </div>
 
-                        <div className="flex justify-center mt-2">
-                            <span className="inline-flex items-center gap-1.5 bg-blue-50 text-primary border border-blue-200/60 px-3.5 py-1 rounded-full text-xs sm:text-sm font-bold shadow-xs">
-                                <span>{formatCurrency(inputs.avgDealValue)} ₪</span>
-                                <span className="text-slate-600 font-medium">לעסקה ממוצעת</span>
-                            </span>
-                        </div>
-
-                        <div className="flex items-center justify-center flex-wrap gap-1.5 mt-2.5">
+                    <div className="flex items-center justify-between flex-wrap gap-1 mt-1 pt-0.5">
+                        <span className="text-[11px] font-bold text-primary">
+                            ₪{formatCurrency(inputs.avgDealValue)} לעסקה
+                        </span>
+                        <div className="flex items-center gap-1 flex-wrap">
                             {[1000, 2500, 5000, 10000, 25000].map((preset) => (
                                 <button
                                     key={preset}
                                     type="button"
                                     onClick={() => setField('avgDealValue')(preset)}
-                                    className={`px-3 py-1 rounded-full text-xs font-bold transition-all ${
+                                    className={`px-2 py-0.5 rounded-full text-[11px] font-bold transition-all ${
                                         inputs.avgDealValue === preset
-                                            ? 'bg-primary text-white shadow-xs ring-2 ring-primary/20'
+                                            ? 'bg-primary text-white shadow-2xs'
                                             : 'bg-white hover:bg-slate-100 text-slate-600 border border-slate-200'
                                     }`}
                                 >
@@ -339,285 +329,289 @@ export const RoiCalculatorTool: React.FC<RoiCalculatorToolProps> = ({ onOpenBook
                             ))}
                         </div>
                     </div>
+                </div>
 
-                    {/* Control 3: Current Close Rate */}
-                    <div>
-                        <div className="flex items-center justify-between mb-2">
-                            <label htmlFor="close-range" className="text-sm sm:text-base font-bold text-slate-900">
-                                מהו אחוז הסגירה המשוער כיום?
-                            </label>
-                            <div className="flex items-center gap-1.5 bg-blue-50/80 border border-blue-200/60 rounded-full px-2 py-0.5" dir="ltr">
-                                <button
-                                    type="button"
-                                    onClick={() => stepCloseRate(-1)}
-                                    aria-label="הפחתת אחוז סגירה"
-                                    className="w-6 h-6 flex items-center justify-center text-slate-600 hover:text-primary hover:bg-white rounded-full transition-colors"
-                                >
-                                    <Minus className="w-3.5 h-3.5" />
-                                </button>
-                                <span className="w-12 text-center font-black text-primary text-sm">
-                                    {inputs.closeRatePercent}%
-                                </span>
-                                <button
-                                    type="button"
-                                    onClick={() => stepCloseRate(1)}
-                                    aria-label="הוספת אחוז סגירה"
-                                    className="w-6 h-6 flex items-center justify-center text-slate-600 hover:text-primary hover:bg-white rounded-full transition-colors"
-                                >
-                                    <Plus className="w-3.5 h-3.5" />
-                                </button>
-                            </div>
-                        </div>
-
-                        {/* Discrete pills like Bites */}
-                        <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 mb-3">
-                            {[5, 10, 15, 20, 25, 35].map((rate) => (
-                                <button
-                                    key={rate}
-                                    type="button"
-                                    onClick={() => setField('closeRatePercent')(rate)}
-                                    className={`py-2 px-2 rounded-xl text-xs sm:text-sm font-bold transition-all text-center ${
-                                        inputs.closeRatePercent === rate
-                                            ? 'bg-primary text-white shadow-xs'
-                                            : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200'
-                                    }`}
-                                >
-                                    {rate}%
-                                </button>
-                            ))}
-                        </div>
-
-                        <div dir="ltr" className="pt-1">
-                            <input
-                                id="close-range"
-                                type="range"
-                                min={1}
-                                max={50}
-                                step={1}
-                                value={inputs.closeRatePercent}
-                                onChange={(e) => setField('closeRatePercent')(parseInt(e.target.value, 10))}
-                                style={{
-                                    background: `linear-gradient(to right, #2563eb 0%, #2563eb ${closeSliderPercent}%, #e2e8f0 ${closeSliderPercent}%, #e2e8f0 100%)`,
-                                }}
-                                aria-label="אחוז סגירה נוכחי"
-                                className="w-full h-2.5 rounded-lg appearance-none cursor-pointer accent-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
-                            />
-                        </div>
-
-                        <div className="flex justify-center mt-2">
-                            <span className="inline-flex items-center gap-1.5 bg-blue-50 text-primary border border-blue-200/60 px-3.5 py-1 rounded-full text-xs sm:text-sm font-bold shadow-xs">
-                                <span>{inputs.closeRatePercent}%</span>
-                                <span className="text-slate-600 font-medium">שיעור סגירה מתוך הלידים</span>
+                {/* Field 3: Current Close Rate Card */}
+                <div className="bg-slate-50/70 border border-slate-200/80 rounded-2xl p-3 sm:p-3.5 hover:border-blue-200/90 transition-colors">
+                    <div className="flex items-center justify-between mb-2">
+                        <label htmlFor="close-range" className="text-xs sm:text-sm font-bold text-slate-900">
+                            אחוז סגירה נוכחי מתוך הלידים:
+                        </label>
+                        <div className="flex items-center gap-1 bg-white border border-slate-200/90 rounded-full px-1.5 py-0.5 shadow-2xs" dir="ltr">
+                            <button
+                                type="button"
+                                onClick={() => stepCloseRate(-1)}
+                                aria-label="הפחתת אחוז סגירה"
+                                className="w-5 h-5 flex items-center justify-center text-slate-600 hover:text-primary hover:bg-slate-100 rounded-full transition-colors"
+                            >
+                                <Minus className="w-3 h-3" />
+                            </button>
+                            <span className="w-8 text-center font-black text-primary text-xs sm:text-sm">
+                                {inputs.closeRatePercent}%
                             </span>
+                            <button
+                                type="button"
+                                onClick={() => stepCloseRate(1)}
+                                aria-label="הוספת אחוז סגירה"
+                                className="w-5 h-5 flex items-center justify-center text-slate-600 hover:text-primary hover:bg-slate-100 rounded-full transition-colors"
+                            >
+                                <Plus className="w-3 h-3" />
+                            </button>
                         </div>
                     </div>
 
-                    {/* Control 4: Hours Spent on Manual Work */}
-                    <div>
-                        <div className="flex items-center justify-between mb-2">
-                            <label htmlFor="hours-range" className="text-sm sm:text-base font-bold text-slate-900">
-                                שעות בחודש על מעקב ידני, אקסלים ותזכורות:
-                            </label>
-                            <div className="flex items-center gap-1.5 bg-blue-50/80 border border-blue-200/60 rounded-full px-2 py-0.5" dir="ltr">
-                                <button
-                                    type="button"
-                                    onClick={() => stepHours(-1)}
-                                    aria-label="הפחתת שעות"
-                                    className="w-6 h-6 flex items-center justify-center text-slate-600 hover:text-primary hover:bg-white rounded-full transition-colors"
-                                >
-                                    <Minus className="w-3.5 h-3.5" />
-                                </button>
-                                <span className="w-12 text-center font-black text-primary text-sm">
-                                    {inputs.hoursSpentPerMonth} ש'
-                                </span>
-                                <button
-                                    type="button"
-                                    onClick={() => stepHours(1)}
-                                    aria-label="הוספת שעות"
-                                    className="w-6 h-6 flex items-center justify-center text-slate-600 hover:text-primary hover:bg-white rounded-full transition-colors"
-                                >
-                                    <Plus className="w-3.5 h-3.5" />
-                                </button>
+                    <div className="grid grid-cols-6 gap-1.5">
+                        {[5, 10, 15, 20, 25, 35].map((rate) => (
+                            <button
+                                key={rate}
+                                type="button"
+                                onClick={() => setField('closeRatePercent')(rate)}
+                                className={`py-1.5 rounded-lg text-xs font-bold transition-all text-center ${
+                                    inputs.closeRatePercent === rate
+                                        ? 'bg-primary text-white shadow-2xs'
+                                        : 'bg-white hover:bg-slate-100 text-slate-700 border border-slate-200'
+                                }`}
+                            >
+                                {rate}%
+                            </button>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Field 4: Combined Hours & Employer Hourly Cost (Side by Side in 2 Columns) */}
+                <div className="bg-slate-50/70 border border-slate-200/80 rounded-2xl p-3 sm:p-3.5 hover:border-blue-200/90 transition-colors">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                        {/* Sub-field 4A: Hours Spent */}
+                        <div>
+                            <div className="flex items-center justify-between mb-1.5">
+                                <label htmlFor="hours-range" className="text-xs sm:text-sm font-bold text-slate-900">
+                                    שעות בחודש על עבודה ידנית:
+                                </label>
+                                <div className="flex items-center gap-1 bg-white border border-slate-200/90 rounded-full px-1.5 py-0.5 shadow-2xs" dir="ltr">
+                                    <button
+                                        type="button"
+                                        onClick={() => stepHours(-1)}
+                                        aria-label="הפחתת שעות"
+                                        className="w-4 h-4 flex items-center justify-center text-slate-600 hover:text-primary rounded-full"
+                                    >
+                                        <Minus className="w-2.5 h-2.5" />
+                                    </button>
+                                    <span className="w-9 text-center font-black text-primary text-xs">
+                                        {inputs.hoursSpentPerMonth} ש'
+                                    </span>
+                                    <button
+                                        type="button"
+                                        onClick={() => stepHours(1)}
+                                        aria-label="הוספת שעות"
+                                        className="w-4 h-4 flex items-center justify-center text-slate-600 hover:text-primary rounded-full"
+                                    >
+                                        <Plus className="w-2.5 h-2.5" />
+                                    </button>
+                                </div>
+                            </div>
+                            <div className="grid grid-cols-4 gap-1">
+                                {[
+                                    { label: '2 ש\'', val: 2 },
+                                    { label: '5 ש\'', val: 5 },
+                                    { label: '10 ש\'', val: 10 },
+                                    { label: '20 ש\'', val: 20 },
+                                ].map((item) => (
+                                    <button
+                                        key={item.val}
+                                        type="button"
+                                        onClick={() => setField('hoursSpentPerMonth')(item.val)}
+                                        className={`py-1 rounded-lg text-[11px] font-bold transition-all text-center ${
+                                            inputs.hoursSpentPerMonth === item.val
+                                                ? 'bg-primary text-white shadow-2xs'
+                                                : 'bg-white hover:bg-slate-100 text-slate-700 border border-slate-200'
+                                        }`}
+                                    >
+                                        {item.label}
+                                    </button>
+                                ))}
                             </div>
                         </div>
 
-                        {/* Discrete pills */}
-                        <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 mb-3">
-                            {[
-                                { label: 'שעתיים', val: 2 },
-                                { label: '5 שעות', val: 5 },
-                                { label: '10 שעות', val: 10 },
-                                { label: '20 שעות', val: 20 },
-                                { label: '40+ שעות', val: 40 },
-                            ].map((item) => (
-                                <button
-                                    key={item.val}
-                                    type="button"
-                                    onClick={() => setField('hoursSpentPerMonth')(item.val)}
-                                    className={`py-2 px-2 rounded-xl text-xs sm:text-sm font-bold transition-all text-center ${
-                                        inputs.hoursSpentPerMonth === item.val
-                                            ? 'bg-primary text-white shadow-xs'
-                                            : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200'
-                                    }`}
-                                >
-                                    {item.label}
-                                </button>
-                            ))}
-                        </div>
-
-                        <div dir="ltr" className="pt-1">
-                            <input
-                                id="hours-range"
-                                type="range"
-                                min={0}
-                                max={60}
-                                step={1}
-                                value={inputs.hoursSpentPerMonth}
-                                onChange={(e) => setField('hoursSpentPerMonth')(parseInt(e.target.value, 10))}
-                                style={{
-                                    background: `linear-gradient(to right, #2563eb 0%, #2563eb ${hoursSliderPercent}%, #e2e8f0 ${hoursSliderPercent}%, #e2e8f0 100%)`,
-                                }}
-                                aria-label="שעות עבודה בחודש על משימות ידניות"
-                                className="w-full h-2.5 rounded-lg appearance-none cursor-pointer accent-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
-                            />
-                        </div>
-
-                        <div className="flex justify-center mt-2">
-                            <span className="inline-flex items-center gap-1.5 bg-blue-50 text-primary border border-blue-200/60 px-3.5 py-1 rounded-full text-xs sm:text-sm font-bold shadow-xs">
-                                <span>{inputs.hoursSpentPerMonth}</span>
-                                <span className="text-slate-600 font-medium">שעות עבודה בחודש</span>
-                            </span>
+                        {/* Sub-field 4B: Employer Hourly Cost */}
+                        <div>
+                            <div className="flex items-center justify-between mb-1.5">
+                                <label htmlFor="cost-range" className="text-xs sm:text-sm font-bold text-slate-900">
+                                    עלות שעת עבודה (מעביד):
+                                </label>
+                                <div className="flex items-center gap-1 bg-white border border-slate-200/90 rounded-full px-1.5 py-0.5 shadow-2xs" dir="ltr">
+                                    <button
+                                        type="button"
+                                        onClick={() => stepHourlyCost(-1)}
+                                        aria-label="הפחתת עלות שעה"
+                                        className="w-4 h-4 flex items-center justify-center text-slate-600 hover:text-primary rounded-full"
+                                    >
+                                        <Minus className="w-2.5 h-2.5" />
+                                    </button>
+                                    <span className="w-12 text-center font-black text-primary text-xs">
+                                        ₪{inputs.hourlyCost}
+                                    </span>
+                                    <button
+                                        type="button"
+                                        onClick={() => stepHourlyCost(1)}
+                                        aria-label="הוספת עלות שעה"
+                                        className="w-4 h-4 flex items-center justify-center text-slate-600 hover:text-primary rounded-full"
+                                    >
+                                        <Plus className="w-2.5 h-2.5" />
+                                    </button>
+                                </div>
+                            </div>
+                            <div className="grid grid-cols-4 gap-1">
+                                {[100, 150, 200, 300].map((cost) => (
+                                    <button
+                                        key={cost}
+                                        type="button"
+                                        onClick={() => setField('hourlyCost')(cost)}
+                                        className={`py-1 rounded-lg text-[11px] font-bold transition-all text-center ${
+                                            inputs.hourlyCost === cost
+                                                ? 'bg-primary text-white shadow-2xs'
+                                                : 'bg-white hover:bg-slate-100 text-slate-700 border border-slate-200'
+                                        }`}
+                                    >
+                                        ₪{cost}
+                                    </button>
+                                ))}
+                            </div>
                         </div>
                     </div>
+                </div>
 
-                    {/* Control 5: Target Uplift */}
-                    <div className="pt-2 border-t border-slate-100">
-                        <label className="block text-sm sm:text-base font-bold text-slate-900 mb-2">
+                {/* Field 5: Target Uplift Card */}
+                <div className="bg-slate-50/70 border border-slate-200/80 rounded-2xl p-3 sm:p-3.5 hover:border-blue-200/90 transition-colors">
+                    <div className="flex items-center justify-between mb-1.5">
+                        <label className="text-xs sm:text-sm font-bold text-slate-900">
                             שיפור יעד מבוקש בסגירה לבדיקה:
                         </label>
-                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                            {[
-                                { label: '+3% (זהיר)', val: 3 },
-                                { label: '+5% (ריאלי)', val: 5 },
-                                { label: '+8% (משמעותי)', val: 8 },
-                                { label: '+12% (שאפתני)', val: 12 },
-                            ].map((pill) => (
-                                <button
-                                    key={pill.val}
-                                    type="button"
-                                    onClick={() => setField('targetUpliftPercent')(pill.val)}
-                                    className={`py-2 px-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all text-center ${
-                                        inputs.targetUpliftPercent === pill.val
-                                            ? 'bg-emerald-600 text-white shadow-xs ring-2 ring-emerald-600/20'
-                                            : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200'
-                                    }`}
-                                >
-                                    {pill.label}
-                                </button>
-                            ))}
-                        </div>
+                        <span className="text-[11px] font-black text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+                            +{inputs.targetUpliftPercent}% בסגירה
+                        </span>
+                    </div>
+                    <div className="grid grid-cols-4 gap-1.5">
+                        {[
+                            { label: '+3% (זהיר)', val: 3 },
+                            { label: '+5% (ריאלי)', val: 5 },
+                            { label: '+8% (משמעותי)', val: 8 },
+                            { label: '+12% (שאפתני)', val: 12 },
+                        ].map((pill) => (
+                            <button
+                                key={pill.val}
+                                type="button"
+                                onClick={() => setField('targetUpliftPercent')(pill.val)}
+                                className={`py-1.5 px-1 rounded-lg text-[11px] sm:text-xs font-bold transition-all text-center ${
+                                    inputs.targetUpliftPercent === pill.val
+                                        ? 'bg-emerald-600 text-white shadow-2xs'
+                                        : 'bg-white hover:bg-slate-100 text-slate-700 border border-slate-200'
+                                }`}
+                            >
+                                {pill.label}
+                            </button>
+                        ))}
                     </div>
                 </div>
             </div>
 
-            {/* Right Column: Stack of 3 Result & Conversion Cards (Bites style) */}
-            <div className="lg:col-span-5 space-y-5 lg:sticky lg:top-28">
+            {/* Right Column: Compact Stack of 3 Result & Conversion Cards (Bites style) */}
+            <div className="lg:col-span-5 space-y-3.5 lg:sticky lg:top-28">
                 {/* Card 1: Breakdown of Metrics */}
-                <div className="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-7 shadow-xs">
-                    <div className="space-y-6">
+                <div className="bg-white border border-slate-200/90 rounded-3xl p-4 sm:p-5 shadow-xs">
+                    <div className="space-y-4">
                         {/* Metric 1 */}
                         <div>
-                            <div className="text-3xl sm:text-4xl font-serif italic font-black text-slate-900 mb-1" dir="ltr">
+                            <div className="text-2xl sm:text-3xl font-serif italic font-black text-slate-900 mb-0.5" dir="ltr">
                                 {reduceMotion ? (
                                     <span>₪{formatCurrency(results.revenueAtRisk)}</span>
                                 ) : (
                                     <span>₪<CountUp end={results.revenueAtRisk} duration={0.6} preserveValue formattingFn={(n) => formatCurrency(n)} /></span>
                                 )}
                             </div>
-                            <div className="text-xs sm:text-sm font-bold text-slate-700">
+                            <div className="text-xs sm:text-sm font-bold text-slate-800">
                                 פוטנציאל מכירה שנמצא כיום בסיכון
                             </div>
-                            <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+                            <p className="text-[11px] text-slate-500 mt-0.5 leading-relaxed">
                                 מתוך {inputs.leadsPerMonth} לידים, כ-{lostLeadsCount} לא הגיעו לסגירה.
                             </p>
                         </div>
 
-                        <div className="border-t border-slate-100 pt-5">
-                            <div className="text-3xl sm:text-4xl font-serif italic font-black text-emerald-700 mb-1" dir="ltr">
+                        <div className="border-t border-slate-100 pt-3">
+                            <div className="text-2xl sm:text-3xl font-serif italic font-black text-emerald-700 mb-0.5" dir="ltr">
                                 {reduceMotion ? (
                                     <span>₪{formatCurrency(results.upliftValue)}</span>
                                 ) : (
                                     <span>₪<CountUp end={results.upliftValue} duration={0.6} preserveValue formattingFn={(n) => formatCurrency(n)} /></span>
                                 )}
                             </div>
-                            <div className="text-xs sm:text-sm font-bold text-slate-700">
-                                תוספת הכנסה צפויה משיפור סגירה (+{inputs.targetUpliftPercent}%)
+                            <div className="text-xs sm:text-sm font-bold text-slate-800">
+                                תוספת הכנסה משיפור סגירה (+{inputs.targetUpliftPercent}%)
                             </div>
-                            <p className="text-xs text-slate-500 mt-1 leading-relaxed">
-                                שווה ערך לתוספת של כ-{upliftDeals} עסקאות בכל חודש בלי שקל נוסף לשיווק.
+                            <p className="text-[11px] text-slate-500 mt-0.5 leading-relaxed">
+                                שווה ערך לכ-{upliftDeals} עסקאות נוספות בכל חודש ללא ליד נוסף.
                             </p>
                         </div>
 
-                        <div className="border-t border-slate-100 pt-5">
-                            <div className="text-3xl sm:text-4xl font-serif italic font-black text-primary mb-1" dir="ltr">
+                        <div className="border-t border-slate-100 pt-3">
+                            <div className="text-2xl sm:text-3xl font-serif italic font-black text-primary mb-0.5" dir="ltr">
                                 {reduceMotion ? (
                                     <span>₪{formatCurrency(results.timeSavingsValue)}</span>
                                 ) : (
                                     <span>₪<CountUp end={results.timeSavingsValue} duration={0.6} preserveValue formattingFn={(n) => formatCurrency(n)} /></span>
                                 )}
                             </div>
-                            <div className="text-xs sm:text-sm font-bold text-slate-700">
+                            <div className="text-xs sm:text-sm font-bold text-slate-800">
                                 חיסכון חודשי ישיר בשעות עבודה ידנית
                             </div>
-                            <p className="text-xs text-slate-500 mt-1 leading-relaxed">
-                                שחרור של {inputs.hoursSpentPerMonth} שעות מעקב באקסל והודעות ידניות.
+                            <p className="text-[11px] text-slate-500 mt-0.5 leading-relaxed">
+                                {inputs.hoursSpentPerMonth} שעות לפי עלות מעביד של ₪{inputs.hourlyCost} לשעה.
                             </p>
                         </div>
                     </div>
                 </div>
 
                 {/* Card 2: Total Opportunity / Bottom Line */}
-                <div className="bg-gradient-to-br from-blue-50/90 via-indigo-50/70 to-blue-50/90 border border-blue-200/90 rounded-3xl p-6 sm:p-7 shadow-xs text-center">
-                    <div className="text-3xl sm:text-5xl font-serif italic font-black text-primary mb-1" dir="ltr">
+                <div className="bg-gradient-to-br from-blue-50/90 via-indigo-50/70 to-blue-50/90 border border-blue-200/90 rounded-3xl p-4 sm:p-5 shadow-xs text-center">
+                    <div className="text-3xl sm:text-4xl font-serif italic font-black text-primary mb-0.5" dir="ltr">
                         {reduceMotion ? (
                             <span>₪{formatCurrency(results.combinedPotentialValue)}</span>
                         ) : (
                             <span>₪<CountUp end={results.combinedPotentialValue} duration={0.6} preserveValue formattingFn={(n) => formatCurrency(n)} /></span>
                         )}
                     </div>
-                    <div className="text-sm sm:text-base font-black text-slate-800 tracking-wide uppercase mt-1">
+                    <div className="text-xs sm:text-sm font-black text-slate-800 tracking-wide uppercase mt-0.5">
                         סך שווי ההזדמנות החודשי בעסק
                     </div>
-                    <div className="text-xs text-slate-500 mt-1">
+                    <div className="text-[11px] text-slate-500 mt-0.5">
                         כ-₪{formatCurrency(results.combinedPotentialValue * 12)} בשנה של פוטנציאל מצרפי
                     </div>
                 </div>
 
-                {/* Card 3: Contextual Conversion CTA directly beneath results */}
-                <div className="bg-white border border-slate-200/90 rounded-3xl p-6 shadow-xs text-center">
-                    <h3 className="text-base sm:text-lg font-bold text-slate-900 mb-2">
+                {/* Card 3: Contextual Conversion CTA */}
+                <div className="bg-white border border-slate-200/90 rounded-3xl p-4 sm:p-5 shadow-xs text-center">
+                    <h3 className="text-sm sm:text-base font-bold text-slate-900 mb-1">
                         רוצים לראות פירוט מלא של המספרים בעסק?
                     </h3>
-                    <p className="text-xs sm:text-sm text-slate-600 mb-5 leading-relaxed">
+                    <p className="text-[11px] sm:text-xs text-slate-500 mb-3.5 leading-relaxed">
                         בשיחת מיפוי קצרה של 20 דקות נעבור על התהליך הקיים ונזהה בדיוק מאיפה כדאי להתחיל לעצור את הנזילה.
                     </p>
-                    <div className="space-y-2.5">
+                    <div className="space-y-2">
                         <Button
                             variant="primary"
-                            size="lg"
+                            size="md"
                             onClick={handleOpenBooking}
-                            className="w-full font-bold shadow-md flex items-center justify-center gap-2"
+                            className="w-full font-bold shadow-xs flex items-center justify-center gap-1.5 py-2.5 text-xs sm:text-sm"
                         >
-                            <Calendar className="w-4 h-4" />
+                            <Calendar className="w-3.5 h-3.5" />
                             <span>לתיאום שיחת מיפוי תהליך הלידים</span>
                         </Button>
                         <a
                             href={whatsappUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm text-[#128C7E] bg-[#25D366]/10 hover:bg-[#25D366]/20 border border-[#25D366]/30 transition-colors"
+                            className="w-full inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl font-bold text-xs text-[#128C7E] bg-[#25D366]/10 hover:bg-[#25D366]/20 border border-[#25D366]/30 transition-colors"
                         >
-                            <MessageCircle className="w-4 h-4 text-[#25D366]" />
+                            <MessageCircle className="w-3.5 h-3.5 text-[#25D366]" />
                             <span>לשלוח את הנתונים לוואטסאפ</span>
                         </a>
                     </div>

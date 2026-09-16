@@ -74,11 +74,11 @@ export const Header = ({ onNavigate, onOpenBookingModal }: HeaderProps) => {
                             למה אלטרוביז?
                         </a>
                         <a 
-                            href="/lost-leads" 
-                            onClick={(e) => handleLinkClick(e, '/lost-leads')}
+                            href="/roi-calculator" 
+                            onClick={(e) => handleLinkClick(e, '/roi-calculator')}
                             className="text-gray-600 hover:text-primary transition-colors text-sm font-medium"
                         >
-                            אבחון בריחת לידים
+                            מחשבון ROI
                         </a>
                         <a 
                             href="/knowledge" 
@@ -137,11 +137,11 @@ export const Header = ({ onNavigate, onOpenBookingModal }: HeaderProps) => {
                             למה אלטרוביז?
                         </a>
                         <a 
-                            href="/lost-leads" 
-                            onClick={(e) => handleLinkClick(e, '/lost-leads')}
+                            href="/roi-calculator" 
+                            onClick={(e) => handleLinkClick(e, '/roi-calculator')}
                             className="block px-3 py-2 text-gray-700 hover:text-primary hover:bg-blue-50 rounded-lg text-base font-medium"
                         >
-                            אבחון בריחת לידים
+                            מחשבון ROI ללידים
                         </a>
                         <a 
                             href="/knowledge" 
