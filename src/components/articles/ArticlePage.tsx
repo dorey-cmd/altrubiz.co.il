@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import { Article, ArticleSection } from '../../data/articles';
 import { getParentHubForArticle } from '../../data/knowledgeGraph';
+import { buildArticleBreadcrumbs } from '../../lib/routes';
 import { Button } from '../ui/Button';
 import { Breadcrumbs } from '../common/Breadcrumbs';
 import { SocialShareBar } from './SocialShareBar';
@@ -54,12 +55,10 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
 
     const parentHub = getParentHubForArticle(article.slug);
 
-    const breadcrumbItems = [
-        { name: 'דף הבית', path: '/' },
-        { name: 'מרכז ידע', path: '/knowledge' },
-        ...(parentHub ? [{ name: parentHub.title, path: parentHub.url }] : []),
-        { name: article.title, path: article.publicPath }
-    ];
+    // SiteOS Phase 3: single authoritative breadcrumb builder, shared with
+    // the BreadcrumbList Schema.org output in src/lib/routes.ts, so the
+    // visible trail and the structured-data trail can never disagree again.
+    const breadcrumbItems = buildArticleBreadcrumbs(article);
 
     const scrollToSection = (id: string) => {
         const elem = document.getElementById(id);

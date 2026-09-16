@@ -149,6 +149,24 @@ export const STATIC_ROUTES_REGISTRY: Record<string, RouteConfig> = {
 };
 
 /**
+ * Single authoritative breadcrumb trail for an article, consumed by both
+ * the visible UI (ArticlePage.tsx) and the BreadcrumbList Schema.org output
+ * (via buildArticleRouteConfig below) -- SiteOS Phase 3. Previously these
+ * were two independent implementations that disagreed whenever an article
+ * had a parent hub (ArticlePage.tsx included it, routes.ts's schema-facing
+ * breadcrumbs did not) -- Phase 1.5 traced this divergence explicitly.
+ */
+export function buildArticleBreadcrumbs(article: Article): RouteBreadcrumb[] {
+    const parentHub = getParentHubForArticle(article.slug);
+    return [
+        { name: 'דף הבית', path: '/' },
+        { name: 'מרכז ידע', path: '/knowledge' },
+        ...(parentHub ? [{ name: parentHub.title, path: parentHub.url }] : []),
+        { name: article.title, path: article.publicPath }
+    ];
+}
+
+/**
  * Generate dynamic route configuration for an article
  */
 export function buildArticleRouteConfig(article: Article): RouteConfig {
@@ -179,11 +197,7 @@ export function buildArticleRouteConfig(article: Article): RouteConfig {
         ogImage: absoluteOgImage,
         ogTitle: `${article.title} | AltruBiz CRM`,
         ogDescription: smartOgDescription,
-        breadcrumbs: [
-            { name: 'דף הבית', path: '/' },
-            { name: 'מרכז ידע ומאמרים', path: '/knowledge' },
-            { name: article.title, path: articlePath }
-        ],
+        breadcrumbs: buildArticleBreadcrumbs(article),
         article
     };
 }
