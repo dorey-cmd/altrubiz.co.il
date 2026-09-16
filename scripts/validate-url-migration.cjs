@@ -75,7 +75,9 @@ const EXPECTED_ARTICLES = {
     'salespeople-hate-crm-adoption-guide': '/salespeople-hate-crm',
     'omnichannel-communication-unified-inbox-crm-guide': '/unified-inbox',
     'quote-follow-up-guide': '/quote-follow-up',
-    'customer-handoff-context-guide': '/customer-handoff-context'
+    'customer-handoff-context-guide': '/customer-handoff-context',
+    'lead-qualification-guide': '/lead-qualification',
+    'practical-ai-for-business-guide': '/practical-ai-for-business'
 };
 
 const OLD_URL_REDIRECT_MAP = {
