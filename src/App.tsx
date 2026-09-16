@@ -25,6 +25,7 @@ import { PricingModal } from './components/common/PricingModal'
 import { BookingModal } from './components/common/BookingModal'
 import { ModalPresentationOptions } from './types/attribution'
 import { resolveConversionContext } from './lib/conversionEngine'
+import { trackPageview } from './lib/analytics'
 
 function App() {
     const [path, setPath] = useState(window.location.pathname);
@@ -240,6 +241,12 @@ function App() {
         window.addEventListener('popstate', handleLocationChange);
         return () => window.removeEventListener('popstate', handleLocationChange);
     }, [restoreOriginalState]);
+
+    // GA4 pageview per client-side route change (runs after SEOHead's title
+    // effect, so document.title reflects the destination route).
+    useEffect(() => {
+        trackPageview(path, document.title);
+    }, [path]);
 
     const isOffer = path === '/offer';
     const isAbout = path === '/about';

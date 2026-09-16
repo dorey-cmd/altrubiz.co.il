@@ -5,11 +5,13 @@ import './index.css'
 
 import { getRouteConfig } from './lib/routes'
 import { initClarity } from './lib/clarity'
+import { initAnalytics } from './lib/analytics'
 
-// Site-wide Microsoft Clarity analytics — initialized once at the app's single
-// entry point, so every current and future route (static pages, articles,
-// knowledge hubs) automatically inherits it without per-page wiring.
+// Site-wide Microsoft Clarity + Google Analytics — initialized once at the
+// app's single entry point, so every current and future route (static pages,
+// articles, knowledge hubs) automatically inherits both without per-page wiring.
 initClarity()
+initAnalytics()
 
 // Client-side redirect logic for external shortlinks
 const currentPath = window.location.pathname;
