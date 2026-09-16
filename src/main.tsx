@@ -4,6 +4,12 @@ import App from './App.tsx'
 import './index.css'
 
 import { getRouteConfig } from './lib/routes'
+import { initClarity } from './lib/clarity'
+
+// Site-wide Microsoft Clarity analytics — initialized once at the app's single
+// entry point, so every current and future route (static pages, articles,
+// knowledge hubs) automatically inherits it without per-page wiring.
+initClarity()
 
 // Client-side redirect logic for external shortlinks
 const currentPath = window.location.pathname;
