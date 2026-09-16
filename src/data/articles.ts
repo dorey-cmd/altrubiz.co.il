@@ -54,6 +54,16 @@ export type PublicationStatus = 'draft' | 'review' | 'published';
 export interface Article {
     publicationStatus: PublicationStatus;
     indexable: boolean;
+    /**
+     * Stable Publication identity (SiteOS Phase 3 Batch 2), independent of
+     * slug/publicPath: assigned once at migration/creation time and never
+     * recomputed from the current slug, so a future rename does not change
+     * identity. Optional during the migration window - every article
+     * currently in ARTICLES has one; src/siteos/compat/articleToPublication.ts
+     * falls back to a slug-derived id only when absent. New articles should
+     * always be given an id at ingestion time.
+     */
+    id?: string;
     slug: string;
     publicPath: string;
     title: string;
@@ -95,6 +105,7 @@ export interface Article {
 
 export const ARTICLES: Article[] = [
     {
+        id: 'pub_whatsapp-messaging-guidelines',
         slug: 'whatsapp-messaging-guidelines',
         publicPath: '/whatsapp-messaging-guidelines',
         publicationStatus: 'published',
@@ -309,6 +320,7 @@ export const ARTICLES: Article[] = [
         faqs: ARTICLE_WHATSAPP_FAQS
     },
     {
+        id: 'pub_crm-quick-wins-guide',
         slug: 'crm-quick-wins-guide',
         publicPath: '/crm-quick-wins',
         publicationStatus: 'published',
@@ -611,6 +623,7 @@ export const ARTICLES: Article[] = [
         ]
     },
     {
+        id: 'pub_lead-first-5-minutes-guide',
         slug: 'lead-first-5-minutes-guide',
         publicPath: '/lead-first-5-minutes',
         publicationStatus: 'published',
@@ -924,6 +937,7 @@ export const ARTICLES: Article[] = [
         ]
     },
     {
+        id: 'pub_missed-call-text-back-guide',
         slug: 'missed-call-text-back-guide',
         publicPath: '/missed-call-text-back',
         publicationStatus: 'published',
@@ -1235,6 +1249,7 @@ export const ARTICLES: Article[] = [
         ]
     },
     {
+        id: 'pub_excel-to-crm-pipeline-guide',
         slug: 'excel-to-crm-pipeline-guide',
         publicPath: '/excel-to-pipeline',
         publicationStatus: 'published',
@@ -1545,6 +1560,7 @@ export const ARTICLES: Article[] = [
         ]
     },
     {
+        id: 'pub_business-memory-crm-guide',
         slug: 'business-memory-crm-guide',
         publicPath: '/crm-as-business-memory',
         publicationStatus: 'published',
@@ -1867,6 +1883,7 @@ export const ARTICLES: Article[] = [
         ]
     },
     {
+        id: 'pub_lead-reactivation-guide',
         slug: 'lead-reactivation-guide',
         publicPath: '/lead-reactivation',
         publicationStatus: 'published',
@@ -2132,6 +2149,7 @@ export const ARTICLES: Article[] = [
         ]
     },
     {
+        id: 'pub_follow-up-tasks-crm-guide',
         slug: 'follow-up-tasks-crm-guide',
         publicPath: '/follow-up-tasks',
         publicationStatus: 'published',
@@ -2387,6 +2405,7 @@ export const ARTICLES: Article[] = [
         ]
     },
     {
+        id: 'pub_automated-meeting-scheduling-guide',
         slug: 'automated-meeting-scheduling-guide',
         publicPath: '/automated-meeting-scheduling',
         publicationStatus: 'published',
@@ -2642,6 +2661,7 @@ export const ARTICLES: Article[] = [
         ]
     },
     {
+        id: 'pub_crm-duplicate-contacts-prevention-guide',
         slug: 'crm-duplicate-contacts-prevention-guide',
         publicPath: '/prevent-duplicate-contacts',
         publicationStatus: 'published',
@@ -2917,6 +2937,7 @@ export const ARTICLES: Article[] = [
         ]
     },
     {
+        id: 'pub_crm-adoption-thursday-test-guide',
         slug: 'crm-adoption-thursday-test-guide',
         publicPath: '/crm-thursday-test',
         publicationStatus: 'published',
@@ -3202,6 +3223,7 @@ export const ARTICLES: Article[] = [
         ]
     },
     {
+        id: 'pub_customer-reviews-reputation-crm-guide',
         slug: 'customer-reviews-reputation-crm-guide',
         publicPath: '/customer-review-requests',
         publicationStatus: 'published',
@@ -3525,6 +3547,7 @@ export const ARTICLES: Article[] = [
         ]
     },
     {
+        id: 'pub_preventing-meeting-no-shows-guide',
         slug: 'preventing-meeting-no-shows-guide',
         publicPath: '/prevent-no-shows',
         publicationStatus: 'published',
@@ -3884,6 +3907,7 @@ export const ARTICLES: Article[] = [
         ]
     },
     {
+        id: 'pub_non-technical-to-ai-automation-guide',
         slug: 'non-technical-to-ai-automation-guide',
         publicPath: '/automation-without-tech-skills',
         publicationStatus: 'published',
@@ -4154,6 +4178,7 @@ export const ARTICLES: Article[] = [
         ]
     },
     {
+        id: 'pub_client-onboarding-process-guide',
         slug: 'client-onboarding-process-guide',
         publicPath: '/client-onboarding',
         publicationStatus: 'published',
@@ -4434,6 +4459,7 @@ export const ARTICLES: Article[] = [
         ]
     },
     {
+        id: 'pub_salespeople-hate-crm-adoption-guide',
         slug: 'salespeople-hate-crm-adoption-guide',
         publicPath: '/salespeople-hate-crm',
         publicationStatus: 'published',
@@ -4680,6 +4706,7 @@ export const ARTICLES: Article[] = [
         ]
     },
     {
+        id: 'pub_omnichannel-communication-unified-inbox-crm-guide',
         slug: 'omnichannel-communication-unified-inbox-crm-guide',
         publicPath: '/unified-inbox',
         publicationStatus: 'published',
@@ -4961,6 +4988,7 @@ export const ARTICLES: Article[] = [
         ]
     },
     {
+        id: 'pub_quote-follow-up-guide',
         slug: 'quote-follow-up-guide',
         publicPath: '/quote-follow-up',
         publicationStatus: 'review',
@@ -5211,6 +5239,7 @@ export const ARTICLES: Article[] = [
         ]
     },
     {
+        id: 'pub_customer-handoff-context-guide',
         slug: 'customer-handoff-context-guide',
         publicPath: '/customer-handoff-context',
         publicationStatus: 'published',
@@ -5531,6 +5560,7 @@ export const ARTICLES: Article[] = [
         ]
     },
     {
+        id: 'pub_lead-qualification-guide',
         slug: 'lead-qualification-guide',
         publicPath: '/lead-qualification',
         publicationStatus: 'review',
@@ -5893,6 +5923,7 @@ export const ARTICLES: Article[] = [
         ]
     },
         {
+        id: 'pub_practical-ai-for-business-guide',
         slug: 'practical-ai-for-business-guide',
         publicPath: '/practical-ai-for-business',
         publicationStatus: 'review',

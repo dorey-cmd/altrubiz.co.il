@@ -5,20 +5,18 @@ import { IL_MARKET } from '../config/markets/il';
 
 /**
  * Pure, read-only projection from today's Article shape (src/data/articles.ts)
- * to the future Publication shape. NOT consumed by any runtime rendering,
- * routing, or build path in Batch 1 — it exists so later migration and
- * validation tooling has one correct, reviewable mapping to build against,
- * independent of any actual behavior change.
+ * to the future Publication shape. Called live, against real production
+ * data, by scripts/validate-siteos-identity.cjs (Phase 3 Batch 2) — this
+ * is no longer a dormant type layer. It is still not consumed by any
+ * rendering/routing/build path that affects the live site.
  *
- * Known, intentional limitation of this batch: Article has no stable ID
- * separate from `slug` (the exact gap Phase 1.5 sec.7 traced). Rather than
- * add a persisted ID field to every article record in Batch 1 — a change
- * to production data this brief explicitly asks to avoid unless
- * necessary — this projection derives a Publication ID from the current
- * slug as an honest, temporary proxy. It is stable only as long as the
- * slug is; true slug-independent Publication IDs are deferred to the
- * batch that actually needs them (a real rename, or a second Publication
- * of the same KnowledgeEntity).
+ * Identity: every article in ARTICLES now carries a persisted, stable
+ * `id` field (Phase 3 Batch 2 — closed the gap Phase 1.5 sec.7 traced),
+ * assigned once and never recomputed from slug. This projection uses that
+ * persisted id as the Publication id whenever present, and falls back to
+ * a slug-derived id only as a defensive default for any future article
+ * that is inserted without one (which should not happen — new articles
+ * should always be given a real id at ingestion).
  *
  * publicationStatus + indexable -> PublicationState mapping:
  *   published + indexable:true   -> 'published'
@@ -41,7 +39,7 @@ export function deriveStateFlags(article: Article): PublicationStateFlags {
 
 export function articleToPublication(article: Article): Publication {
     return {
-        id: asPublicationId(article.slug),
+        id: asPublicationId(article.id ?? article.slug),
         marketId: IL_MARKET.id,
         format: 'article',
         locale: IL_MARKET.locale,
