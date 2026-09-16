@@ -16,7 +16,10 @@ const articles = routesLoader.getArticles();
 const hubs = routesLoader.getAllHubs();
 const canonicalConcepts = routesLoader.CANONICAL_CONCEPTS;
 
-// Filter approved, indexable public articles using central selector
+// Filter approved, indexable public articles using central selector.
+// SiteOS Phase 3: this is the same getIndexableArticles() filter now used
+// by scripts/sync-articles-md.cjs and (via routes.ts) the sitemap/robots
+// pipeline -- one eligibility formula across all three machine surfaces.
 const publicArticles = routesLoader.getIndexableArticles ? routesLoader.getIndexableArticles() : articles.filter(a => a.publicationStatus === 'published' && a.indexable === true);
 
 // 1. Generate public/llms.txt (Concise machine navigation map)

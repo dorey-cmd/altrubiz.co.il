@@ -20,6 +20,7 @@ import {
 } from '../data/articles';
 import { KnowledgeNode, getAllHubs, getParentHubForArticle, CANONICAL_CONCEPTS, resolveCanonicalConcept } from '../data/knowledgeGraph';
 import { IL_MARKET } from '../siteos/config/markets/il';
+import { deriveStateFlags, isSitemapEligible } from '../siteos';
 
 export { 
     ARTICLES, 
@@ -157,7 +158,11 @@ export function buildArticleRouteConfig(article: Article): RouteConfig {
         ? (coverSrc.startsWith('http') ? coverSrc : `${BASE_CANONICAL_DOMAIN}${coverSrc}`)
         : `${BASE_CANONICAL_DOMAIN}/images/articles/og/${article.slug}.jpg`;
     const smartOgDescription = article.keyTakeaway || article.heroSummary || article.description;
-    const isIndexable = article.publicationStatus === 'published' && article.indexable === true;
+    // SiteOS Phase 3: sourced from the single PublicationState derivation
+    // (src/siteos/types/publication.ts) instead of an independently-coded
+    // formula, so this can never drift from what
+    // scripts/validate-siteos-identity.cjs validates against real data.
+    const isIndexable = isSitemapEligible(deriveStateFlags(article));
 
     return {
         path: articlePath,

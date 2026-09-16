@@ -17,7 +17,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { getPublishedArticles, resolveCanonicalConcept } = require('./routes-loader.cjs');
+const { getIndexableArticles, resolveCanonicalConcept } = require('./routes-loader.cjs');
 
 const ROOT_DIR = path.resolve(__dirname, '..');
 const PUBLIC_DIR = path.join(ROOT_DIR, 'public');
@@ -27,8 +27,17 @@ console.log('\n\x1b[1m\x1b[36m==================================================
 console.log('\x1b[1m   AltruBiz Article Markdown Mirror Sync (Round 3C)     \x1b[0m');
 console.log('\x1b[1m\x1b[36m========================================================\x1b[0m\n');
 
-const articles = getPublishedArticles();
-console.log(`Found ${articles.length} published article(s) eligible for machine mirror sync.`);
+// SiteOS Phase 3: unified onto the same getIndexableArticles() (published &&
+// indexable) filter used by generate-sitemap.cjs (via routes.ts's inSitemap
+// field) and generate-llms-txt.cjs -- was previously getPublishedArticles()
+// (status-only), a genuinely different filter that happened to currently
+// agree with the others only because no article is published+indexable:false
+// today (Phase 1.5 flagged this as a latent, unreconciled divergence risk).
+// The markdown mirror's own alternateMarkdown link (routes.ts) is already
+// gated on the stricter formula, so the file should only exist when that
+// link can point to it.
+const articles = getIndexableArticles();
+console.log(`Found ${articles.length} published+indexable article(s) eligible for machine mirror sync.`);
 
 function generateFrontmatter(article) {
     const canonicalUrl = article.canonicalUrl || `https://altrubiz.co.il${article.publicPath}`;
