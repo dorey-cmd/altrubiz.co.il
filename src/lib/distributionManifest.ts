@@ -12,13 +12,16 @@
 
 import { Article } from '../data/articles';
 import { getParentHubForArticle } from '../data/knowledgeGraph';
-import { 
-    DistributionManifest, 
-    ContentPublishedEventResult, 
-    ChannelDistributionState 
+import {
+    DistributionManifest,
+    ContentPublishedEventResult,
+    ChannelDistributionState
 } from '../types/distribution';
+import { IL_MARKET } from '../siteos';
 
-const DOMAIN = 'https://altrubiz.co.il';
+// SiteOS Phase 3: sourced from IL_MARKET (MarketConfig) instead of an
+// independent literal.
+const DOMAIN = IL_MARKET.domain;
 
 /**
  * Creates an authoritative DistributionManifest from an Article

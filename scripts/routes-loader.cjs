@@ -69,5 +69,9 @@ module.exports = {
     getParentHubForArticle: (slug) => (loadRoutes().getParentHubForArticle ? loadRoutes().getParentHubForArticle(slug) : undefined),
     get CANONICAL_CONCEPTS() { return loadRoutes().CANONICAL_CONCEPTS || {}; },
     resolveCanonicalConcept: (id) => (loadRoutes().resolveCanonicalConcept ? loadRoutes().resolveCanonicalConcept(id) : undefined),
-    BASE_CANONICAL_DOMAIN: 'https://altrubiz.co.il'
+    // SiteOS Phase 3: was a second hardcoded literal, now a live getter onto
+    // the real TS export (src/lib/routes.ts's BASE_CANONICAL_DOMAIN, itself
+    // sourced from IL_MARKET.domain) -- every .cjs script that reads this
+    // property now transitively derives from the one MarketConfig value.
+    get BASE_CANONICAL_DOMAIN() { return loadRoutes().BASE_CANONICAL_DOMAIN; }
 };

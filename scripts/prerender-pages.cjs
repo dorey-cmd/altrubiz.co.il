@@ -10,12 +10,14 @@
 
 const fs = require('fs');
 const path = require('path');
-const { getAllArticles, getAllHubs, getParentHubForArticle } = require('./routes-loader.cjs');
+const { getAllArticles, getAllHubs, getParentHubForArticle, BASE_CANONICAL_DOMAIN } = require('./routes-loader.cjs');
 
 const ROOT_DIR = path.resolve(__dirname, '..');
 const DIST_DIR = path.join(ROOT_DIR, 'dist');
 const PUBLIC_DIR = path.join(ROOT_DIR, 'public');
-const BASE_DOMAIN = 'https://altrubiz.co.il';
+// SiteOS Phase 3: sourced from routes-loader.cjs (-> IL_MARKET.domain)
+// instead of an independent literal.
+const BASE_DOMAIN = BASE_CANONICAL_DOMAIN;
 
 if (!fs.existsSync(DIST_DIR)) {
     console.log('Dist directory does not exist yet. Run vite build first.');

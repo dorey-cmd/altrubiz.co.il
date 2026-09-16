@@ -10,7 +10,9 @@ const path = require('path');
 const routesLoader = require('./routes-loader.cjs');
 
 const PUBLIC_DIR = path.resolve(__dirname, '..', 'public');
-const DOMAIN = 'https://altrubiz.co.il';
+// SiteOS Phase 3: sourced from routes-loader.cjs (-> IL_MARKET.domain)
+// instead of an independent literal.
+const DOMAIN = routesLoader.BASE_CANONICAL_DOMAIN;
 
 const articles = routesLoader.getArticles();
 const hubs = routesLoader.getAllHubs();

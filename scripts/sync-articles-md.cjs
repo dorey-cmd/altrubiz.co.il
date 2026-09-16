@@ -17,11 +17,14 @@
 
 const fs = require('fs');
 const path = require('path');
-const { getIndexableArticles, resolveCanonicalConcept } = require('./routes-loader.cjs');
+const { getIndexableArticles, resolveCanonicalConcept, BASE_CANONICAL_DOMAIN } = require('./routes-loader.cjs');
 
 const ROOT_DIR = path.resolve(__dirname, '..');
 const PUBLIC_DIR = path.join(ROOT_DIR, 'public');
 const PUBLIC_ARTICLES_LEGACY_DIR = path.join(PUBLIC_DIR, 'articles');
+// SiteOS Phase 3: sourced from routes-loader.cjs (-> IL_MARKET.domain)
+// instead of 5 independent inline literals.
+const DOMAIN = BASE_CANONICAL_DOMAIN;
 
 console.log('\n\x1b[1m\x1b[36m========================================================\x1b[0m');
 console.log('\x1b[1m   AltruBiz Article Markdown Mirror Sync (Round 3C)     \x1b[0m');
@@ -40,7 +43,7 @@ const articles = getIndexableArticles();
 console.log(`Found ${articles.length} published+indexable article(s) eligible for machine mirror sync.`);
 
 function generateFrontmatter(article) {
-    const canonicalUrl = article.canonicalUrl || `https://altrubiz.co.il${article.publicPath}`;
+    const canonicalUrl = article.canonicalUrl || `${DOMAIN}${article.publicPath}`;
     const lines = [
         '---',
         `title: ${JSON.stringify(article.title)}`,
@@ -73,7 +76,7 @@ function buildMarkdownFromArticle(article) {
 
             if (concept.hasApprovedPublicDestination && concept.publicDestinationUrl) {
                 // State A: Absolute canonical HTTPS URL
-                return `[${anchor}](https://altrubiz.co.il${concept.publicDestinationUrl})`;
+                return `[${anchor}](${DOMAIN}${concept.publicDestinationUrl})`;
             }
 
             // State B: Track for glossary and render as clean prose
@@ -88,7 +91,7 @@ function buildMarkdownFromArticle(article) {
 
         // Make internal relative links absolute for markdown portability
         transformed = transformed.replace(/\[([^\]]+)\]\((\/[^)]+)\)/g, (match, anchor, relPath) => {
-            return `[${anchor}](https://altrubiz.co.il${relPath})`;
+            return `[${anchor}](${DOMAIN}${relPath})`;
         });
 
         return transformed;
@@ -169,7 +172,7 @@ function buildMarkdownFromArticle(article) {
             }
 
             if (section.inlineCta) {
-                parts.push(`> 🎯 **${section.inlineCta.title}**\n> ${transformText(section.inlineCta.description)}\n> [${section.inlineCta.buttonText}](https://altrubiz.co.il/#contact)\n`);
+                parts.push(`> 🎯 **${section.inlineCta.title}**\n> ${transformText(section.inlineCta.description)}\n> [${section.inlineCta.buttonText}](${DOMAIN}/#contact)\n`);
             }
         }
     }
@@ -191,7 +194,7 @@ function buildMarkdownFromArticle(article) {
         parts.push('');
     }
 
-    const canonicalUrl = article.canonicalUrl || `https://altrubiz.co.il${article.publicPath}`;
+    const canonicalUrl = article.canonicalUrl || `${DOMAIN}${article.publicPath}`;
     parts.push(`---\n*לצפייה בגרסה המקורית של המאמר: [${canonicalUrl}](${canonicalUrl})*`);
     return parts.join('\n');
 }
