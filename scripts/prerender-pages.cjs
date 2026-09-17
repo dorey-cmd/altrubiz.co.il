@@ -337,13 +337,20 @@ const staticPages = [
         title: 'מדיניות Cookies | AltruBiz CRM',
         description: 'אילו קובצי Cookie וכלי אנליטיקה פועלים באתר AltruBiz, ואיך לנהל את ההסכמה שלכם אליהם.',
         image: `${BASE_DOMAIN}/images/og-altrubiz-main.jpg`
+    },
+    {
+        path: 'accessibility-statement',
+        title: 'הצהרת נגישות | AltruBiz CRM',
+        description: 'הצהרת הנגישות של אתר AltruBiz: התקן הרלוונטי, ההתאמות שבוצעו, אופן הבדיקה ומגבלות ידועות.',
+        image: `${BASE_DOMAIN}/images/og-altrubiz-main.jpg`
     }
 ];
 
 const LEGAL_PAGE_META = {
     'privacy-policy': { eyebrow: 'פרטיות', h1: 'מדיניות פרטיות', crumb: 'מדיניות פרטיות' },
     'terms-of-use': { eyebrow: 'תנאי שימוש', h1: 'תנאי שימוש', crumb: 'תנאי שימוש' },
-    'cookie-policy': { eyebrow: 'עוגיות (Cookies)', h1: 'מדיניות שימוש בקובצי Cookie', crumb: 'מדיניות Cookies' }
+    'cookie-policy': { eyebrow: 'עוגיות (Cookies)', h1: 'מדיניות שימוש בקובצי Cookie', crumb: 'מדיניות Cookies' },
+    'accessibility-statement': { eyebrow: 'נגישות', h1: 'הצהרת נגישות', crumb: 'הצהרת נגישות' }
 };
 
 for (const sp of staticPages) {

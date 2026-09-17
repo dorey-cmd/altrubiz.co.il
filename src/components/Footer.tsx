@@ -164,6 +164,14 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenBookingModal, 
                         מדיניות Cookies
                     </a>
                     <span className="text-gray-300 hidden sm:inline">•</span>
+                    <a
+                        href="/accessibility-statement"
+                        onClick={(e) => handleLinkClick(e, '/accessibility-statement')}
+                        className="text-gray-500 hover:text-primary transition-colors"
+                    >
+                        הצהרת נגישות
+                    </a>
+                    <span className="text-gray-300 hidden sm:inline">•</span>
                     <button
                         type="button"
                         onClick={() => openCookieSettings()}

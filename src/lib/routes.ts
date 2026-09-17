@@ -164,6 +164,20 @@ export const STATIC_ROUTES_REGISTRY: Record<string, RouteConfig> = {
             { name: 'מדיניות Cookies', path: '/cookie-policy' }
         ]
     },
+    '/accessibility-statement': {
+        path: '/accessibility-statement',
+        title: 'הצהרת נגישות | AltruBiz CRM',
+        description: 'הצהרת הנגישות של אתר AltruBiz: התקן הרלוונטי, ההתאמות שבוצעו, אופן הבדיקה ומגבלות ידועות.',
+        canonicalUrl: `${BASE_CANONICAL_DOMAIN}/accessibility-statement`,
+        schemaType: 'WebPage',
+        inSitemap: true,
+        sitemapPriority: 0.3,
+        sitemapChangeFreq: 'yearly',
+        breadcrumbs: [
+            { name: 'דף הבית', path: '/' },
+            { name: 'הצהרת נגישות', path: '/accessibility-statement' }
+        ]
+    },
     '/roi-calculator': {
         path: '/roi-calculator',
         title: 'מחשבון ROI ללידים: כמה כסף הולך לאיבוד כל חודש? | AltruBiz CRM',
