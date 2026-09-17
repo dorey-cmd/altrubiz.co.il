@@ -118,7 +118,17 @@ function killProcessTree(pid) {
 function killPort(port) {
     try {
         if (process.platform === 'win32') {
-            const out = execSync(`netstat -ano -p tcp | findstr :${port}`, { encoding: 'utf8' });
+            // Deliberately NOT `netstat -ano -p tcp`: `vite preview` binds to
+            // the IPv6 loopback ([::1]) by default in this environment, and
+            // Windows' `-p tcp` protocol filter only returns IPv4 rows --
+            // confirmed empirically to return zero rows for such a listener
+            // (both `-p tcp` and `-p TCP`), silently turning this whole
+            // pre-emptive kill into a no-op against exactly the scenario it
+            // exists for (an independent/orphaned vite preview left on the
+            // port by something outside this script's own run). Running
+            // plain `netstat -ano` with no protocol filter surfaces both
+            // IPv4 and IPv6 (and TCP/UDP) rows for the port.
+            const out = execSync(`netstat -ano | findstr :${port}`, { encoding: 'utf8' });
             const pids = new Set();
             out.split('\n').forEach((line) => {
                 const parts = line.trim().split(/\s+/);
@@ -714,47 +724,66 @@ async function auditHoverStateContrast(browser, baseUrl) {
     await page.goto(`${baseUrl}/knowledge`, { waitUntil: 'load' });
     await waitForHydration(page);
 
-    const handle = await page.evaluateHandle(() =>
-        Array.from(document.querySelectorAll('button, a')).find(
+    // Checks EVERY matching element, not just the first: ArticlesIndex.tsx
+    // has two independent occurrences of `bg-secondary hover:bg-[...]`
+    // (the per-article CTA button and the "WhatsApp guide" CTA button), and
+    // a regression introduced to only one of them would be invisible to a
+    // check that stopped at the first match.
+    const count = await page.evaluate(() =>
+        Array.from(document.querySelectorAll('button, a')).filter(
             (e) => e.className && typeof e.className === 'string' && e.className.includes('bg-secondary') && e.className.includes('hover:bg-')
-        )
+        ).length
     );
-    const el = handle.asElement();
-    if (!el) {
-        warn('Could not locate a bg-secondary CTA button with a hover: override on /knowledge to hover-contrast-test -- skipped');
+
+    if (count === 0) {
+        warn('Could not locate any bg-secondary CTA button with a hover: override on /knowledge to hover-contrast-test -- skipped');
         await page.close();
         return;
     }
 
-    const restStyle = await el.evaluate((node) => {
-        const cs = getComputedStyle(node);
-        return { bg: cs.backgroundColor, color: cs.color };
-    });
-    const restRgbBg = parseRgb(restStyle.bg);
-    const restRgbFg = parseRgb(restStyle.color);
-    if (restRgbBg && restRgbFg) {
-        const ratio = contrastRatio(restRgbBg, restRgbFg);
-        if (ratio >= 4.5) {
-            pass(`CTA button rest-state contrast: ${ratio.toFixed(2)}:1 (${restStyle.color} on ${restStyle.bg})`);
-        } else {
-            fail(`CTA button rest-state contrast is only ${ratio.toFixed(2)}:1, below the 4.5:1 AA minimum (${restStyle.color} on ${restStyle.bg})`);
-        }
-    }
+    for (let i = 0; i < count; i++) {
+        // Re-query by index each iteration rather than holding stale
+        // handles, since hovering/animation could in principle reflow and
+        // detach earlier handles.
+        const handle = await page.evaluateHandle((idx) => {
+            const matches = Array.from(document.querySelectorAll('button, a')).filter(
+                (e) => e.className && typeof e.className === 'string' && e.className.includes('bg-secondary') && e.className.includes('hover:bg-')
+            );
+            return matches[idx];
+        }, i);
+        const el = handle.asElement();
+        if (!el) continue;
 
-    await el.hover();
-    await page.waitForTimeout(200);
-    const hoverStyle = await el.evaluate((node) => {
-        const cs = getComputedStyle(node);
-        return { bg: cs.backgroundColor, color: cs.color };
-    });
-    const hoverRgbBg = parseRgb(hoverStyle.bg);
-    const hoverRgbFg = parseRgb(hoverStyle.color);
-    if (hoverRgbBg && hoverRgbFg) {
-        const ratio = contrastRatio(hoverRgbBg, hoverRgbFg);
-        if (ratio >= 4.5) {
-            pass(`CTA button :hover-state contrast: ${ratio.toFixed(2)}:1 (${hoverStyle.color} on ${hoverStyle.bg})`);
-        } else {
-            fail(`CTA button :hover-state contrast is only ${ratio.toFixed(2)}:1, below the 4.5:1 AA minimum (${hoverStyle.color} on ${hoverStyle.bg}) -- a real reachable control regresses on hover`);
+        const restStyle = await el.evaluate((node) => {
+            const cs = getComputedStyle(node);
+            return { bg: cs.backgroundColor, color: cs.color };
+        });
+        const restRgbBg = parseRgb(restStyle.bg);
+        const restRgbFg = parseRgb(restStyle.color);
+        if (restRgbBg && restRgbFg) {
+            const ratio = contrastRatio(restRgbBg, restRgbFg);
+            if (ratio >= 4.5) {
+                pass(`CTA button #${i + 1}/${count} rest-state contrast: ${ratio.toFixed(2)}:1 (${restStyle.color} on ${restStyle.bg})`);
+            } else {
+                fail(`CTA button #${i + 1}/${count} rest-state contrast is only ${ratio.toFixed(2)}:1, below the 4.5:1 AA minimum (${restStyle.color} on ${restStyle.bg})`);
+            }
+        }
+
+        await el.hover();
+        await page.waitForTimeout(200);
+        const hoverStyle = await el.evaluate((node) => {
+            const cs = getComputedStyle(node);
+            return { bg: cs.backgroundColor, color: cs.color };
+        });
+        const hoverRgbBg = parseRgb(hoverStyle.bg);
+        const hoverRgbFg = parseRgb(hoverStyle.color);
+        if (hoverRgbBg && hoverRgbFg) {
+            const ratio = contrastRatio(hoverRgbBg, hoverRgbFg);
+            if (ratio >= 4.5) {
+                pass(`CTA button #${i + 1}/${count} :hover-state contrast: ${ratio.toFixed(2)}:1 (${hoverStyle.color} on ${hoverStyle.bg})`);
+            } else {
+                fail(`CTA button #${i + 1}/${count} :hover-state contrast is only ${ratio.toFixed(2)}:1, below the 4.5:1 AA minimum (${hoverStyle.color} on ${hoverStyle.bg}) -- a real reachable control regresses on hover`);
+            }
         }
     }
 
