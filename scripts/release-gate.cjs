@@ -17,6 +17,7 @@
  * 7. Conversion Context Isolation:  npm run test:conversion
  * 8. Scroll Sovereignty Integrity:  npm run test:scroll
  * 9. Runtime Semantic Link Audit:   npm run test:semantic
+ * 10. Accessibility Regression:     npm run test:a11y
  */
 
 const { execSync } = require('child_process');
@@ -61,6 +62,10 @@ const STEPS = [
     {
         name: 'Step 9/9: Runtime Semantic Graph & Corpus Link Audit',
         cmd: 'node scripts/validate-runtime-semantic-links.cjs'
+    },
+    {
+        name: 'Step 10 (new, isolated): Accessibility Regression Suite (axe-core + keyboard/focus audits)',
+        cmd: 'node scripts/validate-accessibility.cjs'
     }
 ];
 
@@ -86,7 +91,7 @@ for (let i = 0; i < STEPS.length; i++) {
 const totalDuration = ((Date.now() - startTime) / 1000).toFixed(1);
 
 console.log('\n\x1b[1m\x1b[32m====================================================================\x1b[0m');
-console.log(`\x1b[1m\x1b[32m✔ TECHNICAL RELEASE GATE PASSED: ALL 9 STAGES VERIFIED (${totalDuration}s)\x1b[0m`);
+console.log(`\x1b[1m\x1b[32m✔ TECHNICAL RELEASE GATE PASSED: ALL ${STEPS.length} STAGES VERIFIED (${totalDuration}s)\x1b[0m`);
 console.log('\x1b[1m\x1b[32m  Site OS code, schema, and routing architecture are 100% verified. \x1b[0m');
 console.log('\x1b[36m  Note: External review-worker integration (Claude/Gemini/Webhook)    \x1b[0m');
 console.log('\x1b[36m  is an operational configuration step and will fail closed if unset. \x1b[0m');
