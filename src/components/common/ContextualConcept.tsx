@@ -109,10 +109,8 @@ export const ContextualConcept: React.FC<ContextualConceptProps> = ({
                 ref={triggerRef as React.RefObject<HTMLButtonElement>}
                 type="button"
                 onClick={() => setIsOpen(!isOpen)}
-                onFocus={() => setIsHovered(true)}
-                onBlur={() => setIsHovered(false)}
                 aria-haspopup="dialog"
-                aria-expanded={isOpen}
+                aria-expanded={isVisible}
                 aria-label={`הסבר על המונח: ${concept.term}`}
                 className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-blue-50/80 hover:bg-blue-100/90 text-slate-900 hover:text-primary font-semibold border-b-2 border-dotted border-primary/70 hover:border-primary transition-all cursor-help text-inherit text-sm sm:text-base leading-none my-0.5"
             >

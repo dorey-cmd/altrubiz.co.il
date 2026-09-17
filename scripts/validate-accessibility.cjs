@@ -80,39 +80,112 @@ function checkServer(url) {
     });
 }
 
+const { spawn, execSync } = require('child_process');
+
+/**
+ * Best-effort process-tree kill. `child.kill()` alone is not reliable here:
+ * this script spawns `npx vite preview` with `shell: true`, which on
+ * Windows means the tracked PID is a cmd.exe wrapper, not the actual node/
+ * vite process underneath it -- killing just that PID can leave the real
+ * server running as an orphaned "zombie" process bound to the port.
+ * `taskkill /T` (Windows) / a negative-PID signal to the process group
+ * (POSIX, requires `detached: true` at spawn time) kill the whole tree.
+ */
+function killProcessTree(pid) {
+    if (!pid) return;
+    try {
+        if (process.platform === 'win32') {
+            execSync(`taskkill /pid ${pid} /T /F`, { stdio: 'ignore' });
+        } else {
+            process.kill(-pid, 'SIGKILL');
+        }
+    } catch {
+        // Already dead, or we never had permission -- either way, nothing
+        // more we can do.
+    }
+}
+
+/**
+ * Forcibly frees a local port before we bind our own preview server to it.
+ * Without this, a zombie `vite preview` left running from an earlier
+ * interrupted/manual run would cause ensureServer() below to (previously)
+ * silently reuse it via a bare checkServer() ping -- reporting a false
+ * PASS for this entire suite against a STALE build that may not even
+ * contain the change under test. Confirmed reproducible: strip an
+ * aria-label, rebuild, leave a stale server listening, run test:a11y --
+ * it reports 0 failures because it never re-served the new dist/ output.
+ */
+function killPort(port) {
+    try {
+        if (process.platform === 'win32') {
+            const out = execSync(`netstat -ano -p tcp | findstr :${port}`, { encoding: 'utf8' });
+            const pids = new Set();
+            out.split('\n').forEach((line) => {
+                const parts = line.trim().split(/\s+/);
+                const pid = parts[parts.length - 1];
+                if (pid && /^\d+$/.test(pid) && pid !== '0') pids.add(pid);
+            });
+            pids.forEach((pid) => killProcessTree(pid));
+        } else {
+            const out = execSync(`lsof -ti tcp:${port}`, { encoding: 'utf8' });
+            out.split('\n').filter(Boolean).forEach((pid) => killProcessTree(pid));
+        }
+    } catch {
+        // Nothing was listening on the port (the common case) or the
+        // lookup tool isn't available -- either way, nothing to kill.
+    }
+}
+
 async function ensureServer() {
     if (process.env.TARGET_URL) {
         console.log(`✔ Target server specified: ${process.env.TARGET_URL}`);
         return { baseUrl: process.env.TARGET_URL, close: () => {} };
     }
 
-    const isUp = await checkServer('http://localhost:4173/');
-    if (isUp) {
-        console.log('✔ Connected to active server on http://localhost:4173');
-        return { baseUrl: 'http://localhost:4173', close: () => {} };
-    }
+    // Deliberately does NOT reuse "whatever happens to already be
+    // listening" on a well-known port (e.g. localhost:4173, as the
+    // sibling validate-scroll-sovereignty.cjs / validate-conversion-context
+    // .cjs scripts do for developer convenience) -- this suite is the
+    // authoritative accessibility gate, and blindly trusting an already-up
+    // server is exactly what let it silently pass against stale content
+    // (see killPort() doc comment above). It always kills anything on its
+    // target port first, then spawns and serves a guaranteed-fresh
+    // `vite preview` against the just-built dist/.
+    const PORT = 4181;
+    killPort(PORT);
+    await new Promise((r) => setTimeout(r, 300));
 
-    console.log('Starting ephemeral preview server on http://localhost:4181...');
-    const { spawn } = require('child_process');
-    const serverProcess = spawn('npx', ['vite', 'preview', '--port', '4181'], {
+    console.log(`Starting a fresh preview server on http://localhost:${PORT} (serving the current dist/ build)...`);
+    const serverProcess = spawn('npx', ['vite', 'preview', '--port', String(PORT), '--strictPort'], {
         shell: true,
-        stdio: 'pipe'
+        stdio: 'pipe',
+        detached: process.platform !== 'win32'
     });
+    serverProcess.on('error', () => {});
+
+    let closed = false;
+    const close = () => {
+        if (closed) return;
+        closed = true;
+        killProcessTree(serverProcess.pid);
+        killPort(PORT);
+    };
+    // Belt-and-suspenders: guarantees the spawned server is torn down even
+    // if the caller's own try/finally never runs (e.g. a thrown error
+    // before reaching it, or an early/forced process exit) -- the prior
+    // version's cleanup only ran on the happy path.
+    process.once('exit', close);
 
     for (let i = 0; i < 30; i++) {
         await new Promise((r) => setTimeout(r, 500));
-        const up = await checkServer('http://localhost:4181/');
+        const up = await checkServer(`http://localhost:${PORT}/`);
         if (up) {
-            console.log('✔ Ephemeral server ready on http://localhost:4181');
-            return {
-                baseUrl: 'http://localhost:4181',
-                close: () => {
-                    try { serverProcess.kill(); } catch {}
-                }
-            };
+            console.log(`✔ Fresh preview server ready on http://localhost:${PORT}`);
+            return { baseUrl: `http://localhost:${PORT}`, close };
         }
     }
 
+    close();
     throw new Error('Failed to start preview server for accessibility audit.');
 }
 
@@ -606,6 +679,135 @@ async function auditReflow(browser, baseUrl) {
     manual('200% zoom was approximated with a 640px-wide viewport (equivalent content-to-viewport ratio) rather than real browser zoom, since headless Chromium via playwright-core has no reliable page-zoom API. A manual check with actual browser zoom (Ctrl/Cmd + +) is recommended to catch zoom-specific quirks (e.g. fixed-position element overlap) this proxy cannot.');
 }
 
+/** WCAG relative luminance / contrast ratio, computed the same way axe-core does. */
+function relLuminance([r, g, b]) {
+    const chan = (c) => {
+        const cs = c / 255;
+        return cs <= 0.03928 ? cs / 12.92 : Math.pow((cs + 0.055) / 1.055, 2.4);
+    };
+    const [rl, gl, bl] = [chan(r), chan(g), chan(b)];
+    return 0.2126 * rl + 0.7152 * gl + 0.0722 * bl;
+}
+function contrastRatio(rgb1, rgb2) {
+    const l1 = relLuminance(rgb1);
+    const l2 = relLuminance(rgb2);
+    const [lighter, darker] = l1 > l2 ? [l1, l2] : [l2, l1];
+    return (lighter + 0.05) / (darker + 0.05);
+}
+function parseRgb(str) {
+    const m = str.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+    return m ? [parseInt(m[1], 10), parseInt(m[2], 10), parseInt(m[3], 10)] : null;
+}
+
+/**
+ * Regression guard for a real bug found in review: axe-core only inspects
+ * static DOM/CSS state, so a `:hover` background override that regresses
+ * contrast (as happened with the old un-fixed brand cyan on the
+ * per-article CTA buttons) is invisible to every other check in this
+ * suite. This hovers those buttons for real (Playwright's `.hover()`
+ * triggers genuine `:hover` matching, not a simulated attribute) and
+ * computes the ratio from actual getComputedStyle() colors.
+ */
+async function auditHoverStateContrast(browser, baseUrl) {
+    console.log('\n--- :hover State Contrast (Knowledge Index CTA buttons) ---');
+    const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
+    await page.goto(`${baseUrl}/knowledge`, { waitUntil: 'load' });
+    await waitForHydration(page);
+
+    const handle = await page.evaluateHandle(() =>
+        Array.from(document.querySelectorAll('button, a')).find(
+            (e) => e.className && typeof e.className === 'string' && e.className.includes('bg-secondary') && e.className.includes('hover:bg-')
+        )
+    );
+    const el = handle.asElement();
+    if (!el) {
+        warn('Could not locate a bg-secondary CTA button with a hover: override on /knowledge to hover-contrast-test -- skipped');
+        await page.close();
+        return;
+    }
+
+    const restStyle = await el.evaluate((node) => {
+        const cs = getComputedStyle(node);
+        return { bg: cs.backgroundColor, color: cs.color };
+    });
+    const restRgbBg = parseRgb(restStyle.bg);
+    const restRgbFg = parseRgb(restStyle.color);
+    if (restRgbBg && restRgbFg) {
+        const ratio = contrastRatio(restRgbBg, restRgbFg);
+        if (ratio >= 4.5) {
+            pass(`CTA button rest-state contrast: ${ratio.toFixed(2)}:1 (${restStyle.color} on ${restStyle.bg})`);
+        } else {
+            fail(`CTA button rest-state contrast is only ${ratio.toFixed(2)}:1, below the 4.5:1 AA minimum (${restStyle.color} on ${restStyle.bg})`);
+        }
+    }
+
+    await el.hover();
+    await page.waitForTimeout(200);
+    const hoverStyle = await el.evaluate((node) => {
+        const cs = getComputedStyle(node);
+        return { bg: cs.backgroundColor, color: cs.color };
+    });
+    const hoverRgbBg = parseRgb(hoverStyle.bg);
+    const hoverRgbFg = parseRgb(hoverStyle.color);
+    if (hoverRgbBg && hoverRgbFg) {
+        const ratio = contrastRatio(hoverRgbBg, hoverRgbFg);
+        if (ratio >= 4.5) {
+            pass(`CTA button :hover-state contrast: ${ratio.toFixed(2)}:1 (${hoverStyle.color} on ${hoverStyle.bg})`);
+        } else {
+            fail(`CTA button :hover-state contrast is only ${ratio.toFixed(2)}:1, below the 4.5:1 AA minimum (${hoverStyle.color} on ${hoverStyle.bg}) -- a real reachable control regresses on hover`);
+        }
+    }
+
+    await page.close();
+}
+
+/**
+ * Regression guard for a real bug found in review: ContextualConcept's
+ * definition popover is shown whenever `isVisible = isOpen || isHovered`
+ * is true (mouse hover OR keyboard focus, via onMouseEnter/onFocus --  not
+ * only on click), but its `aria-expanded` had drifted to only reflect
+ * `isOpen`, so a sighted mouse user hovering the term saw the popover
+ * while a screen reader was told it was collapsed. axe-core's static DOM
+ * inspection cannot catch this class of bug (aria-expanded="false" is a
+ * perfectly valid attribute value on its own) -- only actually hovering
+ * the trigger and reading the live attribute does.
+ */
+async function auditContextualConceptHoverAriaExpanded(browser, baseUrl) {
+    console.log('\n--- ContextualConcept aria-expanded on :hover ---');
+    const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
+    await page.goto(`${baseUrl}/excel-to-pipeline`, { waitUntil: 'load' });
+    await waitForHydration(page);
+
+    const trigger = await page.$('article button[aria-haspopup="dialog"]');
+    if (!trigger) {
+        warn('Could not locate a ContextualConcept definition trigger on /excel-to-pipeline -- skipped');
+        await page.close();
+        return;
+    }
+
+    const before = await trigger.getAttribute('aria-expanded');
+    if (before === 'false') {
+        pass('ContextualConcept trigger: aria-expanded="false" before interaction');
+    } else {
+        fail(`ContextualConcept trigger: expected aria-expanded="false" before interaction, got "${before}"`);
+    }
+
+    await trigger.hover();
+    await page.waitForTimeout(200);
+    const duringHover = await trigger.getAttribute('aria-expanded');
+    const dialogVisibleOnHover = await page.$('div[role="dialog"]');
+    if (duringHover === 'true' && dialogVisibleOnHover) {
+        pass('ContextualConcept trigger: aria-expanded="true" while the popover is visible on hover (matches real DOM state)');
+    } else {
+        fail(`ContextualConcept trigger: popover visible on hover=${!!dialogVisibleOnHover} but aria-expanded="${duringHover}" -- must track real visibility, not just click state`);
+    }
+
+    await page.mouse.move(0, 0);
+    await page.waitForTimeout(200);
+
+    await page.close();
+}
+
 async function auditReducedMotion(browser, baseUrl) {
     console.log('\n--- prefers-reduced-motion ---');
     const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
@@ -662,6 +864,8 @@ async function main() {
             'div[class*="fixed bottom-"] button', 'סגירת תפריט'
         );
         await auditRoiCalculatorTargetSizesAndSliders(browser, baseUrl);
+        await auditHoverStateContrast(browser, baseUrl);
+        await auditContextualConceptHoverAriaExpanded(browser, baseUrl);
         await auditReflow(browser, baseUrl);
         await auditReducedMotion(browser, baseUrl);
 
