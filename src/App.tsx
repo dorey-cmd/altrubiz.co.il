@@ -19,6 +19,7 @@ import { AboutPage } from './components/AboutPage'
 import { PrivacyPolicyPage } from './components/legal/PrivacyPolicyPage'
 import { TermsOfUsePage } from './components/legal/TermsOfUsePage'
 import { CookiePolicyPage } from './components/legal/CookiePolicyPage'
+import { AccessibilityStatementPage } from './components/legal/AccessibilityStatementPage'
 import { CookieConsentBanner } from './components/common/CookieConsentBanner'
 import { RoiCalculatorPage } from './components/RoiCalculatorPage'
 import { ROI_CALCULATOR_FAQS } from './lib/roiCalculator'
@@ -253,11 +254,28 @@ function App() {
         trackPageview(path, document.title);
     }, [path]);
 
+    // Accessibility: on every real SPA route change (not modal opens, which
+    // never update `path`), move keyboard/screen-reader focus to the new
+    // page's <main> landmark -- mirroring what a full page navigation would
+    // do. Skipped on first mount so initial page load keeps the browser's
+    // own default focus behavior. Each <main id="main-content"> below has
+    // tabIndex={-1} so it is a valid, if non-interactive, focus target.
+    const isFirstRouteRender = useRef(true);
+    useEffect(() => {
+        if (isFirstRouteRender.current) {
+            isFirstRouteRender.current = false;
+            return;
+        }
+        const mainEl = document.getElementById('main-content');
+        mainEl?.focus({ preventScroll: true });
+    }, [path]);
+
     const isOffer = path === '/offer';
     const isAbout = path === '/about';
     const isPrivacyPolicy = path === '/privacy-policy';
     const isTermsOfUse = path === '/terms-of-use';
     const isCookiePolicy = path === '/cookie-policy';
+    const isAccessibilityStatement = path === '/accessibility-statement';
     const isRoiCalculator = path === '/roi-calculator';
     const isKnowledgeIndex = path === '/knowledge';
 
@@ -289,7 +307,7 @@ function App() {
 
             {/* Page Views */}
             {isAbout ? (
-                <main id="main-content" className="relative z-10">
+                <main id="main-content" tabIndex={-1} className="relative z-10 focus:outline-none focus-visible:ring-4 focus-visible:ring-primary/40 focus-visible:ring-offset-0">
                     <AboutPage
                         onNavigate={handleNavigate}
                         onOpenContactModal={handleOpenContactModal}
@@ -297,19 +315,23 @@ function App() {
                     />
                 </main>
             ) : isPrivacyPolicy ? (
-                <main id="main-content" className="relative z-10">
+                <main id="main-content" tabIndex={-1} className="relative z-10 focus:outline-none focus-visible:ring-4 focus-visible:ring-primary/40 focus-visible:ring-offset-0">
                     <PrivacyPolicyPage onNavigate={handleNavigate} />
                 </main>
             ) : isTermsOfUse ? (
-                <main id="main-content" className="relative z-10">
+                <main id="main-content" tabIndex={-1} className="relative z-10 focus:outline-none focus-visible:ring-4 focus-visible:ring-primary/40 focus-visible:ring-offset-0">
                     <TermsOfUsePage onNavigate={handleNavigate} />
                 </main>
             ) : isCookiePolicy ? (
-                <main id="main-content" className="relative z-10">
+                <main id="main-content" tabIndex={-1} className="relative z-10 focus:outline-none focus-visible:ring-4 focus-visible:ring-primary/40 focus-visible:ring-offset-0">
                     <CookiePolicyPage onNavigate={handleNavigate} />
                 </main>
+            ) : isAccessibilityStatement ? (
+                <main id="main-content" tabIndex={-1} className="relative z-10 focus:outline-none focus-visible:ring-4 focus-visible:ring-primary/40 focus-visible:ring-offset-0">
+                    <AccessibilityStatementPage onNavigate={handleNavigate} />
+                </main>
             ) : isRoiCalculator ? (
-                <main id="main-content" className="relative z-10">
+                <main id="main-content" tabIndex={-1} className="relative z-10 focus:outline-none focus-visible:ring-4 focus-visible:ring-primary/40 focus-visible:ring-offset-0">
                     <RoiCalculatorPage
                         onNavigate={handleNavigate}
                         onOpenContactModal={handleOpenContactModal}
@@ -317,7 +339,7 @@ function App() {
                     />
                 </main>
             ) : isKnowledgeIndex ? (
-                <main id="main-content" className="relative z-10">
+                <main id="main-content" tabIndex={-1} className="relative z-10 focus:outline-none focus-visible:ring-4 focus-visible:ring-primary/40 focus-visible:ring-offset-0">
                     <ArticlesIndex 
                         onNavigate={handleNavigate} 
                         onOpenContactModal={handleOpenContactModal} 
@@ -325,7 +347,7 @@ function App() {
                     />
                 </main>
             ) : isArticlePage && currentArticle ? (
-                <main id="main-content" className="relative z-10">
+                <main id="main-content" tabIndex={-1} className="relative z-10 focus:outline-none focus-visible:ring-4 focus-visible:ring-primary/40 focus-visible:ring-offset-0">
                     <ArticlePage 
                         article={currentArticle} 
                         onNavigate={handleNavigate} 
@@ -335,7 +357,7 @@ function App() {
                     />
                 </main>
             ) : isHubPage && currentHubNode ? (
-                <main id="main-content" className="relative z-10">
+                <main id="main-content" tabIndex={-1} className="relative z-10 focus:outline-none focus-visible:ring-4 focus-visible:ring-primary/40 focus-visible:ring-offset-0">
                     <HubPage 
                         node={currentHubNode} 
                         onNavigate={handleNavigate} 
@@ -345,7 +367,7 @@ function App() {
                     />
                 </main>
             ) : (
-                <main id="main-content" className="relative z-10 transition-colors">
+                <main id="main-content" tabIndex={-1} className="relative z-10 transition-colors focus:outline-none focus-visible:ring-4 focus-visible:ring-primary/40 focus-visible:ring-offset-0">
                     <Spotlight />
                     <Hero onNavigate={handleNavigate} onOpenBookingModal={handleOpenBookingModal} />
                     <Features onNavigate={handleNavigate} />
