@@ -85,7 +85,7 @@ export const Pricing = () => {
                                 <div className="h-8 flex items-center justify-center text-gray-500 font-medium">
                                     מסלול גמיש ללא התחייבות
                                 </div>
-                                <div className="h-8 flex items-center justify-center text-green-600 font-bold" dir="rtl">
+                                <div className="h-8 flex items-center justify-center text-green-800 font-bold" dir="rtl">
                                     יעילות גבוהה יותר, עלות נמוכה יותר - חוסכים בענק!
                                 </div>
                             </motion.div>

@@ -4,6 +4,13 @@ export const StarDust = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
     useEffect(() => {
+        // Purely decorative ambient effect -- respect the user's
+        // prefers-reduced-motion setting instead of forcing continuous
+        // cursor-tracking particle animation on them.
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            return;
+        }
+
         const canvas = canvasRef.current;
         if (!canvas) return;
 
@@ -105,6 +112,8 @@ export const StarDust = () => {
     return (
         <canvas
             ref={canvasRef}
+            data-testid="ambient-stardust"
+            aria-hidden="true"
             className="fixed inset-0 pointer-events-none z-[60]"
         />
     );

@@ -296,7 +296,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onOpenContactM
                         <span>AltruBiz CRM • כל הזכויות שמורות</span>
                         <button
                             onClick={() => onNavigate('/')}
-                            className="text-primary hover:text-white transition-colors flex items-center gap-1 font-semibold"
+                            className="text-sky-400 hover:text-white transition-colors flex items-center gap-1 font-semibold"
                         >
                             <span>חזרה לדף הבית</span>
                             <ChevronLeft size={14} />

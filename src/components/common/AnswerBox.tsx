@@ -31,9 +31,9 @@ export const AnswerBox: React.FC<AnswerBoxProps> = ({
             <div className="flex items-start gap-3">
                 {icons[type]}
                 <div>
-                    <h4 className="font-bold text-base sm:text-lg mb-2">
+                    <h3 className="font-bold text-base sm:text-lg mb-2">
                         {title}
-                    </h4>
+                    </h3>
                     <p className="text-sm sm:text-base leading-relaxed opacity-95">
                         {answer}
                     </p>

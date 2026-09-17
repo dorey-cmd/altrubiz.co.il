@@ -365,7 +365,7 @@ export const SocialShareBar: React.FC<SocialShareBarProps> = ({
                     <button
                         onClick={handleFacebook}
                         aria-label="שיתוף בפייסבוק"
-                        className="flex items-center justify-center gap-2 py-3 px-3 rounded-xl bg-[#1877F2] hover:bg-[#166fe5] text-white font-bold text-xs transition-all shadow-md shadow-[#1877F2]/20 active:scale-95"
+                        className="flex items-center justify-center gap-2 py-3 px-3 rounded-xl bg-[#145DBF] hover:bg-[#0f4a9c] text-white font-bold text-xs transition-all shadow-md shadow-[#1877F2]/20 active:scale-95"
                     >
                         <FacebookIcon />
                         <span>פייסבוק</span>

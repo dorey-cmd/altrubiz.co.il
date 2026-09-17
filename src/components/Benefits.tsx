@@ -67,7 +67,7 @@ export const Benefits: React.FC<BenefitsProps> = ({ onNavigate }) => {
                             transition={{ delay: idx * 0.1 }}
                             className="bg-slate-50 p-6 rounded-xl border border-gray-100 hover:bg-white hover:shadow-lg transition-all hover:-translate-y-1"
                         >
-                            <h4 className="text-xl font-bold text-primary mb-2">{item.title}</h4>
+                            <h3 className="text-xl font-bold text-primary mb-2">{item.title}</h3>
                             <p className="text-gray-600">{item.desc}</p>
                         </motion.div>
                     ))}
@@ -107,7 +107,7 @@ export const Extras = () => {
                             transition={{ delay: idx * 0.1 }}
                             className="bg-white/5 backdrop-blur-sm p-8 rounded-2xl border border-white/10 text-center hover:bg-white/10 hover:-translate-y-1 transition-all duration-300"
                         >
-                            <h4 className="text-xl font-bold text-white mb-3">{item.title}</h4>
+                            <h3 className="text-xl font-bold text-white mb-3">{item.title}</h3>
                             <p className="text-gray-300 leading-relaxed">{item.desc}</p>
                         </motion.div>
                     ))}

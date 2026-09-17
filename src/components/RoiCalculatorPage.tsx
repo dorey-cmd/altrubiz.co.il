@@ -167,7 +167,7 @@ export const RoiCalculatorPage: React.FC<RoiCalculatorPageProps> = ({
                         </div>
 
                         <div className="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-2">
-                            <div className="flex items-center gap-2 text-amber-600 font-bold text-sm">
+                            <div className="flex items-center gap-2 text-amber-800 font-bold text-sm">
                                 <TrendingUp size={18} />
                                 <span>2. שווי שיפור בסגירה (Uplift)</span>
                             </div>
