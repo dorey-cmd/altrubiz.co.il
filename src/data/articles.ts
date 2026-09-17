@@ -21,6 +21,17 @@ export interface ArticleSection {
     image?: {
         src: string;
         alt: string;
+        /**
+         * SiteOS accessibility governance (backward-compatible addition):
+         * explicit escape hatch for a genuinely decorative in-article image
+         * that conveys no content of its own (rare -- most editorial images
+         * here are meaningful and must keep a real descriptive `alt`, per
+         * AGENTS.md 2.2). When true, scripts/validate-accessibility.cjs
+         * treats an empty/placeholder `alt` as intentional instead of
+         * flagging it. Defaults to false/absent for every existing article,
+         * so no existing content needs to change.
+         */
+        decorative?: boolean;
         caption?: string;
         layout?: 'full' | 'side';
     };
@@ -89,6 +100,14 @@ export interface Article {
     coverImage?: {
         src: string;
         alt: string;
+        /**
+         * SiteOS accessibility governance (backward-compatible addition):
+         * see ArticleSection['image'].decorative above. A cover image is
+         * almost never purely decorative (it also drives OG/Twitter image
+         * alt text in SEOHead.tsx), so this exists purely as an explicit,
+         * reviewable authoring decision rather than a silent default.
+         */
+        decorative?: boolean;
     };
     interactiveTheme?: boolean;
     cta?: {
