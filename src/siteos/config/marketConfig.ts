@@ -12,7 +12,11 @@ import type { MarketId } from '../identity';
  * intended migration sequencing.
  */
 export interface MarketContactChannels {
+    /** Raw digits for wa.me links, e.g. "972544350000". */
     whatsapp: string;
+    /** Human-readable form of `whatsapp`, for display next to a WhatsApp link/label. */
+    whatsappDisplay: string;
+    /** The business's general published phone number (e.g. as listed on Google) - distinct from `whatsapp`. */
     phone: string;
     email: string;
 }

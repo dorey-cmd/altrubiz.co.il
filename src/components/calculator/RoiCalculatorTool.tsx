@@ -190,7 +190,7 @@ export const RoiCalculatorTool: React.FC<RoiCalculatorToolProps> = ({ onOpenBook
                                     const n = parseInt(e.target.value, 10);
                                     if (!isNaN(n)) setField('leadsPerMonth')(Math.max(5, Math.min(1000, n)));
                                 }}
-                                className="w-11 text-center font-black text-primary text-xs sm:text-sm bg-transparent focus:outline-none"
+                                className="w-11 text-center font-black text-primary text-xs sm:text-sm bg-transparent focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-md"
                             />
                             <button
                                 type="button"
@@ -274,7 +274,7 @@ export const RoiCalculatorTool: React.FC<RoiCalculatorToolProps> = ({ onOpenBook
                                         const n = parseInt(e.target.value, 10);
                                         if (!isNaN(n)) setField('avgDealValue')(Math.max(500, Math.min(50000, n)));
                                     }}
-                                    className="w-14 text-center font-black text-primary text-xs sm:text-sm bg-transparent focus:outline-none"
+                                    className="w-14 text-center font-black text-primary text-xs sm:text-sm bg-transparent focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-md"
                                 />
                             </div>
                             <button
@@ -586,6 +586,10 @@ export const RoiCalculatorTool: React.FC<RoiCalculatorToolProps> = ({ onOpenBook
                         כ-₪{formatCurrency(results.combinedPotentialValue * 12)} בשנה של פוטנציאל מצרפי
                     </div>
                 </div>
+
+                <p className="text-[11px] text-slate-400 leading-relaxed px-1">
+                    * המספרים לעיל הם הערכה בלבד, המבוססת על הנתונים שהזנתם והנחות עבודה כלליות. מדובר בכלי המחשה לצורכי חשיבה ותכנון, ואינו מהווה הבטחה או התחייבות לתוצאה, הכנסה או חיסכון בפועל בעסק שלכם.
+                </p>
 
                 {/* Card 3: Contextual Conversion CTA */}
                 <div className="bg-white border border-slate-200/90 rounded-3xl p-4 sm:p-5 shadow-xs text-center">

@@ -158,7 +158,7 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate, onOpen
                                                         <Clock size={12} className="text-slate-400" />
                                                         {article.readTime}
                                                     </span>
-                                                    <span className="text-xs text-slate-400">
+                                                    <span className="text-xs text-slate-500">
                                                         • {new Date(article.datePublished).toLocaleDateString('he-IL', { year: 'numeric', month: 'short', day: 'numeric' })}
                                                     </span>
                                                 </div>
@@ -208,7 +208,7 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate, onOpen
                                 <span className="text-[11px] font-bold px-3 py-1 rounded-full bg-rose-50 text-rose-700 border border-rose-200/80">
                                     אבחון נקודות תורפה
                                 </span>
-                                <span className="text-xs text-slate-400 font-medium">
+                                <span className="text-xs text-slate-500 font-medium">
                                     מדריך מקיף
                                 </span>
                             </div>
@@ -233,7 +233,7 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate, onOpen
                                 <span className="text-[11px] font-bold px-3 py-1 rounded-full bg-blue-50 text-primary border border-blue-200">
                                     תקשורת ומכירות
                                 </span>
-                                <span className="text-xs text-slate-400 font-medium">
+                                <span className="text-xs text-slate-500 font-medium">
                                     מדריך יישום
                                 </span>
                             </div>

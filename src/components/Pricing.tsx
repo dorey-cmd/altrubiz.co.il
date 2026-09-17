@@ -38,7 +38,7 @@ export const Pricing = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div className="text-center mb-16">
                     <h2 className="text-4xl md:text-5xl font-bold text-[#1E293B] mb-10">
-                        בחירת החבילה המושלמת עבורכם
+                        בחירת החבילה המתאימה לעסק שלכם
                     </h2>
 
                     {/* Improved Toggle Switch */}
@@ -115,7 +115,7 @@ export const Pricing = () => {
                                 <CountUp end={prices.pro} duration={0.5} preserveValue={true} />
                             </span>
                         </div>
-                        <p className="text-gray-400 text-sm mb-6">+ מע"מ לחודש</p>
+                        <p className="text-gray-500 text-sm mb-6">+ מע"מ לחודש</p>
 
                         <p className="text-[#1E293B] font-bold mb-8 px-4 min-h-[48px] flex items-center justify-center">
                             למי זה מתאים: עסקים בתחילת הדרך שרוצים להתחיל לעבוד מסודר
@@ -162,7 +162,7 @@ export const Pricing = () => {
                                 <CountUp end={prices.smart} duration={0.5} preserveValue={true} />
                             </span>
                         </div>
-                        <p className="text-gray-400 text-sm mb-6">+ מע"מ לחודש</p>
+                        <p className="text-gray-500 text-sm mb-6">+ מע"מ לחודש</p>
 
                         <p className="text-[#1E293B] font-bold mb-8 px-4 min-h-[48px] flex items-center justify-center">
                             למי זה מתאים: עסקים בצמיחה שרוצים לשדרג אוטומציה ושיווק
@@ -210,7 +210,7 @@ export const Pricing = () => {
                                 <CountUp end={prices.power} duration={0.5} preserveValue={true} />
                             </span>
                         </div>
-                        <p className="text-gray-400 text-sm mb-6">+ מע"מ לחודש</p>
+                        <p className="text-gray-500 text-sm mb-6">+ מע"מ לחודש</p>
 
                         <p className="text-[#1E293B] font-bold mb-8 px-4 min-h-[48px] flex items-center justify-center">
                             למי זה מתאים: עסקים מבוססים שרוצים שליטה מלאה ומערכת מותאמת אישית

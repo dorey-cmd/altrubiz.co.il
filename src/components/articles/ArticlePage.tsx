@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { setOverlayOpen } from '../../lib/overlayCoordination';
 import { 
     Calendar, 
     Clock, 
@@ -52,6 +53,14 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
     const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
     const activeTocRef = useRef<HTMLAnchorElement>(null);
     const tocContainerRef = useRef<HTMLDivElement>(null);
+
+    // Lets always-on root-level fixed UI (the cookie consent banner) get
+    // out of the way while this full-screen drawer is open - see
+    // src/lib/overlayCoordination.ts for why a z-index alone can't do this.
+    useEffect(() => {
+        setOverlayOpen(isMobileDrawerOpen);
+        return () => setOverlayOpen(false);
+    }, [isMobileDrawerOpen]);
 
     const parentHub = getParentHubForArticle(article.slug);
 
@@ -648,7 +657,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                 e.preventDefault();
                                 scrollToSection('article-toc');
                             }}
-                            className="inline-flex items-center gap-1 text-xs text-slate-400 hover:text-primary transition-colors py-1 px-2.5 rounded-lg hover:bg-slate-50"
+                            className="inline-flex items-center gap-1 text-xs text-slate-500 hover:text-primary transition-colors py-1 px-2.5 rounded-lg hover:bg-slate-50"
                             title="חזרה לתוכן העניינים"
                         >
                             <ArrowUp size={13} />

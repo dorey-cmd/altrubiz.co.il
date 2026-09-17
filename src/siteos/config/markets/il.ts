@@ -28,7 +28,14 @@ export const IL_MARKET: MarketConfig = {
     currency: 'ILS',
     contactChannels: {
         whatsapp: '972544350000',
-        phone: '+972-54-435-0000',
+        whatsappDisplay: '+972-54-435-0000',
+        // Fixed 2026-09: the site previously displayed the WhatsApp number
+        // itself as "the phone number" everywhere, including in the
+        // Organization/LocalBusiness schema `telephone` field. Per the
+        // business owner, the only number that should appear on the site
+        // (outside of WhatsApp) is the one already published on the
+        // business's Google listing, for NAP consistency.
+        phone: '03-376-8700',
         email: 'support@altrubiz.co.il',
     },
     bookingWidget: {
@@ -43,8 +50,12 @@ export const IL_MARKET: MarketConfig = {
     legalEntity: {
         name: 'AltruBiz',
         alternateName: ['אלטרוביז', 'AltruBiz CRM'],
-        termsUrl: 'https://mkt.altrubiz.co.il/terms',
-        privacyUrl: 'https://mkt.altrubiz.co.il/terms',
+        // Fixed 2026-09: both fields previously pointed to the same external
+        // GoHighLevel funnel URL (https://mkt.altrubiz.co.il/terms) for BOTH
+        // terms and privacy, so there was no actual privacy policy content.
+        // Now sourced from this site's own reviewable static pages.
+        termsUrl: '/terms-of-use',
+        privacyUrl: '/privacy-policy',
     },
     analytics: {
         ga4MeasurementId: 'G-YHP284ETF9',

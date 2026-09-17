@@ -94,7 +94,7 @@ export const PricingOffer = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div className="text-center mb-16">
                     <h2 className="text-4xl md:text-5xl font-bold text-[#1E293B] mb-10">
-                        בחירת החבילה המושלמת עבורכם
+                        בחירת החבילה המתאימה לעסק שלכם
                     </h2>
 
                     <div className="flex flex-col items-center justify-center" dir="ltr">
@@ -170,7 +170,7 @@ export const PricingOffer = () => {
                                 <CountUp end={97} duration={0.5} preserveValue={true} />
                             </span>
                         </div>
-                        <p className="text-gray-400 text-sm mb-6">+ מע"מ לחודש</p>
+                        <p className="text-gray-500 text-sm mb-6">+ מע"מ לחודש</p>
 
                         <p className="text-[#1E293B] font-bold mb-8 px-2 min-h-[64px] flex items-center justify-center leading-tight text-lg">
                             ניהול הלידים עד המכירה - בצורה מסודרת וברורה
@@ -231,7 +231,7 @@ export const PricingOffer = () => {
                                 <CountUp end={prices.smart} duration={0.5} preserveValue={true} />
                             </span>
                         </div>
-                        <p className="text-gray-400 text-sm mb-6">+ מע"מ לחודש</p>
+                        <p className="text-gray-500 text-sm mb-6">+ מע"מ לחודש</p>
 
                         <p className="text-[#1E293B] font-bold mb-8 px-2 min-h-[64px] flex items-center justify-center leading-tight text-lg">
                             מערך שיווק מלא שמתחבר ישירות למכירות
@@ -301,7 +301,7 @@ export const PricingOffer = () => {
                                 <CountUp end={prices.power} duration={0.5} preserveValue={true} />
                             </span>
                         </div>
-                        <p className="text-gray-400 text-sm mb-6">+ מע"מ לחודש</p>
+                        <p className="text-gray-500 text-sm mb-6">+ מע"מ לחודש</p>
 
                         <p className="text-[#1E293B] font-bold mb-8 px-2 min-h-[64px] flex items-center justify-center leading-tight text-lg">
                             המערכת הופכת לעמוד השדרה ומנוע הצמיחה של העסק - בשילוב AI

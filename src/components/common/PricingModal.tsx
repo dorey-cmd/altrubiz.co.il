@@ -157,7 +157,7 @@ export const PricingModal: React.FC<PricingModalProps> = ({
 
                     <button
                         onClick={onClose}
-                        className="p-2 rounded-2xl bg-slate-800/80 hover:bg-slate-700 text-slate-400 hover:text-white transition-colors flex-shrink-0"
+                        className="p-2 rounded-2xl bg-slate-800/80 hover:bg-slate-700 text-slate-400 hover:text-white transition-colors flex-shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                         aria-label="סגירת חלונית תמחור"
                     >
                         <X size={20} />
@@ -174,7 +174,7 @@ export const PricingModal: React.FC<PricingModalProps> = ({
                         <button
                             type="button"
                             onClick={() => setIsYearly(!isYearly)}
-                            className="w-14 h-8 bg-slate-800 rounded-full p-1 border border-slate-700 relative transition-colors focus:outline-none"
+                            className="w-14 h-8 bg-slate-800 rounded-full p-1 border border-slate-700 relative transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
                             aria-label="החלפת תקופת תשלום"
                         >
                             <div 

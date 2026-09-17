@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { setOverlayOpen } from '../../lib/overlayCoordination';
 import { 
     AlertTriangle, 
     CheckCircle2, 
@@ -100,6 +101,14 @@ export const HubPage: React.FC<HubPageProps> = ({
     const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState<boolean>(false);
     const activeNavRef = useRef<HTMLButtonElement>(null);
     const navContainerRef = useRef<HTMLDivElement>(null);
+
+    // Lets always-on root-level fixed UI (the cookie consent banner) get
+    // out of the way while this full-screen drawer is open - see
+    // src/lib/overlayCoordination.ts for why a z-index alone can't do this.
+    useEffect(() => {
+        setOverlayOpen(isMobileDrawerOpen);
+        return () => setOverlayOpen(false);
+    }, [isMobileDrawerOpen]);
 
     const toggleFaq = (index: number) => {
         setOpenFaqIndex(openFaqIndex === index ? null : index);
@@ -624,7 +633,7 @@ export const HubPage: React.FC<HubPageProps> = ({
                             {/* Pull-quote / Core Problem Definition with Sleek Accent Line */}
                             {hub?.problemDefinition && (
                                 <div className="border-r-4 border-primary pr-5 py-2 my-6 bg-transparent">
-                                    <h2 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5 flex items-center gap-1.5">
+                                    <h2 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5 flex items-center gap-1.5">
                                         <Target className="w-4 h-4 text-primary" />
                                         <span>הגדרת האתגר והשפעתו על העסק</span>
                                     </h2>
@@ -843,7 +852,7 @@ export const HubPage: React.FC<HubPageProps> = ({
                                             {/* Linked Articles */}
                                             {sec.relatedArticleSlugs && sec.relatedArticleSlugs.length > 0 && (
                                                 <div className="pt-4 border-t border-slate-100">
-                                                    <h4 className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-3">
+                                                    <h4 className="text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-3">
                                                         מדריכים מומלצים בנושא:
                                                     </h4>
                                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">

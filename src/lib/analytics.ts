@@ -1,6 +1,7 @@
 import ReactGA from 'react-ga4';
 import { CTAContext } from '../types/attribution';
 import { IL_MARKET } from '../siteos';
+import { onAnalyticsConsentGranted } from './consent';
 
 // SiteOS Phase 3: sourced from IL_MARKET.analytics (MarketConfig) instead
 // of a standalone literal -- account identity is now market/environment
@@ -8,14 +9,22 @@ import { IL_MARKET } from '../siteos';
 // events won't silently share this property (Phase 2 blueprint sec.15).
 const GA_MEASUREMENT_ID = IL_MARKET.analytics.ga4MeasurementId;
 
-export function initAnalytics() {
-    if (!import.meta.env.PROD) return;
+function startAnalytics() {
     // Disable gtag's own automatic page_view on init — SPA route changes are
     // tracked explicitly via trackPageview() so every client-side navigation
     // (not just full page loads) is captured, with no duplicate initial hit.
     ReactGA.initialize(GA_MEASUREMENT_ID, {
         gtagOptions: { send_page_view: false },
     });
+}
+
+// GA4 is a non-essential analytics/tracking tool, so it only ever loads
+// after the visitor has explicitly opted in via the cookie consent banner
+// (src/components/common/CookieConsentBanner.tsx) -- never on page load by
+// default. See src/lib/consent.ts.
+export function initAnalytics() {
+    if (!import.meta.env.PROD) return;
+    onAnalyticsConsentGranted(startAnalytics);
 }
 
 export function trackPageview(path: string, title?: string) {

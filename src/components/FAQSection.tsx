@@ -39,7 +39,7 @@ export const FAQSection: React.FC = () => {
                             >
                                 <button
                                     onClick={() => toggle(idx)}
-                                    className="w-full flex items-center justify-between p-5 sm:p-6 text-right focus:outline-none"
+                                    className="w-full flex items-center justify-between p-5 sm:p-6 text-right focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset"
                                     aria-expanded={isOpen}
                                 >
                                     <h3 className="font-bold text-slate-900 text-base sm:text-lg pr-1">

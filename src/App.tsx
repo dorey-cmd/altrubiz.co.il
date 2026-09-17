@@ -16,6 +16,10 @@ import { StarDust } from './components/StarDust'
 import { ArticlesIndex } from './components/articles/ArticlesIndex'
 import { ArticlePage } from './components/articles/ArticlePage'
 import { AboutPage } from './components/AboutPage'
+import { PrivacyPolicyPage } from './components/legal/PrivacyPolicyPage'
+import { TermsOfUsePage } from './components/legal/TermsOfUsePage'
+import { CookiePolicyPage } from './components/legal/CookiePolicyPage'
+import { CookieConsentBanner } from './components/common/CookieConsentBanner'
 import { RoiCalculatorPage } from './components/RoiCalculatorPage'
 import { ROI_CALCULATOR_FAQS } from './lib/roiCalculator'
 import { SEOHead } from './components/common/SEOHead'
@@ -251,6 +255,9 @@ function App() {
 
     const isOffer = path === '/offer';
     const isAbout = path === '/about';
+    const isPrivacyPolicy = path === '/privacy-policy';
+    const isTermsOfUse = path === '/terms-of-use';
+    const isCookiePolicy = path === '/cookie-policy';
     const isRoiCalculator = path === '/roi-calculator';
     const isKnowledgeIndex = path === '/knowledge';
 
@@ -269,21 +276,40 @@ function App() {
                 faqs={isRoiCalculator ? ROI_CALCULATOR_FAQS : undefined} 
             />
 
+            <a
+                href="#main-content"
+                className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:right-3 focus:z-[10001] focus:bg-white focus:text-primary focus:font-bold focus:px-4 focus:py-2.5 focus:rounded-xl focus:shadow-xl"
+            >
+                דילוג לתוכן הראשי
+            </a>
+
             <StarDust />
             <Header onNavigate={handleNavigate} onOpenBookingModal={handleOpenBookingModal} />
             <WhatsAppFloat />
 
             {/* Page Views */}
             {isAbout ? (
-                <main className="relative z-10">
+                <main id="main-content" className="relative z-10">
                     <AboutPage
                         onNavigate={handleNavigate}
                         onOpenContactModal={handleOpenContactModal}
                         onOpenBookingModal={handleOpenBookingModal}
                     />
                 </main>
+            ) : isPrivacyPolicy ? (
+                <main id="main-content" className="relative z-10">
+                    <PrivacyPolicyPage onNavigate={handleNavigate} />
+                </main>
+            ) : isTermsOfUse ? (
+                <main id="main-content" className="relative z-10">
+                    <TermsOfUsePage onNavigate={handleNavigate} />
+                </main>
+            ) : isCookiePolicy ? (
+                <main id="main-content" className="relative z-10">
+                    <CookiePolicyPage onNavigate={handleNavigate} />
+                </main>
             ) : isRoiCalculator ? (
-                <main className="relative z-10">
+                <main id="main-content" className="relative z-10">
                     <RoiCalculatorPage
                         onNavigate={handleNavigate}
                         onOpenContactModal={handleOpenContactModal}
@@ -291,7 +317,7 @@ function App() {
                     />
                 </main>
             ) : isKnowledgeIndex ? (
-                <main className="relative z-10">
+                <main id="main-content" className="relative z-10">
                     <ArticlesIndex 
                         onNavigate={handleNavigate} 
                         onOpenContactModal={handleOpenContactModal} 
@@ -299,7 +325,7 @@ function App() {
                     />
                 </main>
             ) : isArticlePage && currentArticle ? (
-                <main className="relative z-10">
+                <main id="main-content" className="relative z-10">
                     <ArticlePage 
                         article={currentArticle} 
                         onNavigate={handleNavigate} 
@@ -309,7 +335,7 @@ function App() {
                     />
                 </main>
             ) : isHubPage && currentHubNode ? (
-                <main className="relative z-10">
+                <main id="main-content" className="relative z-10">
                     <HubPage 
                         node={currentHubNode} 
                         onNavigate={handleNavigate} 
@@ -319,7 +345,7 @@ function App() {
                     />
                 </main>
             ) : (
-                <main className="relative z-10 transition-colors">
+                <main id="main-content" className="relative z-10 transition-colors">
                     <Spotlight />
                     <Hero onNavigate={handleNavigate} onOpenBookingModal={handleOpenBookingModal} />
                     <Features onNavigate={handleNavigate} />
@@ -333,7 +359,9 @@ function App() {
                 </main>
             )}
 
-            <Footer 
+            <CookieConsentBanner onNavigate={handleNavigate} />
+
+            <Footer
                 onNavigate={handleNavigate} 
                 onOpenBookingModal={handleOpenBookingModal}
                 onOpenContactModal={handleOpenContactModal}

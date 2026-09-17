@@ -120,7 +120,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 
                     <button
                         onClick={onClose}
-                        className="p-2 rounded-2xl hover:bg-slate-200/70 text-slate-400 hover:text-slate-700 transition-colors flex-shrink-0 touch-manipulation"
+                        className="p-2 rounded-2xl hover:bg-slate-200/70 text-slate-500 hover:text-slate-700 transition-colors flex-shrink-0 touch-manipulation focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                         aria-label="סגירת חלונית תיאום פגישה"
                     >
                         <X size={20} />

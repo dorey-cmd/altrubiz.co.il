@@ -319,8 +319,32 @@ const staticPages = [
         description: 'הצעת מחיר מיוחדת למערכת AltruBiz CRM',
         image: `${BASE_DOMAIN}/images/og-altrubiz-main.jpg`,
         noindex: true
+    },
+    {
+        path: 'privacy-policy',
+        title: 'מדיניות פרטיות | AltruBiz CRM',
+        description: 'מדיניות הפרטיות של אתר AltruBiz: אילו נתונים נאספים, לשם מה, עם אילו ספקי צד שלישי הם משותפים וכיצד לממש זכויות פרטיות.',
+        image: `${BASE_DOMAIN}/images/og-altrubiz-main.jpg`
+    },
+    {
+        path: 'terms-of-use',
+        title: 'תנאי שימוש | AltruBiz CRM',
+        description: 'תנאי השימוש באתר AltruBiz: תנאי הזמנת מנוי, קניין רוחני, ביטול עסקה והגבלת אחריות.',
+        image: `${BASE_DOMAIN}/images/og-altrubiz-main.jpg`
+    },
+    {
+        path: 'cookie-policy',
+        title: 'מדיניות Cookies | AltruBiz CRM',
+        description: 'אילו קובצי Cookie וכלי אנליטיקה פועלים באתר AltruBiz, ואיך לנהל את ההסכמה שלכם אליהם.',
+        image: `${BASE_DOMAIN}/images/og-altrubiz-main.jpg`
     }
 ];
+
+const LEGAL_PAGE_META = {
+    'privacy-policy': { eyebrow: 'פרטיות', h1: 'מדיניות פרטיות', crumb: 'מדיניות פרטיות' },
+    'terms-of-use': { eyebrow: 'תנאי שימוש', h1: 'תנאי שימוש', crumb: 'תנאי שימוש' },
+    'cookie-policy': { eyebrow: 'עוגיות (Cookies)', h1: 'מדיניות שימוש בקובצי Cookie', crumb: 'מדיניות Cookies' }
+};
 
 for (const sp of staticPages) {
     let html = baseTemplate;
@@ -344,6 +368,8 @@ for (const sp of staticPages) {
         ? 'כמה כסף כבר נמצא אצלכם בעסק – ונופל בין הכיסאות?'
         : sp.path === 'offer'
         ? 'AltruBiz CRM - להכניס את השיטה לסיסטם'
+        : LEGAL_PAGE_META[sp.path]
+        ? LEGAL_PAGE_META[sp.path].h1
         : 'מדריכים, תובנות ומאמרים מקצועיים';
 
     const staticRootHtml = sp.path === 'about' ? `
@@ -402,6 +428,27 @@ ${buildFoundationHeader()}
           ${escapeAttr(sp.description)}
         </p>
       </div>
+    </div>` : LEGAL_PAGE_META[sp.path] ? `
+${buildFoundationHeader()}
+    <div class="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50 text-slate-900 pt-24 pb-20 font-sans" dir="rtl">
+      <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
+        <nav aria-label="פירורי לחם" class="flex items-center gap-2 text-xs sm:text-sm text-slate-500">
+          <a href="/" class="hover:text-primary transition-colors">דף הבית</a>
+          <span>&gt;</span>
+          <span class="text-slate-900 font-medium">${escapeAttr(LEGAL_PAGE_META[sp.path].crumb)}</span>
+        </nav>
+      </div>
+      <header class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-blue-50 text-primary text-xs sm:text-sm font-semibold mb-4 border border-blue-100">
+          <span>${escapeAttr(LEGAL_PAGE_META[sp.path].eyebrow)}</span>
+        </div>
+        <h1 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight leading-tight mb-3">
+          ${staticH1}
+        </h1>
+        <p class="max-w-3xl mx-auto text-base sm:text-lg text-slate-600 leading-relaxed">
+          ${escapeAttr(sp.description)}
+        </p>
+      </header>
     </div>` : `
 ${buildFoundationHeader()}
     <div class="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50 text-slate-900 pt-24 pb-20 font-sans" dir="rtl">

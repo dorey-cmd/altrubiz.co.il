@@ -109,7 +109,7 @@ export const Header = ({ onNavigate, onOpenBookingModal }: HeaderProps) => {
                     <div className="md:hidden flex items-center gap-2">
                         <button
                             onClick={() => setIsMenuOpen(!isMenuOpen)}
-                            className="text-gray-600 hover:text-primary p-2 focus:outline-none"
+                            className="text-gray-600 hover:text-primary p-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-lg"
                             aria-label="פתח תפריט"
                         >
                             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}

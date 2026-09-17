@@ -122,6 +122,48 @@ export const STATIC_ROUTES_REGISTRY: Record<string, RouteConfig> = {
         inSitemap: false,
         noindex: true
     },
+    '/privacy-policy': {
+        path: '/privacy-policy',
+        title: 'מדיניות פרטיות | AltruBiz CRM',
+        description: 'מדיניות הפרטיות של אתר AltruBiz: אילו נתונים נאספים, לשם מה, עם אילו ספקי צד שלישי הם משותפים וכיצד לממש זכויות פרטיות.',
+        canonicalUrl: `${BASE_CANONICAL_DOMAIN}/privacy-policy`,
+        schemaType: 'WebPage',
+        inSitemap: true,
+        sitemapPriority: 0.3,
+        sitemapChangeFreq: 'yearly',
+        breadcrumbs: [
+            { name: 'דף הבית', path: '/' },
+            { name: 'מדיניות פרטיות', path: '/privacy-policy' }
+        ]
+    },
+    '/terms-of-use': {
+        path: '/terms-of-use',
+        title: 'תנאי שימוש | AltruBiz CRM',
+        description: 'תנאי השימוש באתר AltruBiz: תנאי הזמנת מנוי, קניין רוחני, ביטול עסקה והגבלת אחריות.',
+        canonicalUrl: `${BASE_CANONICAL_DOMAIN}/terms-of-use`,
+        schemaType: 'WebPage',
+        inSitemap: true,
+        sitemapPriority: 0.3,
+        sitemapChangeFreq: 'yearly',
+        breadcrumbs: [
+            { name: 'דף הבית', path: '/' },
+            { name: 'תנאי שימוש', path: '/terms-of-use' }
+        ]
+    },
+    '/cookie-policy': {
+        path: '/cookie-policy',
+        title: 'מדיניות Cookies | AltruBiz CRM',
+        description: 'אילו קובצי Cookie וכלי אנליטיקה פועלים באתר AltruBiz, ואיך לנהל את ההסכמה שלכם אליהם.',
+        canonicalUrl: `${BASE_CANONICAL_DOMAIN}/cookie-policy`,
+        schemaType: 'WebPage',
+        inSitemap: true,
+        sitemapPriority: 0.3,
+        sitemapChangeFreq: 'yearly',
+        breadcrumbs: [
+            { name: 'דף הבית', path: '/' },
+            { name: 'מדיניות Cookies', path: '/cookie-policy' }
+        ]
+    },
     '/roi-calculator': {
         path: '/roi-calculator',
         title: 'מחשבון ROI ללידים: כמה כסף הולך לאיבוד כל חודש? | AltruBiz CRM',

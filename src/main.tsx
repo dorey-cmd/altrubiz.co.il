@@ -7,9 +7,12 @@ import { getRouteConfig } from './lib/routes'
 import { initClarity } from './lib/clarity'
 import { initAnalytics } from './lib/analytics'
 
-// Site-wide Microsoft Clarity + Google Analytics — initialized once at the
+// Site-wide Microsoft Clarity + Google Analytics — registered once at the
 // app's single entry point, so every current and future route (static pages,
-// articles, knowledge hubs) automatically inherits both without per-page wiring.
+// articles, knowledge hubs) automatically inherits both without per-page
+// wiring. Neither actually loads until the visitor opts in via the cookie
+// consent banner (src/components/common/CookieConsentBanner.tsx) — see
+// src/lib/consent.ts.
 initClarity()
 initAnalytics()
 

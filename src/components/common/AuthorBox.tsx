@@ -48,7 +48,7 @@ export const AuthorBox: React.FC<AuthorBoxProps> = ({
                     </span>
                 )}
                 {dateModified && dateModified !== datePublished && (
-                    <span className="text-gray-400 text-[11px]">
+                    <span className="text-gray-500 text-[11px]">
                         (עודכן: {new Date(dateModified).toLocaleDateString('he-IL', { year: 'numeric', month: 'short', day: 'numeric' })})
                     </span>
                 )}

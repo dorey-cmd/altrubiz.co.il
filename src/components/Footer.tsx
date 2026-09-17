@@ -2,6 +2,7 @@ import React from 'react';
 import { getApprovedPublicHubs } from '../data/knowledgeGraph';
 import { ModalPresentationOptions } from '../types/attribution';
 import { IL_MARKET } from '../siteos';
+import { openCookieSettings } from '../lib/consent';
 
 interface FooterProps {
     onNavigate?: (path: string) => void;
@@ -141,8 +142,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenBookingModal, 
                     <span className="text-gray-300 hidden sm:inline">•</span>
                     <a
                         href={IL_MARKET.legalEntity.privacyUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                        onClick={(e) => handleLinkClick(e, IL_MARKET.legalEntity.privacyUrl)}
                         className="text-gray-500 hover:text-primary transition-colors"
                     >
                         מדיניות פרטיות
@@ -150,15 +150,36 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenBookingModal, 
                     <span className="text-gray-300 hidden sm:inline">•</span>
                     <a
                         href={IL_MARKET.legalEntity.termsUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                        onClick={(e) => handleLinkClick(e, IL_MARKET.legalEntity.termsUrl)}
                         className="text-gray-500 hover:text-primary transition-colors"
                     >
                         תנאי שימוש
                     </a>
+                    <span className="text-gray-300 hidden sm:inline">•</span>
+                    <a
+                        href="/cookie-policy"
+                        onClick={(e) => handleLinkClick(e, '/cookie-policy')}
+                        className="text-gray-500 hover:text-primary transition-colors"
+                    >
+                        מדיניות Cookies
+                    </a>
+                    <span className="text-gray-300 hidden sm:inline">•</span>
+                    <button
+                        type="button"
+                        onClick={() => openCookieSettings()}
+                        className="text-gray-500 hover:text-primary transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded"
+                    >
+                        הגדרות Cookies
+                    </button>
                 </div>
 
-                <p className="text-gray-400 text-xs">
+                {/* Business identity - Israeli Consumer Protection Law disclosure */}
+                <div className="text-gray-500 text-xs max-w-lg mb-4 leading-relaxed">
+                    <span className="font-semibold text-gray-600">{IL_MARKET.legalEntity.name}</span>
+                    {' '}(אלטרוביז) • {IL_MARKET.contactChannels.email}
+                </div>
+
+                <p className="text-gray-500 text-xs">
                     © AltruBiz CRM. כל הזכויות שמורות.
                 </p>
             </div>

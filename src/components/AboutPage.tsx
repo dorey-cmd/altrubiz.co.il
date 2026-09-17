@@ -211,7 +211,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onOpenContactM
                                 <div>
                                     <div className="text-xs text-slate-400">תמיכה בוואטסאפ</div>
                                     <a href={`https://wa.me/${IL_MARKET.contactChannels.whatsapp}`} target="_blank" rel="noopener noreferrer" className="text-white font-bold hover:underline">
-                                        {IL_MARKET.contactChannels.phone}
+                                        {IL_MARKET.contactChannels.whatsappDisplay}
                                     </a>
                                 </div>
                             </div>
@@ -270,18 +270,31 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onOpenContactM
                                 <Award className="w-5 h-5 text-primary" />
                                 <div>
                                     <div className="text-xs text-slate-400">תנאי שירות ומדיניות פרטיות</div>
-                                    <a href="https://mkt.altrubiz.co.il/terms" target="_blank" rel="noopener noreferrer" className="text-white font-bold hover:underline">
-                                        תנאי שימוש ומדיניות
-                                    </a>
+                                    <div className="flex flex-wrap items-center gap-2">
+                                        <a
+                                            href={IL_MARKET.legalEntity.privacyUrl}
+                                            onClick={(e) => { e.preventDefault(); onNavigate(IL_MARKET.legalEntity.privacyUrl); }}
+                                            className="text-white font-bold hover:underline"
+                                        >
+                                            מדיניות פרטיות
+                                        </a>
+                                        <span className="text-slate-600">|</span>
+                                        <a
+                                            href={IL_MARKET.legalEntity.termsUrl}
+                                            onClick={(e) => { e.preventDefault(); onNavigate(IL_MARKET.legalEntity.termsUrl); }}
+                                            className="text-white font-bold hover:underline"
+                                        >
+                                            תנאי שימוש
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    {/* Note regarding official business input */}
                     <div className="mt-8 pt-6 border-t border-slate-800 text-xs text-slate-400 flex items-center justify-between">
                         <span>AltruBiz CRM • כל הזכויות שמורות</span>
-                        <button 
+                        <button
                             onClick={() => onNavigate('/')}
                             className="text-primary hover:text-white transition-colors flex items-center gap-1 font-semibold"
                         >

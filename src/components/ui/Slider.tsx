@@ -72,7 +72,7 @@ export const Slider: React.FC<SliderProps> = ({
                                 }
                             }}
                             aria-label={label}
-                            className="w-16 sm:w-20 text-sm sm:text-base font-black text-primary bg-transparent text-center focus:outline-none"
+                            className="w-16 sm:w-20 text-sm sm:text-base font-black text-primary bg-transparent text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-md"
                         />
                         {suffixLabel && (
                             <span className="text-xs font-bold text-primary pe-1 whitespace-nowrap">{suffixLabel}</span>
