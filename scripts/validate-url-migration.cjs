@@ -77,7 +77,8 @@ const EXPECTED_ARTICLES = {
     'quote-follow-up-guide': '/quote-follow-up',
     'customer-handoff-context-guide': '/customer-handoff-context',
     'lead-qualification-guide': '/lead-qualification',
-    'practical-ai-for-business-guide': '/practical-ai-for-business'
+    'practical-ai-for-business-guide': '/practical-ai-for-business',
+    'ai-business-work-vs-thinking-guide': '/ai-business-work-vs-thinking'
 };
 
 const OLD_URL_REDIRECT_MAP = {
