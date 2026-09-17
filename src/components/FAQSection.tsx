@@ -41,6 +41,8 @@ export const FAQSection: React.FC = () => {
                                     onClick={() => toggle(idx)}
                                     className="w-full flex items-center justify-between p-5 sm:p-6 text-right focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset"
                                     aria-expanded={isOpen}
+                                    aria-controls={`faq-answer-${idx}`}
+                                    id={`faq-question-${idx}`}
                                 >
                                     <h3 className="font-bold text-slate-900 text-base sm:text-lg pr-1">
                                         {faq.question}
@@ -53,7 +55,12 @@ export const FAQSection: React.FC = () => {
                                 </button>
 
                                 {isOpen && (
-                                    <div className="px-5 pb-6 sm:px-6 pt-0 text-slate-700 text-sm sm:text-base leading-relaxed border-t border-gray-100/80">
+                                    <div
+                                        id={`faq-answer-${idx}`}
+                                        role="region"
+                                        aria-labelledby={`faq-question-${idx}`}
+                                        className="px-5 pb-6 sm:px-6 pt-0 text-slate-700 text-sm sm:text-base leading-relaxed border-t border-gray-100/80"
+                                    >
                                         <p className="pt-3">
                                             {faq.answer}
                                         </p>

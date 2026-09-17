@@ -37,13 +37,13 @@ export const AuthorBox: React.FC<AuthorBoxProps> = ({
             <div className="flex flex-wrap items-center gap-3 text-xs text-gray-500 border-t sm:border-t-0 pt-3 sm:pt-0 border-gray-100">
                 {readTime && (
                     <span className="inline-flex items-center gap-1 bg-gray-100 px-2.5 py-1 rounded-full">
-                        <Clock size={12} className="text-gray-400" />
+                        <Clock size={12} className="text-gray-500" />
                         <span>{readTime}</span>
                     </span>
                 )}
                 {datePublished && (
                     <span className="inline-flex items-center gap-1 bg-gray-100 px-2.5 py-1 rounded-full">
-                        <Calendar size={12} className="text-gray-400" />
+                        <Calendar size={12} className="text-gray-500" />
                         <span>פורסם: {new Date(datePublished).toLocaleDateString('he-IL', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
                     </span>
                 )}
