@@ -168,10 +168,11 @@ async function ensureServer() {
     console.log(`Starting a fresh preview server on http://localhost:${PORT} (serving the current dist/ build)...`);
     const serverProcess = spawn('npx', ['vite', 'preview', '--port', String(PORT), '--strictPort'], {
         shell: true,
-        stdio: 'pipe',
+        stdio: ['ignore', 'inherit', 'inherit'],
         detached: process.platform !== 'win32'
     });
-    serverProcess.on('error', () => {});
+    serverProcess.on('error', (err) => console.error('[PREVIEW ERROR]', err));
+    serverProcess.on('exit', (code, signal) => console.log(`[PREVIEW SERVER EXITED: code=${code}, signal=${signal}]`));
 
     let closed = false;
     const close = () => {
