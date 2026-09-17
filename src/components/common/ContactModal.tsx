@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { X, MessageCircle, Sparkles } from 'lucide-react';
 import { CTAContext } from '../../types/attribution';
 import { buildAttributedIframeUrl, buildAttributedWhatsAppUrl } from '../../lib/attribution';
 import { IL_MARKET } from '../../siteos';
+import { useModalFocusManagement } from '../../hooks/useModalFocusManagement';
 
 interface ContactModalProps {
     isOpen: boolean;
@@ -23,6 +24,8 @@ export const ContactModal: React.FC<ContactModalProps> = ({
     whatsappPrefill = 'שלום צוות AltruBiz, השארתי פרטים באתר ואשמח שנשוחח',
     attribution
 }) => {
+    const dialogRef = useRef<HTMLDivElement>(null);
+
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
             if (e.key === 'Escape' && isOpen) {
@@ -42,6 +45,10 @@ export const ContactModal: React.FC<ContactModalProps> = ({
             window.removeEventListener('keydown', handleKeyDown);
         };
     }, [isOpen, onClose]);
+
+    // Additive: moves focus into the dialog on open, traps Tab inside it,
+    // and returns focus to the triggering element on close.
+    useModalFocusManagement(dialogRef, isOpen);
 
     if (!isOpen) return null;
 
@@ -73,7 +80,11 @@ export const ContactModal: React.FC<ContactModalProps> = ({
             />
 
             {/* Modal Dialog Content */}
-            <div className="relative z-10 w-full max-w-2xl bg-white rounded-3xl shadow-2xl border border-slate-200/90 overflow-hidden flex flex-col my-auto max-h-[96vh] animate-in zoom-in-95 duration-200">
+            <div
+                ref={dialogRef}
+                tabIndex={-1}
+                className="relative z-10 w-full max-w-2xl bg-white rounded-3xl shadow-2xl border border-slate-200/90 overflow-hidden flex flex-col my-auto max-h-[96vh] animate-in zoom-in-95 duration-200 focus:outline-none"
+            >
                 {/* Accent Top Bar */}
                 <div className="h-1.5 bg-gradient-to-r from-primary via-blue-500 to-amber-400 w-full" />
 

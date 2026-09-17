@@ -110,7 +110,9 @@ export const Header = ({ onNavigate, onOpenBookingModal }: HeaderProps) => {
                         <button
                             onClick={() => setIsMenuOpen(!isMenuOpen)}
                             className="text-gray-600 hover:text-primary p-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-lg"
-                            aria-label="פתח תפריט"
+                            aria-label={isMenuOpen ? 'סגירת תפריט ניווט' : 'פתיחת תפריט ניווט'}
+                            aria-expanded={isMenuOpen}
+                            aria-controls="mobile-nav-menu"
                         >
                             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
                         </button>
@@ -120,7 +122,7 @@ export const Header = ({ onNavigate, onOpenBookingModal }: HeaderProps) => {
 
             {/* Mobile Menu */}
             {isMenuOpen && (
-                <div className="md:hidden bg-white border-b border-gray-200 shadow-xl" dir="rtl">
+                <div id="mobile-nav-menu" className="md:hidden bg-white border-b border-gray-200 shadow-xl" dir="rtl">
                     <div className="px-3 pt-3 pb-4 space-y-2">
                         <a 
                             href="/#how-it-works" 

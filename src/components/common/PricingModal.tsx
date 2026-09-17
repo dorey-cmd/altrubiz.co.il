@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { X, Check, Sparkles, MessageCircle, Calendar, ShieldCheck, Zap } from 'lucide-react';
 import { IL_MARKET } from '../../siteos';
+import { useModalFocusManagement } from '../../hooks/useModalFocusManagement';
 
 interface PricingModalProps {
     isOpen: boolean;
@@ -36,6 +37,7 @@ export const PricingModal: React.FC<PricingModalProps> = ({
     onOpenBookingModal
 }) => {
     const [isYearly, setIsYearly] = useState(true);
+    const dialogRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
@@ -56,6 +58,10 @@ export const PricingModal: React.FC<PricingModalProps> = ({
             window.removeEventListener('keydown', handleKeyDown);
         };
     }, [isOpen, onClose]);
+
+    // Additive: moves focus into the dialog on open, traps Tab inside it,
+    // and returns focus to the triggering element on close.
+    useModalFocusManagement(dialogRef, isOpen);
 
     if (!isOpen) return null;
 
@@ -133,7 +139,11 @@ export const PricingModal: React.FC<PricingModalProps> = ({
             />
 
             {/* Modal Dialog Box */}
-            <div className="relative z-10 w-full max-w-5xl bg-slate-900 text-white rounded-3xl shadow-2xl border border-slate-800 overflow-hidden flex flex-col my-auto max-h-[92vh] animate-in zoom-in-95 duration-200">
+            <div
+                ref={dialogRef}
+                tabIndex={-1}
+                className="relative z-10 w-full max-w-5xl bg-slate-900 text-white rounded-3xl shadow-2xl border border-slate-800 overflow-hidden flex flex-col my-auto max-h-[92vh] animate-in zoom-in-95 duration-200 focus:outline-none"
+            >
                 {/* Accent Top Bar */}
                 <div className="h-1.5 bg-gradient-to-r from-primary via-indigo-500 to-amber-400 w-full" />
 

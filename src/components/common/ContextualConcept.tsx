@@ -17,6 +17,23 @@ export const ContextualConcept: React.FC<ContextualConceptProps> = ({
     const [isHovered, setIsHovered] = useState(false);
     const popoverRef = useRef<HTMLDivElement>(null);
     const triggerRef = useRef<HTMLButtonElement | HTMLAnchorElement>(null);
+    const closeButtonRef = useRef<HTMLButtonElement>(null);
+
+    const closeAndReturnFocus = () => {
+        setIsOpen(false);
+        setIsHovered(false);
+        triggerRef.current?.focus();
+    };
+
+    // Explicit (click/keyboard) activation opens this as a functional
+    // mini-dialog -- move focus into it, matching the same expectation as
+    // the app's other role="dialog" surfaces. Hover-only reveals never
+    // steal focus.
+    useEffect(() => {
+        if (isOpen) {
+            closeButtonRef.current?.focus({ preventScroll: true });
+        }
+    }, [isOpen]);
 
     const concept: CanonicalConcept | undefined = resolveCanonicalConcept(conceptId);
     const textToShow = displayText || (concept ? concept.term : conceptId);
@@ -41,9 +58,7 @@ export const ContextualConcept: React.FC<ContextualConceptProps> = ({
 
         const handleKeyDown = (e: KeyboardEvent) => {
             if (e.key === 'Escape') {
-                setIsOpen(false);
-                setIsHovered(false);
-                triggerRef.current?.focus();
+                closeAndReturnFocus();
             }
         };
 
@@ -97,7 +112,7 @@ export const ContextualConcept: React.FC<ContextualConceptProps> = ({
                 onFocus={() => setIsHovered(true)}
                 onBlur={() => setIsHovered(false)}
                 aria-haspopup="dialog"
-                aria-expanded={isVisible}
+                aria-expanded={isOpen}
                 aria-label={`הסבר על המונח: ${concept.term}`}
                 className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-blue-50/80 hover:bg-blue-100/90 text-slate-900 hover:text-primary font-semibold border-b-2 border-dotted border-primary/70 hover:border-primary transition-all cursor-help text-inherit text-sm sm:text-base leading-none my-0.5"
             >
@@ -108,13 +123,10 @@ export const ContextualConcept: React.FC<ContextualConceptProps> = ({
             {isVisible && (
                 <>
                     {/* Mobile Backdrop */}
-                    <div 
+                    <div
                         data-testid="concept-backdrop"
-                        className="fixed inset-0 z-50 lg:hidden bg-black/40 backdrop-blur-2xs" 
-                        onClick={() => {
-                            setIsOpen(false);
-                            setIsHovered(false);
-                        }} 
+                        className="fixed inset-0 z-50 lg:hidden bg-black/40 backdrop-blur-2xs"
+                        onClick={closeAndReturnFocus}
                     />
 
                     {/* Definition Card (Desktop Float / Mobile Centered Card) */}
@@ -131,12 +143,10 @@ export const ContextualConcept: React.FC<ContextualConceptProps> = ({
                                 <span>{concept.term}</span>
                             </div>
                             <button
+                                ref={closeButtonRef}
                                 type="button"
-                                onClick={() => {
-                                    setIsOpen(false);
-                                    setIsHovered(false);
-                                }}
-                                className="p-1 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors"
+                                onClick={closeAndReturnFocus}
+                                className="p-1 rounded-full text-slate-500 hover:text-slate-700 hover:bg-slate-100 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                                 aria-label="סגירת הסבר"
                             >
                                 <X size={14} />

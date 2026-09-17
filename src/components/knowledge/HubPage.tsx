@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { setOverlayOpen } from '../../lib/overlayCoordination';
+import { useModalFocusManagement } from '../../hooks/useModalFocusManagement';
 import { 
     AlertTriangle, 
     CheckCircle2, 
@@ -101,6 +102,7 @@ export const HubPage: React.FC<HubPageProps> = ({
     const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState<boolean>(false);
     const activeNavRef = useRef<HTMLButtonElement>(null);
     const navContainerRef = useRef<HTMLDivElement>(null);
+    const mobileDrawerRef = useRef<HTMLDivElement>(null);
 
     // Lets always-on root-level fixed UI (the cookie consent banner) get
     // out of the way while this full-screen drawer is open - see
@@ -109,6 +111,19 @@ export const HubPage: React.FC<HubPageProps> = ({
         setOverlayOpen(isMobileDrawerOpen);
         return () => setOverlayOpen(false);
     }, [isMobileDrawerOpen]);
+
+    // Accessibility: this bottom-sheet is a functional full-screen dialog on
+    // mobile (role="dialog" below) -- Escape closes it, and focus is
+    // trapped/returned via the same hook used by ContactModal/BookingModal.
+    useEffect(() => {
+        if (!isMobileDrawerOpen) return;
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') setIsMobileDrawerOpen(false);
+        };
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [isMobileDrawerOpen]);
+    useModalFocusManagement(mobileDrawerRef, isMobileDrawerOpen);
 
     const toggleFaq = (index: number) => {
         setOpenFaqIndex(openFaqIndex === index ? null : index);
@@ -1078,7 +1093,7 @@ export const HubPage: React.FC<HubPageProps> = ({
                         {/* Section 8: Recommended Next Hubs */}
                         {node.recommendedNextSlugs && node.recommendedNextSlugs.length > 0 && (
                             <section className="mb-10 p-6 bg-slate-100/80 border border-slate-200 rounded-3xl">
-                                <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3">
+                                <h3 className="text-xs font-bold uppercase tracking-wider text-slate-600 mb-3">
                                     נושאי ידע נוספים שכדאי להכיר:
                                 </h3>
                                 <div className="flex flex-wrap gap-2.5">
@@ -1138,11 +1153,18 @@ export const HubPage: React.FC<HubPageProps> = ({
             {/* Mobile Bottom-Sheet Navigation Drawer */}
             {isMobileDrawerOpen && (
                 <div className="fixed inset-0 z-50 lg:hidden flex flex-col justify-end bg-black/60 backdrop-blur-xs">
-                    <div 
+                    <div
                         className="fixed inset-0"
                         onClick={() => setIsMobileDrawerOpen(false)}
                     />
-                    <div className="relative z-10 bg-white rounded-t-3xl max-h-[80vh] flex flex-col p-5 shadow-2xl border-t border-slate-200 animate-in slide-in-from-bottom duration-200">
+                    <div
+                        ref={mobileDrawerRef}
+                        role="dialog"
+                        aria-modal="true"
+                        aria-label="ניווט במדריך"
+                        tabIndex={-1}
+                        className="relative z-10 bg-white rounded-t-3xl max-h-[80vh] flex flex-col p-5 shadow-2xl border-t border-slate-200 animate-in slide-in-from-bottom duration-200 focus:outline-none"
+                    >
                         <div className="flex items-center justify-between pb-3 border-b border-slate-200 mb-2">
                             <div className="flex items-center gap-2 font-black text-slate-900 text-sm">
                                 <Compass size={18} className="text-primary" />

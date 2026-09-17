@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { setOverlayOpen } from '../../lib/overlayCoordination';
+import { useModalFocusManagement } from '../../hooks/useModalFocusManagement';
 import { 
     Calendar, 
     Clock, 
@@ -53,6 +54,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
     const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
     const activeTocRef = useRef<HTMLAnchorElement>(null);
     const tocContainerRef = useRef<HTMLDivElement>(null);
+    const mobileDrawerRef = useRef<HTMLDivElement>(null);
 
     // Lets always-on root-level fixed UI (the cookie consent banner) get
     // out of the way while this full-screen drawer is open - see
@@ -61,6 +63,19 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
         setOverlayOpen(isMobileDrawerOpen);
         return () => setOverlayOpen(false);
     }, [isMobileDrawerOpen]);
+
+    // Accessibility: this bottom-sheet is a functional full-screen dialog on
+    // mobile (role="dialog" below) -- Escape closes it, and focus is
+    // trapped/returned via the same hook used by ContactModal/BookingModal.
+    useEffect(() => {
+        if (!isMobileDrawerOpen) return;
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') setIsMobileDrawerOpen(false);
+        };
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [isMobileDrawerOpen]);
+    useModalFocusManagement(mobileDrawerRef, isMobileDrawerOpen);
 
     const parentHub = getParentHubForArticle(article.slug);
 
@@ -204,10 +219,10 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
         // Default: info
         return (
             <div className="mt-6 bg-blue-50/70 border-r-4 border-primary p-5 rounded-l-xl text-slate-800 text-sm sm:text-base">
-                <h4 className="font-bold text-primary mb-1 flex items-center gap-1.5">
+                <h3 className="font-bold text-primary mb-1 flex items-center gap-1.5">
                     <Info size={18} />
                     <span>{callout.title || 'הבהרה חשובה'}</span>
-                </h4>
+                </h3>
                 <div className="text-slate-600 leading-relaxed">
                     {renderFormattedText(callout.text, onNavigate)}
                 </div>
@@ -1160,9 +1175,9 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                     <Sparkles size={11} />
                                     <span>בדיקת התאמה לעסק</span>
                                 </div>
-                                <h4 className="font-extrabold text-xs sm:text-sm text-white leading-snug">
+                                <h2 className="font-extrabold text-xs sm:text-sm text-white leading-snug">
                                     רוצים לראות איך זה עובד אצלכם?
-                                </h4>
+                                </h2>
                                 <p className="text-[11px] text-slate-300 leading-relaxed">
                                     נמפה תהליך אחד בעסק ונראה איך לפשט אותו עם AltruBiz CRM.
                                 </p>
@@ -1437,8 +1452,11 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                     {renderFormattedText(article.cta ? article.cta.description : 'צוות AltruBiz יסייע לכם לחבר את התהליכים, הלידים והאוטומציה העסקית בצורה מותאמת אישית לפעילות שלכם.', onNavigate)}
                                 </p>
                                 <div className="flex flex-wrap items-center justify-center gap-4">
-                                    <button
+                                    <Button
                                         type="button"
+                                        variant="primary"
+                                        size="lg"
+                                        className="font-bold text-base px-6 py-3.5 shadow-lg shadow-primary/25 flex items-center gap-2"
                                         onClick={() => {
                                             if (onOpenBookingModal) {
                                                 onOpenBookingModal({
@@ -1462,11 +1480,9 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                             }
                                         }}
                                     >
-                                        <Button variant="primary" size="lg" className="font-bold text-base px-6 py-3.5 shadow-lg shadow-primary/25 flex items-center gap-2">
-                                            <Calendar size={18} />
-                                            <span>{article.cta ? article.cta.buttonText : 'קביעת פגישה: איך זה יכול לעבוד אצלכם בעסק'}</span>
-                                        </Button>
-                                    </button>
+                                        <Calendar size={18} />
+                                        <span>{article.cta ? article.cta.buttonText : 'קביעת פגישה: איך זה יכול לעבוד אצלכם בעסק'}</span>
+                                    </Button>
 
                                     <a
                                         href={buildAttributedWhatsAppUrl(
@@ -1554,11 +1570,18 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
             {/* Mobile Bottom-Sheet Drawer */}
             {isMobileDrawerOpen && (
                 <div className="fixed inset-0 z-50 lg:hidden flex flex-col justify-end bg-black/60 backdrop-blur-xs">
-                    <div 
+                    <div
                         className="fixed inset-0"
                         onClick={() => setIsMobileDrawerOpen(false)}
                     />
-                    <div className="relative z-10 bg-white rounded-t-3xl max-h-[82vh] flex flex-col p-5 shadow-2xl border-t border-slate-200 animate-in slide-in-from-bottom duration-200">
+                    <div
+                        ref={mobileDrawerRef}
+                        role="dialog"
+                        aria-modal="true"
+                        aria-label="בחירת פעולה לקפיצה מהירה"
+                        tabIndex={-1}
+                        className="relative z-10 bg-white rounded-t-3xl max-h-[82vh] flex flex-col p-5 shadow-2xl border-t border-slate-200 animate-in slide-in-from-bottom duration-200 focus:outline-none"
+                    >
                         <div className="flex items-center justify-between pb-3 border-b border-slate-200 mb-2">
                             <div className="flex items-center gap-2 font-extrabold text-slate-900 text-base">
                                 <Compass size={20} className="text-primary" />
@@ -1642,7 +1665,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                         <Compass size={15} className="text-amber-600 shrink-0" />
                                         <span className="truncate">מרכז ידע: {parentHub.title}</span>
                                     </div>
-                                    <span className="text-[10px] text-amber-700 bg-amber-200/60 px-2 py-0.5 rounded-full font-bold shrink-0">חזרה לנושא ←</span>
+                                    <span className="text-[10px] text-amber-900 bg-amber-200/60 px-2 py-0.5 rounded-full font-bold shrink-0">חזרה לנושא ←</span>
                                 </a>
                             ) : (
                                 <a
