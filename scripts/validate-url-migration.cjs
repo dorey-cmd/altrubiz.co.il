@@ -78,7 +78,8 @@ const EXPECTED_ARTICLES = {
     'customer-handoff-context-guide': '/customer-handoff-context',
     'lead-qualification-guide': '/lead-qualification',
     'practical-ai-for-business-guide': '/practical-ai-for-business',
-    'ai-business-work-vs-thinking-guide': '/ai-business-work-vs-thinking'
+    'ai-business-work-vs-thinking-guide': '/ai-business-work-vs-thinking',
+    'crm-business-from-memory-guide': '/manage-business-from-memory'
 };
 
 const OLD_URL_REDIRECT_MAP = {

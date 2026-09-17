@@ -489,7 +489,8 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
             'follow-up-tasks-crm-guide',
             'crm-quick-wins-guide',
             'quote-follow-up-guide',
-            'lead-qualification-guide'
+            'lead-qualification-guide',
+            'crm-business-from-memory-guide'
         ],
         relevantNextActions: ['meeting', 'whatsapp', 'pricing', 'guide', 'assessment'],
         availableCtas: ['meeting', 'pricing', 'whatsapp'],
@@ -643,6 +644,7 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
         recommendedNextSlugs: ['whatsapp-in-crm', 'sales-pipeline', 'lost-leads'],
         relatedArticleSlugs: [
             'business-memory-crm-guide',
+            'crm-business-from-memory-guide',
             'customer-handoff-context-guide',
             'crm-duplicate-contacts-prevention-guide',
             'omnichannel-communication-unified-inbox-crm-guide',
