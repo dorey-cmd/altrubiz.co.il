@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import CountUp from 'react-countup';
 import { 
     Calendar, 
@@ -10,6 +10,7 @@ import {
 import { Button } from '../ui/Button';
 import { ModalPresentationOptions } from '../../types/attribution';
 import { buildAttributedWhatsAppUrl } from '../../lib/attribution';
+import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
 import {
     ROI_CALCULATOR_DEFAULTS,
     RoiCalculatorInputs,
@@ -19,20 +20,6 @@ import {
 
 interface RoiCalculatorToolProps {
     onOpenBookingModal?: (options?: ModalPresentationOptions) => void;
-}
-
-function usePrefersReducedMotion(): boolean {
-    const [reduced, setReduced] = useState(false);
-
-    useEffect(() => {
-        const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
-        setReduced(mq.matches);
-        const handler = (e: MediaQueryListEvent) => setReduced(e.matches);
-        mq.addEventListener('change', handler);
-        return () => mq.removeEventListener('change', handler);
-    }, []);
-
-    return reduced;
 }
 
 // -------------------------------------------------------------
@@ -175,7 +162,7 @@ export const RoiCalculatorTool: React.FC<RoiCalculatorToolProps> = ({ onOpenBook
                                 type="button"
                                 onClick={() => stepLeads(-1)}
                                 aria-label="הפחתת מספר לידים"
-                                className="w-5 h-5 flex items-center justify-center text-slate-600 hover:text-primary hover:bg-slate-100 rounded-full transition-colors"
+                                className="w-6 h-6 flex items-center justify-center text-slate-600 hover:text-primary hover:bg-slate-100 rounded-full transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                             >
                                 <Minus className="w-3 h-3" />
                             </button>
@@ -183,6 +170,7 @@ export const RoiCalculatorTool: React.FC<RoiCalculatorToolProps> = ({ onOpenBook
                                 id="leads-input"
                                 type="number"
                                 inputMode="numeric"
+                                aria-label="מספר לידים חדשים בחודש"
                                 min={5}
                                 max={1000}
                                 value={inputs.leadsPerMonth}
@@ -196,7 +184,7 @@ export const RoiCalculatorTool: React.FC<RoiCalculatorToolProps> = ({ onOpenBook
                                 type="button"
                                 onClick={() => stepLeads(1)}
                                 aria-label="הוספת מספר לידים"
-                                className="w-5 h-5 flex items-center justify-center text-slate-600 hover:text-primary hover:bg-slate-100 rounded-full transition-colors"
+                                className="w-6 h-6 flex items-center justify-center text-slate-600 hover:text-primary hover:bg-slate-100 rounded-full transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                             >
                                 <Plus className="w-3 h-3" />
                             </button>
@@ -219,7 +207,8 @@ export const RoiCalculatorTool: React.FC<RoiCalculatorToolProps> = ({ onOpenBook
                                 background: `linear-gradient(to right, #2563eb 0%, #2563eb ${leadsSliderPos}%, #e2e8f0 ${leadsSliderPos}%, #e2e8f0 100%)`,
                             }}
                             aria-label="מספר לידים חדשים בחודש"
-                            className="w-full h-2 rounded-lg appearance-none cursor-pointer accent-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                            aria-valuetext={`${inputs.leadsPerMonth} לידים בחודש`}
+                            className="w-full h-2 rounded-lg appearance-none cursor-pointer accent-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1"
                         />
                     </div>
 
@@ -257,7 +246,7 @@ export const RoiCalculatorTool: React.FC<RoiCalculatorToolProps> = ({ onOpenBook
                                 type="button"
                                 onClick={() => stepDealValue(-1)}
                                 aria-label="הפחתת שווי עסקה"
-                                className="w-5 h-5 flex items-center justify-center text-slate-600 hover:text-primary hover:bg-slate-100 rounded-full transition-colors"
+                                className="w-6 h-6 flex items-center justify-center text-slate-600 hover:text-primary hover:bg-slate-100 rounded-full transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                             >
                                 <Minus className="w-3 h-3" />
                             </button>
@@ -267,6 +256,7 @@ export const RoiCalculatorTool: React.FC<RoiCalculatorToolProps> = ({ onOpenBook
                                     id="deal-input"
                                     type="number"
                                     inputMode="numeric"
+                                    aria-label="שווי עסקה ממוצעת"
                                     min={500}
                                     max={50000}
                                     value={inputs.avgDealValue}
@@ -281,7 +271,7 @@ export const RoiCalculatorTool: React.FC<RoiCalculatorToolProps> = ({ onOpenBook
                                 type="button"
                                 onClick={() => stepDealValue(1)}
                                 aria-label="הוספת שווי עסקה"
-                                className="w-5 h-5 flex items-center justify-center text-slate-600 hover:text-primary hover:bg-slate-100 rounded-full transition-colors"
+                                className="w-6 h-6 flex items-center justify-center text-slate-600 hover:text-primary hover:bg-slate-100 rounded-full transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                             >
                                 <Plus className="w-3 h-3" />
                             </button>
@@ -304,7 +294,8 @@ export const RoiCalculatorTool: React.FC<RoiCalculatorToolProps> = ({ onOpenBook
                                 background: `linear-gradient(to right, #2563eb 0%, #2563eb ${dealSliderPos}%, #e2e8f0 ${dealSliderPos}%, #e2e8f0 100%)`,
                             }}
                             aria-label="שווי עסקה ממוצעת"
-                            className="w-full h-2 rounded-lg appearance-none cursor-pointer accent-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                            aria-valuetext={`${formatCurrency(inputs.avgDealValue)} שקלים לעסקה`}
+                            className="w-full h-2 rounded-lg appearance-none cursor-pointer accent-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1"
                         />
                     </div>
 
@@ -342,7 +333,7 @@ export const RoiCalculatorTool: React.FC<RoiCalculatorToolProps> = ({ onOpenBook
                                 type="button"
                                 onClick={() => stepCloseRate(-1)}
                                 aria-label="הפחתת אחוז סגירה"
-                                className="w-5 h-5 flex items-center justify-center text-slate-600 hover:text-primary hover:bg-slate-100 rounded-full transition-colors"
+                                className="w-6 h-6 flex items-center justify-center text-slate-600 hover:text-primary hover:bg-slate-100 rounded-full transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                             >
                                 <Minus className="w-3 h-3" />
                             </button>
@@ -353,7 +344,7 @@ export const RoiCalculatorTool: React.FC<RoiCalculatorToolProps> = ({ onOpenBook
                                 type="button"
                                 onClick={() => stepCloseRate(1)}
                                 aria-label="הוספת אחוז סגירה"
-                                className="w-5 h-5 flex items-center justify-center text-slate-600 hover:text-primary hover:bg-slate-100 rounded-full transition-colors"
+                                className="w-6 h-6 flex items-center justify-center text-slate-600 hover:text-primary hover:bg-slate-100 rounded-full transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                             >
                                 <Plus className="w-3 h-3" />
                             </button>
@@ -392,7 +383,7 @@ export const RoiCalculatorTool: React.FC<RoiCalculatorToolProps> = ({ onOpenBook
                                         type="button"
                                         onClick={() => stepHours(-1)}
                                         aria-label="הפחתת שעות"
-                                        className="w-4 h-4 flex items-center justify-center text-slate-600 hover:text-primary rounded-full"
+                                        className="w-6 h-6 flex items-center justify-center text-slate-600 hover:text-primary hover:bg-slate-100 rounded-full transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                                     >
                                         <Minus className="w-2.5 h-2.5" />
                                     </button>
@@ -403,7 +394,7 @@ export const RoiCalculatorTool: React.FC<RoiCalculatorToolProps> = ({ onOpenBook
                                         type="button"
                                         onClick={() => stepHours(1)}
                                         aria-label="הוספת שעות"
-                                        className="w-4 h-4 flex items-center justify-center text-slate-600 hover:text-primary rounded-full"
+                                        className="w-6 h-6 flex items-center justify-center text-slate-600 hover:text-primary hover:bg-slate-100 rounded-full transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                                     >
                                         <Plus className="w-2.5 h-2.5" />
                                     </button>
@@ -443,7 +434,7 @@ export const RoiCalculatorTool: React.FC<RoiCalculatorToolProps> = ({ onOpenBook
                                         type="button"
                                         onClick={() => stepHourlyCost(-1)}
                                         aria-label="הפחתת עלות שעה"
-                                        className="w-4 h-4 flex items-center justify-center text-slate-600 hover:text-primary rounded-full"
+                                        className="w-6 h-6 flex items-center justify-center text-slate-600 hover:text-primary hover:bg-slate-100 rounded-full transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                                     >
                                         <Minus className="w-2.5 h-2.5" />
                                     </button>
@@ -454,7 +445,7 @@ export const RoiCalculatorTool: React.FC<RoiCalculatorToolProps> = ({ onOpenBook
                                         type="button"
                                         onClick={() => stepHourlyCost(1)}
                                         aria-label="הוספת עלות שעה"
-                                        className="w-4 h-4 flex items-center justify-center text-slate-600 hover:text-primary rounded-full"
+                                        className="w-6 h-6 flex items-center justify-center text-slate-600 hover:text-primary hover:bg-slate-100 rounded-full transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                                     >
                                         <Plus className="w-2.5 h-2.5" />
                                     </button>
@@ -503,7 +494,7 @@ export const RoiCalculatorTool: React.FC<RoiCalculatorToolProps> = ({ onOpenBook
                                 onClick={() => setField('targetUpliftPercent')(pill.val)}
                                 className={`py-1.5 px-1 rounded-lg text-[11px] sm:text-xs font-bold transition-all text-center ${
                                     inputs.targetUpliftPercent === pill.val
-                                        ? 'bg-emerald-600 text-white shadow-2xs'
+                                        ? 'bg-emerald-700 text-white shadow-2xs'
                                         : 'bg-white hover:bg-slate-100 text-slate-700 border border-slate-200'
                                 }`}
                             >
@@ -587,15 +578,15 @@ export const RoiCalculatorTool: React.FC<RoiCalculatorToolProps> = ({ onOpenBook
                     </div>
                 </div>
 
-                <p className="text-[11px] text-slate-400 leading-relaxed px-1">
+                <p className="text-[11px] text-slate-500 leading-relaxed px-1">
                     * המספרים לעיל הם הערכה בלבד, המבוססת על הנתונים שהזנתם והנחות עבודה כלליות. מדובר בכלי המחשה לצורכי חשיבה ותכנון, ואינו מהווה הבטחה או התחייבות לתוצאה, הכנסה או חיסכון בפועל בעסק שלכם.
                 </p>
 
                 {/* Card 3: Contextual Conversion CTA */}
                 <div className="bg-white border border-slate-200/90 rounded-3xl p-4 sm:p-5 shadow-xs text-center">
-                    <h3 className="text-sm sm:text-base font-bold text-slate-900 mb-1">
+                    <h2 className="text-sm sm:text-base font-bold text-slate-900 mb-1">
                         רוצים לראות פירוט מלא של המספרים בעסק?
-                    </h3>
+                    </h2>
                     <p className="text-[11px] sm:text-xs text-slate-500 mb-3.5 leading-relaxed">
                         בשיחת מיפוי קצרה של 20 דקות נעבור על התהליך הקיים ונזהה בדיוק מאיפה כדאי להתחיל לעצור את הנזילה.
                     </p>
@@ -613,7 +604,7 @@ export const RoiCalculatorTool: React.FC<RoiCalculatorToolProps> = ({ onOpenBook
                             href={whatsappUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="w-full inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl font-bold text-xs text-[#128C7E] bg-[#25D366]/10 hover:bg-[#25D366]/20 border border-[#25D366]/30 transition-colors"
+                            className="w-full inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl font-bold text-xs text-emerald-800 bg-[#25D366]/10 hover:bg-[#25D366]/20 border border-[#25D366]/30 transition-colors"
                         >
                             <MessageCircle className="w-3.5 h-3.5 text-[#25D366]" />
                             <span>לשלוח את הנתונים לוואטסאפ</span>

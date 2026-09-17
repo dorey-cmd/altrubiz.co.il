@@ -33,7 +33,7 @@ export const ContactForm = () => {
                         data-height="557"
                         data-layout-iframe-id="inline-QAHIbtkoD9k8JUIs8uKD"
                         data-form-id="QAHIbtkoD9k8JUIs8uKD"
-                        title="קביעת פגישה באתר"
+                        title="טופס יצירת קשר והשארת פרטים באתר AltruBiz"
                     >
                     </iframe>
                 </div>

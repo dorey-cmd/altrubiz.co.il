@@ -83,6 +83,7 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate, onOpen
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         placeholder="חיפוש מאמר או נושא..."
+                        aria-label="חיפוש מאמר או נושא"
                         className="w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-white text-slate-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-secondary focus:border-secondary text-sm shadow-sm"
                     />
 
@@ -110,8 +111,12 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate, onOpen
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                     
-                    {/* Articles Stream Column (lg:col-span-8) */}
-                    <main className="lg:col-span-8">
+                    {/* Articles Stream Column (lg:col-span-8) -- a <div>, not
+                        a nested <main>: the page's single <main> landmark is
+                        already declared once in App.tsx (id="main-content"),
+                        and HTML does not allow a <main> nested inside
+                        another <main>. */}
+                    <div className="lg:col-span-8">
                         {filteredArticles.length === 0 ? (
                             <div className="text-center py-16 bg-white rounded-3xl border border-gray-200 p-8">
                                 <FileText className="w-12 h-12 text-gray-300 mx-auto mb-3" />
@@ -198,7 +203,7 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate, onOpen
                                 ))}
                             </div>
                         )}
-                    </main>
+                    </div>
 
                     {/* Sidebar / Topic Hub Banners Column (lg:col-span-4) */}
                     <aside className="lg:col-span-4 space-y-6 lg:sticky lg:top-24">
