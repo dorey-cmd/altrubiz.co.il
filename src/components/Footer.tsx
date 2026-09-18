@@ -148,6 +148,14 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenBookingModal, 
                         אתרי פרימיום לעסקים
                     </a>
                     <span className="text-gray-300 hidden sm:inline">•</span>
+                    <a 
+                        href="/build-website-with-ai" 
+                        onClick={(e) => handleLinkClick(e, '/build-website-with-ai')}
+                        className="text-gray-600 hover:text-primary transition-colors font-medium"
+                    >
+                        אתר תדמית עם AI
+                    </a>
+                    <span className="text-gray-300 hidden sm:inline">•</span>
                     <a
                         href={IL_MARKET.legalEntity.privacyUrl}
                         onClick={(e) => handleLinkClick(e, IL_MARKET.legalEntity.privacyUrl)}
