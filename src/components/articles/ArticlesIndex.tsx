@@ -1,16 +1,14 @@
-import React, { useState, useRef, useEffect, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
     BookOpen, 
     Clock, 
     ArrowLeft, 
     Sparkles, 
-    FileText,
-    Search,
-    ChevronDown,
-    Check,
-    X,
-    Filter
+    FileText, 
+    Search, 
+    X, 
+    Filter 
 } from 'lucide-react';
 import { ARTICLES, Article } from '../../data/articles';
 import { Breadcrumbs } from '../common/Breadcrumbs';
@@ -47,18 +45,6 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate, onOpen
     const [selectedCategory, setSelectedCategory] = useState<string>('all');
     const [searchQuery, setSearchQuery] = useState<string>('');
     const [isCategoryOpen, setIsCategoryOpen] = useState(false);
-    const categoryDropdownRef = useRef<HTMLDivElement>(null);
-
-    // Close category dropdown on click outside
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (categoryDropdownRef.current && !categoryDropdownRef.current.contains(event.target as Node)) {
-                setIsCategoryOpen(false);
-            }
-        };
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, []);
 
     const categoryCounts = useMemo(() => {
         const counts: Record<string, number> = { all: PUBLIC_ARTICLES.length };
@@ -105,43 +91,85 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate, onOpen
                     כל מה שצריך לדעת על אוטומציה עסקית, חיבורי WhatsApp Business, שיווק אחראי ומדיניות פלטפורמות - כדי להכניס את השיטה לסיסטם.
                 </p>
 
-                {/* Unified Search & Category Filter Toolbar */}
-                <div className="max-w-3xl mx-auto">
-                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-white/80 backdrop-blur-sm border border-slate-200/90 rounded-2xl p-2 sm:p-2.5 shadow-xs">
-                        {/* Category Filter Dropdown (Right side in RTL) */}
-                        <div ref={categoryDropdownRef} className="relative z-20 flex-shrink-0">
-                            <button
-                                type="button"
-                                onClick={() => setIsCategoryOpen(!isCategoryOpen)}
-                                aria-expanded={isCategoryOpen}
-                                aria-haspopup="listbox"
-                                className="w-full sm:w-auto inline-flex items-center justify-between gap-3 px-4 py-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200/80 hover:border-secondary/40 text-slate-800 text-xs sm:text-sm font-bold shadow-2xs transition-all min-w-[200px]"
-                            >
-                                <div className="flex items-center gap-2">
-                                    <Filter size={15} className="text-secondary flex-shrink-0" />
-                                    <span className="truncate max-w-[170px]">
-                                        {selectedCategory === 'all' ? 'כל הנושאים' : selectedCategory}
-                                    </span>
-                                    <span className="px-1.5 py-0.5 text-[11px] font-bold rounded-full bg-slate-200/70 text-slate-600">
-                                        {categoryCounts[selectedCategory] || filteredArticles.length}
-                                    </span>
-                                </div>
-                                <ChevronDown 
-                                    size={15} 
-                                    className={`text-slate-400 transition-transform duration-200 ${isCategoryOpen ? 'rotate-180 text-secondary' : ''}`} 
-                                />
-                            </button>
-
-                            <AnimatePresence>
-                                {isCategoryOpen && (
-                                    <motion.div
-                                        initial={{ opacity: 0, y: 6, scale: 0.98 }}
-                                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                                        exit={{ opacity: 0, y: 4, scale: 0.98 }}
-                                        transition={{ duration: 0.16, ease: 'easeOut' }}
-                                        role="listbox"
-                                        className="absolute right-0 top-full mt-2 w-72 max-h-72 sm:max-h-80 overflow-y-auto overscroll-contain bg-white rounded-2xl border border-slate-200 shadow-2xl p-1.5 space-y-0.5 text-right z-30 divide-y divide-slate-100/50"
+                {/* Search & Category Filter Section */}
+                <div className="max-w-6xl mx-auto">
+                    <div className="flex flex-col md:flex-row items-stretch md:items-start justify-between gap-4">
+                        
+                        {/* Category Buttons - Spread out on desktop, hidden on mobile by default */}
+                        <div className="hidden md:flex flex-wrap items-center gap-2 flex-1">
+                            {categories.map((cat) => {
+                                const isSelected = selectedCategory === cat;
+                                const count = categoryCounts[cat] || 0;
+                                return (
+                                    <button
+                                        key={cat}
+                                        type="button"
+                                        onClick={() => setSelectedCategory(cat)}
+                                        className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all duration-150 ${
+                                            isSelected
+                                                ? 'bg-secondary text-white shadow-sm font-bold'
+                                                : 'bg-white text-slate-600 hover:bg-slate-100 hover:text-slate-900 border border-slate-200/80 shadow-2xs'
+                                        }`}
                                     >
+                                        <span>{cat === 'all' ? 'הכל' : cat}</span>
+                                        <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-bold ${
+                                            isSelected ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-500'
+                                        }`}>
+                                            {count}
+                                        </span>
+                                    </button>
+                                );
+                            })}
+                        </div>
+
+                        {/* Search Bar - on the LEFT side */}
+                        <div className="w-full md:w-72 lg:w-80 flex-shrink-0">
+                            <div className="relative">
+                                <Search size={16} className="text-slate-400 absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                                <input
+                                    type="text"
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    placeholder="חיפוש מאמר או נושא..."
+                                    aria-label="חיפוש מאמר או נושא"
+                                    className="w-full pr-10 pl-9 py-2 rounded-xl border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-secondary/30 focus:border-secondary text-xs sm:text-sm shadow-2xs transition-all"
+                                />
+                                {searchQuery.length > 0 && (
+                                    <button
+                                        type="button"
+                                        onClick={() => setSearchQuery('')}
+                                        className="absolute left-3 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-700 transition-colors"
+                                        aria-label="איפוס חיפוש"
+                                    >
+                                        <X size={14} />
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+
+                    </div>
+
+                    {/* Mobile Category Toggle: Subtle button to optionally expand categories on mobile */}
+                    <div className="md:hidden mt-2">
+                        <button
+                            type="button"
+                            onClick={() => setIsCategoryOpen(!isCategoryOpen)}
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 transition-colors"
+                        >
+                            <Filter size={13} className="text-secondary" />
+                            <span>{isCategoryOpen ? 'הסתרת נושאים' : 'סינון לפי נושאים'}</span>
+                            <span className="text-[11px] text-slate-400">({categories.length - 1})</span>
+                        </button>
+
+                        <AnimatePresence>
+                            {isCategoryOpen && (
+                                <motion.div
+                                    initial={{ opacity: 0, height: 0 }}
+                                    animate={{ opacity: 1, height: 'auto' }}
+                                    exit={{ opacity: 0, height: 0 }}
+                                    className="overflow-hidden pt-3"
+                                >
+                                    <div className="flex flex-wrap items-center gap-1.5 p-2 bg-slate-50 border border-slate-200 rounded-2xl">
                                         {categories.map((cat) => {
                                             const isSelected = selectedCategory === cat;
                                             const count = categoryCounts[cat] || 0;
@@ -149,60 +177,34 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate, onOpen
                                                 <button
                                                     key={cat}
                                                     type="button"
-                                                    role="option"
-                                                    aria-selected={isSelected}
                                                     onClick={() => {
                                                         setSelectedCategory(cat);
                                                         setIsCategoryOpen(false);
                                                     }}
-                                                    className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all ${
+                                                    className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-all ${
                                                         isSelected
-                                                            ? 'bg-cyan-50 text-secondary font-bold'
-                                                            : 'text-slate-700 hover:bg-slate-50 hover:text-slate-900'
+                                                            ? 'bg-secondary text-white font-bold'
+                                                            : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'
                                                     }`}
                                                 >
-                                                    <span className="truncate">{cat === 'all' ? 'כל הנושאים והמדריכים' : cat}</span>
-                                                    <div className="flex items-center gap-2 flex-shrink-0 mr-2">
-                                                        <span className="text-[11px] px-1.5 py-0.5 rounded-full bg-slate-100 text-slate-500 font-semibold">
-                                                            {count}
-                                                        </span>
-                                                        {isSelected && <Check size={14} className="text-secondary" />}
-                                                    </div>
+                                                    <span>{cat === 'all' ? 'הכל' : cat}</span>
+                                                    <span className={`text-[10px] px-1 rounded-full ${
+                                                        isSelected ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-500'
+                                                    }`}>
+                                                        {count}
+                                                    </span>
                                                 </button>
                                             );
                                         })}
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
-                        </div>
-
-                        {/* Search Input Box (Left side in RTL) */}
-                        <div className="relative flex-1 sm:max-w-xs md:max-w-sm">
-                            <Search size={16} className="text-slate-400 absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-                            <input
-                                type="text"
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                                placeholder="חיפוש מאמר או נושא..."
-                                aria-label="חיפוש מאמר או נושא"
-                                className="w-full pr-10 pl-9 py-2.5 rounded-xl border border-transparent bg-slate-50 hover:bg-slate-100/80 focus:bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-secondary/30 focus:border-secondary text-xs sm:text-sm transition-all"
-                            />
-                            {searchQuery.length > 0 && (
-                                <button
-                                    type="button"
-                                    onClick={() => setSearchQuery('')}
-                                    className="absolute left-3 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-700 transition-colors"
-                                    aria-label="איפוס חיפוש"
-                                >
-                                    <X size={14} />
-                                </button>
+                                    </div>
+                                </motion.div>
                             )}
-                        </div>
+                        </AnimatePresence>
                     </div>
 
                     {/* Active Filter Indicator */}
                     {(selectedCategory !== 'all' || searchQuery.trim().length > 0) && (
-                        <div className="flex items-center justify-between px-3 py-1.5 mt-2 text-xs text-slate-500">
+                        <div className="flex items-center justify-between px-2 pt-3 text-xs text-slate-500">
                             <span>
                                 נמצאו <strong className="text-slate-800 font-bold">{filteredArticles.length}</strong> מאמרים
                                 {selectedCategory !== 'all' && ` בנושא "${selectedCategory}"`}
