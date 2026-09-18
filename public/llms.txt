@@ -47,6 +47,7 @@
 - [לא צריך "להכניס AI לעסק". תנו לו קודם עבודה אחת קטנה](https://altrubiz.co.il/practical-ai-for-business.md): המדריך למי שלא חי טכנולוגיה: איך להתחיל להשתמש בבינה מלאכותית בעסק בלי ללמוד מקצוע חדש ובלי להחליף מערכות. סולם אימוץ של 4 שלבים וניסוי מעשי של שבעה ימים. (גרסת HTML קנונית: https://altrubiz.co.il/practical-ai-for-business)
 - [AI בעסק: איפה הוא באמת יעשה בשבילכם עבודה - ואיפה אתם סתם משלמים לו לחשוב](https://altrubiz.co.il/ai-business-work-vs-thinking.md): איך להבדיל בין אוטומציה שמבצעת, AI שמבין ואדם שמחליט: מבחן 10 השניות, מבחן יום שלישי, ותרגיל של 15 דקות לזיהוי פרויקט ה-AI הראשון בעסק. (גרסת HTML קנונית: https://altrubiz.co.il/ai-business-work-vs-thinking)
 - [יש לכם CRM. אז למה אתם עדיין מנהלים את העסק מהזיכרון?](https://altrubiz.co.il/manage-business-from-memory.md): לידים נופלים בין הכיסאות, Follow-up נשכח וה-CRM הופך למחסן מידע? כך בונים מערכת פשוטה שיודעת בכל רגע מי צריך טיפול, מה הפעולה הבאה ומתי היא צריכה לקרות. (גרסת HTML קנונית: https://altrubiz.co.il/manage-business-from-memory)
+- [אתרי פרימיום לעסקים שרוצים יותר מאתר תדמית](https://altrubiz.co.il/premium-websites.md): AltruBiz בונה אתרי פרימיום המחברים תוכן, חיפוש, AI, CRM, אוטומציה ותשתית שיווקית למערכת אחת שצוברת ידע, תנועה וסמכות עסקית לאורך זמן. (גרסת HTML קנונית: https://altrubiz.co.il/premium-websites)
 
 ## קובץ ידע מלא ל-LLM (Full Context)
 - [מידע עובדתי מלא על AltruBiz ל-AI](https://altrubiz.co.il/llms-full.txt): סקירה מלאה של הפונקציונליות, התשתיות, גרף הידע, מושגי הליבה וכל גוף המאמרים בגרסת מכונה מלאה.

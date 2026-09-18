@@ -808,7 +808,8 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
             'non-technical-to-ai-automation-guide',
             'customer-reviews-reputation-crm-guide',
             'practical-ai-for-business-guide',
-            'ai-business-work-vs-thinking-guide'
+            'ai-business-work-vs-thinking-guide',
+            'premium-websites-guide'
         ],
         relevantNextActions: ['meeting', 'whatsapp', 'pricing', 'guide', 'assessment'],
         availableCtas: ['meeting', 'pricing', 'whatsapp'],
