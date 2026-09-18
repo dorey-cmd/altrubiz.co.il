@@ -49,17 +49,21 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
                 style={{ y: yContent }}
                 className="relative z-20 flex flex-col items-center justify-center h-full text-center px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto pt-20"
             >
-                {/* Logo - Elegant white capsule surface ensuring brand blue contrast (Enlarged by 10%) */}
+                {/* Logo - Ambient luminous backlight and crisp edge contrast */}
                 <motion.div
                     initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.98 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.35, ease: MOTION_EASINGS.enter }}
-                    className="bg-white/95 backdrop-blur-md px-6 sm:px-8 py-3.5 sm:py-4 rounded-3xl shadow-[0_12px_40px_rgba(0,0,0,0.35)] border border-white/60 mb-10 inline-flex items-center justify-center hover:scale-105 transition-transform duration-300"
+                    className="relative inline-flex items-center justify-center mb-10 group"
                 >
+                    {/* Soft atmospheric white/cyan backlight halo - illuminates brand blue against dark video without blocky containers */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 via-white/35 to-cyan-400/20 rounded-full blur-2xl scale-125 pointer-events-none -z-10" />
+                    <div className="absolute inset-2 bg-white/20 rounded-full blur-xl pointer-events-none -z-10" />
+
                     <img
                         src="https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/688019c09a4c2d4b4398bf3c.png"
                         alt="לוגו אלטרוביז CRM"
-                        className="w-72 md:w-[22rem] h-auto object-contain"
+                        className="relative z-10 w-64 md:w-80 h-auto object-contain drop-shadow-[0_0_18px_rgba(255,255,255,0.7)] drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)] hover:scale-105 transition-transform duration-300"
                     />
                 </motion.div>
 
@@ -79,7 +83,7 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
                     transition={{ duration: 0.35, delay: prefersReducedMotion ? 0 : 0.08, ease: MOTION_EASINGS.enter }}
                     className="text-lg md:text-2xl text-gray-100 mb-8 max-w-3xl leading-relaxed drop-shadow-md"
                 >
-                    המערכת האחת שמרכזת את כל הכלים כדי לגדל את העסק הדיגיטלי - עם חיבור אמיתי בין טכנולוגיה, אוטומציה ובינה מלאכותית.
+                    מערכת אחת שמרכזת את כל הכלים כדי לגדל את העסק הדיגיטלי - עם חיבור אמיתי בין טכנולוגיה, אוטומציה ובינה מלאכותית.
                 </motion.p>
 
                 <motion.p
