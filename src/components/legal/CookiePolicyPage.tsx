@@ -88,7 +88,7 @@ export const CookiePolicyPage: React.FC<CookiePolicyPageProps> = ({ onNavigate }
             <LegalSection title="3. כלי אנליטיקה ומעקב - הרחבה">
                 <p>
                     Google Analytics 4 ו-Microsoft Clarity הם הכלים היחידים באתר שנועדו למעקב אחר התנהגות גולשים, והם נטענים <strong>אך ורק</strong>{' '}
-                    לאחר שאישרתם זאת מפורשות בבאנר ה-Cookies. אם תבחרו באפשרות &quot;רק חיוניים&quot;, כלים אלו לא ייטענו כלל בדפדפן שלכם, ולא
+                    לאחר שאישרתם זאת מפורשות בבאנר ה-Cookies. אם תבחרו באפשרות &quot;רק מה שצריך&quot;, כלים אלו לא ייטענו כלל בדפדפן שלכם, ולא
                     יאספו נתוני שימוש או הקלטות גלישה.
                 </p>
             </LegalSection>

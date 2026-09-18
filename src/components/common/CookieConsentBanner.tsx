@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Cookie } from 'lucide-react';
+import { Cookie, ChevronDown } from 'lucide-react';
 import { hasDecided, onOpenCookieSettingsRequested, setConsent } from '../../lib/consent';
 import { isAnyOverlayOpen, onOverlayCountChanged } from '../../lib/overlayCoordination';
 
@@ -20,6 +20,7 @@ export const CookieConsentBanner: React.FC<CookieConsentBannerProps> = ({ onNavi
     const [forcedOpen, setForcedOpen] = useState(false);
     const [nearTop, setNearTop] = useState(true);
     const [overlayOpen, setOverlayOpenState] = useState(false);
+    const [showExplainer, setShowExplainer] = useState(false);
 
     useEffect(() => {
         setDecided(hasDecided());
@@ -79,7 +80,23 @@ export const CookieConsentBanner: React.FC<CookieConsentBannerProps> = ({ onNavi
                 <div className="flex items-start gap-2 text-slate-600 leading-relaxed">
                     <Cookie size={15} className="text-slate-400 flex-shrink-0 mt-0.5" />
                     <span>
-                        האתר משתמש בעוגיות חיוניות, ובכפוף להסכמתכם גם בכלי ניתוח שימוש. פרטים ב
+                        משתמשים אצלנו בכמה עוגיות כדי שהאתר יעבוד חלק, ובאישורכם - גם כדי להבין מה שימושי אצלנו ומה פחות.
+                    </span>
+                </div>
+
+                <button
+                    type="button"
+                    onClick={() => setShowExplainer(v => !v)}
+                    aria-expanded={showExplainer}
+                    className="flex items-center gap-1 text-slate-500 hover:text-primary transition-colors font-semibold self-start focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded"
+                >
+                    <span>מה זה אומר בפועל?</span>
+                    <ChevronDown size={13} className={`transition-transform ${showExplainer ? 'rotate-180' : ''}`} />
+                </button>
+
+                {showExplainer && (
+                    <div className="text-slate-500 leading-relaxed border-r-2 border-slate-100 pr-2.5 -mt-1">
+                        עוגיות חיוניות פשוט עוזרות לאתר לזכור את הבחירה שלכם ולתפקד כמו שצריך - אלה תמיד פעילות. עוגיות ניתוח, רק אם תאשרו, עוזרות לנו לראות אילו עמודים עוזרים לכם ואילו פחות, כדי שנדע מה לשפר. לא מוכרים ולא משתפים את המידע שלכם עם אף אחד מעבר לזה. כל הפרטים המלאים נמצאים ב
                         <a
                             href="/cookie-policy"
                             onClick={handlePolicyClick}
@@ -87,9 +104,9 @@ export const CookieConsentBanner: React.FC<CookieConsentBannerProps> = ({ onNavi
                         >
                             מדיניות ה-Cookies
                         </a>
-                        .
-                    </span>
-                </div>
+                        שלנו.
+                    </div>
+                )}
 
                 <div className="flex items-center gap-2">
                     <button
@@ -97,14 +114,14 @@ export const CookieConsentBanner: React.FC<CookieConsentBannerProps> = ({ onNavi
                         onClick={() => handleChoice(false)}
                         className="flex-1 px-2.5 py-1.5 rounded-lg border border-slate-300 text-slate-600 hover:bg-slate-50 font-semibold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                     >
-                        רק חיוניים
+                        רק מה שצריך
                     </button>
                     <button
                         type="button"
                         onClick={() => handleChoice(true)}
                         className="flex-1 px-2.5 py-1.5 rounded-lg bg-primary hover:bg-blue-700 text-white font-semibold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1"
                     >
-                        אישור הכל
+                        בסדר, מאשרים
                     </button>
                 </div>
             </div>
