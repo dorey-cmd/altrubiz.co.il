@@ -129,7 +129,7 @@ export const Pricing = () => {
                                     {prefersReducedMotion ? prices.pro : <CountUp end={prices.pro} duration={0.4} preserveValue={true} />}
                                 </span>
                             </div>
-                            <p className="text-gray-500 text-sm mb-6">+ מע"מ לחודש</p>
+                            <p className="text-slate-500 text-sm mb-6 font-medium">לחודש (לא כולל מע"מ)</p>
 
                             <p className="text-[#1E293B] font-bold mb-8 px-4 min-h-[48px] flex items-center justify-center">
                                 למי זה מתאים: עסקים בתחילת הדרך שרוצים להתחיל לעבוד מסודר
@@ -174,7 +174,7 @@ export const Pricing = () => {
                                         {prefersReducedMotion ? prices.smart : <CountUp end={prices.smart} duration={0.4} preserveValue={true} />}
                                     </span>
                                 </div>
-                                <p className="text-gray-500 text-sm mb-6">+ מע"מ לחודש</p>
+                                <p className="text-slate-500 text-sm mb-6 font-medium">לחודש (לא כולל מע"מ)</p>
 
                                 <p className="text-[#1E293B] font-bold mb-8 px-4 min-h-[48px] flex items-center justify-center">
                                     למי זה מתאים: עסקים בצמיחה שרוצים אוטומציות חכמות וחיסכון אמיתי בזמן
@@ -219,7 +219,7 @@ export const Pricing = () => {
                                     {prefersReducedMotion ? prices.power : <CountUp end={prices.power} duration={0.4} preserveValue={true} />}
                                 </span>
                             </div>
-                            <p className="text-gray-500 text-sm mb-6">+ מע"מ לחודש</p>
+                            <p className="text-slate-500 text-sm mb-6 font-medium">לחודש (לא כולל מע"מ)</p>
 
                             <p className="text-[#1E293B] font-bold mb-8 px-4 min-h-[48px] flex items-center justify-center">
                                 למי זה מתאים: עסקים מתקדמים שרוצים את המעטפת המלאה ביותר
@@ -247,6 +247,10 @@ export const Pricing = () => {
                         </HoverCard>
                     </StaggerItem>
                 </StaggerGroup>
+
+                <p className="text-center text-xs sm:text-sm text-slate-500 mt-10 font-medium">
+                    * כל המחירים נקובים בש"ח ואינם כוללים מע"מ כחוק.
+                </p>
             </div>
         </section>
     );

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import { 
     BookOpen, 
     Clock, 
@@ -9,6 +10,8 @@ import {
 import { ARTICLES, Article } from '../../data/articles';
 import { Breadcrumbs } from '../common/Breadcrumbs';
 import { deriveStateFlags, isPubliclyLinkable } from '../../siteos';
+import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
+import { MOTION_EASINGS } from '../../lib/motionTokens';
 
 // Publication-state authority (SiteOS Phase 3): the public /knowledge index
 // must only ever list publicly-linkable (published + indexable) articles --
@@ -34,6 +37,7 @@ const shuffleArray = <T,>(array: T[]): T[] => {
 };
 
 export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate, onOpenContactModal, onOpenBookingModal }) => {
+    const prefersReducedMotion = usePrefersReducedMotion();
     // Randomize articles on each page entry/mount
     const [shuffledArticles] = useState<Article[]>(() => shuffleArray(PUBLIC_ARTICLES));
     const [selectedCategory, setSelectedCategory] = useState<string>('all');
@@ -132,15 +136,19 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate, onOpen
                         ) : (
                             <div className="space-y-6">
                                 {filteredArticles.map((article: Article) => (
-                                    <div 
+                                    <motion.div 
                                         key={article.slug}
+                                        initial={prefersReducedMotion ? false : { opacity: 0, x: 50 }}
+                                        whileInView={{ opacity: 1, x: 0 }}
+                                        viewport={{ once: true, margin: "-40px" }}
+                                        transition={{ duration: 0.5, ease: MOTION_EASINGS.enter }}
                                         className="group relative bg-white border border-slate-200/90 hover:border-secondary/40 rounded-3xl p-5 sm:p-6 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col md:flex-row gap-5 md:gap-6 items-stretch"
                                     >
                                         {/* Cover Image Container */}
                                         {article.coverImage && (
                                             <div 
                                                 onClick={() => onNavigate(article.publicPath)}
-                                                className="w-full md:w-56 lg:w-60 flex-shrink-0 cursor-pointer overflow-hidden rounded-2xl bg-slate-100 shadow-xs relative aspect-video md:aspect-auto min-h-[170px]"
+                                                className="w-full md:w-56 lg:w-60 flex-shrink-0 cursor-pointer overflow-hidden rounded-2xl bg-slate-100 shadow-xs relative aspect-video md:aspect-auto min-h-[170px] animate-ambient-breath"
                                             >
                                                 <img 
                                                     src={article.coverImage.src} 
@@ -199,7 +207,7 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate, onOpen
                                                 </button>
                                             </div>
                                         </div>
-                                    </div>
+                                    </motion.div>
                                 ))}
                             </div>
                         )}

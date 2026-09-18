@@ -237,7 +237,7 @@ export const PricingModal: React.FC<PricingModalProps> = ({
                                             <span className="text-xs text-slate-400">/ לחודש</span>
                                         </div>
                                         <div className="text-[11px] text-slate-400 mt-1 font-medium">
-                                            {isYearly ? 'בחיוב שנתי מראש (כולל מע"מ כחוק)' : 'בחיוב חודשי מתחדש ללא התחייבות'}
+                                            {isYearly ? 'בחיוב שנתי מראש (לא כולל מע"מ)' : 'בחיוב חודשי מתחדש (לא כולל מע"מ)'}
                                         </div>
                                     </div>
 

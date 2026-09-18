@@ -80,8 +80,9 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ onNavigate }) => {
                 <div className="space-y-24">
                     {steps.map((step, idx) => {
                         const isEven = idx % 2 === 0;
-                        const textSlide = isEven ? 60 : -60;
-                        const imgSlide = isEven ? -60 : 60;
+                        // RTL Outside-in Entrance: Right side slides from right (+x), Left side slides from left (-x)
+                        const imgSlide = isEven ? 75 : -75;
+                        const textSlide = isEven ? -75 : 75;
                         const parallaxSpeed = isEven ? 50 : -45;
 
                         return (

@@ -228,8 +228,16 @@ function App() {
 
         window.history.pushState({}, '', targetPath);
         setPath(targetPath);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        if (window.scrollY > 0) {
+            window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+        }
     }, [handleOpenContactModal, restoreOriginalState]);
+
+    useEffect(() => {
+        if ('scrollRestoration' in window.history) {
+            window.history.scrollRestoration = 'manual';
+        }
+    }, []);
 
     useEffect(() => {
         const handleLocationChange = () => {
@@ -242,6 +250,9 @@ function App() {
                 originalUrlRef.current = null;
             }
             setPath(window.location.pathname);
+            if (window.scrollY > 0) {
+                window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+            }
         };
 
         window.addEventListener('popstate', handleLocationChange);

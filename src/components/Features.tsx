@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion';
-import { StaggerGroup, StaggerItem, HoverCard, ParallaxLayer } from './motion';
+import { StaggerGroup, StaggerItem, HoverCard } from './motion';
 import { getCanonicalRecognitionSituations, getFeatureKnowledgeLink } from '../data/knowledgeGraph';
 
 interface FeatureDef {
@@ -135,25 +135,22 @@ export const Features: React.FC<FeaturesProps> = ({ onNavigate }) => {
                     </div>
                 </div>
 
-                {/* Staggered Feature Cards with Lateral Side Entrance, Parallax Depths & Breathing */}
-                <StaggerGroup className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {/* Uniform Feature Cards with Lateral Side Entrance & Smooth Synchronized Breathing */}
+                <StaggerGroup className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
                     {features.map((feature, index) => {
                         const sideDirection = index % 2 === 0 ? 'right' : 'left';
-                        const isProminent = index === 0 || index === 2 || index === 4;
-                        // Column parallax speed offset for rich 3D feeling as user scrolls
-                        const columnSpeed = (index % 3 === 1) ? 25 : (index % 3 === 2) ? -20 : 0;
 
                         return (
-                            <StaggerItem key={index} direction={sideDirection} distance="sideSlide">
-                                <ParallaxLayer speed={columnSpeed} className="h-full">
-                                    <HoverCard 
-                                        breathing={isProminent}
-                                        liftDistance={8}
-                                        scale={1.025}
-                                        className="p-8 rounded-2xl bg-white shadow-md hover:shadow-2xl border border-gray-100 hover:border-primary/40 group flex flex-col items-center text-center relative overflow-hidden h-full transition-all duration-300"
-                                    >
-                                        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-50/20 to-blue-50/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                            <StaggerItem key={index} direction={sideDirection} distance="sideSlide" className="h-full">
+                                <HoverCard 
+                                    breathing={true}
+                                    liftDistance={8}
+                                    scale={1.02}
+                                    className="p-8 rounded-2xl bg-white shadow-md hover:shadow-2xl border border-gray-100 hover:border-primary/40 group flex flex-col items-center text-center justify-between relative overflow-hidden h-full transition-shadow duration-300"
+                                >
+                                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-50/20 to-blue-50/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
 
+                                    <div className="flex flex-col items-center w-full flex-1">
                                         <img
                                             src={feature.icon}
                                             alt={`אייקון תכונה: ${feature.title} - ${feature.desc} במערכת AltruBiz CRM`}
@@ -164,18 +161,18 @@ export const Features: React.FC<FeaturesProps> = ({ onNavigate }) => {
                                         <p className="text-gray-600 leading-relaxed font-medium relative z-10 mb-6 flex-1">
                                             {feature.desc}
                                         </p>
+                                    </div>
 
-                                        {/* Subtle Editorial Knowledge Connection */}
-                                        <a
-                                            href={feature.hubUrl}
-                                            onClick={(e) => handleLinkClick(e, feature.hubUrl)}
-                                            className="relative z-10 inline-flex items-center gap-1.5 text-xs font-bold text-slate-600 hover:text-primary bg-slate-50 hover:bg-blue-50/80 border border-slate-200/80 hover:border-primary/40 px-3.5 py-1.5 rounded-full transition-all group/link shadow-2xs hover:shadow-xs"
-                                        >
-                                            <span>{feature.hubLabel}</span>
-                                            <span className="group-hover/link:-translate-x-1 transition-transform text-primary font-bold">←</span>
-                                        </a>
-                                    </HoverCard>
-                                </ParallaxLayer>
+                                    {/* Subtle Editorial Knowledge Connection */}
+                                    <a
+                                        href={feature.hubUrl}
+                                        onClick={(e) => handleLinkClick(e, feature.hubUrl)}
+                                        className="relative z-10 inline-flex items-center gap-1.5 text-xs font-bold text-slate-600 hover:text-primary bg-slate-50 hover:bg-blue-50/80 border border-slate-200/80 hover:border-primary/40 px-3.5 py-1.5 rounded-full transition-all group/link shadow-2xs hover:shadow-xs mt-auto"
+                                    >
+                                        <span>{feature.hubLabel}</span>
+                                        <span className="group-hover/link:-translate-x-1 transition-transform text-primary font-bold">←</span>
+                                    </a>
+                                </HoverCard>
                             </StaggerItem>
                         );
                     })}

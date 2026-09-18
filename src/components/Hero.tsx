@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion';
 import { MOTION_EASINGS } from '../lib/motionTokens';
 
@@ -10,28 +10,42 @@ interface HeroProps {
 
 export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
     const prefersReducedMotion = usePrefersReducedMotion();
+    const heroRef = useRef<HTMLElement>(null);
+
+    const { scrollYProgress } = useScroll({
+        target: heroRef,
+        offset: ['start start', 'end start']
+    });
+
+    const yVideo = useTransform(scrollYProgress, [0, 1], [0, prefersReducedMotion ? 0 : 100]);
+    const yContent = useTransform(scrollYProgress, [0, 1], [0, prefersReducedMotion ? 0 : -35]);
 
     return (
-        <section className="relative w-full h-[85vh] md:h-[95vh] min-h-[600px] overflow-hidden bg-black text-right" dir="rtl">
-            {/* Video Background */}
-            <video
-                className="absolute inset-0 w-full h-full object-cover pointer-events-none"
-                autoPlay
-                muted
-                playsInline
-                loop
-                preload="auto"
-                poster="https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/6893869aeedaf87c98bf84d1.png"
+        <section ref={heroRef} className="relative w-full h-[85vh] md:h-[95vh] min-h-[600px] overflow-hidden bg-gradient-to-b from-slate-950 via-slate-900 to-black text-right" dir="rtl">
+            {/* Video Background with Gentle Scroll Parallax */}
+            <motion.div 
+                style={{ y: yVideo }}
+                className="absolute inset-0 w-full h-full pointer-events-none"
             >
-                <source src="https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/689697da649372e6d7d2b32d.mp4" type="video/mp4" />
-                הדפדפן אינו תומך בניגון וידאו
-            </video>
+                <video
+                    className="w-full h-full object-cover"
+                    autoPlay
+                    muted
+                    playsInline
+                    loop
+                    preload="auto"
+                >
+                    <source src="https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/689697da649372e6d7d2b32d.mp4" type="video/mp4" />
+                    הדפדפן אינו תומך בניגון וידאו
+                </video>
+            </motion.div>
 
             {/* Overlay */}
-            <div className="absolute inset-0 bg-black/50 z-10" />
+            <div className="absolute inset-0 bg-black/60 z-10" />
 
-            {/* Content Container */}
-            <div
+            {/* Content Container with Opposing Depth Parallax */}
+            <motion.div
+                style={{ y: yContent }}
                 className="relative z-20 flex flex-col items-center justify-center h-full text-center px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto pt-20"
             >
                 {/* Logo - Instant stable anchor */}
@@ -121,7 +135,7 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
                         </a>
                     </div>
                 </motion.div>
-            </div>
+            </motion.div>
         </section>
     );
 };

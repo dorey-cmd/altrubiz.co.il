@@ -733,7 +733,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
 
                     {/* Atmospheric Image or Break Routine Visual Card */}
                     {section.image ? (
-                        <figure className="my-8 rounded-2xl overflow-hidden border border-slate-200/90 shadow-md bg-white">
+                        <figure className="my-8 rounded-2xl overflow-hidden border border-slate-200/90 shadow-md bg-white animate-ambient-breath">
                             {section.image.layout === 'side' ? (
                                 <div className="grid grid-cols-1 md:grid-cols-2 items-center">
                                     <img 
@@ -918,7 +918,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
 
                 {/* Section Image in fallback section */}
                 {section.image && (
-                    <figure className="my-8 rounded-2xl overflow-hidden border border-slate-200/90 shadow-md bg-white">
+                    <figure className="my-8 rounded-2xl overflow-hidden border border-slate-200/90 shadow-md bg-white animate-ambient-breath">
                         {section.image.layout === 'side' ? (
                             <div className="grid grid-cols-1 md:grid-cols-2 items-center">
                                 <img 
@@ -1168,7 +1168,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                         </nav>
 
                         {/* Sticky Desktop Sidebar CTA Card - Compact & Subordinate to Knowledge */}
-                        <div className="shrink-0 bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 text-white rounded-2xl p-4 shadow-lg border border-slate-800 relative overflow-hidden">
+                        <div className="shrink-0 bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 text-white rounded-2xl p-4 shadow-lg border border-slate-800 relative overflow-hidden animate-ambient-breath">
                             <div className="absolute top-0 right-0 w-32 h-32 bg-primary/20 rounded-full blur-2xl pointer-events-none" />
                             <div className="relative z-10 space-y-2">
                                 <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/30 text-[10px] font-bold">
@@ -1230,21 +1230,6 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                         <MessageCircle size={13} className="text-[#25D366]" />
                                         <span>התייעצות בוואטסאפ</span>
                                     </a>
-
-                                    <button
-                                        type="button"
-                                        onClick={() => {
-                                            if (onOpenPricingModal) {
-                                                onOpenPricingModal();
-                                            } else {
-                                                onNavigate('/#pricing');
-                                            }
-                                        }}
-                                        className="w-full text-center text-[10px] text-slate-400 hover:text-white pt-1 transition-colors font-medium flex items-center justify-center gap-1 cursor-pointer"
-                                    >
-                                        <Zap size={10} className="text-amber-400 fill-amber-400" />
-                                        <span>חבילות ומחירים ←</span>
-                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -1255,7 +1240,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                         
                         {/* Article Cover Image */}
                         {article.coverImage && (
-                            <figure className="mb-10 rounded-3xl overflow-hidden border border-slate-200/90 shadow-md bg-white">
+                            <figure className="mb-10 rounded-3xl overflow-hidden border border-slate-200/90 shadow-md bg-white animate-ambient-breath">
                                 <img 
                                     src={article.coverImage.src} 
                                     alt={article.coverImage.alt} 
