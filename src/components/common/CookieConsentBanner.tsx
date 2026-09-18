@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Cookie, ChevronDown } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { hasDecided, onOpenCookieSettingsRequested, setConsent } from '../../lib/consent';
 import { isAnyOverlayOpen, onOverlayCountChanged } from '../../lib/overlayCoordination';
 
@@ -78,35 +78,43 @@ export const CookieConsentBanner: React.FC<CookieConsentBannerProps> = ({ onNavi
         >
             <div className="w-full max-w-[300px] bg-white/95 backdrop-blur-sm border border-slate-200 rounded-xl shadow-md p-3 flex flex-col gap-2.5 pointer-events-auto text-xs">
                 <div className="flex items-start gap-2 text-slate-600 leading-relaxed">
-                    <Cookie size={15} className="text-slate-400 flex-shrink-0 mt-0.5" />
+                    <span aria-hidden="true" className="text-xl leading-none flex-shrink-0">🍪</span>
                     <span>
                         משתמשים אצלנו בכמה עוגיות כדי שהאתר יעבוד חלק, ובאישורכם - גם כדי להבין מה שימושי אצלנו ומה פחות.
                     </span>
                 </div>
 
+                {/* Styled as a link, but it only expands an explanation in place - it never navigates away. */}
                 <button
                     type="button"
                     onClick={() => setShowExplainer(v => !v)}
                     aria-expanded={showExplainer}
-                    className="flex items-center gap-1 text-slate-500 hover:text-primary transition-colors font-semibold self-start focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded"
+                    aria-controls="cookie-explainer"
+                    className="flex items-center gap-1 text-primary hover:text-blue-800 underline underline-offset-2 font-semibold self-start transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded"
                 >
-                    <span>מה זה אומר בפועל?</span>
-                    <ChevronDown size={13} className={`transition-transform ${showExplainer ? 'rotate-180' : ''}`} />
+                    <span>ספרו לי על זה עוד</span>
+                    <ArrowLeft
+                        size={13}
+                        aria-hidden="true"
+                        className={`transition-transform motion-reduce:transition-none ${showExplainer ? '-rotate-90' : ''}`}
+                    />
                 </button>
 
-                {showExplainer && (
-                    <div className="text-slate-500 leading-relaxed border-r-2 border-slate-100 pr-2.5 -mt-1">
-                        עוגיות חיוניות פשוט עוזרות לאתר לזכור את הבחירה שלכם ולתפקד כמו שצריך - אלה תמיד פעילות. עוגיות ניתוח, רק אם תאשרו, עוזרות לנו לראות אילו עמודים עוזרים לכם ואילו פחות, כדי שנדע מה לשפר. לא מוכרים ולא משתפים את המידע שלכם עם אף אחד מעבר לזה. כל הפרטים המלאים נמצאים ב
-                        <a
-                            href="/cookie-policy"
-                            onClick={handlePolicyClick}
-                            className="text-primary font-semibold hover:underline mx-1"
-                        >
-                            מדיניות ה-Cookies
-                        </a>
-                        שלנו.
-                    </div>
-                )}
+                <div
+                    id="cookie-explainer"
+                    hidden={!showExplainer}
+                    className="text-slate-500 leading-relaxed border-r-2 border-slate-100 pr-2.5 -mt-1"
+                >
+                    עוגיות חיוניות פשוט עוזרות לאתר לזכור את הבחירה שלכם ולתפקד כמו שצריך - אלה תמיד פעילות. עוגיות ניתוח, רק אם תאשרו, עוזרות לנו לראות אילו עמודים עוזרים לכם ואילו פחות, כדי שנדע מה לשפר. לא מוכרים ולא משתפים את המידע שלכם עם אף אחד מעבר לזה. כל הפרטים המלאים נמצאים ב
+                    <a
+                        href="/cookie-policy"
+                        onClick={handlePolicyClick}
+                        className="text-primary font-semibold hover:underline mx-1"
+                    >
+                        מדיניות ה-Cookies
+                    </a>
+                    שלנו.
+                </div>
 
                 <div className="flex items-center gap-2">
                     <button
