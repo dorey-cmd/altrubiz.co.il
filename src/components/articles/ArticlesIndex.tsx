@@ -150,7 +150,7 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate, onOpen
                                         {article.coverImage && (
                                             <div 
                                                 onClick={() => onNavigate(article.publicPath)}
-                                                className="w-full md:w-56 lg:w-60 flex-shrink-0 cursor-pointer overflow-hidden rounded-2xl bg-slate-100 shadow-xs relative aspect-video md:aspect-auto min-h-[170px]"
+                                                className="w-full md:w-56 lg:w-60 flex-shrink-0 cursor-pointer overflow-hidden rounded-2xl bg-slate-100 shadow-xs relative aspect-video md:aspect-auto min-h-[170px] animate-ambient-breath"
                                             >
                                                 <img 
                                                     src={article.coverImage.src} 

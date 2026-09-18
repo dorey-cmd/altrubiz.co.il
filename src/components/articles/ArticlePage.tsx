@@ -1308,19 +1308,20 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                         {article.coverImage && (
                             <div className="relative mb-10 group">
                                 <div className="absolute -inset-2 bg-gradient-to-r from-primary/10 via-secondary/15 to-transparent rounded-3xl blur-2xl -z-10 opacity-70 pointer-events-none transition-opacity duration-700" />
-                                <motion.figure 
+                                <motion.div 
                                     key={`cover-${article.slug}`}
                                     initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.985, filter: 'blur(8px)' }}
                                     animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
                                     transition={{ duration: 0.7, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-                                    className="rounded-3xl overflow-hidden border border-slate-200/90 shadow-md hover:shadow-xl bg-white transition-shadow duration-500"
                                 >
-                                    <img 
-                                        src={article.coverImage.src} 
-                                        alt={article.coverImage.alt} 
-                                        className="w-full aspect-[21/9] sm:aspect-[2.2/1] object-cover group-hover:scale-[1.01] transition-transform duration-700 ease-out" 
-                                    />
-                                </motion.figure>
+                                    <figure className="rounded-3xl overflow-hidden border border-slate-200/90 shadow-md hover:shadow-xl bg-white transition-shadow duration-500 animate-ambient-breath">
+                                        <img 
+                                            src={article.coverImage.src} 
+                                            alt={article.coverImage.alt} 
+                                            className="w-full aspect-[21/9] sm:aspect-[2.2/1] object-cover group-hover:scale-[1.01] transition-transform duration-700 ease-out" 
+                                        />
+                                    </figure>
+                                </motion.div>
                             </div>
                         )}
 
