@@ -80,7 +80,8 @@ const EXPECTED_ARTICLES = {
     'practical-ai-for-business-guide': '/practical-ai-for-business',
     'ai-business-work-vs-thinking-guide': '/ai-business-work-vs-thinking',
     'crm-business-from-memory-guide': '/manage-business-from-memory',
-    'premium-websites-guide': '/premium-websites'
+    'premium-websites-guide': '/premium-websites',
+    'build-website-with-ai-guide': '/build-website-with-ai'
 };
 
 const OLD_URL_REDIRECT_MAP = {
