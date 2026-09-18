@@ -1,7 +1,7 @@
 # Article Experience & Multi-Dimensional Topology Pass
 ## Authoritative Technical Specification
 
-This document defines two mandatory ingestion gates that run **after** Knowledge Graph integration and **before** an article can be marked review-ready in [`article-ingestion-protocol.md`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/specs/article-ingestion-protocol.md): the **Visual Editorial Pass** and the **Multi-Dimensional Knowledge Topology Pass**. Together with the existing Contextual Semantic Linking spec, these form the **Article Experience Normalization** requirement referenced in `article-ingestion-protocol.md` Section 2.
+This document defines two mandatory ingestion gates that run **after** Knowledge Graph integration and **before** an article can be marked review-ready in [`article-ingestion-protocol.md`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/specs/article-ingestion-protocol.md): the **Visual Editorial Pass** and the **Multi-Dimensional Knowledge Topology Pass**. Together with the existing Contextual Semantic Linking spec, these form the **Article Experience Normalization** requirement referenced in `article-ingestion-protocol.md` Section 2. The Topology Pass feeds the **Bidirectional Internal-Linking Audit** (`article-ingestion-protocol.md` section 4.2), which is the blocking checkpoint that turns its inbound-path decisions into actual links.
 
 Neither gate authorizes rewriting approved editorial copy. Both operate on structure, assets, and graph relationships — never on the narrative, argument, or voice of the supplied article.
 
@@ -10,6 +10,9 @@ Neither gate authorizes rewriting approved editorial copy. Both operate on struc
 ## 1. Visual Editorial Pass
 
 Every article ingestion must produce an explicit, written visual plan before any image is sourced or generated, and before the article is considered ready for owner preview.
+
+### 1.0 Image language and role
+Every image follows the AltruBiz brand image language in [`visual-storytelling.md`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/rules/visual-storytelling.md), and each image's **role** (Hero / Cover, visual metaphor, explanation, process, comparison, diagram, story beat, comic moment) is declared in the visual plan before it is generated or sourced. Every image must earn its place.
 
 ### 1.1 Required evaluation
 For the article as a whole, and for at least each major reading transition, answer:
@@ -60,4 +63,4 @@ A single-parent-Hub identity model stays intact: an article has exactly one Pare
 
 ## 3. Completion Criteria
 
-An ingestion is not complete when the article renders, one Hub links to it, and the test suite passes. It is complete when both passes above have been performed and their findings — including genuinely rejected candidates — have been reported to the owner before any resulting structural or graph change is applied.
+An ingestion is not complete when the article renders, one Hub links to it, and the test suite passes. It is complete when both passes above have been performed and their findings — including genuinely rejected candidates — have been reported to the owner before any resulting structural or graph change is applied, and when the explicit **inbound-linking audit** (`article-ingestion-protocol.md` section 4.2) has been completed and reported.

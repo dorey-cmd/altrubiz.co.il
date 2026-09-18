@@ -70,7 +70,7 @@ Long-form educational and editorial text must always maintain a comfortable, hum
 Typography must maintain a decisive structural separation between authoritative, confident display/action type and effortless, fatigue-free body type. Headings must establish clear visual contrast and hierarchy engineered specifically for natural Hebrew RTL reading rhythm.
 
 ### Invariant 4: The Living Interface Principle
-AltruBiz interfaces must feel subtly alive and responsive to visitor presence through restrained ambient motion, tactile micro-interactions, and moments of visual warmth. The site must never collapse into a cold, static corporate template, nor escalate into game-like chaotic distraction.
+AltruBiz interfaces must feel subtly alive and responsive to visitor presence through restrained ambient motion, tactile micro-interactions, and moments of visual warmth. The site must never collapse into a cold, static corporate template, nor escalate into game-like chaotic distraction. Motion is progressive enhancement only and never gates content (see [`motion-system.md`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/rules/motion-system.md)).
 
 ### Invariant 5: Contextual Relevance in CTA Architecture
 Calls to action must emerge organically from the visitor's reading context according to the permanent formula:
@@ -89,7 +89,7 @@ Every page must display intentional visual rhythm and purposeful composition. De
 ---
 
 ## 4. Design OS Architecture Map & Companion Rules
-The complete AltruBiz Design Operating System is partitioned across four logically specialized, Always-On rule files:
+The complete AltruBiz Design Operating System is partitioned across six logically specialized, Always-On rule files:
 
 1. **[Master Governance & Invariants (`design-operating-system.md`)](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/rules/design-operating-system.md)** *(This file)*:
    - Constitutional authority, Dual OS co-governance, 5-tier classification, and the 8 Permanent Design Invariants.
@@ -99,6 +99,10 @@ The complete AltruBiz Design Operating System is partitioned across four logical
    - StarDust particle signature, Spotlight aura, motion principles, 5-tier CTA presentation library, lead capture mechanisms, content zones, editorial storytelling patterns, and anti-generic SaaS qualitative guardrails.
 4. **[Responsive, RTL/LTR & Accessibility (`design-responsive-accessibility.md`)](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/rules/design-responsive-accessibility.md)**:
    - Viewport scaling (desktop, tablet, mobile), mobile ambient motion behavior, RTL/LTR logical property architecture, WCAG AA contrast, reduced motion accessibility, and performance guardrails.
+5. **[Motion & Dynamic Experience System (`motion-system.md`)](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/rules/motion-system.md)**:
+   - Encouraged modern motion vocabulary, shared motion primitives, Framer Motion policy, and the Tier 1 **Progressive-Enhancement Law** (motion never gates content). Elaborates Invariant 4.
+6. **[Visual Storytelling System (`visual-storytelling.md`)](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/rules/visual-storytelling.md)**:
+   - The brand image language (invented clay / stop-motion world, idea-first scenes, variation rules, text-in-image policy, image role declaration).
 
 ---
 

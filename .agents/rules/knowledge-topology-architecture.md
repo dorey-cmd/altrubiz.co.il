@@ -85,7 +85,7 @@ Whenever new content is added to the website:
 2. **Classify**: Assign to normalized canonical taxonomy in `src/data/knowledgeGraph.ts`.
 3. **Parent Relationships**: Determine parent Pain Hub and related Micro Hubs.
 4. **Outbound Links**: Link from the article to its parent Hub, related articles, and contextual CTAs.
-5. **Inbound Links (MANDATORY)**: Update existing pages, parent Hubs, and related articles to link contextually BACK to the new article.
+5. **Inbound Links (MANDATORY, BLOCKING)**: Update existing pages, parent Hubs, secondary Hubs, the Knowledge Graph, and related articles to link contextually BACK to the new article. Ingestion is NOT finished without an explicit inbound-linking audit; where natural, relevant places exist, the links are added as part of ingestion. No keyword-only links: a link must help the reader at the moment it appears. Full procedure and required report: [`article-ingestion-protocol.md`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/specs/article-ingestion-protocol.md) section 4.2.
 6. **Update Existing Hubs**: Add new sub-problems or insights to parent Hubs.
 7. **Evaluate Qualitative Maturity**: Determine whether accumulated insights on any concept now provide sufficient conceptual depth and standalone user value to justify recommending a dedicated public Hub.
 8. **Check Commercial Connections**: Connect to relevant AltruBiz solutions without forced sales pitches.

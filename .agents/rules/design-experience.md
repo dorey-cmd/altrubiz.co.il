@@ -45,7 +45,7 @@ AltruBiz must feel **subtly alive, responsive, and tactile**. The interface ackn
    - Subtle spring hover elevations on cards (`hover:-translate-y-1 hover:shadow-xl`), button depressions (`active:scale-[0.98]`), and numbered badges that rotate slightly on hover.
 4. **Atmospheric Motion**:
    - Subtle parallax background depth in hero headers, partner marquee with soft edge gradient masks (`mask-gradient-x`), and scroll-synced Table of Contents active states.
-- **Motion Guardrail**: Motion must remain restrained so that content reading and decision-making always dominate.
+- **Motion Guardrail**: restrained, subordinate to content, never gates it. See [`motion-system.md`](motion-system.md).
 
 ---
 
@@ -126,7 +126,7 @@ Articles and guides draw from a library of tested presentation patterns based on
 ## 7. Imagery, Diagrams & Caption Language
 - **Real Product Screenshots & Process Maps**: Preferred for system capabilities (Pipelines, Inboxes, Calendars). Displayed in an intentional frame: `rounded-2xl border border-slate-200/90 shadow-md bg-white overflow-hidden`.
 - **Approved & Encouraged Captions**: Explanatory `figcaption` below figures and visual cards (preceded by `💡`) explaining the business context, symptom, or CRM mechanism in human terms.
-- **Custom 3D Isometric Metaphors**: Used for conceptual themes (lead capture, multi-channel connections). Maintain consistent lighting, soft shadows, and clean backgrounds.
+- **Narrative & Metaphor Imagery**: consistent lighting, soft shadows; brand image language in [`visual-storytelling.md`](visual-storytelling.md).
 - **Prohibition**: Generic stock photos of smiling people in business suits are strictly prohibited.
 
 ---

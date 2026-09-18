@@ -81,6 +81,7 @@ Accessibility is an integral architectural requirement of the Design OS, not an 
 2. **Motion Sensitivity (`prefers-reduced-motion`)**:
    - Every animation, canvas particle loop, and parallax effect must strictly respect `@media (prefers-reduced-motion: reduce)`.
    - When reduced motion is requested, canvas loops must cancel their `requestAnimationFrame` cycles, and transitions must default to instant or static elegance.
+   - Full motion requirements (reveal fail-safes, keyboard parity, WCAG 2.2.2, Core Web Vitals): [`motion-system.md`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/rules/motion-system.md).
 3. **Touch Targets**: All interactive elements (CTA buttons, mobile menu toggles, TOC links, category tags) must measure at least **44x44px** in tappable area on touch viewports.
 4. **Keyboard Navigation & Focus Traps**: Modal dialogs (`ContactModal`, `PricingModal`) must listen for `Escape` to close, trap focus while open, and restore body scroll upon exit.
 5. **Semantic Heading Hierarchy**: Pages must maintain a single, logical `<h1>` followed by strictly sequential `<h2>` and `<h3>` tags without skipping levels.

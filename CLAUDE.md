@@ -21,5 +21,12 @@ The repository is the durable source of truth. Always comply with existing rules
    - **COMMENTS**: Revise the content on the *same* review branch according to the owner's feedback.
    - **DISCARD**: Abandon the candidate branch cleanly. Never touch `master`.
    - **PUBLISH**: Explicit owner approval received. Run `npm run release:gate` *before* merging to `master` and deploying to production.
-5. **Architectural Invariant**:
+   - **Ingestion is not finished without the bidirectional internal-linking audit** (outbound + inbound; blocking): [article-ingestion-protocol.md](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/specs/article-ingestion-protocol.md) §4.2.
+5. **Delivery Workflow** ([delivery-workflow.md](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/rules/delivery-workflow.md)):
+   - Every work branch is temporary. After merge to `master` + passing tests + post-deployment verification, delete it locally and on GitHub and prune. Merge is not complete until branch cleanup is complete.
+   - After every significant batch: build and test, upload a Preview Deployment, return a live direct URL and a short summary, then STOP and ask: "האם לבצע merge ל-master, או שיש הערות / תיקונים?". Never merge before explicit owner approval.
+6. **Motion & Visual Storytelling** (Design OS):
+   - Motion is progressive enhancement only; nothing depends on animation, JS or scroll to exist or be readable: [motion-system.md](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/rules/motion-system.md).
+   - Brand images follow the witty, idea-first, clay / stop-motion visual language; declare each image's role first; style words never go in `alt`: [visual-storytelling.md](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/rules/visual-storytelling.md).
+7. **Architectural Invariant**:
    - Do not casually modify Site OS infrastructure, tests, or routing schemas during routine article ingestion. The Site OS automatically derives routes, sitemaps, Markdown mirrors, and LLM indices from `src/data/articles.ts` and `src/data/knowledgeGraph.ts`.

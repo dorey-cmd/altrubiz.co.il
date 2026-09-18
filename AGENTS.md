@@ -39,6 +39,7 @@ All text, buttons, titles, calls to action, guides, and UI labels across the web
 All image `alt` attributes must describe what the image represents in the context of user search intent, business pain points, or CRM solutions.
 - **Strict prohibition**: Never describe the artistic medium or styling (e.g. never write `פלסטלינה`, `איור תלת ממדי`, `דמות פלסטלינה`). The site is not about art mediums.
 - **Correct phrasing**: Describe the business situation or CRM mechanism (e.g., `לקוח שמצלצל ולא עונים לו בטלפון ומענה לשיחות שלא נענו ב-CRM`, `מעבר מניהול לידים באקסל לפייפליין מכירות חזותי`).
+- **Boundary with the image language**: clay / stop-motion / style vocabulary belongs only in image prompts and design notes ([`visual-storytelling.md`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/rules/visual-storytelling.md)), never in `alt`.
 
 ---
 
@@ -73,7 +74,7 @@ Long articles and guides draw from a library of tested, non-repetitive presentat
 The website operates as a connected knowledge graph organized primarily around **Business Pains** (discovery layer) rather than tech features (solution layer).
 - **Node Types**: Home Page → Pain Hubs (`/topics/<slug>`) → Sub-Pains / Real-World Manifestations → Articles (`/articles/<slug>`) → Micro Hubs → Product Nodes → Contextual CTAs.
 - **Tag & Hub Promotion Rule**: Node Existence ≠ Public Page Existence. Qualitative Knowledge Maturity ≠ Publication Readiness ≠ Indexability. Qualitative maturity makes a node eligible as a candidate for a public destination; actual creation, publication, and indexability remain separate decisions. Public Page Eligibility = Qualitative Knowledge Maturity + Genuine Standalone User Value (strictly zero numerical quotas). A concept becomes a public indexable Hub only when accumulated knowledge provides sufficient conceptual depth, diagnostic usefulness, and standalone visitor value without filler.
-- **Mandatory Ingestion Workflow**: Every new article must be classified across multi-dimensional taxonomy (`src/data/knowledgeGraph.ts`), establish bidirectional links (both outbound and inward links from existing pages), and update parent Hubs.
+- **Mandatory Ingestion Workflow**: Every new article must be classified across multi-dimensional taxonomy (`src/data/knowledgeGraph.ts`), establish bidirectional links (both outbound and inward links from existing pages), and update parent Hubs. **Ingestion is NOT finished without an explicit inbound-linking audit** (blocking checkpoint; see [`article-ingestion-protocol.md`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/specs/article-ingestion-protocol.md) section 4.2). No keyword-only links.
 - Full specification: [`.agents/rules/knowledge-topology-architecture.md`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/rules/knowledge-topology-architecture.md).
 
 ---
@@ -103,7 +104,7 @@ The visual language, brand consistency, and interactive experience of the websit
   1. *Canonical Brand Asset Integrity*: Official logo asset is the source of truth; never distorted, cropped, or rendered so small that the tagline becomes illegible.
   2. *Comfortable Editorial Reading Measure*: Reading width must preserve eye-tracking comfort (never stretched across full-width marketing viewports).
   3. *Typographic Hierarchy & RTL Contrast*: Strong separation between display/action type and high-legibility body type in Hebrew RTL.
-  4. *The Living Interface Principle*: Subtly alive and responsive (ambient motion, tactile micro-feedback, StarDust) balanced with performance and reduced-motion accessibility.
+  4. *The Living Interface Principle*: Subtly alive and responsive (ambient motion, tactile micro-feedback, StarDust) balanced with performance and reduced-motion accessibility. Detailed in the Motion System (§2.13): motion never gates content.
   5. *Contextual Relevance in CTA Architecture*: Formula: $\text{Context} \rightarrow \text{Action} \rightarrow \text{Message} \rightarrow \text{Mechanism} \rightarrow \text{Attribution}$.
   6. *Context Preservation & Structured Attribution*: Lead mechanisms respect reader momentum and pass source/intent context.
   7. *Knowledge Graph ≠ Card Grid*: Semantic relationships are presented editorially, never as endless card grids.
@@ -112,6 +113,8 @@ The visual language, brand consistency, and interactive experience of the websit
   - Brand DNA & Tokens: [`.agents/rules/design-brand-language.md`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/rules/design-brand-language.md)
   - Experience & Living Interface: [`.agents/rules/design-experience.md`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/rules/design-experience.md)
   - Responsive, RTL/LTR & Accessibility: [`.agents/rules/design-responsive-accessibility.md`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/rules/design-responsive-accessibility.md)
+  - Motion & Dynamic Experience System (§2.13): [`.agents/rules/motion-system.md`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/rules/motion-system.md)
+  - Visual Storytelling System (§2.14): [`.agents/rules/visual-storytelling.md`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/rules/visual-storytelling.md)
 
 ---
 
@@ -158,6 +161,37 @@ $$\text{Knowledge Maturity} \neq \text{Public Page Existence} \neq \text{Publica
 - **Image Captions Approved & Encouraged**: Explanatory `figcaption` below figures and visual cards (preceded by `💡`) explaining the business context and CRM mechanism.
 - **Strict Meeting vs. Contact Separation**: Never route a Meeting/Consultation CTA to a Contact form or generic lead capture. Meeting CTAs MUST open the booking calendar (`BookingModal`). Contact CTAs open `ContactModal`.
 - **Structured CTA Attribution Pipeline**: Every CTA invocation transmits structured telemetry (`CTAContext`: `sourcePage`, `sourceSection`, `sourceHub`/`sourceTopic`, `intent`, `ctaType`, `sourceLabel`) passed to GHL iframes via UTM parameters and to WhatsApp prefilled links.
+
+---
+
+## 2.13 Mandatory Motion & Dynamic Experience System
+The site should feel alive and modern. Controlled, elegant motion is **allowed and encouraged**: subtle parallax, section reveal on scroll, staggered entrances, translate/scale/opacity transitions, micro-interactions, subtle background motion and layered depth, subtle card/CTA animation, and modern CSS (scroll-driven animations, `@starting-style`). Motion serves hierarchy, story, rhythm and reading.
+- **Shared primitives over ad hoc animation**: reusable motion primitives and tokens; the single reduced-motion hook is `src/hooks/usePrefersReducedMotion.ts`.
+- **Framer Motion only when it adds real value over simple CSS.**
+- **Respect** `prefers-reduced-motion`, accessibility, keyboard navigation, performance and Core Web Vitals.
+- **CRITICAL LAW: motion is progressive enhancement ONLY.** Nothing may depend on animation, JS, scroll position or interaction to exist or be readable. All text, headings and links exist in HTML from the start; semantic HTML, structured data, canonical and internal links stay real; prerender shows full content; markdown mirrors, sitemap, `llms.txt` and the Knowledge Graph are independent of animation; no scroll-gated content; no lazy rendering that adds substantive DOM after interaction; no `display:none` / `visibility:hidden` / `opacity:0` in static or prerender output as a condition of showing content; with JS disabled the content is complete, readable and navigable.
+- **Principle: "Bots receive the complete site. Humans receive the complete site plus motion."**
+- Always-On Rule (authoritative): [`.agents/rules/motion-system.md`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/rules/motion-system.md).
+
+---
+
+## 2.14 Mandatory AltruBiz Visual Storytelling System
+Brand images are smart, witty, slightly humorous **illustrated storytelling in an invented world**: preference for clay / plasticine characters, stop-motion aesthetic, comic characters, stylized 3D scenes, tactile handmade textures, exaggerated proportions and expressions, richly detailed invented work environments, clever visual metaphors and gentle humor inside the frame. Never photorealistic, never generic AI stock.
+- **Idea first**: turn the article's core idea into an original scene understandable without the headline (not a generic "person in an office"). Characters need not be human.
+- **Consistency of language, not repetition of assets**: vary angle, cast, environment, metaphor, accent color, situation, humor, perspective and scale.
+- **Subtle Israeli feel through situation and character**, never flags, national symbols, Stars of David or clichéd blue-white.
+- **Color and texture**: warm light, earthy palette, tactile materials (clay, wood, fabric, paper, metal, molded plastic), depth of field and diorama feel, blues and AltruBiz colors as accents.
+- **Text in images is minimal**, natural to the story, short and legible; the image must work without it.
+- **Declare the image role before generating** (Hero/Cover, visual metaphor, explanation, process, comparison, diagram, story beat, comic moment). **Every image must earn its place**; never add an image just to break a text block.
+- Alt text stays per §2.2 (no art-medium words).
+- Always-On Rule (authoritative): [`.agents/rules/visual-storytelling.md`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/rules/visual-storytelling.md).
+
+---
+
+## 2.15 Mandatory Delivery Workflow: Branch Lifecycle & Preview + Owner Approval
+- **Branch Lifecycle**: every work branch is temporary. After it is (1) merged to `master`, (2) passed the relevant tests, and (3) verified post-deployment, it is deleted locally and on GitHub and pruned. No merged branch is kept "just in case". Exceptions: `master`, an explicitly defined backup branch, an explicitly defined long-lived branch, or a branch with work not yet in `master` (Protected Branch Register in the rule). **Merge is not complete until branch cleanup is complete.**
+- **Preview & Owner Approval**: after every significant batch, build and run the relevant tests, upload a Preview Deployment, return a live direct URL showing the change and a short summary, then **STOP before merge** and ask: *"האם לבצע merge ל-master, או שיש הערות / תיקונים?"*. Never merge before explicit owner approval. After approval: release gate, merge, production verification, branch cleanup.
+- Always-On Rule (authoritative): [`.agents/rules/delivery-workflow.md`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/rules/delivery-workflow.md).
 
 ---
 

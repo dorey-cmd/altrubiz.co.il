@@ -21,6 +21,8 @@ This document defines the permanent, authoritative workflow for producing, revie
    NEVER publish first and validate afterward. The complete automated `release:gate` must pass with zero errors before merging to `master`.
 7. **Downstream Failure Isolation**:
    The website is the canonical source of truth. Post-publish distribution failures (e.g. email or social scheduling) must NEVER roll back or invalidate website publication.
+8. **Ingestion Is Not Finished Without an Explicit Inbound-Linking Audit**:
+   A new article is connected in BOTH directions. The outbound and inbound internal-linking audit (section 4.2) is a blocking pre-review checkpoint, not a nicety.
 
 ---
 
@@ -39,13 +41,15 @@ KNOWLEDGE GRAPH INTEGRATION (Taxonomy, Parent Hub, Bidirectional Edges)
         ↓
 MULTI-DIMENSIONAL TOPOLOGY PASS (audit every Hub, not just the Parent Hub)
         ↓
-VISUAL EDITORIAL PASS (hero/social decision + inline visual plan; see below)
+BIDIRECTIONAL INTERNAL-LINKING AUDIT (outbound + inbound; blocking; section 4.2)
+        ↓
+VISUAL EDITORIAL PASS (hero/social decision + inline visual plan; role per image; see below)
         ↓
 CONTEXTUAL CONVERSION CONFIGURATION (Lead magnet, CTA intent)
         ↓
 CONTENT REVIEW BRANCH (content/review/<slug>)
         ↓
-PREVIEW DEPLOYMENT (Production-equivalent Vercel preview)
+PREVIEW DEPLOYMENT (Production-equivalent Vercel preview; live direct URL + short summary)
         ↓
 ISSUE EPHEMERAL CAPABILITY URL (?review_token=<unguessable-token>)
         ↓
@@ -129,14 +133,49 @@ Review capability URLs are strictly ephemeral:
 
 ## 4.1. Article Experience Normalization: Mandatory Pre-Review Gates
 
-An ingestion is not review-ready merely because the article renders, one Parent Hub links to it, and the test suite passes. Before a review branch is opened, both of the following must be performed and their findings reported to the owner:
+An ingestion is not review-ready merely because the article renders, one Parent Hub links to it, and the test suite passes. Before a review branch is opened, all of the following must be performed and their findings reported to the owner:
 
-- **Visual Editorial Pass**: an explicit visual plan (hero/social decision + inline visual evaluation), never a silent fallback to the global default image and never mechanically forced imagery.
+- **Visual Editorial Pass**: an explicit visual plan (hero/social decision + inline visual evaluation, with a declared role for every image per [`visual-storytelling.md`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/rules/visual-storytelling.md)), never a silent fallback to the global default image and never mechanically forced imagery.
 - **Multi-Dimensional Knowledge Topology Pass**: classification across primary/secondary pain, processes, technologies, business objects, outcomes, and an audit of every existing Hub (not only the chosen Parent Hub) for genuine secondary relevance, with rejected candidates documented.
 
-Full authoritative specification: [`article-experience-and-topology-pass.md`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/specs/article-experience-and-topology-pass.md).
+- **Bidirectional Internal-Linking Audit**: outbound AND inbound contextual links, checked and reported explicitly (section 4.2).
 
-Neither gate authorizes rewriting approved editorial copy — they govern structure, assets, and graph relationships, reported before implementation, never applied silently to already-approved article content.
+Full authoritative specification of the first two gates: [`article-experience-and-topology-pass.md`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/specs/article-experience-and-topology-pass.md).
+
+No gate authorizes rewriting approved editorial copy — they govern structure, assets, and graph relationships, reported before implementation, never applied silently to already-approved article content.
+
+---
+
+## 4.2. Mandatory Bidirectional Internal-Linking Audit (Blocking Ingestion Checkpoint)
+
+Every new-article ingestion performs a contextual internal-linking audit in **both directions**. **Ingestion is NOT finished without an explicit inbound-linking audit.** Where natural, relevant places exist, the links must be added as part of ingestion, not deferred.
+
+### 4.2.1 Direction A — Outbound (from the new article to existing content)
+Find the existing articles, Hubs, concepts and pages that genuinely help the reader at the point they are reading, and add natural links from the new article to them (Parent Hub, related articles, concept destinations, product or tool pages, relevant CTAs).
+
+### 4.2.2 Direction B — Inbound (from existing content to the new article), equally important
+After the article exists, scan existing content and the Knowledge Graph for every place where a link to the new article would help a reader, and act on each:
+1. **Existing articles**: add contextual in-body links where the new article answers the question the reader has at that exact point.
+2. **Relevant Hubs**: add the article to the appropriate `relatedArticleSlugs` / `HubSection` (Parent Hub and any secondary Hub found by the Topology Pass).
+3. **Knowledge Graph relationships**: add or update the edges in `src/data/knowledgeGraph.ts` (parent, related, concept links) so discovery paths are derived from the graph, not hand-duplicated.
+4. **Secondary hubs and adjacent topics**: check neighbouring pain hubs, concepts and journey pages, not only the obvious one.
+5. **Natural discovery paths**: confirm a reader can reach the new article from at least one crawlable, contextually sensible path in addition to the sitemap, and that the article's own ending routes onward.
+
+### 4.2.3 Quality bar (applies to both directions)
+- **No keyword-only links.** A link must help the reader at the moment it appears (Link for Understanding, Not for Occurrence; Question-to-Answer anchor labels; never generic "קרא עוד" / "לחצו כאן").
+- **No quotas, no padding.** Density is set by editorial relevance. A plausible-looking candidate that only shares a surface word is correctly rejected; record it with a one-line reason.
+- **Minimal edits to approved copy.** Adding an inbound link to an existing approved article may touch only the sentence needed to carry the link; any wording change beyond that is reported to the owner before it is applied.
+- **Publication safety.** Inbound links to a `review` / non-indexable article live only on the review branch and become effective only when that article is published. Never merge a public link to a non-publicly-linkable article (`test:public-governance`, `isPubliclyLinkable`).
+- **Same-window links** (`target="_self"`) and Markdown-link rendering rules are unchanged.
+
+### 4.2.4 Required audit report (delivered with the review preview)
+1. Outbound links added (source location, target, why it helps the reader).
+2. Inbound links added (source page or Hub, target, why it helps the reader).
+3. Knowledge Graph edges and Hub entries added or changed.
+4. Candidates examined and rejected, each with a one-line reason.
+5. Explicit statement that no natural inbound place was left unaddressed, or the reason one was deferred.
+
+An ingestion whose report lacks item 2 or item 5 is not review-ready.
 
 ---
 
