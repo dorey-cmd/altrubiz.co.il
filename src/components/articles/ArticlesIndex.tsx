@@ -11,7 +11,6 @@ import { ARTICLES, Article } from '../../data/articles';
 import { Breadcrumbs } from '../common/Breadcrumbs';
 import { deriveStateFlags, isPubliclyLinkable } from '../../siteos';
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
-import { MOTION_EASINGS } from '../../lib/motionTokens';
 
 // Publication-state authority (SiteOS Phase 3): the public /knowledge index
 // must only ever list publicly-linkable (published + indexable) articles --
@@ -135,14 +134,18 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate, onOpen
                             </div>
                         ) : (
                             <div className="space-y-6">
-                                {filteredArticles.map((article: Article) => (
+                                {filteredArticles.map((article: Article, index: number) => (
                                     <motion.div 
                                         key={article.slug}
-                                        initial={prefersReducedMotion ? false : { opacity: 0, x: 50 }}
+                                        initial={prefersReducedMotion ? false : { opacity: 0, x: 24 }}
                                         whileInView={{ opacity: 1, x: 0 }}
-                                        viewport={{ once: true, margin: "-40px" }}
-                                        transition={{ duration: 0.5, ease: MOTION_EASINGS.enter }}
-                                        className="group relative bg-white border border-slate-200/90 hover:border-secondary/40 rounded-3xl p-5 sm:p-6 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col md:flex-row gap-5 md:gap-6 items-stretch"
+                                        viewport={{ once: true, margin: "0px 0px -50px 0px", amount: 0.1 }}
+                                        transition={{ 
+                                            duration: 0.65, 
+                                            delay: index < 3 ? index * 0.08 : 0, 
+                                            ease: [0.16, 1, 0.3, 1] 
+                                        }}
+                                        className="group relative bg-white border border-slate-200/90 hover:border-secondary/40 rounded-3xl p-5 sm:p-6 shadow-sm hover:shadow-xl transition-[border-color,box-shadow] duration-300 flex flex-col md:flex-row gap-5 md:gap-6 items-stretch will-change-transform"
                                     >
                                         {/* Cover Image Container */}
                                         {article.coverImage && (
