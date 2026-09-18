@@ -8,7 +8,8 @@ import {
     FileText, 
     Search, 
     X, 
-    Filter 
+    Filter,
+    ChevronDown 
 } from 'lucide-react';
 import { ARTICLES, Article } from '../../data/articles';
 import { Breadcrumbs } from '../common/Breadcrumbs';
@@ -38,6 +39,25 @@ const shuffleArray = <T,>(array: T[]): T[] => {
     return shuffled;
 };
 
+const getCategoryLabel = (category: string): string => {
+    if (category === 'all') return 'הכל';
+    return category
+        .replace(/^מדריכים ו/, '')
+        .replace(/^מדריכים ואוטומציה עסקית$/, 'אוטומציה עסקית')
+        .replace(/^מדריכים ואסטרטגיה עסקית$/, 'אסטרטגיה עסקית')
+        .replace(/^מדריכים ואוטומציה$/, 'אוטומציה')
+        .replace(/^מדריכים ותהליכים$/, 'תהליכים')
+        .replace(/^מדריכים וניהול לקוחות$/, 'ניהול לקוחות')
+        .replace(/^מדריכים וניהול לידים$/, 'ניהול לידים')
+        .replace(/^מדריכים ורגולציה$/, 'רגולציה ומדיניות')
+        .replace(/^אוטומציה ובינה מלאכותית$/, 'AI ואוטומציה')
+        .replace(/^שיווק ותשתיות דיגיטליות$/, 'תשתיות ואתרים')
+        .replace(/^מוניטין ואוטומציה$/, 'מוניטין וביקורות')
+        .replace(/^ניהול יומן ואוטומציה$/, 'יומן ופגישות')
+        .replace(/^ניהול מכירות ופייפליין$/, 'פייפליין ומכירות')
+        .replace(/^אימוץ ושיטות עבודה$/, 'שיטות עבודה');
+};
+
 export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate, onOpenContactModal, onOpenBookingModal }) => {
     const prefersReducedMotion = usePrefersReducedMotion();
     // Randomize articles on each page entry/mount
@@ -45,6 +65,7 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate, onOpen
     const [selectedCategory, setSelectedCategory] = useState<string>('all');
     const [searchQuery, setSearchQuery] = useState<string>('');
     const [isCategoryOpen, setIsCategoryOpen] = useState(false);
+    const [isMoreCategoriesOpen, setIsMoreCategoriesOpen] = useState(false);
 
     const categoryCounts = useMemo(() => {
         const counts: Record<string, number> = { all: PUBLIC_ARTICLES.length };
@@ -59,7 +80,24 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate, onOpen
         { name: 'מרכז ידע ומאמרים', path: '/knowledge' }
     ];
 
-    const categories = ['all', ...Array.from(new Set(PUBLIC_ARTICLES.map(a => a.category)))];
+    const sortedCategories = useMemo(() => {
+        const unique = Array.from(new Set(PUBLIC_ARTICLES.map(a => a.category)));
+        unique.sort((a, b) => (categoryCounts[b] || 0) - (categoryCounts[a] || 0));
+        return ['all', ...unique];
+    }, [categoryCounts]);
+
+    // Top 5 primary categories (plus 'all' = 6 pills) for a clean 1-line bar on desktop
+    const PRIMARY_LIMIT = 6;
+    const primaryCategories = useMemo(() => sortedCategories.slice(0, PRIMARY_LIMIT), [sortedCategories]);
+    const remainingCategories = useMemo(() => sortedCategories.slice(PRIMARY_LIMIT), [sortedCategories]);
+
+    // Ensure selected category is always visible in the primary row even if from remaining list
+    const visiblePrimaryCategories = useMemo(() => {
+        if (selectedCategory !== 'all' && !primaryCategories.includes(selectedCategory)) {
+            return [...primaryCategories, selectedCategory];
+        }
+        return primaryCategories;
+    }, [primaryCategories, selectedCategory]);
 
     const filteredArticles = shuffledArticles.filter(article => {
         const matchesCategory = selectedCategory === 'all' || article.category === selectedCategory;
@@ -71,158 +109,212 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate, onOpen
     });
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50 text-slate-900 pt-24 pb-20 font-sans" dir="rtl">
-            {/* Header / Hero */}
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-12 text-center">
-                {/* Breadcrumbs */}
-                <div className="flex justify-center mb-6">
+        <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50 text-slate-900 pt-16 sm:pt-20 pb-16 font-sans" dir="rtl">
+            {/* Header / Hero - Economical and Compact */}
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-3 pb-1">
+                {/* Breadcrumbs + subtle inline badge */}
+                <div className="flex items-center justify-between gap-4 mb-2">
                     <Breadcrumbs items={breadcrumbItems} onNavigate={onNavigate} />
+                    <span className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-cyan-50 text-secondary text-[11px] font-bold border border-cyan-100/80 shadow-2xs">
+                        <BookOpen size={12} />
+                        <span>מרכז ידע AltruBiz</span>
+                    </span>
                 </div>
 
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-50 text-secondary text-xs sm:text-sm font-bold mb-4 border border-cyan-100 shadow-xs">
-                    <BookOpen size={16} />
-                    <span>מאגר הידע והתכנים של AltruBiz</span>
+                <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 mb-3">
+                    <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight">
+                        מדריכים, תובנות ומאמרים מקצועיים
+                    </h1>
+                    <p className="text-xs sm:text-sm text-slate-500 max-w-lg">
+                        אוטומציה עסקית, חיבורי WhatsApp, שיווק אחראי ומדיניות פלטפורמות.
+                    </p>
                 </div>
+            </div>
 
-                <h1 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight mb-4">
-                    מדריכים, תובנות ומאמרים מקצועיים
-                </h1>
-                <p className="max-w-2xl mx-auto text-base sm:text-lg text-slate-600 leading-relaxed mb-8">
-                    כל מה שצריך לדעת על אוטומציה עסקית, חיבורי WhatsApp Business, שיווק אחראי ומדיניות פלטפורמות - כדי להכניס את השיטה לסיסטם.
-                </p>
-
-                {/* Search & Category Filter Section */}
-                <div className="max-w-6xl mx-auto">
-                    <div className="flex flex-col md:flex-row items-stretch md:items-start justify-between gap-4">
-                        
-                        {/* Category Buttons - Spread out on desktop, hidden on mobile by default */}
-                        <div className="hidden md:flex flex-wrap items-center gap-2 flex-1">
-                            {categories.map((cat) => {
-                                const isSelected = selectedCategory === cat;
-                                const count = categoryCounts[cat] || 0;
-                                return (
-                                    <button
-                                        key={cat}
-                                        type="button"
-                                        onClick={() => setSelectedCategory(cat)}
-                                        className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all duration-150 ${
-                                            isSelected
-                                                ? 'bg-secondary text-white shadow-sm font-bold'
-                                                : 'bg-white text-slate-600 hover:bg-slate-100 hover:text-slate-900 border border-slate-200/80 shadow-2xs'
-                                        }`}
-                                    >
-                                        <span>{cat === 'all' ? 'הכל' : cat}</span>
-                                        <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-bold ${
-                                            isSelected ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-500'
-                                        }`}>
-                                            {count}
-                                        </span>
-                                    </button>
-                                );
-                            })}
-                        </div>
-
-                        {/* Search Bar - on the LEFT side */}
-                        <div className="w-full md:w-72 lg:w-80 flex-shrink-0">
-                            <div className="relative">
-                                <Search size={16} className="text-slate-400 absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-                                <input
-                                    type="text"
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                    placeholder="חיפוש מאמר או נושא..."
-                                    aria-label="חיפוש מאמר או נושא"
-                                    className="w-full pr-10 pl-9 py-2 rounded-xl border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-secondary/30 focus:border-secondary text-xs sm:text-sm shadow-2xs transition-all"
-                                />
-                                {searchQuery.length > 0 && (
-                                    <button
-                                        type="button"
-                                        onClick={() => setSearchQuery('')}
-                                        className="absolute left-3 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-700 transition-colors"
-                                        aria-label="איפוס חיפוש"
-                                    >
-                                        <X size={14} />
-                                    </button>
-                                )}
-                            </div>
-                        </div>
-
-                    </div>
-
-                    {/* Mobile Category Toggle: Subtle button to optionally expand categories on mobile */}
-                    <div className="md:hidden mt-2">
-                        <button
-                            type="button"
-                            onClick={() => setIsCategoryOpen(!isCategoryOpen)}
-                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 transition-colors"
-                        >
-                            <Filter size={13} className="text-secondary" />
-                            <span>{isCategoryOpen ? 'הסתרת נושאים' : 'סינון לפי נושאים'}</span>
-                            <span className="text-[11px] text-slate-400">({categories.length - 1})</span>
-                        </button>
-
-                        <AnimatePresence>
-                            {isCategoryOpen && (
-                                <motion.div
-                                    initial={{ opacity: 0, height: 0 }}
-                                    animate={{ opacity: 1, height: 'auto' }}
-                                    exit={{ opacity: 0, height: 0 }}
-                                    className="overflow-hidden pt-3"
+            {/* Search & Category Filter Section - Max-w-7xl aligned, Single-Line */}
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-4">
+                <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-2.5">
+                    
+                    {/* Desktop Primary Category Pills (Right side in RTL) */}
+                    <div className="hidden md:flex flex-wrap items-center gap-1.5 flex-1">
+                        {visiblePrimaryCategories.map((cat) => {
+                            const isSelected = selectedCategory === cat;
+                            const count = categoryCounts[cat] || 0;
+                            return (
+                                <button
+                                    key={cat}
+                                    type="button"
+                                    onClick={() => setSelectedCategory(cat)}
+                                    className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold transition-all duration-150 ${
+                                        isSelected
+                                            ? 'bg-secondary text-white shadow-2xs font-bold'
+                                            : 'bg-white text-slate-600 hover:bg-slate-100 hover:text-slate-900 border border-slate-200/80 shadow-2xs'
+                                    }`}
                                 >
-                                    <div className="flex flex-wrap items-center gap-1.5 p-2 bg-slate-50 border border-slate-200 rounded-2xl">
-                                        {categories.map((cat) => {
-                                            const isSelected = selectedCategory === cat;
-                                            const count = categoryCounts[cat] || 0;
-                                            return (
-                                                <button
-                                                    key={cat}
-                                                    type="button"
-                                                    onClick={() => {
-                                                        setSelectedCategory(cat);
-                                                        setIsCategoryOpen(false);
-                                                    }}
-                                                    className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-all ${
-                                                        isSelected
-                                                            ? 'bg-secondary text-white font-bold'
-                                                            : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'
-                                                    }`}
-                                                >
-                                                    <span>{cat === 'all' ? 'הכל' : cat}</span>
-                                                    <span className={`text-[10px] px-1 rounded-full ${
-                                                        isSelected ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-500'
-                                                    }`}>
-                                                        {count}
-                                                    </span>
-                                                </button>
-                                            );
-                                        })}
-                                    </div>
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
-                    </div>
+                                    <span>{getCategoryLabel(cat)}</span>
+                                    <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold ${
+                                        isSelected ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-500'
+                                    }`}>
+                                        {count}
+                                    </span>
+                                </button>
+                            );
+                        })}
 
-                    {/* Active Filter Indicator */}
-                    {(selectedCategory !== 'all' || searchQuery.trim().length > 0) && (
-                        <div className="flex items-center justify-between px-2 pt-3 text-xs text-slate-500">
-                            <span>
-                                נמצאו <strong className="text-slate-800 font-bold">{filteredArticles.length}</strong> מאמרים
-                                {selectedCategory !== 'all' && ` בנושא "${selectedCategory}"`}
-                                {searchQuery.trim().length > 0 && ` עבור "${searchQuery}"`}
-                            </span>
+                        {remainingCategories.length > 0 && (
                             <button
                                 type="button"
-                                onClick={() => {
-                                    setSelectedCategory('all');
-                                    setSearchQuery('');
-                                }}
-                                className="font-bold text-secondary hover:underline"
+                                onClick={() => setIsMoreCategoriesOpen(!isMoreCategoriesOpen)}
+                                className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold transition-colors ${
+                                    isMoreCategoriesOpen
+                                        ? 'bg-slate-200 text-slate-800'
+                                        : 'text-slate-500 hover:text-slate-800 hover:bg-slate-100'
+                                }`}
                             >
-                                איפוס סינון
+                                <span>{isMoreCategoriesOpen ? 'פחות' : `עוד (${remainingCategories.length})`}</span>
+                                <ChevronDown size={13} className={`transition-transform duration-200 ${isMoreCategoriesOpen ? 'rotate-180' : ''}`} />
                             </button>
+                        )}
+                    </div>
+
+                    {/* Search Bar - on the LEFT side (end in RTL), aligned with container */}
+                    <div className="w-full md:w-56 lg:w-64 flex-shrink-0">
+                        <div className="relative">
+                            <Search size={14} className="text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                            <input
+                                type="text"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                placeholder="חיפוש מאמר או נושא..."
+                                aria-label="חיפוש מאמר או נושא"
+                                className="w-full pr-8 pl-8 py-1.5 rounded-lg border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-secondary/30 focus:border-secondary text-xs shadow-2xs transition-all"
+                            />
+                            {searchQuery.length > 0 && (
+                                <button
+                                    type="button"
+                                    onClick={() => setSearchQuery('')}
+                                    className="absolute left-2.5 top-1/2 -translate-y-1/2 p-0.5 text-slate-400 hover:text-slate-700 transition-colors"
+                                    aria-label="איפוס חיפוש"
+                                >
+                                    <X size={13} />
+                                </button>
+                            )}
                         </div>
-                    )}
+                    </div>
+
                 </div>
+
+                {/* Desktop Expandable Remaining Categories Tray */}
+                <AnimatePresence>
+                    {isMoreCategoriesOpen && (
+                        <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            className="overflow-hidden pt-2 hidden md:block"
+                        >
+                            <div className="flex flex-wrap items-center gap-1.5 p-2 bg-slate-50/90 border border-slate-200/80 rounded-xl">
+                                {remainingCategories.map((cat) => {
+                                    const isSelected = selectedCategory === cat;
+                                    const count = categoryCounts[cat] || 0;
+                                    return (
+                                        <button
+                                            key={cat}
+                                            type="button"
+                                            onClick={() => setSelectedCategory(cat)}
+                                            className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold transition-all ${
+                                                isSelected
+                                                    ? 'bg-secondary text-white font-bold'
+                                                    : 'bg-white text-slate-600 hover:bg-slate-100 hover:text-slate-900 border border-slate-200'
+                                            }`}
+                                        >
+                                            <span>{getCategoryLabel(cat)}</span>
+                                            <span className={`text-[10px] px-1.5 py-0.2 rounded-full ${
+                                                isSelected ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-500'
+                                            }`}>
+                                                {count}
+                                            </span>
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+
+                {/* Mobile Category Toggle */}
+                <div className="md:hidden mt-2">
+                    <button
+                        type="button"
+                        onClick={() => setIsCategoryOpen(!isCategoryOpen)}
+                        className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 transition-colors"
+                    >
+                        <Filter size={12} className="text-secondary" />
+                        <span>{isCategoryOpen ? 'הסתרת נושאים' : 'סינון לפי נושאים'}</span>
+                        <span className="text-[10px] text-slate-400">({sortedCategories.length - 1})</span>
+                    </button>
+
+                    <AnimatePresence>
+                        {isCategoryOpen && (
+                            <motion.div
+                                initial={{ opacity: 0, height: 0 }}
+                                animate={{ opacity: 1, height: 'auto' }}
+                                exit={{ opacity: 0, height: 0 }}
+                                className="overflow-hidden pt-2"
+                            >
+                                <div className="flex flex-wrap items-center gap-1.5 p-2 bg-slate-50 border border-slate-200 rounded-xl">
+                                    {sortedCategories.map((cat) => {
+                                        const isSelected = selectedCategory === cat;
+                                        const count = categoryCounts[cat] || 0;
+                                        return (
+                                            <button
+                                                key={cat}
+                                                type="button"
+                                                onClick={() => {
+                                                    setSelectedCategory(cat);
+                                                    setIsCategoryOpen(false);
+                                                }}
+                                                className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-all ${
+                                                    isSelected
+                                                        ? 'bg-secondary text-white font-bold'
+                                                        : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'
+                                                }`}
+                                            >
+                                                <span>{getCategoryLabel(cat)}</span>
+                                                <span className={`text-[10px] px-1 rounded-full ${
+                                                    isSelected ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-500'
+                                                }`}>
+                                                    {count}
+                                                </span>
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                </div>
+
+                {/* Active Filter Indicator */}
+                {(selectedCategory !== 'all' || searchQuery.trim().length > 0) && (
+                    <div className="flex items-center justify-between px-1 pt-2 text-xs text-slate-500">
+                        <span>
+                            נמצאו <strong className="text-slate-800 font-bold">{filteredArticles.length}</strong> מאמרים
+                            {selectedCategory !== 'all' && ` בנושא "${getCategoryLabel(selectedCategory)}"`}
+                            {searchQuery.trim().length > 0 && ` עבור "${searchQuery}"`}
+                        </span>
+                        <button
+                            type="button"
+                            onClick={() => {
+                                setSelectedCategory('all');
+                                setSearchQuery('');
+                            }}
+                            className="font-bold text-secondary hover:underline"
+                        >
+                            איפוס סינון
+                        </button>
+                    </div>
+                )}
             </div>
 
             {/* Main Content: 2-Column Balanced Layout */}
