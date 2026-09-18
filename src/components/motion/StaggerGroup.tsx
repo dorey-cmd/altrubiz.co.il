@@ -54,24 +54,17 @@ export const StaggerGroup: React.FC<StaggerGroupProps> = ({
 }) => {
     const prefersReducedMotion = usePrefersReducedMotion();
     const [isMounted, setIsMounted] = useState(false);
-    const [forceVisible, setForceVisible] = useState(false);
     const ref = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         setIsMounted(true);
-        // Fail-safe: force all items visible within 1.5s
-        const timer = setTimeout(() => {
-            setForceVisible(true);
-        }, 1500);
-        return () => clearTimeout(timer);
     }, []);
 
-    if (prefersReducedMotion || !isMounted || forceVisible) {
+    if (prefersReducedMotion || !isMounted) {
         return (
             <div
                 ref={ref}
                 className={className}
-                onFocusCapture={() => setForceVisible(true)}
             >
                 {children}
             </div>
@@ -86,7 +79,6 @@ export const StaggerGroup: React.FC<StaggerGroupProps> = ({
             initial="hidden"
             whileInView="visible"
             viewport={MOTION_VIEWPORT}
-            onFocusCapture={() => setForceVisible(true)}
         >
             {children}
         </motion.div>

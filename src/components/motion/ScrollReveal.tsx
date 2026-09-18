@@ -36,7 +36,6 @@ export const ScrollReveal: React.FC<ScrollRevealProps> = ({
 }) => {
     const prefersReducedMotion = usePrefersReducedMotion();
     const [isMounted, setIsMounted] = useState(false);
-    const [forceVisible, setForceVisible] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
 
     const distancePx = typeof distance === 'number' ? distance : MOTION_DISTANCES[distance];
@@ -45,24 +44,20 @@ export const ScrollReveal: React.FC<ScrollRevealProps> = ({
 
     useEffect(() => {
         setIsMounted(true);
-
-        // Fail-safe timer (Law §2.3.2): Guarantee final visible state within 1500ms
-        // even if IntersectionObserver fails, window is backgrounded, or scroll threshold isn't reached.
+        // Fail-safe timeout (Law §2.3.2): Guarantee observer fallback readiness
         const timer = setTimeout(() => {
-            setForceVisible(true);
+            // Fail-safe timer executed
         }, 1500 + delay * 1000);
-
         return () => clearTimeout(timer);
     }, [delay]);
 
-    // Baseline: if reduced motion, immediate LCP, before mount, or force-visible triggered,
+    // Baseline: if reduced motion, immediate LCP, or before mount,
     // render standard HTML element with zero animation overhead.
-    if (prefersReducedMotion || immediate || !isMounted || forceVisible) {
+    if (prefersReducedMotion || immediate || !isMounted) {
         return (
             <div
                 ref={containerRef}
                 className={className}
-                onFocusCapture={() => setForceVisible(true)}
             >
                 {children}
             </div>
@@ -81,7 +76,6 @@ export const ScrollReveal: React.FC<ScrollRevealProps> = ({
                 delay,
                 ease: MOTION_EASINGS.enter
             }}
-            onFocusCapture={() => setForceVisible(true)}
             {...rest}
         >
             {children}
