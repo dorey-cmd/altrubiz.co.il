@@ -75,7 +75,7 @@ export const STATIC_ROUTES_REGISTRY: Record<string, RouteConfig> = {
     '/': {
         path: '/',
         title: 'Altrubiz CRM | להכניס את השיטה לסיסטם - אוטומציה ובינה מלאכותית',
-        description: 'המערכת האחת שמרכזת את כל הכלים כדי לגדל את העסק הדיגיטלי - CRM, חיבורי WhatsApp, בוטים חכמים מבוססי AI, ואוטומציות שחוסכות זמן.',
+        description: 'מערכת אחת שמרכזת את כל הכלים כדי לגדל את העסק הדיגיטלי - CRM, חיבורי WhatsApp, בוטים חכמים מבוססי AI, ואוטומציות שחוסכות זמן.',
         keywords: ['CRM', 'ניהול עסק', 'אוטומציה', 'בינה מלאכותית', 'ניהול לידים', 'בוטים', 'וואטסאפ לעסקים'],
         canonicalUrl: `${BASE_CANONICAL_DOMAIN}/`,
         schemaType: 'WebPage',

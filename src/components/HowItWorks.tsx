@@ -1,7 +1,8 @@
-
-
 import { motion } from 'framer-motion';
 import { Lightbulb } from 'lucide-react';
+import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion';
+import { MOTION_EASINGS } from '../lib/motionTokens';
+import { ParallaxLayer } from './motion';
 import { getHowItWorksStepKnowledge } from '../data/knowledgeGraph';
 
 interface StepItemDef {
@@ -48,6 +49,8 @@ interface HowItWorksProps {
 }
 
 export const HowItWorks: React.FC<HowItWorksProps> = ({ onNavigate }) => {
+    const prefersReducedMotion = usePrefersReducedMotion();
+
     const steps = STEP_DEFINITIONS.map(step => {
         const knowledge = getHowItWorksStepKnowledge(step.num);
         return {
@@ -56,115 +59,120 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ onNavigate }) => {
             hubLabel: knowledge.label
         };
     });
+
     return (
         <section id="how-it-works" className="py-24 bg-slate-50 text-right relative overflow-hidden" dir="rtl">
             {/* Decorative Background */}
             <div className="absolute inset-0 z-0 opacity-30 pointer-events-none">
-                <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-gray-100 to-transparent"></div>
+                <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-gray-100 to-transparent" />
             </div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <motion.h2
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    className="text-3xl md:text-5xl font-bold text-center text-gray-900 mb-16"
-                >
-                    איך זה עובד בפועל?
-                </motion.h2>
+                <div className="text-center mb-16">
+                    <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4">
+                        איך זה עובד בפועל?
+                    </h2>
+                    <p className="text-slate-600 text-base md:text-lg max-w-2xl mx-auto">
+                        ארבעה שלבים פשוטים שמחברים את הפעילות העסקית למסלול עבודה עקבי.
+                    </p>
+                </div>
 
                 <div className="space-y-24">
-                    {steps.map((step, idx) => (
-                        <motion.div
-                            key={idx}
-                            initial={{ opacity: 0, x: idx % 2 === 0 ? 50 : -50 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true, margin: "-100px" }}
-                            transition={{ duration: 0.6, delay: 0.1 }}
-                            className={`flex flex-col md:flex-row items-center gap-12 ${idx % 2 !== 0 ? 'md:flex-row-reverse' : ''}`}
-                        >
-                            {/* Image */}
-                            <div className="w-full md:w-5/12 max-w-md mx-auto">
-                                <div className="relative group">
-                                    <div className="absolute -inset-1 bg-gradient-to-r from-primary to-secondary rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
-                                    <img
-                                        src={step.img}
-                                        alt={`שלב ${step.num}: ${step.title} - ${step.desc} במערכת AltruBiz CRM`}
-                                        className="relative w-full h-auto rounded-2xl shadow-xl hover:scale-[1.02] transition-transform duration-500 bg-white"
-                                    />
-                                </div>
-                            </div>
+                    {steps.map((step, idx) => {
+                        const isEven = idx % 2 === 0;
+                        // RTL Outside-in Entrance: Right side slides from right (+x), Left side slides from left (-x)
+                        const imgSlide = isEven ? 75 : -75;
+                        const textSlide = isEven ? -75 : 75;
+                        const parallaxSpeed = isEven ? 50 : -45;
 
-                            {/* Content */}
-                            <div className="w-full md:w-1/2 space-y-6">
-                                <div className="flex items-center gap-4">
-                                    <motion.span
-                                        whileHover={{ scale: 1.1, rotate: 10 }}
-                                        className="flex items-center justify-center w-12 h-12 bg-primary text-white text-xl font-bold rounded-full shadow-lg border-4 border-white ring-2 ring-primary/20"
-                                    >
-                                        {step.num}
-                                    </motion.span>
-                                    <h3 className="text-2xl md:text-3xl font-bold text-gray-900">
-                                        {step.title}
-                                    </h3>
-                                </div>
-
-                                <p className="text-xl text-gray-600 leading-relaxed pr-16 md:pr-0">
-                                    {step.desc}
-                                </p>
-
+                        return (
+                            <div
+                                key={idx}
+                                className={`flex flex-col md:flex-row items-center gap-12 ${!isEven ? 'md:flex-row-reverse' : ''}`}
+                            >
+                                {/* Image with True Scroll Parallax, Lateral Entrance & Ambient Breathing */}
                                 <motion.div
-                                    whileHover={{ x: -5, y: -2 }}
-                                    className="relative overflow-hidden p-0.5 rounded-xl mr-4 md:mr-0 group hover:shadow-lg transition-all duration-300"
+                                    initial={prefersReducedMotion ? false : { opacity: 0, x: imgSlide }}
+                                    whileInView={{ opacity: 1, x: 0 }}
+                                    viewport={{ once: true, margin: "-50px" }}
+                                    transition={{ duration: 0.55, ease: MOTION_EASINGS.enter }}
+                                    className="w-full md:w-5/12 max-w-md mx-auto"
                                 >
-                                    {/* Gradient Border */}
-                                    <div className="absolute inset-0 bg-gradient-to-br from-secondary via-primary to-accent opacity-30 group-hover:opacity-100 transition-opacity duration-500 rounded-xl"></div>
+                                    <ParallaxLayer speed={parallaxSpeed}>
+                                        <div className="relative group animate-ambient-breath">
+                                            <div className="absolute -inset-2 bg-gradient-to-r from-primary/30 to-secondary/30 rounded-3xl blur-md opacity-30 group-hover:opacity-75 transition duration-500 pointer-events-none" />
+                                            <img
+                                                src={step.img}
+                                                alt={`שלב ${step.num}: ${step.title} - ${step.desc} במערכת AltruBiz CRM`}
+                                                className="relative w-full h-auto rounded-2xl shadow-xl group-hover:scale-[1.03] group-hover:-translate-y-1.5 transition-all duration-300 bg-white"
+                                                loading="lazy"
+                                            />
+                                        </div>
+                                    </ParallaxLayer>
+                                </motion.div>
 
-                                    {/* Content Container */}
-                                    <div className="relative bg-white/95 backdrop-blur-sm p-4 rounded-[10px] h-full flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                                        <div className="flex items-start gap-4 flex-1">
-                                            {/* Icon Box */}
-                                            <div className="p-2 bg-gradient-to-br from-amber-100 to-orange-50 text-amber-500 rounded-lg shadow-inner shrink-0 ring-1 ring-amber-200/50">
-                                                <Lightbulb size={20} strokeWidth={2.5} className="drop-shadow-sm" />
+                                {/* Content with Opposing Lateral Slide-in */}
+                                <motion.div
+                                    initial={prefersReducedMotion ? false : { opacity: 0, x: textSlide }}
+                                    whileInView={{ opacity: 1, x: 0 }}
+                                    viewport={{ once: true, margin: "-50px" }}
+                                    transition={{ duration: 0.55, ease: MOTION_EASINGS.enter }}
+                                    className="w-full md:w-1/2 space-y-6"
+                                >
+                                    <div className="flex items-center gap-4">
+                                        <motion.span
+                                            whileHover={prefersReducedMotion ? {} : { scale: 1.12, rotate: 5 }}
+                                            className="flex items-center justify-center w-12 h-12 bg-primary text-white text-xl font-bold rounded-full shadow-lg border-4 border-white ring-2 ring-primary/20 cursor-default"
+                                        >
+                                            {step.num}
+                                        </motion.span>
+                                        <h3 className="text-2xl md:text-3xl font-bold text-gray-900">
+                                            {step.title}
+                                        </h3>
+                                    </div>
+
+                                    <p className="text-xl text-gray-600 leading-relaxed pr-16 md:pr-0">
+                                        {step.desc}
+                                    </p>
+
+                                    <div className="relative overflow-hidden p-0.5 rounded-xl mr-4 md:mr-0 group hover:shadow-lg transition-all duration-300">
+                                        {/* Gradient Border */}
+                                        <div className="absolute inset-0 bg-gradient-to-br from-secondary/40 via-primary/40 to-accent/40 opacity-40 group-hover:opacity-100 transition-opacity duration-300 rounded-xl" />
+
+                                        {/* Content Container with Subtle Hover Reaction */}
+                                        <div className="relative bg-white/95 backdrop-blur-sm p-4 rounded-[10px] h-full flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 group-hover:-translate-y-0.5 transition-transform duration-200">
+                                            <div className="flex items-start gap-4 flex-1">
+                                                {/* Icon Box */}
+                                                <div className="p-2 bg-gradient-to-br from-amber-100 to-orange-50 text-amber-500 rounded-lg shadow-inner shrink-0 ring-1 ring-amber-200/50">
+                                                    <Lightbulb size={20} strokeWidth={2.5} className="drop-shadow-sm" />
+                                                </div>
+
+                                                <p className="text-slate-700 font-medium text-base/relaxed pt-0.5">
+                                                    {step.pain}
+                                                </p>
                                             </div>
 
-                                            <p className="text-slate-700 font-medium text-base/relaxed pt-0.5">
-                                                {step.pain}
-                                            </p>
+                                            <a
+                                                href={step.hubUrl}
+                                                onClick={(e) => {
+                                                    if (onNavigate) {
+                                                        e.preventDefault();
+                                                        onNavigate(step.hubUrl);
+                                                    }
+                                                }}
+                                                className="inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:text-blue-700 bg-primary/5 hover:bg-primary/10 border border-primary/20 px-3.5 py-1.5 rounded-full transition-all group/link shrink-0 cursor-pointer self-end sm:self-center hover:scale-105"
+                                            >
+                                                <span>{step.hubLabel}</span>
+                                                <span className="group-hover/link:-translate-x-0.5 transition-transform font-bold">←</span>
+                                            </a>
                                         </div>
-
-                                        <a
-                                            href={step.hubUrl}
-                                            onClick={(e) => {
-                                                if (onNavigate) {
-                                                    e.preventDefault();
-                                                    onNavigate(step.hubUrl);
-                                                }
-                                            }}
-                                            className="inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:text-blue-700 bg-blue-50/70 hover:bg-blue-100/70 px-3 py-1.5 rounded-full border border-blue-200/50 transition-colors shrink-0 group/pill cursor-pointer"
-                                        >
-                                            <span>{step.hubLabel}</span>
-                                            <span className="group-hover/pill:-translate-x-0.5 transition-transform text-xs font-bold">←</span>
-                                        </a>
-
-                                        {/* Decorative Shine */}
-                                        <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-white/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none rounded-tr-[10px]"></div>
                                     </div>
                                 </motion.div>
                             </div>
-                        </motion.div>
-                    ))}
+                        );
+                    })}
                 </div>
-
-                <div className="text-center mt-20">
-                    <a
-                        href="#pricing"
-                        className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white bg-primary rounded-full hover:bg-blue-700 transition-colors shadow-lg hover:shadow-xl hover:-translate-y-1"
-                    >
-                        להתחלת ייעול מיידית
-                    </a>
-                </div>
-            </div>
-        </section>
-    );
+        </div>
+    </section>
+);
 };

@@ -208,12 +208,26 @@ ${mdContent}
     return out;
 }
 
+function safeWriteFile(filePath, content) {
+    for (let i = 0; i < 6; i++) {
+        try {
+            fs.writeFileSync(filePath, content, 'utf8');
+            return;
+        } catch (e) {
+            if (i === 5) throw e;
+            const delay = (i + 1) * 80;
+            const start = Date.now();
+            while (Date.now() - start < delay) {}
+        }
+    }
+}
+
 // Generate files
 const llmsTxtContent = generateLlmsTxt();
 const llmsFullTxtContent = generateLlmsFullTxt();
 
-fs.writeFileSync(path.join(PUBLIC_DIR, 'llms.txt'), llmsTxtContent, 'utf8');
-fs.writeFileSync(path.join(PUBLIC_DIR, 'llms-full.txt'), llmsFullTxtContent, 'utf8');
+safeWriteFile(path.join(PUBLIC_DIR, 'llms.txt'), llmsTxtContent);
+safeWriteFile(path.join(PUBLIC_DIR, 'llms-full.txt'), llmsFullTxtContent);
 
 console.log(`\x1b[32m✔ Successfully generated public/llms.txt (${llmsTxtContent.length} bytes)\x1b[0m`);
 console.log(`\x1b[32m✔ Successfully generated public/llms-full.txt (${llmsFullTxtContent.length} bytes)\x1b[0m`);

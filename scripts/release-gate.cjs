@@ -64,8 +64,12 @@ const STEPS = [
         cmd: 'node scripts/validate-runtime-semantic-links.cjs'
     },
     {
-        name: 'Step 10 (new, isolated): Accessibility Regression Suite (axe-core + keyboard/focus audits)',
+        name: 'Step 10: Accessibility Regression Suite (axe-core + keyboard/focus audits)',
         cmd: 'node scripts/validate-accessibility.cjs'
+    },
+    {
+        name: 'Step 11: Motion System Progressive Enhancement & Reduced Motion Audit',
+        cmd: 'node scripts/validate-motion-system.cjs'
     }
 ];
 

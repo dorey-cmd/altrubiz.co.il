@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { motion } from 'framer-motion';
+import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
 import { setOverlayOpen } from '../../lib/overlayCoordination';
 import { useModalFocusManagement } from '../../hooks/useModalFocusManagement';
 import { 
@@ -92,6 +94,17 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
         }
         setIsMobileDrawerOpen(false);
     };
+
+    const prefersReducedMotion = usePrefersReducedMotion();
+    const [isInitialLoad, setIsInitialLoad] = useState(true);
+
+    useEffect(() => {
+        setIsInitialLoad(true);
+        const timer = setTimeout(() => {
+            setIsInitialLoad(false);
+        }, 750);
+        return () => clearTimeout(timer);
+    }, [article.slug]);
 
     const [scrollProgress, setScrollProgress] = useState(0);
 
@@ -733,7 +746,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
 
                     {/* Atmospheric Image or Break Routine Visual Card */}
                     {section.image ? (
-                        <figure className="my-8 rounded-2xl overflow-hidden border border-slate-200/90 shadow-md bg-white">
+                        <figure className="my-8 rounded-2xl overflow-hidden border border-slate-200/90 shadow-md bg-white animate-ambient-breath">
                             {section.image.layout === 'side' ? (
                                 <div className="grid grid-cols-1 md:grid-cols-2 items-center">
                                     <img 
@@ -918,7 +931,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
 
                 {/* Section Image in fallback section */}
                 {section.image && (
-                    <figure className="my-8 rounded-2xl overflow-hidden border border-slate-200/90 shadow-md bg-white">
+                    <figure className="my-8 rounded-2xl overflow-hidden border border-slate-200/90 shadow-md bg-white animate-ambient-breath">
                         {section.image.layout === 'side' ? (
                             <div className="grid grid-cols-1 md:grid-cols-2 items-center">
                                 <img 
@@ -990,38 +1003,79 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
 
     return (
         <article className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50 text-slate-900 pt-24 pb-20 font-sans relative" dir="rtl">
+            {/* Top Luminous Reading Beam (Ambient Initialization Sweep & Live Scroll Tracker) */}
+            <div className="fixed top-0 left-0 right-0 z-[60] h-[3px] bg-slate-200/30 pointer-events-none">
+                <motion.div 
+                    key={`reading-beam-${article.slug}`}
+                    className="h-full bg-gradient-to-r from-secondary via-primary to-cyan-400 shadow-[0_0_12px_rgba(0,180,216,0.85)]"
+                    initial={prefersReducedMotion ? false : { width: '0%' }}
+                    animate={{ width: isInitialLoad ? '100%' : `${Math.max(scrollProgress, 2)}%` }}
+                    transition={isInitialLoad ? { duration: 0.75, ease: [0.16, 1, 0.3, 1] } : { duration: 0.1, ease: 'linear' }}
+                />
+            </div>
+
             {/* Top Anchor for back to top buttons */}
             <div id="article-top" className="absolute top-0 left-0 w-full h-px pointer-events-none -mt-24" />
 
             {/* Breadcrumbs */}
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
+            <motion.div 
+                key={`breadcrumbs-${article.slug}`}
+                initial={prefersReducedMotion ? false : { opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.45, ease: [0.25, 1, 0.5, 1] }}
+                className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8"
+            >
                 <Breadcrumbs items={breadcrumbItems} onNavigate={onNavigate} />
-            </div>
+            </motion.div>
 
             {/* Article Header */}
             <header className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-8 sm:mb-12">
                 {/* Quiet Meta Above H1: Only Reading Time */}
-                <div className="flex items-center gap-2 mb-2 sm:mb-3">
+                <motion.div 
+                    key={`meta-${article.slug}`}
+                    initial={prefersReducedMotion ? false : { opacity: 0, y: -6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.45, delay: 0.04, ease: [0.25, 1, 0.5, 1] }}
+                    className="flex items-center gap-2 mb-2 sm:mb-3"
+                >
                     <span className="inline-flex items-center gap-1.5 text-xs text-slate-500 font-medium">
                         <Clock size={13} className="text-slate-400" />
                         <span>{article.readTime}</span>
                     </span>
-                </div>
+                </motion.div>
 
                 {/* H1 - Immediate, Dominant and High-Legibility */}
-                <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight leading-[1.2] mb-3 sm:mb-4">
+                <motion.h1 
+                    key={`h1-${article.slug}`}
+                    initial={prefersReducedMotion ? false : { opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.55, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
+                    className="text-2xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight leading-[1.2] mb-3 sm:mb-4"
+                >
                     {article.title}
-                </h1>
+                </motion.h1>
 
                 {article.subtitle && (
-                    <p className="text-base sm:text-lg lg:text-xl text-slate-600 leading-relaxed mb-5 font-normal">
+                    <motion.p 
+                        key={`subtitle-${article.slug}`}
+                        initial={prefersReducedMotion ? false : { opacity: 0, y: 12 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: 0.14, ease: [0.25, 1, 0.5, 1] }}
+                        className="text-base sm:text-lg lg:text-xl text-slate-600 leading-relaxed mb-5 font-normal"
+                    >
                         {renderFormattedText(article.subtitle, onNavigate)}
-                    </p>
+                    </motion.p>
                 )}
 
                 {/* Contextual Knowledge Relationship (Subtle & Quiet Below H1) */}
                 {parentHub && (
-                    <div className="mb-4">
+                    <motion.div 
+                        key={`hub-${article.slug}`}
+                        initial={prefersReducedMotion ? false : { opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.45, delay: 0.18, ease: [0.25, 1, 0.5, 1] }}
+                        className="mb-4"
+                    >
                         <a
                             href={parentHub.url}
                             onClick={(e) => {
@@ -1034,11 +1088,17 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                             <span>נושא: <strong className="font-semibold text-slate-800 hover:text-primary">{parentHub.title}</strong></span>
                             <ChevronLeft size={12} className="text-slate-400" />
                         </a>
-                    </div>
+                    </motion.div>
                 )}
 
                 {/* Below H1: Streamlined Meta, Author & Share Row */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 border-t border-b border-slate-200 py-3 bg-white/60 backdrop-blur-sm rounded-2xl px-4 sm:px-6 shadow-xs">
+                <motion.div 
+                    key={`author-row-${article.slug}`}
+                    initial={prefersReducedMotion ? false : { opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.22, ease: [0.25, 1, 0.5, 1] }}
+                    className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 border-t border-b border-slate-200 py-3 bg-white/60 backdrop-blur-sm rounded-2xl px-4 sm:px-6 shadow-xs"
+                >
                     <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-bold text-sm shadow-sm">
                             AB
@@ -1066,7 +1126,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                         coverImage={article.coverImage}
                         variant="header"
                     />
-                </div>
+                </motion.div>
             </header>
 
             {/* Main Article Container with Desktop Two-Column Layout (RTL: Column 1 is Right side, Column 2 is Left side) */}
@@ -1074,7 +1134,13 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                 <div className="lg:grid lg:grid-cols-[300px_1fr] xl:grid-cols-[320px_1fr] gap-10 items-start">
                     
                     {/* Desktop Sticky Table of Contents Sidebar (Right Column in RTL, natural content height, zero artificial legroom) */}
-                    <aside className="hidden lg:flex flex-col sticky top-28 max-h-[calc(100vh-8.5rem)] space-y-3">
+                    <motion.aside 
+                        key={`sidebar-${article.slug}`}
+                        initial={prefersReducedMotion ? false : { opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.55, delay: 0.2, ease: [0.25, 1, 0.5, 1] }}
+                        className="hidden lg:flex flex-col sticky top-28 max-h-[calc(100vh-8.5rem)] space-y-3"
+                    >
                         <nav aria-label="תוכן עניינים דביק" className="bg-white/95 backdrop-blur-md border border-slate-200/90 rounded-3xl p-4 shadow-sm flex flex-col min-h-0">
                             <div className="flex items-center justify-between gap-2 pb-2.5 mb-2.5 border-b border-slate-100 shrink-0">
                                 <div className="flex items-center gap-2 font-black text-slate-900 text-sm">
@@ -1168,7 +1234,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                         </nav>
 
                         {/* Sticky Desktop Sidebar CTA Card - Compact & Subordinate to Knowledge */}
-                        <div className="shrink-0 bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 text-white rounded-2xl p-4 shadow-lg border border-slate-800 relative overflow-hidden">
+                        <div className="shrink-0 bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 text-white rounded-2xl p-4 shadow-lg border border-slate-800 relative overflow-hidden animate-ambient-breath">
                             <div className="absolute top-0 right-0 w-32 h-32 bg-primary/20 rounded-full blur-2xl pointer-events-none" />
                             <div className="relative z-10 space-y-2">
                                 <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/30 text-[10px] font-bold">
@@ -1230,43 +1296,44 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                         <MessageCircle size={13} className="text-[#25D366]" />
                                         <span>התייעצות בוואטסאפ</span>
                                     </a>
-
-                                    <button
-                                        type="button"
-                                        onClick={() => {
-                                            if (onOpenPricingModal) {
-                                                onOpenPricingModal();
-                                            } else {
-                                                onNavigate('/#pricing');
-                                            }
-                                        }}
-                                        className="w-full text-center text-[10px] text-slate-400 hover:text-white pt-1 transition-colors font-medium flex items-center justify-center gap-1 cursor-pointer"
-                                    >
-                                        <Zap size={10} className="text-amber-400 fill-amber-400" />
-                                        <span>חבילות ומחירים ←</span>
-                                    </button>
                                 </div>
                             </div>
                         </div>
-                    </aside>
+                    </motion.aside>
 
                     {/* Primary Content Column (Left Column in RTL, comfortable reading width) */}
                     <div className="min-w-0 max-w-3xl mx-auto lg:mx-0 w-full">
                         
-                        {/* Article Cover Image */}
+                        {/* Article Cover Image with Cinematic Focus Pull & Soft Ambient Radiance */}
                         {article.coverImage && (
-                            <figure className="mb-10 rounded-3xl overflow-hidden border border-slate-200/90 shadow-md bg-white">
-                                <img 
-                                    src={article.coverImage.src} 
-                                    alt={article.coverImage.alt} 
-                                    className="w-full aspect-[21/9] sm:aspect-[2.2/1] object-cover" 
-                                />
-                            </figure>
+                            <div className="relative mb-10 group">
+                                <div className="absolute -inset-2 bg-gradient-to-r from-primary/10 via-secondary/15 to-transparent rounded-3xl blur-2xl -z-10 opacity-70 pointer-events-none transition-opacity duration-700" />
+                                <motion.div 
+                                    key={`cover-${article.slug}`}
+                                    initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.985, filter: 'blur(8px)' }}
+                                    animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+                                    transition={{ duration: 0.7, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+                                >
+                                    <figure className="rounded-3xl overflow-hidden border border-slate-200/90 shadow-md hover:shadow-xl bg-white transition-shadow duration-500 animate-ambient-breath">
+                                        <img 
+                                            src={article.coverImage.src} 
+                                            alt={article.coverImage.alt} 
+                                            className="w-full aspect-[21/9] sm:aspect-[2.2/1] object-cover group-hover:scale-[1.01] transition-transform duration-700 ease-out" 
+                                        />
+                                    </figure>
+                                </motion.div>
+                            </div>
                         )}
 
                         {/* Intro summary box */}
                         {article.heroSummary && (
-                            <div className="bg-gradient-to-br from-blue-50/80 via-white to-sky-50/80 border border-blue-100/80 rounded-2xl p-6 sm:p-8 mb-10 shadow-sm">
+                            <motion.div 
+                                key={`summary-${article.slug}`}
+                                initial={prefersReducedMotion ? false : { opacity: 0, y: 14 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.5, delay: 0.26, ease: [0.25, 1, 0.5, 1] }}
+                                className="bg-gradient-to-br from-blue-50/80 via-white to-sky-50/80 border border-blue-100/80 rounded-2xl p-6 sm:p-8 mb-10 shadow-sm"
+                            >
                                 <div className="flex items-start gap-3">
                                     <Sparkles className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
                                     <div>
@@ -1276,12 +1343,20 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                         </p>
                                     </div>
                                 </div>
-                            </div>
+                            </motion.div>
                         )}
 
                         {/* Top Table of Contents Grid (Hero Anchor Hub) */}
                         {article.sections && article.sections.length > 0 && (
-                            <nav id="article-toc" aria-label="תוכן עניינים מהיר" className="bg-white border border-gray-200 rounded-3xl p-6 sm:p-8 mb-12 shadow-sm">
+                            <motion.nav 
+                                key={`toc-${article.slug}`}
+                                initial={prefersReducedMotion ? false : { opacity: 0, y: 14 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.5, delay: 0.3, ease: [0.25, 1, 0.5, 1] }}
+                                id="article-toc" 
+                                aria-label="תוכן עניינים מהיר" 
+                                className="bg-white border border-gray-200 rounded-3xl p-6 sm:p-8 mb-12 shadow-sm"
+                            >
                                 <div className="flex items-center justify-between gap-3 mb-4 pb-3 border-b border-slate-100">
                                     <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
                                         <Compass className="text-primary w-5 h-5" />
@@ -1355,12 +1430,19 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                         </li>
                                     )}
                                 </ul>
-                            </nav>
+                            </motion.nav>
                         )}
 
                         {/* Key Takeaway Highlight */}
                         {article.keyTakeaway && (
-                            <div id="rule-of-thumb-highlight" className="relative overflow-hidden bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-400 text-slate-950 p-6 sm:p-8 rounded-3xl shadow-xl shadow-amber-500/10 mb-14 border border-yellow-300">
+                            <motion.div 
+                                key={`takeaway-${article.slug}`}
+                                initial={prefersReducedMotion ? false : { opacity: 0, y: 14 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.5, delay: 0.34, ease: [0.25, 1, 0.5, 1] }}
+                                id="rule-of-thumb-highlight" 
+                                className="relative overflow-hidden bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-400 text-slate-950 p-6 sm:p-8 rounded-3xl shadow-xl shadow-amber-500/10 mb-14 border border-yellow-300"
+                            >
                                 <div className="relative z-10">
                                     <div className="inline-flex items-center gap-2 bg-black/10 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-3">
                                         ⭐ עיקרון מוביל (Key Takeaway)
@@ -1374,7 +1456,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                         </div>
                                     )}
                                 </div>
-                            </div>
+                            </motion.div>
                         )}
 
                         {/* Article Body Sections */}

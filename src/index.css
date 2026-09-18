@@ -14,17 +14,86 @@ body {
   min-height: 100vh;
   background-color: #FFFFFF;
   color: #333333;
-  scroll-behavior: smooth;
   overflow-x: clip;
 }
 
 html {
-  scroll-behavior: smooth;
   overflow-x: clip;
+}
+
+/* AltruBiz Design OS: Strict Reduced-Motion Override (Rule §6.1) */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 @layer utilities {
   .text-glow {
     text-shadow: 0 0 20px rgba(234, 179, 8, 0.5);
+  }
+  
+  /* Smooth micro-interaction transitions */
+  .transition-interactive {
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter;
+    transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+    transition-duration: 250ms;
+  }
+
+  /* Elegant ambient breathing for idle containers (SiteOS Motion standard) */
+  @keyframes ambientBreath {
+    0%, 100% {
+      transform: translateY(0px) scale(1);
+      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+    }
+    50% {
+      transform: translateY(-6px) scale(1.012);
+      box-shadow: 0 16px 32px -4px rgba(0, 108, 189, 0.12);
+    }
+  }
+
+  .animate-ambient-breath {
+    animation: ambientBreath 4.5s ease-in-out infinite;
+  }
+
+  /* Ambient floating motion for parallax chips and decorative badges */
+  @keyframes ambientFloat {
+    0%, 100% {
+      transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-10px) rotate(1deg);
+    }
+  }
+
+  .animate-ambient-float {
+    animation: ambientFloat 5s ease-in-out infinite;
+  }
+
+  .animate-ambient-float-delayed {
+    animation: ambientFloat 5.5s ease-in-out -2.5s infinite;
+  }
+
+  /* Subtle pulsing glow for featured badges and cards */
+  @keyframes subtleGlow {
+    0%, 100% {
+      opacity: 0.9;
+      transform: scale(1);
+      box-shadow: 0 0 15px rgba(234, 179, 8, 0.3);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.03);
+      box-shadow: 0 0 28px rgba(234, 179, 8, 0.6);
+    }
+  }
+
+  .animate-subtle-glow {
+    animation: subtleGlow 3.5s ease-in-out infinite;
   }
 }
