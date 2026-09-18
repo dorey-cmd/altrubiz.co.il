@@ -1,5 +1,5 @@
-import React, { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import React from 'react';
+import { motion } from 'framer-motion';
 import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion';
 import { MOTION_EASINGS } from '../lib/motionTokens';
 
@@ -9,19 +9,10 @@ interface HeroProps {
 }
 
 export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
-    const ref = useRef<HTMLElement>(null);
     const prefersReducedMotion = usePrefersReducedMotion();
 
-    const { scrollYProgress } = useScroll({
-        target: ref,
-        offset: ["start start", "end start"]
-    });
-
-    const yText = useTransform(scrollYProgress, [0, 1], [0, prefersReducedMotion ? 0 : 150]);
-    const opacityText = useTransform(scrollYProgress, [0, 0.6], [1, prefersReducedMotion ? 1 : 0]);
-
     return (
-        <section ref={ref} className="relative w-full h-[85vh] md:h-[95vh] min-h-[600px] overflow-hidden bg-black text-right" dir="rtl">
+        <section className="relative w-full h-[85vh] md:h-[95vh] min-h-[600px] overflow-hidden bg-black text-right" dir="rtl">
             {/* Video Background */}
             <video
                 className="absolute inset-0 w-full h-full object-cover pointer-events-none"
@@ -39,42 +30,8 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
             {/* Overlay */}
             <div className="absolute inset-0 bg-black/50 z-10" />
 
-            {/* Floating Multi-Layer Parallax Badges (SiteOS Dynamic Motion) */}
-            <motion.div
-                style={{ y: useTransform(scrollYProgress, [0, 1], [0, prefersReducedMotion ? 0 : -100]) }}
-                className="hidden lg:flex absolute top-28 right-6 xl:right-16 z-20 items-center gap-3 bg-white/10 backdrop-blur-md border border-white/20 px-4 py-2.5 rounded-2xl text-white shadow-2xl animate-ambient-float pointer-events-auto hover:bg-white/20 transition-all cursor-default"
-            >
-                <span className="w-2.5 h-2.5 rounded-full bg-green-400 animate-pulse shadow-[0_0_8px_#4ade80]" />
-                <span className="text-sm font-bold tracking-wide">⚡ וואטסאפ Cloud API רשמי</span>
-            </motion.div>
-
-            <motion.div
-                style={{ y: useTransform(scrollYProgress, [0, 1], [0, prefersReducedMotion ? 0 : -70]) }}
-                className="hidden lg:flex absolute top-36 left-6 xl:left-16 z-20 items-center gap-3 bg-white/10 backdrop-blur-md border border-white/20 px-4 py-2.5 rounded-2xl text-white shadow-2xl animate-ambient-float-delayed pointer-events-auto hover:bg-white/20 transition-all cursor-default"
-            >
-                <span className="w-2.5 h-2.5 rounded-full bg-purple-400 animate-pulse shadow-[0_0_8px_#c084fc]" />
-                <span className="text-sm font-bold tracking-wide">🤖 סוכני AI ואוטומציות 24/7</span>
-            </motion.div>
-
-            <motion.div
-                style={{ y: useTransform(scrollYProgress, [0, 1], [0, prefersReducedMotion ? 0 : -130]) }}
-                className="hidden xl:flex absolute bottom-36 right-12 z-20 items-center gap-3 bg-white/10 backdrop-blur-md border border-white/20 px-4 py-2.5 rounded-2xl text-white shadow-2xl animate-ambient-float-delayed pointer-events-auto hover:bg-white/20 transition-all cursor-default"
-            >
-                <span className="w-2.5 h-2.5 rounded-full bg-blue-400 animate-pulse shadow-[0_0_8px_#60a5fa]" />
-                <span className="text-sm font-bold tracking-wide">📊 פייפליין מכירות חזותי</span>
-            </motion.div>
-
-            <motion.div
-                style={{ y: useTransform(scrollYProgress, [0, 1], [0, prefersReducedMotion ? 0 : -90]) }}
-                className="hidden xl:flex absolute bottom-32 left-12 z-20 items-center gap-3 bg-white/10 backdrop-blur-md border border-white/20 px-4 py-2.5 rounded-2xl text-white shadow-2xl animate-ambient-float pointer-events-auto hover:bg-white/20 transition-all cursor-default"
-            >
-                <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse shadow-[0_0_8px_#fbbf24]" />
-                <span className="text-sm font-bold tracking-wide">🎯 מענה מידי לכל ליד חדש</span>
-            </motion.div>
-
             {/* Content Container */}
-            <motion.div
-                style={{ y: yText, opacity: opacityText }}
+            <div
                 className="relative z-20 flex flex-col items-center justify-center h-full text-center px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto pt-20"
             >
                 {/* Logo - Instant stable anchor */}
@@ -129,9 +86,9 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
 
                 {/* Pain Bar with Knowledge Gateway */}
                 <motion.div
-                    initial={prefersReducedMotion ? false : { opacity: 0, y: 15 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4, delay: prefersReducedMotion ? 0 : 0.25, ease: MOTION_EASINGS.enter }}
+                    initial={prefersReducedMotion ? false : { opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.35, delay: prefersReducedMotion ? 0 : 0.2, ease: MOTION_EASINGS.enter }}
                     className="mt-12 bg-black/60 backdrop-blur-sm border border-white/10 p-4 rounded-2xl text-gray-300 text-sm md:text-base max-w-2xl flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-right shadow-lg"
                 >
                     <p className="leading-relaxed text-sm md:text-base">ניהול לקוחות מבוזר מבזבז שעות יקרות ומפספס הזדמנויות - ובסוף זה כסף שנשאר על הרצפה.</p>
@@ -164,7 +121,7 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
                         </a>
                     </div>
                 </motion.div>
-            </motion.div>
+            </div>
         </section>
     );
 };
