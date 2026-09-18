@@ -187,7 +187,8 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
             'quote-follow-up-guide',
             'customer-handoff-context-guide',
             'lead-qualification-guide',
-            'premium-websites-guide'
+            'premium-websites-guide',
+            'build-website-with-ai-guide'
         ],
         recommendedNextSlugs: ['whatsapp-in-crm', 'sales-pipeline', 'roi-calculator', 'salespeople-hate-crm-adoption-guide'],
         relevantNextActions: ['meeting', 'whatsapp', 'pricing', 'guide', 'assessment'],
@@ -907,7 +908,7 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
                         'הדרך הנכונה אינה להתחיל מטכנולוגיה, אלא לזהות פעולה ידנית מוכרת שחוזרת על עצמה, לבחון סולם אימוץ מדורג (עוזר לי -> מכין לי -> מבצע בשבילי), ולהכניס עזרה ממוקדת של 20% בלבד לפני שמרחיבים הלאה.'
                     ],
                     manifestationId: 'ai-adoption-confusion',
-                    relatedArticleSlugs: ['practical-ai-for-business-guide', 'non-technical-to-ai-automation-guide', 'ai-business-work-vs-thinking-guide']
+                    relatedArticleSlugs: ['practical-ai-for-business-guide', 'non-technical-to-ai-automation-guide', 'ai-business-work-vs-thinking-guide', 'build-website-with-ai-guide']
                 }
             ],
             solutionPaths: [
