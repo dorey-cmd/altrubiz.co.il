@@ -23,8 +23,27 @@ html {
   overflow-x: clip;
 }
 
+/* AltruBiz Design OS: Strict Reduced-Motion Override (Rule §6.1) */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 @layer utilities {
   .text-glow {
     text-shadow: 0 0 20px rgba(234, 179, 8, 0.5);
+  }
+  
+  /* Smooth micro-interaction transitions */
+  .transition-interactive {
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter;
+    transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+    transition-duration: 250ms;
   }
 }

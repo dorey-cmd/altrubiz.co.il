@@ -1,4 +1,6 @@
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion';
 
 const logos = [
     { src: "https://storage.googleapis.com/msgsndr/knES3eSWYIsc5YSZ3YLl/media/67af641f237ce2563df82508.png", alt: "אינטגרציית WhatsApp Business עם AltruBiz CRM" },
@@ -21,6 +23,9 @@ interface IntegrationsProps {
 }
 
 export const Integrations: React.FC<IntegrationsProps> = ({ onNavigate }) => {
+    const prefersReducedMotion = usePrefersReducedMotion();
+    const [isPaused, setIsPaused] = useState(false);
+
     return (
         <section id="integrations" className="py-24 bg-white overflow-hidden" dir="rtl">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
@@ -55,59 +60,71 @@ export const Integrations: React.FC<IntegrationsProps> = ({ onNavigate }) => {
                 </div>
             </div>
 
-            {/* Marquee Container */}
-            <div className="relative w-full overflow-hidden mask-gradient-x py-8">
-                <div className="flex">
-                    <motion.div
-                        className="flex flex-shrink-0 items-center space-x-16 space-x-reverse px-8"
-                        initial={{ x: 0 }}
-                        animate={{ x: "50%" }}
-                        transition={{
-                            duration: 40,
-                            repeat: Infinity,
-                            ease: "linear"
-                        }}
-                    >
-                        {[...logos, ...logos].map((logo, idx) => (
+            {/* Marquee Container with WCAG 2.2.2 Pause on Hover & Reduced-Motion support */}
+            <div 
+                className="relative w-full overflow-hidden mask-gradient-x py-8"
+                onMouseEnter={() => setIsPaused(true)}
+                onMouseLeave={() => setIsPaused(false)}
+                onFocus={() => setIsPaused(true)}
+                onBlur={() => setIsPaused(false)}
+            >
+                {prefersReducedMotion ? (
+                    <div className="flex flex-wrap justify-center items-center gap-8 max-w-6xl mx-auto px-4">
+                        {logos.slice(0, 10).map((logo, idx) => (
                             <img
                                 key={idx}
                                 src={logo.src}
                                 alt={logo.alt}
-                                className="h-12 w-auto object-contain md:h-16 grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100 flex-shrink-0"
+                                className="h-10 w-auto object-contain md:h-14 grayscale hover:grayscale-0 transition-all duration-200 opacity-80 hover:opacity-100"
                                 loading="lazy"
                             />
                         ))}
-                    </motion.div>
-                    <motion.div
-                        className="flex flex-shrink-0 items-center space-x-16 space-x-reverse px-8"
-                        initial={{ x: 0 }}
-                        animate={{ x: "50%" }}
-                        transition={{
-                            duration: 40,
-                            repeat: Infinity,
-                            ease: "linear"
-                        }}
-                    >
-                        {[...logos, ...logos].map((logo, idx) => (
-                            <img
-                                key={`d-${idx}`}
-                                src={logo.src}
-                                alt={logo.alt}
-                                className="h-12 w-auto object-contain md:h-16 grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100 flex-shrink-0"
-                                loading="lazy"
-                            />
-                        ))}
-                    </motion.div>
-                </div>
+                    </div>
+                ) : (
+                    <div className="flex">
+                        <motion.div
+                            className="flex flex-shrink-0 items-center space-x-16 space-x-reverse px-8"
+                            initial={{ x: 0 }}
+                            animate={{ x: isPaused ? undefined : "50%" }}
+                            transition={{
+                                duration: 40,
+                                repeat: Infinity,
+                                ease: "linear"
+                            }}
+                        >
+                            {[...logos, ...logos].map((logo, idx) => (
+                                <img
+                                    key={idx}
+                                    src={logo.src}
+                                    alt={logo.alt}
+                                    className="h-12 w-auto object-contain md:h-16 grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100 flex-shrink-0 hover:scale-105"
+                                    loading="lazy"
+                                />
+                            ))}
+                        </motion.div>
+                        <motion.div
+                            className="flex flex-shrink-0 items-center space-x-16 space-x-reverse px-8"
+                            initial={{ x: 0 }}
+                            animate={{ x: isPaused ? undefined : "50%" }}
+                            transition={{
+                                duration: 40,
+                                repeat: Infinity,
+                                ease: "linear"
+                            }}
+                        >
+                            {[...logos, ...logos].map((logo, idx) => (
+                                <img
+                                    key={`d-${idx}`}
+                                    src={logo.src}
+                                    alt={logo.alt}
+                                    className="h-12 w-auto object-contain md:h-16 grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100 flex-shrink-0 hover:scale-105"
+                                    loading="lazy"
+                                />
+                            ))}
+                        </motion.div>
+                    </div>
+                )}
             </div>
-
-            {/* Custom Styles for Mask */}
-            <style>{`
-    .mask-gradient-x {
-        mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-        -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-    }
-            `}</style>
         </section>
     );
 };

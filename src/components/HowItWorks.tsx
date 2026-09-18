@@ -1,7 +1,7 @@
-
-
 import { motion } from 'framer-motion';
 import { Lightbulb } from 'lucide-react';
+import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion';
+import { MOTION_EASINGS } from '../lib/motionTokens';
 import { getHowItWorksStepKnowledge } from '../data/knowledgeGraph';
 
 interface StepItemDef {
@@ -48,6 +48,8 @@ interface HowItWorksProps {
 }
 
 export const HowItWorks: React.FC<HowItWorksProps> = ({ onNavigate }) => {
+    const prefersReducedMotion = usePrefersReducedMotion();
+
     const steps = STEP_DEFINITIONS.map(step => {
         const knowledge = getHowItWorksStepKnowledge(step.num);
         return {
@@ -56,41 +58,43 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ onNavigate }) => {
             hubLabel: knowledge.label
         };
     });
+
     return (
         <section id="how-it-works" className="py-24 bg-slate-50 text-right relative overflow-hidden" dir="rtl">
             {/* Decorative Background */}
             <div className="absolute inset-0 z-0 opacity-30 pointer-events-none">
-                <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-gray-100 to-transparent"></div>
+                <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-gray-100 to-transparent" />
             </div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <motion.h2
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    className="text-3xl md:text-5xl font-bold text-center text-gray-900 mb-16"
-                >
-                    איך זה עובד בפועל?
-                </motion.h2>
+                <div className="text-center mb-16">
+                    <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4">
+                        איך זה עובד בפועל?
+                    </h2>
+                    <p className="text-slate-600 text-base md:text-lg max-w-2xl mx-auto">
+                        ארבעה שלבים פשוטים שמחברים את הפעילות העסקית למסלול עבודה עקבי.
+                    </p>
+                </div>
 
                 <div className="space-y-24">
                     {steps.map((step, idx) => (
                         <motion.div
                             key={idx}
-                            initial={{ opacity: 0, x: idx % 2 === 0 ? 50 : -50 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true, margin: "-100px" }}
-                            transition={{ duration: 0.6, delay: 0.1 }}
+                            initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, margin: "-40px" }}
+                            transition={{ duration: 0.45, ease: MOTION_EASINGS.enter }}
                             className={`flex flex-col md:flex-row items-center gap-12 ${idx % 2 !== 0 ? 'md:flex-row-reverse' : ''}`}
                         >
-                            {/* Image */}
+                            {/* Image with subtle hover depth */}
                             <div className="w-full md:w-5/12 max-w-md mx-auto">
                                 <div className="relative group">
-                                    <div className="absolute -inset-1 bg-gradient-to-r from-primary to-secondary rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+                                    <div className="absolute -inset-1 bg-gradient-to-r from-primary to-secondary rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-700 pointer-events-none" />
                                     <img
                                         src={step.img}
                                         alt={`שלב ${step.num}: ${step.title} - ${step.desc} במערכת AltruBiz CRM`}
-                                        className="relative w-full h-auto rounded-2xl shadow-xl hover:scale-[1.02] transition-transform duration-500 bg-white"
+                                        className="relative w-full h-auto rounded-2xl shadow-xl hover:scale-[1.015] transition-transform duration-300 bg-white"
+                                        loading="lazy"
                                     />
                                 </div>
                             </div>
@@ -99,7 +103,7 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ onNavigate }) => {
                             <div className="w-full md:w-1/2 space-y-6">
                                 <div className="flex items-center gap-4">
                                     <motion.span
-                                        whileHover={{ scale: 1.1, rotate: 10 }}
+                                        whileHover={prefersReducedMotion ? {} : { scale: 1.08 }}
                                         className="flex items-center justify-center w-12 h-12 bg-primary text-white text-xl font-bold rounded-full shadow-lg border-4 border-white ring-2 ring-primary/20"
                                     >
                                         {step.num}
@@ -113,12 +117,9 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ onNavigate }) => {
                                     {step.desc}
                                 </p>
 
-                                <motion.div
-                                    whileHover={{ x: -5, y: -2 }}
-                                    className="relative overflow-hidden p-0.5 rounded-xl mr-4 md:mr-0 group hover:shadow-lg transition-all duration-300"
-                                >
+                                <div className="relative overflow-hidden p-0.5 rounded-xl mr-4 md:mr-0 group hover:shadow-md transition-all duration-300">
                                     {/* Gradient Border */}
-                                    <div className="absolute inset-0 bg-gradient-to-br from-secondary via-primary to-accent opacity-30 group-hover:opacity-100 transition-opacity duration-500 rounded-xl"></div>
+                                    <div className="absolute inset-0 bg-gradient-to-br from-secondary/40 via-primary/40 to-accent/40 opacity-40 group-hover:opacity-100 transition-opacity duration-300 rounded-xl" />
 
                                     {/* Content Container */}
                                     <div className="relative bg-white/95 backdrop-blur-sm p-4 rounded-[10px] h-full flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
@@ -141,28 +142,16 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ onNavigate }) => {
                                                     onNavigate(step.hubUrl);
                                                 }
                                             }}
-                                            className="inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:text-blue-700 bg-blue-50/70 hover:bg-blue-100/70 px-3 py-1.5 rounded-full border border-blue-200/50 transition-colors shrink-0 group/pill cursor-pointer"
+                                            className="inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:text-blue-700 bg-primary/5 hover:bg-primary/10 border border-primary/20 px-3.5 py-1.5 rounded-full transition-all group/link shrink-0 cursor-pointer self-end sm:self-center"
                                         >
                                             <span>{step.hubLabel}</span>
-                                            <span className="group-hover/pill:-translate-x-0.5 transition-transform text-xs font-bold">←</span>
+                                            <span className="group-hover/link:-translate-x-0.5 transition-transform font-bold">←</span>
                                         </a>
-
-                                        {/* Decorative Shine */}
-                                        <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-white/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none rounded-tr-[10px]"></div>
                                     </div>
-                                </motion.div>
+                                </div>
                             </div>
                         </motion.div>
                     ))}
-                </div>
-
-                <div className="text-center mt-20">
-                    <a
-                        href="#pricing"
-                        className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white bg-primary rounded-full hover:bg-blue-700 transition-colors shadow-lg hover:shadow-xl hover:-translate-y-1"
-                    >
-                        להתחלת ייעול מיידית
-                    </a>
                 </div>
             </div>
         </section>
