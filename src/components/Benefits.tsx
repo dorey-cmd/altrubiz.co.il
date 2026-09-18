@@ -61,14 +61,24 @@ export const Benefits: React.FC<BenefitsProps> = ({ onNavigate }) => {
                         { title: "שיפור ניצול תקציבי פרסום", desc: "והגדלת ההמרות" },
                         { title: "ניהול זמן יעיל", desc: "פחות עבודה ידנית, יותר פוקוס על צמיחה" },
                         { title: "בקרה מלאה על תהליך המכירה", desc: "שליטה בכל שלב" }
-                    ].map((item, idx) => (
-                        <StaggerItem key={idx}>
-                            <HoverCard className="bg-slate-50 p-6 rounded-xl border border-gray-100 hover:bg-white hover:shadow-md transition-all h-full">
-                                <h3 className="text-xl font-bold text-primary mb-2">{item.title}</h3>
-                                <p className="text-gray-600">{item.desc}</p>
-                            </HoverCard>
-                        </StaggerItem>
-                    ))}
+                    ].map((item, idx) => {
+                        const sideDirection = idx % 2 === 0 ? 'right' : 'left';
+                        const isBreathing = idx === 0 || idx === 3;
+
+                        return (
+                            <StaggerItem key={idx} direction={sideDirection} distance="sideSlide">
+                                <HoverCard 
+                                    breathing={isBreathing}
+                                    liftDistance={4}
+                                    scale={1.015}
+                                    className="bg-slate-50 p-6 rounded-xl border border-gray-100 hover:bg-white hover:border-primary/30 hover:shadow-lg transition-all h-full"
+                                >
+                                    <h3 className="text-xl font-bold text-primary mb-2">{item.title}</h3>
+                                    <p className="text-gray-600 font-medium">{item.desc}</p>
+                                </HoverCard>
+                            </StaggerItem>
+                        );
+                    })}
                 </StaggerGroup>
 
                 <div className="text-center mt-16">
@@ -96,14 +106,24 @@ export const Extras = () => {
                         { title: "ניהול לידים חכם", desc: "כל ליד במקום אחד. תמונה מלאה ברגע נתון." },
                         { title: "אוטומציה ובינה מלאכותית", desc: "תהליכים שרצים לבד, גם כשלא זמינים." },
                         { title: "תקשורת רב־ערוצית", desc: "וואטסאפ, טיקטוק, אינסטגרם, פייסבוק, טלפון, מייל ו־SMS." }
-                    ].map((item, idx) => (
-                        <StaggerItem key={idx}>
-                            <HoverCard className="bg-white/5 backdrop-blur-sm p-8 rounded-2xl border border-white/10 text-center hover:bg-white/10 transition-all duration-300 h-full">
-                                <h3 className="text-xl font-bold text-white mb-3">{item.title}</h3>
-                                <p className="text-gray-300 leading-relaxed">{item.desc}</p>
-                            </HoverCard>
-                        </StaggerItem>
-                    ))}
+                    ].map((item, idx) => {
+                        const sideDirection = idx === 0 ? 'right' : idx === 1 ? 'none' : 'left';
+                        const isBreathing = idx === 1;
+
+                        return (
+                            <StaggerItem key={idx} direction={sideDirection} distance="sideSlide">
+                                <HoverCard 
+                                    breathing={isBreathing}
+                                    liftDistance={5}
+                                    scale={1.02}
+                                    className="bg-white/5 backdrop-blur-sm p-8 rounded-2xl border border-white/10 text-center hover:bg-white/15 hover:border-white/20 transition-all duration-300 h-full"
+                                >
+                                    <h3 className="text-xl font-bold text-white mb-3">{item.title}</h3>
+                                    <p className="text-gray-300 leading-relaxed font-medium">{item.desc}</p>
+                                </HoverCard>
+                            </StaggerItem>
+                        );
+                    })}
                 </StaggerGroup>
             </div>
         </section>

@@ -8,6 +8,7 @@ interface HoverCardProps {
     className?: string;
     liftDistance?: number;
     scale?: number;
+    breathing?: boolean;
     onClick?: (e: React.MouseEvent) => void;
 }
 
@@ -15,13 +16,15 @@ interface HoverCardProps {
  * HoverCard: Tactile micro-interaction surface for cards and interactive boxes.
  * 
  * Provides subtle hover elevation and scale with keyboard parity.
+ * Optional ambient "breathing" state when idle.
  * Under prefers-reduced-motion, elevation/scale are disabled and only color/border transitions run.
  */
 export const HoverCard: React.FC<HoverCardProps> = ({
     children,
     className = '',
-    liftDistance = 3,
-    scale = 1.008,
+    liftDistance = 4,
+    scale = 1.012,
+    breathing = false,
     onClick
 }) => {
     const prefersReducedMotion = usePrefersReducedMotion();
@@ -34,17 +37,19 @@ export const HoverCard: React.FC<HoverCardProps> = ({
         );
     }
 
+    const breathingClass = breathing ? 'animate-ambient-breath' : '';
+
     return (
         <motion.div
-            className={`transition-shadow duration-300 will-change-transform ${className}`}
+            className={`transition-shadow duration-300 will-change-transform ${breathingClass} ${className}`}
             whileHover={{
                 y: -liftDistance,
                 scale: scale,
-                transition: { duration: 0.22, ease: MOTION_EASINGS.standard }
+                transition: { duration: 0.2, ease: MOTION_EASINGS.standard }
             }}
             whileTap={{
                 y: 0,
-                scale: 0.995,
+                scale: 0.992,
                 transition: { duration: 0.1 }
             }}
             onClick={onClick}

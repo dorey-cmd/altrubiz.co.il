@@ -38,13 +38,19 @@ export const MOTION_EASINGS = {
 export const MOTION_DISTANCES = {
     subtle: 6,
     medium: 14,
-    large: 24
+    large: 24,
+    sideSlide: 36
 } as const;
 
 export const MOTION_STAGGER = {
-    fast: 0.05,
-    normal: 0.08,
-    relaxed: 0.12
+    fast: 0.06,
+    normal: 0.09,
+    relaxed: 0.14
+} as const;
+
+export const MOTION_BREATHING = {
+    duration: 5.5,
+    ease: "easeInOut"
 } as const;
 
 export const MOTION_VIEWPORT = {

@@ -8,7 +8,7 @@ export interface ScrollRevealProps extends MotionProps {
     className?: string;
     delay?: number;
     distance?: keyof typeof MOTION_DISTANCES | number;
-    direction?: 'up' | 'down' | 'none';
+    direction?: 'up' | 'down' | 'left' | 'right' | 'none';
     duration?: number;
     as?: keyof JSX.IntrinsicElements;
     /** Disable entrance animation on above-the-fold or critical LCP elements */
@@ -28,8 +28,8 @@ export const ScrollReveal: React.FC<ScrollRevealProps> = ({
     children,
     className = '',
     delay = 0,
-    distance = 'medium',
-    direction = 'up',
+    distance = 'sideSlide',
+    direction = 'right',
     duration = MOTION_DURATIONS.normal,
     immediate = false,
     ...rest
@@ -41,6 +41,7 @@ export const ScrollReveal: React.FC<ScrollRevealProps> = ({
 
     const distancePx = typeof distance === 'number' ? distance : MOTION_DISTANCES[distance];
     const initialY = direction === 'up' ? distancePx : direction === 'down' ? -distancePx : 0;
+    const initialX = direction === 'right' ? distancePx : direction === 'left' ? -distancePx : 0;
 
     useEffect(() => {
         setIsMounted(true);
@@ -72,8 +73,8 @@ export const ScrollReveal: React.FC<ScrollRevealProps> = ({
         <motion.div
             ref={containerRef}
             className={className}
-            initial={{ opacity: 0, y: initialY }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: initialY, x: initialX }}
+            whileInView={{ opacity: 1, y: 0, x: 0 }}
             viewport={MOTION_VIEWPORT}
             transition={{
                 duration,

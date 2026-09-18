@@ -77,27 +77,31 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ onNavigate }) => {
                 </div>
 
                 <div className="space-y-24">
-                    {steps.map((step, idx) => (
-                        <motion.div
-                            key={idx}
-                            initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, margin: "-40px" }}
-                            transition={{ duration: 0.45, ease: MOTION_EASINGS.enter }}
-                            className={`flex flex-col md:flex-row items-center gap-12 ${idx % 2 !== 0 ? 'md:flex-row-reverse' : ''}`}
-                        >
-                            {/* Image with subtle hover depth */}
-                            <div className="w-full md:w-5/12 max-w-md mx-auto">
-                                <div className="relative group">
-                                    <div className="absolute -inset-1 bg-gradient-to-r from-primary to-secondary rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-700 pointer-events-none" />
-                                    <img
-                                        src={step.img}
-                                        alt={`שלב ${step.num}: ${step.title} - ${step.desc} במערכת AltruBiz CRM`}
-                                        className="relative w-full h-auto rounded-2xl shadow-xl hover:scale-[1.015] transition-transform duration-300 bg-white"
-                                        loading="lazy"
-                                    />
+                    {steps.map((step, idx) => {
+                        const isEven = idx % 2 === 0;
+                        const initialX = isEven ? 40 : -40;
+
+                        return (
+                            <motion.div
+                                key={idx}
+                                initial={prefersReducedMotion ? false : { opacity: 0, x: initialX }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                viewport={{ once: true, margin: "-40px" }}
+                                transition={{ duration: 0.5, ease: MOTION_EASINGS.enter }}
+                                className={`flex flex-col md:flex-row items-center gap-12 ${!isEven ? 'md:flex-row-reverse' : ''}`}
+                            >
+                                {/* Image with subtle hover depth & breathing */}
+                                <div className="w-full md:w-5/12 max-w-md mx-auto">
+                                    <div className="relative group">
+                                        <div className="absolute -inset-1 bg-gradient-to-r from-primary to-secondary rounded-2xl blur opacity-20 group-hover:opacity-50 transition duration-500 pointer-events-none" />
+                                        <img
+                                            src={step.img}
+                                            alt={`שלב ${step.num}: ${step.title} - ${step.desc} במערכת AltruBiz CRM`}
+                                            className="relative w-full h-auto rounded-2xl shadow-xl group-hover:scale-[1.02] group-hover:-translate-y-1 transition-all duration-300 bg-white"
+                                            loading="lazy"
+                                        />
+                                    </div>
                                 </div>
-                            </div>
 
                             {/* Content */}
                             <div className="w-full md:w-1/2 space-y-6">
@@ -151,9 +155,10 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ onNavigate }) => {
                                 </div>
                             </div>
                         </motion.div>
-                    ))}
-                </div>
+                    );
+                })}
             </div>
-        </section>
-    );
+        </div>
+    </section>
+);
 };

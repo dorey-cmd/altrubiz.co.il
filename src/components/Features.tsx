@@ -132,36 +132,46 @@ export const Features: React.FC<FeaturesProps> = ({ onNavigate }) => {
                     </div>
                 </div>
 
-                {/* Staggered Feature Cards with HoverCard Micro-Interactions */}
+                {/* Staggered Feature Cards with Lateral Side Entrance & Breathing States */}
                 <StaggerGroup className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {features.map((feature, index) => (
-                        <StaggerItem key={index}>
-                            <HoverCard className="p-8 rounded-2xl bg-white shadow-md hover:shadow-xl border border-gray-100 hover:border-accent/40 group flex flex-col items-center text-center relative overflow-hidden h-full">
-                                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-gray-50/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                    {features.map((feature, index) => {
+                        const sideDirection = index % 2 === 0 ? 'right' : 'left';
+                        const isProminent = index === 0 || index === 2 || index === 4;
 
-                                <img
-                                    src={feature.icon}
-                                    alt={`אייקון תכונה: ${feature.title} - ${feature.desc} במערכת AltruBiz CRM`}
-                                    className="w-20 h-20 mb-6 object-contain group-hover:scale-105 transition-transform duration-300 relative z-10"
-                                />
-
-                                <h3 className="text-xl font-bold text-primary mb-3 relative z-10">{feature.title}</h3>
-                                <p className="text-gray-600 leading-relaxed font-medium relative z-10 mb-6 flex-1">
-                                    {feature.desc}
-                                </p>
-
-                                {/* Subtle Editorial Knowledge Connection */}
-                                <a
-                                    href={feature.hubUrl}
-                                    onClick={(e) => handleLinkClick(e, feature.hubUrl)}
-                                    className="relative z-10 inline-flex items-center gap-1.5 text-xs font-bold text-slate-600 hover:text-primary bg-slate-50 hover:bg-blue-50/70 border border-slate-200/80 hover:border-primary/30 px-3 py-1.5 rounded-full transition-all group/link"
+                        return (
+                            <StaggerItem key={index} direction={sideDirection} distance="sideSlide">
+                                <HoverCard 
+                                    breathing={isProminent}
+                                    liftDistance={5}
+                                    scale={1.018}
+                                    className="p-8 rounded-2xl bg-white shadow-md hover:shadow-2xl border border-gray-100 hover:border-primary/40 group flex flex-col items-center text-center relative overflow-hidden h-full transition-all duration-300"
                                 >
-                                    <span>{feature.hubLabel}</span>
-                                    <span className="group-hover/link:-translate-x-0.5 transition-transform text-primary font-bold">←</span>
-                                </a>
-                            </HoverCard>
-                        </StaggerItem>
-                    ))}
+                                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-50/20 to-blue-50/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+
+                                    <img
+                                        src={feature.icon}
+                                        alt={`אייקון תכונה: ${feature.title} - ${feature.desc} במערכת AltruBiz CRM`}
+                                        className="w-20 h-20 mb-6 object-contain group-hover:scale-110 group-hover:-rotate-1 transition-transform duration-300 relative z-10"
+                                    />
+
+                                    <h3 className="text-xl font-bold text-primary mb-3 relative z-10 group-hover:text-blue-700 transition-colors">{feature.title}</h3>
+                                    <p className="text-gray-600 leading-relaxed font-medium relative z-10 mb-6 flex-1">
+                                        {feature.desc}
+                                    </p>
+
+                                    {/* Subtle Editorial Knowledge Connection */}
+                                    <a
+                                        href={feature.hubUrl}
+                                        onClick={(e) => handleLinkClick(e, feature.hubUrl)}
+                                        className="relative z-10 inline-flex items-center gap-1.5 text-xs font-bold text-slate-600 hover:text-primary bg-slate-50 hover:bg-blue-50/80 border border-slate-200/80 hover:border-primary/40 px-3.5 py-1.5 rounded-full transition-all group/link shadow-2xs hover:shadow-xs"
+                                    >
+                                        <span>{feature.hubLabel}</span>
+                                        <span className="group-hover/link:-translate-x-1 transition-transform text-primary font-bold">←</span>
+                                    </a>
+                                </HoverCard>
+                            </StaggerItem>
+                        );
+                    })}
                 </StaggerGroup>
 
                 <div className="text-center mt-16 relative z-10">

@@ -14,6 +14,7 @@ interface StaggerItemProps {
     children: React.ReactNode;
     className?: string;
     distance?: keyof typeof MOTION_DISTANCES | number;
+    direction?: 'left' | 'right' | 'up' | 'none';
 }
 
 const containerVariants = (staggerDelay: number, delayChildren: number) => ({
@@ -27,17 +28,23 @@ const containerVariants = (staggerDelay: number, delayChildren: number) => ({
     }
 });
 
-const itemVariants = (distancePx: number) => ({
-    hidden: { opacity: 0, y: distancePx },
-    visible: {
-        opacity: 1,
-        y: 0,
-        transition: {
-            duration: MOTION_DURATIONS.normal,
-            ease: MOTION_EASINGS.enter
+const itemVariants = (distancePx: number, direction: 'left' | 'right' | 'up' | 'none') => {
+    const initialX = direction === 'right' ? distancePx : direction === 'left' ? -distancePx : 0;
+    const initialY = direction === 'up' ? distancePx : 0;
+
+    return {
+        hidden: { opacity: 0, x: initialX, y: initialY },
+        visible: {
+            opacity: 1,
+            x: 0,
+            y: 0,
+            transition: {
+                duration: MOTION_DURATIONS.normal,
+                ease: MOTION_EASINGS.enter
+            }
         }
-    }
-});
+    };
+};
 
 export const StaggerGroup: React.FC<StaggerGroupProps> = ({
     children,
@@ -89,7 +96,8 @@ export const StaggerGroup: React.FC<StaggerGroupProps> = ({
 export const StaggerItem: React.FC<StaggerItemProps> = ({
     children,
     className = '',
-    distance = 'medium'
+    distance = 'sideSlide',
+    direction = 'right'
 }) => {
     const prefersReducedMotion = usePrefersReducedMotion();
     const distancePx = typeof distance === 'number' ? distance : MOTION_DISTANCES[distance];
@@ -101,7 +109,7 @@ export const StaggerItem: React.FC<StaggerItemProps> = ({
     return (
         <motion.div
             className={className}
-            variants={itemVariants(distancePx)}
+            variants={itemVariants(distancePx, direction)}
         >
             {children}
         </motion.div>

@@ -44,11 +44,11 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
                 style={{ y: yText, opacity: opacityText }}
                 className="relative z-20 flex flex-col items-center justify-center h-full text-center px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto pt-20"
             >
-                {/* Logo */}
+                {/* Logo - Instant stable anchor */}
                 <motion.img
-                    initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.95 }}
+                    initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.98 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.4, ease: MOTION_EASINGS.enter }}
+                    transition={{ duration: 0.35, ease: MOTION_EASINGS.enter }}
                     src="https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/688019c09a4c2d4b4398bf3c.png"
                     alt="לוגו אלטרוביז CRM"
                     className="w-64 md:w-80 mb-10 drop-shadow-2xl hover:scale-105 transition-transform duration-300"
@@ -56,40 +56,40 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
 
                 {/* H1 - Immediate, High-Legibility & Protected LCP */}
                 <motion.h1
-                    initial={prefersReducedMotion ? false : { opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.35, ease: MOTION_EASINGS.enter }}
+                    initial={prefersReducedMotion ? false : { opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.3, ease: MOTION_EASINGS.enter }}
                     className="text-4xl md:text-6xl/tight font-bold text-white mb-6 drop-shadow-lg"
                 >
                     אלטרוביז CRM - להכניס את השיטה לסיסטם
                 </motion.h1>
 
                 <motion.p
-                    initial={prefersReducedMotion ? false : { opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4, delay: prefersReducedMotion ? 0 : 0.1, ease: MOTION_EASINGS.enter }}
+                    initial={prefersReducedMotion ? false : { opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.35, delay: prefersReducedMotion ? 0 : 0.08, ease: MOTION_EASINGS.enter }}
                     className="text-lg md:text-2xl text-gray-100 mb-8 max-w-3xl leading-relaxed drop-shadow-md"
                 >
                     המערכת האחת שמרכזת את כל הכלים כדי לגדל את העסק הדיגיטלי - עם חיבור אמיתי בין טכנולוגיה, אוטומציה ובינה מלאכותית.
                 </motion.p>
 
                 <motion.p
-                    initial={prefersReducedMotion ? false : { opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4, delay: prefersReducedMotion ? 0 : 0.15, ease: MOTION_EASINGS.enter }}
+                    initial={prefersReducedMotion ? false : { opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.35, delay: prefersReducedMotion ? 0 : 0.12, ease: MOTION_EASINGS.enter }}
                     className="text-base md:text-lg text-gray-200 mb-10 max-w-2xl"
                 >
                     נמאס לקפוץ בין עשר מערכות שונות? אלטרוביז מאחדת את כל מה שצריך - במקום אחד, פשוט וחכם.
                 </motion.p>
 
                 <motion.a
-                    initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.95 }}
+                    initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.98 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.3, delay: prefersReducedMotion ? 0 : 0.2 }}
-                    whileHover={prefersReducedMotion ? {} : { scale: 1.04, y: -2 }}
+                    transition={{ duration: 0.3, delay: prefersReducedMotion ? 0 : 0.16 }}
+                    whileHover={prefersReducedMotion ? {} : { scale: 1.05, y: -2 }}
                     whileTap={prefersReducedMotion ? {} : { scale: 0.97 }}
                     href="#pricing"
-                    className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-black bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-full shadow-[0_0_20px_rgba(234,179,8,0.5)] transition-shadow duration-300 hover:shadow-[0_0_28px_rgba(234,179,8,0.7)]"
+                    className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-black bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-full shadow-[0_0_20px_rgba(234,179,8,0.5)] hover:shadow-[0_0_30px_rgba(234,179,8,0.75)] transition-all duration-300 animate-subtle-glow"
                 >
                     ✨ מתחילים כאן
                 </motion.a>

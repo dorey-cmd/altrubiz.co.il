@@ -99,8 +99,8 @@ export const Pricing = () => {
 
                 <StaggerGroup className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto items-stretch">
                     {/* PRO (Green) - Right Visually */}
-                    <StaggerItem>
-                        <HoverCard className="bg-white rounded-[2rem] shadow-xl p-8 flex flex-col items-center text-center relative border-2 border-[#22C55E] h-full">
+                    <StaggerItem direction="right" distance="sideSlide">
+                        <HoverCard liftDistance={6} scale={1.015} className="bg-white rounded-[2rem] shadow-xl hover:shadow-2xl p-8 flex flex-col items-center text-center relative border-2 border-[#22C55E] h-full transition-all duration-300">
                             <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#22C55E] text-white px-4 py-1 rounded-full text-sm font-bold shadow-md whitespace-nowrap">
                                 התחלה קלה
                             </div>
@@ -143,13 +143,13 @@ export const Pricing = () => {
                     </StaggerItem>
 
                     {/* SMART (Yellow) - Center Visually */}
-                    <StaggerItem>
-                        <HoverCard className="bg-white rounded-[2rem] shadow-2xl p-8 flex flex-col items-center text-center relative md:-translate-y-4 border-4 border-[#F59E0B] z-10 h-full">
-                            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#F59E0B] text-white px-4 py-1 rounded-full text-sm font-bold shadow-md whitespace-nowrap">
-                                הכי פופולרי
+                    <StaggerItem direction="none">
+                        <HoverCard breathing={true} liftDistance={8} scale={1.02} className="bg-white rounded-[2rem] shadow-2xl p-8 flex flex-col items-center text-center relative md:-translate-y-4 border-4 border-[#F59E0B] z-10 h-full transition-all duration-300">
+                            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gradient-to-r from-yellow-500 to-amber-500 text-white px-6 py-1.5 rounded-full text-base font-black shadow-lg uppercase tracking-wide whitespace-nowrap animate-subtle-glow">
+                                המסלול הנבחר ⭐
                             </div>
 
-                            <h3 className="text-2xl font-bold text-[#F59E0B] mb-2 flex items-center gap-2 mt-2">
+                            <h3 className="text-2xl font-bold text-[#F59E0B] mb-2 flex items-center gap-2 mt-4">
                                 SMART <span className="w-5 h-5 bg-[#F59E0B] rounded-sm inline-block" />
                             </h3>
                             <div className="flex items-start justify-center gap-1 mb-2 text-[#0F6CBD]">
@@ -187,8 +187,8 @@ export const Pricing = () => {
                     </StaggerItem>
 
                     {/* POWER (Blue) - Left Visually */}
-                    <StaggerItem>
-                        <HoverCard className="bg-white rounded-[2rem] shadow-xl p-8 flex flex-col items-center text-center relative border-2 border-[#0F6CBD] h-full">
+                    <StaggerItem direction="left" distance="sideSlide">
+                        <HoverCard liftDistance={6} scale={1.015} className="bg-white rounded-[2rem] shadow-xl hover:shadow-2xl p-8 flex flex-col items-center text-center relative border-2 border-[#0F6CBD] h-full transition-all duration-300">
                             <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#0F6CBD] text-white px-4 py-1 rounded-full text-sm font-bold shadow-md whitespace-nowrap">
                                 הכל כלול
                             </div>
