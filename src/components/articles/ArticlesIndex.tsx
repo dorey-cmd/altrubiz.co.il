@@ -1,11 +1,16 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
     BookOpen, 
     Clock, 
     ArrowLeft, 
     Sparkles, 
-    FileText 
+    FileText,
+    Search,
+    ChevronDown,
+    Check,
+    X,
+    Filter
 } from 'lucide-react';
 import { ARTICLES, Article } from '../../data/articles';
 import { Breadcrumbs } from '../common/Breadcrumbs';
@@ -41,6 +46,27 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate, onOpen
     const [shuffledArticles] = useState<Article[]>(() => shuffleArray(PUBLIC_ARTICLES));
     const [selectedCategory, setSelectedCategory] = useState<string>('all');
     const [searchQuery, setSearchQuery] = useState<string>('');
+    const [isCategoryOpen, setIsCategoryOpen] = useState(false);
+    const categoryDropdownRef = useRef<HTMLDivElement>(null);
+
+    // Close category dropdown on click outside
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (categoryDropdownRef.current && !categoryDropdownRef.current.contains(event.target as Node)) {
+                setIsCategoryOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
+
+    const categoryCounts = useMemo(() => {
+        const counts: Record<string, number> = { all: PUBLIC_ARTICLES.length };
+        PUBLIC_ARTICLES.forEach(a => {
+            counts[a.category] = (counts[a.category] || 0) + 1;
+        });
+        return counts;
+    }, []);
 
     const breadcrumbItems = [
         { name: 'דף הבית', path: '/' },
@@ -79,32 +105,119 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate, onOpen
                     כל מה שצריך לדעת על אוטומציה עסקית, חיבורי WhatsApp Business, שיווק אחראי ומדיניות פלטפורמות - כדי להכניס את השיטה לסיסטם.
                 </p>
 
-                {/* Filter and Search Bar */}
-                <div className="max-w-xl mx-auto flex flex-col sm:flex-row gap-3 items-center justify-center">
-                    <input
-                        type="text"
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        placeholder="חיפוש מאמר או נושא..."
-                        aria-label="חיפוש מאמר או נושא"
-                        className="w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-white text-slate-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-secondary focus:border-secondary text-sm shadow-sm"
-                    />
+                {/* Unified Search & Category Filter Toolbar */}
+                <div className="max-w-3xl mx-auto">
+                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-white/80 backdrop-blur-sm border border-slate-200/90 rounded-2xl p-2 sm:p-2.5 shadow-xs">
+                        {/* Category Filter Dropdown (Right side in RTL) */}
+                        <div ref={categoryDropdownRef} className="relative z-20 flex-shrink-0">
+                            <button
+                                type="button"
+                                onClick={() => setIsCategoryOpen(!isCategoryOpen)}
+                                aria-expanded={isCategoryOpen}
+                                aria-haspopup="listbox"
+                                className="w-full sm:w-auto inline-flex items-center justify-between gap-3 px-4 py-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200/80 hover:border-secondary/40 text-slate-800 text-xs sm:text-sm font-bold shadow-2xs transition-all min-w-[200px]"
+                            >
+                                <div className="flex items-center gap-2">
+                                    <Filter size={15} className="text-secondary flex-shrink-0" />
+                                    <span className="truncate max-w-[170px]">
+                                        {selectedCategory === 'all' ? 'כל הנושאים' : selectedCategory}
+                                    </span>
+                                    <span className="px-1.5 py-0.5 text-[11px] font-bold rounded-full bg-slate-200/70 text-slate-600">
+                                        {categoryCounts[selectedCategory] || filteredArticles.length}
+                                    </span>
+                                </div>
+                                <ChevronDown 
+                                    size={15} 
+                                    className={`text-slate-400 transition-transform duration-200 ${isCategoryOpen ? 'rotate-180 text-secondary' : ''}`} 
+                                />
+                            </button>
 
-                    {categories.length > 1 && (
-                        <div className="flex items-center gap-2 overflow-x-auto w-full sm:w-auto pb-1">
-                            {categories.map((cat) => (
+                            <AnimatePresence>
+                                {isCategoryOpen && (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 6, scale: 0.98 }}
+                                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                                        exit={{ opacity: 0, y: 4, scale: 0.98 }}
+                                        transition={{ duration: 0.16, ease: 'easeOut' }}
+                                        role="listbox"
+                                        className="absolute right-0 top-full mt-2 w-72 max-h-72 sm:max-h-80 overflow-y-auto overscroll-contain bg-white rounded-2xl border border-slate-200 shadow-2xl p-1.5 space-y-0.5 text-right z-30 divide-y divide-slate-100/50"
+                                    >
+                                        {categories.map((cat) => {
+                                            const isSelected = selectedCategory === cat;
+                                            const count = categoryCounts[cat] || 0;
+                                            return (
+                                                <button
+                                                    key={cat}
+                                                    type="button"
+                                                    role="option"
+                                                    aria-selected={isSelected}
+                                                    onClick={() => {
+                                                        setSelectedCategory(cat);
+                                                        setIsCategoryOpen(false);
+                                                    }}
+                                                    className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all ${
+                                                        isSelected
+                                                            ? 'bg-cyan-50 text-secondary font-bold'
+                                                            : 'text-slate-700 hover:bg-slate-50 hover:text-slate-900'
+                                                    }`}
+                                                >
+                                                    <span className="truncate">{cat === 'all' ? 'כל הנושאים והמדריכים' : cat}</span>
+                                                    <div className="flex items-center gap-2 flex-shrink-0 mr-2">
+                                                        <span className="text-[11px] px-1.5 py-0.5 rounded-full bg-slate-100 text-slate-500 font-semibold">
+                                                            {count}
+                                                        </span>
+                                                        {isSelected && <Check size={14} className="text-secondary" />}
+                                                    </div>
+                                                </button>
+                                            );
+                                        })}
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        </div>
+
+                        {/* Search Input Box (Left side in RTL) */}
+                        <div className="relative flex-1 sm:max-w-xs md:max-w-sm">
+                            <Search size={16} className="text-slate-400 absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                            <input
+                                type="text"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                placeholder="חיפוש מאמר או נושא..."
+                                aria-label="חיפוש מאמר או נושא"
+                                className="w-full pr-10 pl-9 py-2.5 rounded-xl border border-transparent bg-slate-50 hover:bg-slate-100/80 focus:bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-secondary/30 focus:border-secondary text-xs sm:text-sm transition-all"
+                            />
+                            {searchQuery.length > 0 && (
                                 <button
-                                    key={cat}
-                                    onClick={() => setSelectedCategory(cat)}
-                                    className={`px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all ${
-                                        selectedCategory === cat
-                                            ? 'bg-secondary text-white shadow-md shadow-secondary/20'
-                                            : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-200'
-                                    }`}
+                                    type="button"
+                                    onClick={() => setSearchQuery('')}
+                                    className="absolute left-3 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-700 transition-colors"
+                                    aria-label="איפוס חיפוש"
                                 >
-                                    {cat === 'all' ? 'הכל' : cat}
+                                    <X size={14} />
                                 </button>
-                            ))}
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Active Filter Indicator */}
+                    {(selectedCategory !== 'all' || searchQuery.trim().length > 0) && (
+                        <div className="flex items-center justify-between px-3 py-1.5 mt-2 text-xs text-slate-500">
+                            <span>
+                                נמצאו <strong className="text-slate-800 font-bold">{filteredArticles.length}</strong> מאמרים
+                                {selectedCategory !== 'all' && ` בנושא "${selectedCategory}"`}
+                                {searchQuery.trim().length > 0 && ` עבור "${searchQuery}"`}
+                            </span>
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setSelectedCategory('all');
+                                    setSearchQuery('');
+                                }}
+                                className="font-bold text-secondary hover:underline"
+                            >
+                                איפוס סינון
+                            </button>
                         </div>
                     )}
                 </div>
