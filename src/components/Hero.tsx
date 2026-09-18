@@ -17,15 +17,16 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
         offset: ['start start', 'end start']
     });
 
-    const yVideo = useTransform(scrollYProgress, [0, 1], [0, prefersReducedMotion ? 0 : 100]);
-    const yContent = useTransform(scrollYProgress, [0, 1], [0, prefersReducedMotion ? 0 : -35]);
+    const yVideo = useTransform(scrollYProgress, [0, 1], ['-5%', prefersReducedMotion ? '-5%' : '25%']);
+    const scaleVideo = useTransform(scrollYProgress, [0, 1], [1.1, prefersReducedMotion ? 1.1 : 1.25]);
+    const yContent = useTransform(scrollYProgress, [0, 1], [0, prefersReducedMotion ? 0 : -50]);
 
     return (
         <section ref={heroRef} className="relative w-full h-[85vh] md:h-[95vh] min-h-[600px] overflow-hidden bg-gradient-to-b from-slate-950 via-slate-900 to-black text-right" dir="rtl">
-            {/* Video Background with Gentle Scroll Parallax */}
+            {/* Video Background with Pronounced True Scroll Parallax */}
             <motion.div 
-                style={{ y: yVideo }}
-                className="absolute inset-0 w-full h-full pointer-events-none"
+                style={{ y: yVideo, scale: scaleVideo }}
+                className="absolute -top-[12%] -bottom-[12%] inset-x-0 w-full h-[124%] pointer-events-none origin-center will-change-transform"
             >
                 <video
                     className="w-full h-full object-cover"
@@ -48,15 +49,19 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
                 style={{ y: yContent }}
                 className="relative z-20 flex flex-col items-center justify-center h-full text-center px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto pt-20"
             >
-                {/* Logo - Instant stable anchor */}
-                <motion.img
+                {/* Logo - Elegant white capsule surface ensuring brand blue contrast (Enlarged by 10%) */}
+                <motion.div
                     initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.98 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.35, ease: MOTION_EASINGS.enter }}
-                    src="https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/688019c09a4c2d4b4398bf3c.png"
-                    alt="לוגו אלטרוביז CRM"
-                    className="w-64 md:w-80 mb-10 drop-shadow-2xl hover:scale-105 transition-transform duration-300"
-                />
+                    className="bg-white/95 backdrop-blur-md px-6 sm:px-8 py-3.5 sm:py-4 rounded-3xl shadow-[0_12px_40px_rgba(0,0,0,0.35)] border border-white/60 mb-10 inline-flex items-center justify-center hover:scale-105 transition-transform duration-300"
+                >
+                    <img
+                        src="https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/688019c09a4c2d4b4398bf3c.png"
+                        alt="לוגו אלטרוביז CRM"
+                        className="w-72 md:w-[22rem] h-auto object-contain"
+                    />
+                </motion.div>
 
                 {/* H1 - Immediate, High-Legibility & Protected LCP */}
                 <motion.h1
