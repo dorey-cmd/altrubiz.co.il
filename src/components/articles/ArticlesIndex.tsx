@@ -134,24 +134,23 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate, onOpen
                             </div>
                         ) : (
                             <div className="space-y-6">
-                                {filteredArticles.map((article: Article, index: number) => (
+                                {filteredArticles.map((article: Article) => (
                                     <motion.div 
                                         key={article.slug}
-                                        initial={prefersReducedMotion ? false : { opacity: 0, x: 24 }}
+                                        initial={prefersReducedMotion ? false : { opacity: 0, x: 18 }}
                                         whileInView={{ opacity: 1, x: 0 }}
-                                        viewport={{ once: true, margin: "0px 0px -50px 0px", amount: 0.1 }}
+                                        viewport={{ once: true, margin: "0px 0px 20px 0px", amount: 0.05 }}
                                         transition={{ 
-                                            duration: 0.65, 
-                                            delay: index < 3 ? index * 0.08 : 0, 
-                                            ease: [0.16, 1, 0.3, 1] 
+                                            duration: 0.5, 
+                                            ease: [0.25, 1, 0.5, 1] 
                                         }}
-                                        className="group relative bg-white border border-slate-200/90 hover:border-secondary/40 rounded-3xl p-5 sm:p-6 shadow-sm hover:shadow-xl transition-[border-color,box-shadow] duration-300 flex flex-col md:flex-row gap-5 md:gap-6 items-stretch will-change-transform"
+                                        className="group relative bg-white border border-slate-200/90 hover:border-secondary/40 rounded-3xl p-5 sm:p-6 shadow-sm hover:shadow-xl transition-[border-color,box-shadow] duration-300 flex flex-col md:flex-row gap-5 md:gap-6 items-stretch transform-gpu"
                                     >
                                         {/* Cover Image Container */}
                                         {article.coverImage && (
                                             <div 
                                                 onClick={() => onNavigate(article.publicPath)}
-                                                className="w-full md:w-56 lg:w-60 flex-shrink-0 cursor-pointer overflow-hidden rounded-2xl bg-slate-100 shadow-xs relative aspect-video md:aspect-auto min-h-[170px] animate-ambient-breath"
+                                                className="w-full md:w-56 lg:w-60 flex-shrink-0 cursor-pointer overflow-hidden rounded-2xl bg-slate-100 shadow-xs relative aspect-video md:aspect-auto min-h-[170px]"
                                             >
                                                 <img 
                                                     src={article.coverImage.src} 
