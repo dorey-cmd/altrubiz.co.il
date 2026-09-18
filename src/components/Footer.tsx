@@ -140,6 +140,14 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenBookingModal, 
                         מדריך דיוור WhatsApp ו-Meta
                     </a>
                     <span className="text-gray-300 hidden sm:inline">•</span>
+                    <a 
+                        href="/premium-websites" 
+                        onClick={(e) => handleLinkClick(e, '/premium-websites')}
+                        className="text-gray-600 hover:text-primary transition-colors font-medium"
+                    >
+                        אתרי פרימיום לעסקים
+                    </a>
+                    <span className="text-gray-300 hidden sm:inline">•</span>
                     <a
                         href={IL_MARKET.legalEntity.privacyUrl}
                         onClick={(e) => handleLinkClick(e, IL_MARKET.legalEntity.privacyUrl)}

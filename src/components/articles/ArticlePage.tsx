@@ -1368,23 +1368,11 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                     <h2 className="text-2xl sm:text-3xl font-black mb-4 leading-snug">
                                         {renderFormattedText(article.keyTakeaway, onNavigate)}
                                     </h2>
-                                    <div className="bg-white/90 backdrop-blur-sm p-4 sm:p-5 rounded-2xl text-slate-900 font-medium text-base sm:text-lg leading-relaxed border border-white/50">
-                                        {article.interactiveTheme ? (
-                                            <div>
-                                                <span>אין צורך לנסות להפעיל את כל 10 הפעולות בבת אחת. </span>
-                                                <span className="font-extrabold text-amber-950">מומלץ להתחיל מפעולה אחת בלבד </span>
-                                                <span>שפותרת את המכשול הכי מתסכל בעסק השבוע. לאחר שהיא עובדת בצורה חלקה ומייצרת שקט נפשי, מתקדמים לפעולה הבאה.</span>
-                                            </div>
-                                        ) : (
-                                            <div>
-                                                אם אתם מסתכלים על רשימת נמענים ושואלים:
-                                                <div className="font-bold text-amber-950 my-1 italic">
-                                                    &quot;האם האנשים האלה באמת יצפו לקבל מאיתנו את ההודעה הזאת?&quot;
-                                                </div>
-                                                ואתם לא בטוחים בתשובה - <span className="font-black text-rose-700 underline decoration-rose-400">עדיף לא לשלוח.</span>
-                                            </div>
-                                        )}
-                                    </div>
+                                    {(article.heroSummary || article.description) && (
+                                        <div className="bg-white/90 backdrop-blur-sm p-4 sm:p-5 rounded-2xl text-slate-900 font-medium text-base sm:text-lg leading-relaxed border border-white/50">
+                                            {renderFormattedText(article.heroSummary || article.description, onNavigate)}
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         )}

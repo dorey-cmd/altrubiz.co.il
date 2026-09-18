@@ -186,7 +186,8 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
             'crm-quick-wins-guide',
             'quote-follow-up-guide',
             'customer-handoff-context-guide',
-            'lead-qualification-guide'
+            'lead-qualification-guide',
+            'premium-websites-guide'
         ],
         recommendedNextSlugs: ['whatsapp-in-crm', 'sales-pipeline', 'roi-calculator', 'salespeople-hate-crm-adoption-guide'],
         relevantNextActions: ['meeting', 'whatsapp', 'pricing', 'guide', 'assessment'],
