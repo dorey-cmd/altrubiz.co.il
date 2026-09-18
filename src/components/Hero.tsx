@@ -39,6 +39,39 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
             {/* Overlay */}
             <div className="absolute inset-0 bg-black/50 z-10" />
 
+            {/* Floating Multi-Layer Parallax Badges (SiteOS Dynamic Motion) */}
+            <motion.div
+                style={{ y: useTransform(scrollYProgress, [0, 1], [0, prefersReducedMotion ? 0 : -100]) }}
+                className="hidden lg:flex absolute top-28 right-6 xl:right-16 z-20 items-center gap-3 bg-white/10 backdrop-blur-md border border-white/20 px-4 py-2.5 rounded-2xl text-white shadow-2xl animate-ambient-float pointer-events-auto hover:bg-white/20 transition-all cursor-default"
+            >
+                <span className="w-2.5 h-2.5 rounded-full bg-green-400 animate-pulse shadow-[0_0_8px_#4ade80]" />
+                <span className="text-sm font-bold tracking-wide">⚡ וואטסאפ Cloud API רשמי</span>
+            </motion.div>
+
+            <motion.div
+                style={{ y: useTransform(scrollYProgress, [0, 1], [0, prefersReducedMotion ? 0 : -70]) }}
+                className="hidden lg:flex absolute top-36 left-6 xl:left-16 z-20 items-center gap-3 bg-white/10 backdrop-blur-md border border-white/20 px-4 py-2.5 rounded-2xl text-white shadow-2xl animate-ambient-float-delayed pointer-events-auto hover:bg-white/20 transition-all cursor-default"
+            >
+                <span className="w-2.5 h-2.5 rounded-full bg-purple-400 animate-pulse shadow-[0_0_8px_#c084fc]" />
+                <span className="text-sm font-bold tracking-wide">🤖 סוכני AI ואוטומציות 24/7</span>
+            </motion.div>
+
+            <motion.div
+                style={{ y: useTransform(scrollYProgress, [0, 1], [0, prefersReducedMotion ? 0 : -130]) }}
+                className="hidden xl:flex absolute bottom-36 right-12 z-20 items-center gap-3 bg-white/10 backdrop-blur-md border border-white/20 px-4 py-2.5 rounded-2xl text-white shadow-2xl animate-ambient-float-delayed pointer-events-auto hover:bg-white/20 transition-all cursor-default"
+            >
+                <span className="w-2.5 h-2.5 rounded-full bg-blue-400 animate-pulse shadow-[0_0_8px_#60a5fa]" />
+                <span className="text-sm font-bold tracking-wide">📊 פייפליין מכירות חזותי</span>
+            </motion.div>
+
+            <motion.div
+                style={{ y: useTransform(scrollYProgress, [0, 1], [0, prefersReducedMotion ? 0 : -90]) }}
+                className="hidden xl:flex absolute bottom-32 left-12 z-20 items-center gap-3 bg-white/10 backdrop-blur-md border border-white/20 px-4 py-2.5 rounded-2xl text-white shadow-2xl animate-ambient-float pointer-events-auto hover:bg-white/20 transition-all cursor-default"
+            >
+                <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse shadow-[0_0_8px_#fbbf24]" />
+                <span className="text-sm font-bold tracking-wide">🎯 מענה מידי לכל ליד חדש</span>
+            </motion.div>
+
             {/* Content Container */}
             <motion.div
                 style={{ y: yText, opacity: opacityText }}

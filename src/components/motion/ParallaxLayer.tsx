@@ -20,14 +20,14 @@ interface ParallaxLayerProps {
 export const ParallaxLayer: React.FC<ParallaxLayerProps> = ({
     children,
     className = '',
-    speed = 40,
+    speed = 50,
     style = {}
 }) => {
     const prefersReducedMotion = usePrefersReducedMotion();
-    const ref = useRef<HTMLDivElement>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
 
     const { scrollYProgress } = useScroll({
-        target: ref,
+        target: containerRef,
         offset: ['start end', 'end start']
     });
 
@@ -35,23 +35,22 @@ export const ParallaxLayer: React.FC<ParallaxLayerProps> = ({
 
     if (prefersReducedMotion) {
         return (
-            <div ref={ref} className={className} style={style}>
+            <div className={className} style={style}>
                 {children}
             </div>
         );
     }
 
     return (
-        <motion.div
-            ref={ref}
-            className={className}
-            style={{
-                ...style,
-                y,
-                willChange: 'transform'
-            }}
-        >
-            {children}
-        </motion.div>
+        <div ref={containerRef} className={`relative ${className}`} style={style}>
+            <motion.div
+                style={{
+                    y,
+                    willChange: 'transform'
+                }}
+            >
+                {children}
+            </motion.div>
+        </div>
     );
 };

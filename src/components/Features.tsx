@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion';
-import { StaggerGroup, StaggerItem, HoverCard } from './motion';
+import { StaggerGroup, StaggerItem, HoverCard, ParallaxLayer } from './motion';
 import { getCanonicalRecognitionSituations, getFeatureKnowledgeLink } from '../data/knowledgeGraph';
 
 interface FeatureDef {
@@ -63,7 +63,6 @@ export const Features: React.FC<FeaturesProps> = ({ onNavigate }) => {
         offset: ["start end", "end start"]
     });
 
-    const yBackground = useTransform(scrollYProgress, [0, 1], [0, prefersReducedMotion ? 0 : -80]);
     const rotateBackground = useTransform(scrollYProgress, [0, 1], [0, prefersReducedMotion ? 0 : 30]);
 
     const recognitionSituations = getCanonicalRecognitionSituations();
@@ -85,14 +84,18 @@ export const Features: React.FC<FeaturesProps> = ({ onNavigate }) => {
 
     return (
         <section ref={ref} id="why-altrubiz" className="relative py-24 bg-white text-right overflow-hidden" dir="rtl">
-            {/* Parallax Background Elements (GPU transform, disabled on reduced-motion) */}
+            {/* Parallax Background Ambient Layers (SiteOS Multi-Depth Standard) */}
             <motion.div
-                style={{ y: yBackground, rotate: rotateBackground }}
-                className="absolute top-10 left-10 w-64 h-64 bg-primary/5 rounded-full blur-3xl -z-0 pointer-events-none"
+                style={{ y: useTransform(scrollYProgress, [0, 1], [0, prefersReducedMotion ? 0 : -140]), rotate: rotateBackground }}
+                className="absolute top-10 left-0 w-96 h-96 bg-gradient-to-tr from-blue-500/15 to-cyan-400/15 rounded-full blur-3xl pointer-events-none -z-0"
             />
             <motion.div
-                style={{ y: useTransform(scrollYProgress, [0, 1], [0, prefersReducedMotion ? 0 : 40]), right: 0 }}
-                className="absolute bottom-20 right-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl -z-0 pointer-events-none"
+                style={{ y: useTransform(scrollYProgress, [0, 1], [0, prefersReducedMotion ? 0 : 120]), right: -40 }}
+                className="absolute top-1/3 w-[30rem] h-[30rem] bg-gradient-to-bl from-amber-400/12 to-orange-400/10 rounded-full blur-3xl pointer-events-none -z-0"
+            />
+            <motion.div
+                style={{ y: useTransform(scrollYProgress, [0, 1], [0, prefersReducedMotion ? 0 : -100]), left: '15%' }}
+                className="absolute bottom-10 w-80 h-80 bg-blue-600/10 rounded-full blur-3xl pointer-events-none -z-0"
             />
 
             <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -109,7 +112,7 @@ export const Features: React.FC<FeaturesProps> = ({ onNavigate }) => {
                 <div className="mb-16 bg-slate-50/80 border border-slate-200/80 rounded-2xl p-5 sm:p-6 backdrop-blur-sm max-w-4xl mx-auto shadow-sm">
                     <div className="flex flex-col sm:flex-row items-center justify-between gap-3 mb-4 pb-3 border-b border-slate-200/60">
                         <div className="flex items-center gap-2 text-slate-800 font-bold text-sm sm:text-base">
-                            <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+                            <span className="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse shadow-[0_0_8px_#f59e0b]" />
                             <span>זה קורה אצלכם? מזהים את המצב בעסק ומעמיקים לפתרון:</span>
                         </div>
                         <span className="text-xs text-slate-500 font-medium hidden sm:inline">
@@ -132,43 +135,47 @@ export const Features: React.FC<FeaturesProps> = ({ onNavigate }) => {
                     </div>
                 </div>
 
-                {/* Staggered Feature Cards with Lateral Side Entrance & Breathing States */}
+                {/* Staggered Feature Cards with Lateral Side Entrance, Parallax Depths & Breathing */}
                 <StaggerGroup className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {features.map((feature, index) => {
                         const sideDirection = index % 2 === 0 ? 'right' : 'left';
                         const isProminent = index === 0 || index === 2 || index === 4;
+                        // Column parallax speed offset for rich 3D feeling as user scrolls
+                        const columnSpeed = (index % 3 === 1) ? 25 : (index % 3 === 2) ? -20 : 0;
 
                         return (
                             <StaggerItem key={index} direction={sideDirection} distance="sideSlide">
-                                <HoverCard 
-                                    breathing={isProminent}
-                                    liftDistance={5}
-                                    scale={1.018}
-                                    className="p-8 rounded-2xl bg-white shadow-md hover:shadow-2xl border border-gray-100 hover:border-primary/40 group flex flex-col items-center text-center relative overflow-hidden h-full transition-all duration-300"
-                                >
-                                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-50/20 to-blue-50/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-
-                                    <img
-                                        src={feature.icon}
-                                        alt={`אייקון תכונה: ${feature.title} - ${feature.desc} במערכת AltruBiz CRM`}
-                                        className="w-20 h-20 mb-6 object-contain group-hover:scale-110 group-hover:-rotate-1 transition-transform duration-300 relative z-10"
-                                    />
-
-                                    <h3 className="text-xl font-bold text-primary mb-3 relative z-10 group-hover:text-blue-700 transition-colors">{feature.title}</h3>
-                                    <p className="text-gray-600 leading-relaxed font-medium relative z-10 mb-6 flex-1">
-                                        {feature.desc}
-                                    </p>
-
-                                    {/* Subtle Editorial Knowledge Connection */}
-                                    <a
-                                        href={feature.hubUrl}
-                                        onClick={(e) => handleLinkClick(e, feature.hubUrl)}
-                                        className="relative z-10 inline-flex items-center gap-1.5 text-xs font-bold text-slate-600 hover:text-primary bg-slate-50 hover:bg-blue-50/80 border border-slate-200/80 hover:border-primary/40 px-3.5 py-1.5 rounded-full transition-all group/link shadow-2xs hover:shadow-xs"
+                                <ParallaxLayer speed={columnSpeed} className="h-full">
+                                    <HoverCard 
+                                        breathing={isProminent}
+                                        liftDistance={8}
+                                        scale={1.025}
+                                        className="p-8 rounded-2xl bg-white shadow-md hover:shadow-2xl border border-gray-100 hover:border-primary/40 group flex flex-col items-center text-center relative overflow-hidden h-full transition-all duration-300"
                                     >
-                                        <span>{feature.hubLabel}</span>
-                                        <span className="group-hover/link:-translate-x-1 transition-transform text-primary font-bold">←</span>
-                                    </a>
-                                </HoverCard>
+                                        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-50/20 to-blue-50/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+
+                                        <img
+                                            src={feature.icon}
+                                            alt={`אייקון תכונה: ${feature.title} - ${feature.desc} במערכת AltruBiz CRM`}
+                                            className="w-20 h-20 mb-6 object-contain group-hover:scale-110 group-hover:-rotate-2 transition-transform duration-300 relative z-10"
+                                        />
+
+                                        <h3 className="text-xl font-bold text-primary mb-3 relative z-10 group-hover:text-blue-700 transition-colors">{feature.title}</h3>
+                                        <p className="text-gray-600 leading-relaxed font-medium relative z-10 mb-6 flex-1">
+                                            {feature.desc}
+                                        </p>
+
+                                        {/* Subtle Editorial Knowledge Connection */}
+                                        <a
+                                            href={feature.hubUrl}
+                                            onClick={(e) => handleLinkClick(e, feature.hubUrl)}
+                                            className="relative z-10 inline-flex items-center gap-1.5 text-xs font-bold text-slate-600 hover:text-primary bg-slate-50 hover:bg-blue-50/80 border border-slate-200/80 hover:border-primary/40 px-3.5 py-1.5 rounded-full transition-all group/link shadow-2xs hover:shadow-xs"
+                                        >
+                                            <span>{feature.hubLabel}</span>
+                                            <span className="group-hover/link:-translate-x-1 transition-transform text-primary font-bold">←</span>
+                                        </a>
+                                    </HoverCard>
+                                </ParallaxLayer>
                             </StaggerItem>
                         );
                     })}

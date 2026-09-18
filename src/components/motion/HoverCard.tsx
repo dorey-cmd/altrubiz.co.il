@@ -22,8 +22,8 @@ interface HoverCardProps {
 export const HoverCard: React.FC<HoverCardProps> = ({
     children,
     className = '',
-    liftDistance = 4,
-    scale = 1.012,
+    liftDistance = 6,
+    scale = 1.02,
     breathing = false,
     onClick
 }) => {
@@ -41,15 +41,15 @@ export const HoverCard: React.FC<HoverCardProps> = ({
 
     return (
         <motion.div
-            className={`transition-shadow duration-300 will-change-transform ${breathingClass} ${className}`}
+            className={`transition-all duration-300 will-change-transform ${breathingClass} ${className}`}
             whileHover={{
                 y: -liftDistance,
                 scale: scale,
-                transition: { duration: 0.2, ease: MOTION_EASINGS.standard }
+                transition: { duration: 0.22, ease: MOTION_EASINGS.enter }
             }}
             whileTap={{
                 y: 0,
-                scale: 0.992,
+                scale: 0.99,
                 transition: { duration: 0.1 }
             }}
             onClick={onClick}

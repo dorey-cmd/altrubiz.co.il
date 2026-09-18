@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import CountUp from 'react-countup';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion';
-import { StaggerGroup, StaggerItem, HoverCard } from './motion';
+import { StaggerGroup, StaggerItem, HoverCard, ParallaxLayer } from './motion';
 
 // Updated Data with correct links
 const PRICES = {
@@ -35,9 +35,24 @@ export const Pricing = () => {
     const [isYearly, setIsYearly] = useState(true);
     const prefersReducedMotion = usePrefersReducedMotion();
     const prices = isYearly ? PRICES.yearly : PRICES.monthly;
+    const sectionRef = useRef<HTMLElement>(null);
+    const { scrollYProgress } = useScroll({
+        target: sectionRef,
+        offset: ['start end', 'end start']
+    });
 
     return (
-        <section id="pricing" className="py-24 bg-[#EBF0F6] text-right font-sans relative z-20 overflow-hidden" dir="rtl">
+        <section ref={sectionRef} id="pricing" className="py-24 bg-[#EBF0F6] text-right font-sans relative z-20 overflow-hidden" dir="rtl">
+            {/* Ambient Background Parallax Elements */}
+            <motion.div
+                style={{ y: useTransform(scrollYProgress, [0, 1], [0, prefersReducedMotion ? 0 : -80]) }}
+                className="absolute top-10 right-10 w-96 h-96 bg-blue-200/30 rounded-full blur-3xl pointer-events-none -z-0"
+            />
+            <motion.div
+                style={{ y: useTransform(scrollYProgress, [0, 1], [0, prefersReducedMotion ? 0 : 70]) }}
+                className="absolute bottom-10 left-10 w-96 h-96 bg-amber-200/30 rounded-full blur-3xl pointer-events-none -z-0"
+            />
+
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div className="text-center mb-16">
                     <h2 className="text-4xl md:text-5xl font-bold text-[#1E293B] mb-10">
@@ -100,7 +115,7 @@ export const Pricing = () => {
                 <StaggerGroup className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto items-stretch">
                     {/* PRO (Green) - Right Visually */}
                     <StaggerItem direction="right" distance="sideSlide">
-                        <HoverCard liftDistance={6} scale={1.015} className="bg-white rounded-[2rem] shadow-xl hover:shadow-2xl p-8 flex flex-col items-center text-center relative border-2 border-[#22C55E] h-full transition-all duration-300">
+                        <HoverCard liftDistance={8} scale={1.02} className="bg-white rounded-[2rem] shadow-xl hover:shadow-2xl p-8 flex flex-col items-center text-center relative border-2 border-[#22C55E] h-full transition-all duration-300">
                             <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#22C55E] text-white px-4 py-1 rounded-full text-sm font-bold shadow-md whitespace-nowrap">
                                 התחלה קלה
                             </div>
@@ -142,53 +157,55 @@ export const Pricing = () => {
                         </HoverCard>
                     </StaggerItem>
 
-                    {/* SMART (Yellow) - Center Visually */}
+                    {/* SMART (Yellow) - Center Visually with Parallax Floating Elevation */}
                     <StaggerItem direction="none">
-                        <HoverCard breathing={true} liftDistance={8} scale={1.02} className="bg-white rounded-[2rem] shadow-2xl p-8 flex flex-col items-center text-center relative md:-translate-y-4 border-4 border-[#F59E0B] z-10 h-full transition-all duration-300">
-                            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gradient-to-r from-yellow-500 to-amber-500 text-white px-6 py-1.5 rounded-full text-base font-black shadow-lg uppercase tracking-wide whitespace-nowrap animate-subtle-glow">
-                                המסלול הנבחר ⭐
-                            </div>
+                        <ParallaxLayer speed={25} className="h-full">
+                            <HoverCard breathing={true} liftDistance={10} scale={1.03} className="bg-white rounded-[2rem] shadow-2xl p-8 flex flex-col items-center text-center relative md:-translate-y-4 border-4 border-[#F59E0B] z-10 h-full transition-all duration-300">
+                                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gradient-to-r from-yellow-500 to-amber-500 text-white px-6 py-1.5 rounded-full text-base font-black shadow-lg uppercase tracking-wide whitespace-nowrap animate-subtle-glow">
+                                    המסלול הנבחר ⭐
+                                </div>
 
-                            <h3 className="text-2xl font-bold text-[#F59E0B] mb-2 flex items-center gap-2 mt-4">
-                                SMART <span className="w-5 h-5 bg-[#F59E0B] rounded-sm inline-block" />
-                            </h3>
-                            <div className="flex items-start justify-center gap-1 mb-2 text-[#0F6CBD]">
-                                <span className="text-3xl font-bold mt-2">₪</span>
-                                <span className="text-6xl font-bold">
-                                    {prefersReducedMotion ? prices.smart : <CountUp end={prices.smart} duration={0.4} preserveValue={true} />}
-                                </span>
-                            </div>
-                            <p className="text-gray-500 text-sm mb-6">+ מע"מ לחודש</p>
+                                <h3 className="text-2xl font-bold text-[#F59E0B] mb-2 flex items-center gap-2 mt-4">
+                                    SMART <span className="w-5 h-5 bg-[#F59E0B] rounded-sm inline-block" />
+                                </h3>
+                                <div className="flex items-start justify-center gap-1 mb-2 text-[#0F6CBD]">
+                                    <span className="text-3xl font-bold mt-2">₪</span>
+                                    <span className="text-6xl font-bold">
+                                        {prefersReducedMotion ? prices.smart : <CountUp end={prices.smart} duration={0.4} preserveValue={true} />}
+                                    </span>
+                                </div>
+                                <p className="text-gray-500 text-sm mb-6">+ מע"מ לחודש</p>
 
-                            <p className="text-[#1E293B] font-bold mb-8 px-4 min-h-[48px] flex items-center justify-center">
-                                למי זה מתאים: עסקים בצמיחה שרוצים אוטומציות חכמות וחיסכון אמיתי בזמן
-                            </p>
+                                <p className="text-[#1E293B] font-bold mb-8 px-4 min-h-[48px] flex items-center justify-center">
+                                    למי זה מתאים: עסקים בצמיחה שרוצים אוטומציות חכמות וחיסכון אמיתי בזמן
+                                </p>
 
-                            <div className="w-full h-px bg-gray-100 mb-8" />
+                                <div className="w-full h-px bg-gray-100 mb-8" />
 
-                            <ul className="space-y-4 mb-8 flex-grow w-full text-right px-4">
-                                {FEATURES.smart.map((feat, i) => (
-                                    <li key={i} className={`flex items-start gap-3 text-sm ${i === 0 ? 'font-bold text-[#1E293B]' : 'text-gray-600'}`}>
-                                        <span className="mt-1 text-yellow-500 font-bold">✓</span>
-                                        <span>{feat}</span>
-                                    </li>
-                                ))}
-                            </ul>
+                                <ul className="space-y-4 mb-8 flex-grow w-full text-right px-4">
+                                    {FEATURES.smart.map((feat, i) => (
+                                        <li key={i} className={`flex items-start gap-3 text-sm ${i === 0 ? 'font-bold text-[#1E293B]' : 'text-gray-600'}`}>
+                                            <span className="mt-1 text-yellow-500 font-bold">✓</span>
+                                            <span>{feat}</span>
+                                        </li>
+                                    ))}
+                                </ul>
 
-                            <a
-                                href={isYearly ? LINKS.smart.year : LINKS.smart.month}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="block w-full py-4 text-center rounded-lg font-bold text-black bg-[#F59E0B] hover:bg-yellow-500 transition-colors shadow-lg shadow-yellow-500/20 text-lg hover:scale-[1.01]"
-                            >
-                                {isYearly ? '💎 מתחילים שנתי' : '✨ מתחילים חודשי'}
-                            </a>
-                        </HoverCard>
+                                <a
+                                    href={isYearly ? LINKS.smart.year : LINKS.smart.month}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="block w-full py-4 text-center rounded-lg font-bold text-black bg-[#F59E0B] hover:bg-yellow-500 transition-colors shadow-lg shadow-yellow-500/20 text-lg hover:scale-[1.01]"
+                                >
+                                    {isYearly ? '💎 מתחילים שנתי' : '✨ מתחילים חודשי'}
+                                </a>
+                            </HoverCard>
+                        </ParallaxLayer>
                     </StaggerItem>
 
                     {/* POWER (Blue) - Left Visually */}
                     <StaggerItem direction="left" distance="sideSlide">
-                        <HoverCard liftDistance={6} scale={1.015} className="bg-white rounded-[2rem] shadow-xl hover:shadow-2xl p-8 flex flex-col items-center text-center relative border-2 border-[#0F6CBD] h-full transition-all duration-300">
+                        <HoverCard liftDistance={8} scale={1.02} className="bg-white rounded-[2rem] shadow-xl hover:shadow-2xl p-8 flex flex-col items-center text-center relative border-2 border-[#0F6CBD] h-full transition-all duration-300">
                             <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#0F6CBD] text-white px-4 py-1 rounded-full text-sm font-bold shadow-md whitespace-nowrap">
                                 הכל כלול
                             </div>

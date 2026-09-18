@@ -1,6 +1,7 @@
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { useRef } from 'react';
 import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion';
-import { StaggerGroup, StaggerItem, HoverCard } from './motion';
+import { StaggerGroup, StaggerItem, HoverCard, ParallaxLayer } from './motion';
 
 interface BenefitsProps {
     onNavigate?: (path: string) => void;
@@ -8,9 +9,24 @@ interface BenefitsProps {
 
 export const Benefits: React.FC<BenefitsProps> = ({ onNavigate }) => {
     const prefersReducedMotion = usePrefersReducedMotion();
+    const sectionRef = useRef<HTMLElement>(null);
+    const { scrollYProgress } = useScroll({
+        target: sectionRef,
+        offset: ['start end', 'end start']
+    });
 
     return (
-        <section id="benefits" className="relative py-24 bg-white text-right overflow-hidden" dir="rtl">
+        <section ref={sectionRef} id="benefits" className="relative py-24 bg-white text-right overflow-hidden" dir="rtl">
+            {/* Ambient Background Parallax Shapes */}
+            <motion.div
+                style={{ y: useTransform(scrollYProgress, [0, 1], [0, prefersReducedMotion ? 0 : -90]) }}
+                className="absolute top-1/4 right-0 w-80 h-80 bg-blue-100/40 rounded-full blur-3xl pointer-events-none -z-0"
+            />
+            <motion.div
+                style={{ y: useTransform(scrollYProgress, [0, 1], [0, prefersReducedMotion ? 0 : 80]) }}
+                className="absolute bottom-10 left-0 w-72 h-72 bg-amber-100/40 rounded-full blur-3xl pointer-events-none -z-0"
+            />
+
             {/* Wave Separator Top */}
             <div className="absolute top-0 left-0 w-full overflow-hidden leading-none rotate-180 pointer-events-none">
                 <svg className="relative block w-[calc(100%+1.3px)] h-[50px] md:h-[100px]" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
@@ -64,18 +80,21 @@ export const Benefits: React.FC<BenefitsProps> = ({ onNavigate }) => {
                     ].map((item, idx) => {
                         const sideDirection = idx % 2 === 0 ? 'right' : 'left';
                         const isBreathing = idx === 0 || idx === 3;
+                        const columnParallax = (idx % 3 === 1) ? 20 : (idx % 3 === 2) ? -15 : 0;
 
                         return (
                             <StaggerItem key={idx} direction={sideDirection} distance="sideSlide">
-                                <HoverCard 
-                                    breathing={isBreathing}
-                                    liftDistance={4}
-                                    scale={1.015}
-                                    className="bg-slate-50 p-6 rounded-xl border border-gray-100 hover:bg-white hover:border-primary/30 hover:shadow-lg transition-all h-full"
-                                >
-                                    <h3 className="text-xl font-bold text-primary mb-2">{item.title}</h3>
-                                    <p className="text-gray-600 font-medium">{item.desc}</p>
-                                </HoverCard>
+                                <ParallaxLayer speed={columnParallax} className="h-full">
+                                    <HoverCard 
+                                        breathing={isBreathing}
+                                        liftDistance={8}
+                                        scale={1.025}
+                                        className="bg-slate-50 p-6 rounded-2xl border border-gray-100 hover:bg-white hover:border-primary/40 hover:shadow-xl transition-all h-full"
+                                    >
+                                        <h3 className="text-xl font-bold text-primary mb-2">{item.title}</h3>
+                                        <p className="text-gray-600 font-medium">{item.desc}</p>
+                                    </HoverCard>
+                                </ParallaxLayer>
                             </StaggerItem>
                         );
                     })}
@@ -84,7 +103,7 @@ export const Benefits: React.FC<BenefitsProps> = ({ onNavigate }) => {
                 <div className="text-center mt-16">
                     <a
                         href="#pricing"
-                        className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white bg-primary rounded-full hover:bg-blue-700 transition-all shadow-lg hover:shadow-xl hover:-translate-y-1"
+                        className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white bg-primary rounded-full hover:bg-blue-700 transition-all shadow-lg hover:shadow-2xl hover:-translate-y-1 hover:scale-105"
                     >
                         לבחירת החבילה המתאימה לעסק
                     </a>
@@ -97,8 +116,8 @@ export const Benefits: React.FC<BenefitsProps> = ({ onNavigate }) => {
 export const Extras = () => {
     return (
         <section id="extras" className="py-20 bg-dark text-right text-white relative overflow-hidden" dir="rtl">
-            {/* Background Pattern */}
-            <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(255,255,255,0.15) 1px, transparent 0)', backgroundSize: '40px 40px' }} />
+            {/* Background Pattern with Ambient Depth */}
+            <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(255,255,255,0.2) 1px, transparent 0)', backgroundSize: '36px 36px' }} />
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <StaggerGroup className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -109,18 +128,21 @@ export const Extras = () => {
                     ].map((item, idx) => {
                         const sideDirection = idx === 0 ? 'right' : idx === 1 ? 'none' : 'left';
                         const isBreathing = idx === 1;
+                        const speed = idx === 1 ? 25 : -15;
 
                         return (
                             <StaggerItem key={idx} direction={sideDirection} distance="sideSlide">
-                                <HoverCard 
-                                    breathing={isBreathing}
-                                    liftDistance={5}
-                                    scale={1.02}
-                                    className="bg-white/5 backdrop-blur-sm p-8 rounded-2xl border border-white/10 text-center hover:bg-white/15 hover:border-white/20 transition-all duration-300 h-full"
-                                >
-                                    <h3 className="text-xl font-bold text-white mb-3">{item.title}</h3>
-                                    <p className="text-gray-300 leading-relaxed font-medium">{item.desc}</p>
-                                </HoverCard>
+                                <ParallaxLayer speed={speed} className="h-full">
+                                    <HoverCard 
+                                        breathing={isBreathing}
+                                        liftDistance={8}
+                                        scale={1.03}
+                                        className="bg-white/5 backdrop-blur-sm p-8 rounded-2xl border border-white/10 text-center hover:bg-white/15 hover:border-white/30 hover:shadow-[0_15px_30px_rgba(0,0,0,0.5)] transition-all duration-300 h-full"
+                                    >
+                                        <h3 className="text-xl font-bold text-white mb-3">{item.title}</h3>
+                                        <p className="text-gray-300 leading-relaxed font-medium">{item.desc}</p>
+                                    </HoverCard>
+                                </ParallaxLayer>
                             </StaggerItem>
                         );
                     })}
