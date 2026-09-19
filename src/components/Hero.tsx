@@ -111,7 +111,7 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate, onOpenDiagnosticModal })
                     }}
                     className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-black bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-full shadow-[0_0_20px_rgba(234,179,8,0.5)] hover:shadow-[0_0_30px_rgba(234,179,8,0.75)] transition-all duration-300 animate-subtle-glow cursor-pointer"
                 >
-                    ✨ שאלון אבחון מהיר לעסק
+                    ✨ איפה הכסף שלנו הולך לאיבוד?
                 </motion.a>
 
                 {/* Pain Bar with Knowledge Gateway */}
