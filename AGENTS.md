@@ -108,6 +108,8 @@ The visual language, brand consistency, and interactive experience of the websit
   5. *Contextual Relevance in CTA Architecture*: Formula: $\text{Context} \rightarrow \text{Action} \rightarrow \text{Message} \rightarrow \text{Mechanism} \rightarrow \text{Attribution}$.
   6. *Context Preservation & Structured Attribution*: Lead mechanisms respect reader momentum and pass source/intent context.
   7. *Knowledge Graph ≠ Card Grid*: Semantic relationships are presented editorially, never as endless card grids.
+  8. *Anti-Generic SaaS Template Guardrail*: Meaningful composition, zero empty voids or repetitive cards.
+  9. *Visual Storytelling Integrity & Prompt Conflict Discrepancy Gate*: Narrative imagery adheres to the invented clay/stop-motion world (never photorealistic humans or corporate stock). If a prompt directly contradicts this, the agent must PAUSE, point out the conflict, and ask before generating.
 - Full specification suite:
   - Master Governance: [`.agents/rules/design-operating-system.md`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/rules/design-operating-system.md)
   - Brand DNA & Tokens: [`.agents/rules/design-brand-language.md`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/rules/design-brand-language.md)

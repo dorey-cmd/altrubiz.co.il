@@ -57,8 +57,8 @@ To prevent accidental implementation details from being promoted into permanent 
 
 ---
 
-## 3. Tier 1: The 8 Permanent Design Invariants
-These 8 rules are permanent, durable architectural laws. They remain binding regardless of framework changes, redesigns, or market localization:
+## 3. Tier 1: The 9 Permanent Design Invariants
+These 9 rules are permanent, durable architectural laws. They remain binding regardless of framework changes, redesigns, or market localization:
 
 ### Invariant 1: Canonical Brand Asset Integrity
 The official AltruBiz logo asset (`https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/688019c09a4c2d4b4398bf3c.png`) is the canonical visual anchor of the brand. It must never be distorted, cropped, recolored, or rendered at a display size where either the brand mark or its tagline ("להכניס את השיטה לסיסטם") becomes illegible.
@@ -86,13 +86,20 @@ Semantic relationships within the Knowledge Graph must be communicated through c
 ### Invariant 8: Anti-Generic SaaS Template Guardrail
 Every page must display intentional visual rhythm and purposeful composition. Developers and AI agents must actively avoid generic SaaS tropes (monotonous card repetition, meaningless decorative blobs, centered text voids, and superficial feature lists).
 
+### Invariant 9: Visual Storytelling Integrity & Prompt Conflict Discrepancy Gate
+All brand narrative imagery (hero, metaphors, story beats) must strictly adhere to the AltruBiz Visual Storytelling System (an invented world of claymation, stop-motion aesthetics, miniature dioramas, warm lighting, and tactile textures; deliberately never photorealistic or generic stock photos).
+**Mandatory Conflict Gate**: Whenever an incoming user prompt, article draft, or external specification contains visual instructions that directly and unequivocally contradict this standard (e.g. requesting realistic human photography or corporate stock styles):
+1. **DO NOT execute the contradicting instruction blindly.**
+2. **STOP and ask the user for explicit clarification before generating.**
+3. Highlight the discrepancy clearly and ask whether this is an intentional override or an accidental artifact from external drafting.
+
 ---
 
 ## 4. Design OS Architecture Map & Companion Rules
 The complete AltruBiz Design Operating System is partitioned across six logically specialized, Always-On rule files:
 
 1. **[Master Governance & Invariants (`design-operating-system.md`)](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/rules/design-operating-system.md)** *(This file)*:
-   - Constitutional authority, Dual OS co-governance, 5-tier classification, and the 8 Permanent Design Invariants.
+   - Constitutional authority, Dual OS co-governance, 5-tier classification, and the 9 Permanent Design Invariants.
 2. **[Brand DNA, Tokens & Visual Identity (`design-brand-language.md`)](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/rules/design-brand-language.md)**:
    - Brand visual personality, Color palette tokens (Royal Blue, Cyan, Gold, Navy), Rubik/Heebo typography scale, Logo sizing target (~35–40% increase), Layout widths, and Pricing harmonization target.
 3. **[Living Interface, Experience & Content Zones (`design-experience.md`)](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/rules/design-experience.md)**:
