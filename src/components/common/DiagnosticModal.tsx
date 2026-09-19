@@ -58,13 +58,13 @@ export const DiagnosticModal: React.FC<DiagnosticModalProps> = ({
             <div
                 ref={dialogRef}
                 tabIndex={-1}
-                className="relative z-10 w-full max-w-[880px] bg-white rounded-3xl shadow-2xl border border-slate-200/90 overflow-hidden flex flex-col my-auto max-h-[96vh] animate-in zoom-in-95 duration-200 focus:outline-none"
+                className="relative z-10 w-full max-w-[640px] bg-white rounded-3xl shadow-2xl border border-slate-200/90 overflow-hidden flex flex-col my-auto max-h-[96vh] animate-in zoom-in-95 duration-200 focus:outline-none"
             >
                 {/* Accent Top Bar */}
                 <div className="h-1.5 bg-gradient-to-r from-yellow-400 via-primary to-secondary w-full" />
 
                 {/* Header - Compact & Clean */}
-                <div className="p-3.5 sm:p-4.5 pb-2.5 sm:pb-3 border-b border-slate-100 flex items-start justify-between gap-3 bg-slate-50/80">
+                <div className="p-3.5 sm:p-4 pb-2 sm:pb-2.5 border-b border-slate-100 flex items-start justify-between gap-3 bg-slate-50/80">
                     <div className="space-y-0.5">
                         <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-900 text-[11px] font-bold border border-amber-200/60">
                             <Sparkles size={12} className="text-amber-500" />
@@ -72,7 +72,7 @@ export const DiagnosticModal: React.FC<DiagnosticModalProps> = ({
                         </div>
                         <h2 
                             id="diagnostic-modal-title"
-                            className="text-lg sm:text-xl md:text-2xl font-black text-slate-900 tracking-tight leading-snug"
+                            className="text-base sm:text-lg md:text-xl font-black text-slate-900 tracking-tight leading-snug"
                         >
                             איפה העסק מאבד זמן, כסף ואנרגיה?
                         </h2>
@@ -91,12 +91,12 @@ export const DiagnosticModal: React.FC<DiagnosticModalProps> = ({
                 </div>
 
                 {/* Questionnaire Container */}
-                <div className="p-1 sm:p-3 overflow-y-auto flex-1 bg-white">
+                <div className="p-1 sm:p-2.5 overflow-y-auto flex-1 bg-white">
                     <div className="bg-slate-50/50 rounded-2xl border border-slate-100 overflow-hidden">
                         <iframe
                             src="https://diagnostic.altrubiz.co.il/"
                             title="שאלון אבחון: איפה העסק מאבד זמן, כסף ואנרגיה?"
-                            className="w-full h-[650px] sm:h-[690px] md:h-[720px] border-0 rounded-2xl"
+                            className="w-full h-[490px] sm:h-[520px] md:h-[540px] border-0 rounded-2xl"
                             loading="lazy"
                             allow="camera; microphone; autoplay; encrypted-media"
                         />
