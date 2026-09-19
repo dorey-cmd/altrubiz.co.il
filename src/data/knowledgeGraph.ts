@@ -804,6 +804,7 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
         relevantProducts: ['AltruBiz CRM', 'יומן תיאום פגישות אוטומטי', 'בוט AI לקביעת פגישות'],
         recommendedNextSlugs: ['lost-leads', 'whatsapp-in-crm', 'roi-calculator', 'sales-pipeline'],
         relatedArticleSlugs: [
+            'why-businesses-stay-stuck-in-bad-processes',
             'automated-meeting-scheduling-guide',
             'preventing-meeting-no-shows-guide',
             'client-onboarding-process-guide',
@@ -908,7 +909,7 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
                         'הדרך הנכונה אינה להתחיל מטכנולוגיה, אלא לזהות פעולה ידנית מוכרת שחוזרת על עצמה, לבחון סולם אימוץ מדורג (עוזר לי -> מכין לי -> מבצע בשבילי), ולהכניס עזרה ממוקדת של 20% בלבד לפני שמרחיבים הלאה.'
                     ],
                     manifestationId: 'ai-adoption-confusion',
-                    relatedArticleSlugs: ['practical-ai-for-business-guide', 'non-technical-to-ai-automation-guide', 'ai-business-work-vs-thinking-guide', 'build-website-with-ai-guide']
+                    relatedArticleSlugs: ['why-businesses-stay-stuck-in-bad-processes', 'practical-ai-for-business-guide', 'non-technical-to-ai-automation-guide', 'ai-business-work-vs-thinking-guide', 'build-website-with-ai-guide']
                 }
             ],
             solutionPaths: [

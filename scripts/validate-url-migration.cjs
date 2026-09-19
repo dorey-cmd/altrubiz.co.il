@@ -81,7 +81,8 @@ const EXPECTED_ARTICLES = {
     'ai-business-work-vs-thinking-guide': '/ai-business-work-vs-thinking',
     'crm-business-from-memory-guide': '/manage-business-from-memory',
     'premium-websites-guide': '/premium-websites',
-    'build-website-with-ai-guide': '/build-website-with-ai'
+    'build-website-with-ai-guide': '/build-website-with-ai',
+    'why-businesses-stay-stuck-in-bad-processes': '/why-businesses-stay-stuck-in-bad-processes'
 };
 
 const OLD_URL_REDIRECT_MAP = {
