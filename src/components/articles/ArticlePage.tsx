@@ -1162,7 +1162,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                         <iframe 
                             src={article.diagnosticEmbed.iframeUrl}
                             title={article.diagnosticEmbed.ariaLabel}
-                            className="w-full h-[510px] sm:h-[530px] md:h-[540px] border-0 rounded-2xl"
+                            className="w-full h-[620px] sm:h-[660px] md:h-[690px] border-0 rounded-2xl"
                             loading="lazy"
                             allow="camera; microphone; autoplay; encrypted-media"
                         />
