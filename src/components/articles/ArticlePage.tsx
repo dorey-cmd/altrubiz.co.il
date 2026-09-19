@@ -1089,7 +1089,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                 )}
 
                 {/* Contextual Knowledge Relationship (Subtle & Quiet Below H1) */}
-                {parentHub && (
+                {parentHub && !article.diagnosticEmbed && (
                     <motion.div 
                         key={`hub-${article.slug}`}
                         initial={prefersReducedMotion ? false : { opacity: 0, y: 10 }}
@@ -1157,12 +1157,12 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                         initial={prefersReducedMotion ? false : { opacity: 0, y: 16 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 0.28, ease: [0.22, 1, 0.36, 1] }}
-                        className="mt-8 mb-6 bg-white border border-slate-200/90 rounded-3xl shadow-lg p-2 sm:p-4 overflow-hidden"
+                        className="mt-6 mb-6 bg-white border border-slate-200/90 rounded-3xl shadow-lg p-2 sm:p-3 overflow-hidden"
                     >
                         <iframe 
                             src={article.diagnosticEmbed.iframeUrl}
                             title={article.diagnosticEmbed.ariaLabel}
-                            className="w-full h-[780px] sm:h-[840px] md:h-[880px] border-0 rounded-2xl"
+                            className="w-full h-[510px] sm:h-[530px] md:h-[540px] border-0 rounded-2xl"
                             loading="lazy"
                             allow="camera; microphone; autoplay; encrypted-media"
                         />

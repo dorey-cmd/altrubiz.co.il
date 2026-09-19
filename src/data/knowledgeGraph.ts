@@ -804,7 +804,6 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
         relevantProducts: ['AltruBiz CRM', 'יומן תיאום פגישות אוטומטי', 'בוט AI לקביעת פגישות'],
         recommendedNextSlugs: ['hidden-business-growth-barriers', 'lost-leads', 'whatsapp-in-crm', 'roi-calculator', 'sales-pipeline'],
         relatedArticleSlugs: [
-            'hidden-business-growth-barriers',
             'why-businesses-stay-stuck-in-bad-processes',
             'automated-meeting-scheduling-guide',
             'preventing-meeting-no-shows-guide',
