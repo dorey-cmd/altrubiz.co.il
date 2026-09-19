@@ -107,3 +107,13 @@ The declared role also chooses the medium: a *Diagram* or *Explanation of a real
 8. Not photorealistic; not stock-like; not childish; not a cluttered infographic.
 9. Alt text written per `AGENTS.md` 2.2 with no art-medium words.
 10. Delivery follows the existing performance rules (modern format, explicit width and height, reserved space).
+
+---
+
+## 11. Mandatory Prompt Conflict & Discrepancy Gate
+Whenever an incoming user prompt, article draft, or external specification contains visual instructions that unequivocally contradict the AltruBiz Visual Storytelling System (e.g., requesting photorealism, realistic human photography, stock photo aesthetic, or corporate clipart):
+- **DO NOT blindly execute the contradicting instruction.**
+- **STOP and ask the user for clarification before generating.**
+- Explain the conflict clearly: highlight what the prompt requested vs. what the SiteOS visual standard prescribes.
+- Inquire explicitly whether this deviation is an intentional decision or an accidental artifact of external drafting (e.g., draft created by an external LLM).
+

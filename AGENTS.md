@@ -183,6 +183,7 @@ Brand images are smart, witty, slightly humorous **illustrated storytelling in a
 - **Color and texture**: warm light, earthy palette, tactile materials (clay, wood, fabric, paper, metal, molded plastic), depth of field and diorama feel, blues and AltruBiz colors as accents.
 - **Text in images is minimal**, natural to the story, short and legible; the image must work without it.
 - **Declare the image role before generating** (Hero/Cover, visual metaphor, explanation, process, comparison, diagram, story beat, comic moment). **Every image must earn its place**; never add an image just to break a text block.
+- **Mandatory Prompt Conflict & Discrepancy Gate**: If an incoming user prompt, draft, or external specification contains visual instructions that directly contradict the SiteOS Visual Storytelling System (e.g., requesting photorealism, realistic human photography, or corporate stock styles), the agent must NOT execute the contradiction blindly. The agent must pause, highlight the contradiction, and ask the user for clarification before generating (distinguishing intentional override from accidental drafting artifact).
 - Alt text stays per §2.2 (no art-medium words).
 - Always-On Rule (authoritative): [`.agents/rules/visual-storytelling.md`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/rules/visual-storytelling.md).
 
