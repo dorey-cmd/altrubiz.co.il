@@ -17,6 +17,8 @@ import {
     Info, 
     Zap, 
     ArrowUp, 
+    ArrowDown,
+    FileText,
     ChevronDown, 
     Compass, 
     X, 
@@ -1030,21 +1032,28 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
 
             {/* Article Header */}
             <header className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-8 sm:mb-12">
-                {/* Quiet Meta Above H1: Only Reading Time */}
-                <motion.div 
-                    key={`meta-${article.slug}`}
-                    initial={prefersReducedMotion ? false : { opacity: 0, y: -6 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.45, delay: 0.04, ease: [0.25, 1, 0.5, 1] }}
-                    className="flex items-center gap-2 mb-2 sm:mb-3"
-                >
-                    <span className="inline-flex items-center gap-1.5 text-xs text-slate-500 font-medium">
-                        <Clock size={13} className="text-slate-400" />
-                        <span>{article.readTime}</span>
-                    </span>
-                </motion.div>
+                {article.diagnosticEmbed ? (
+                    <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 text-primary text-xs sm:text-sm font-bold mb-4 border border-blue-100 shadow-sm">
+                        <Sparkles size={15} className="text-accent" />
+                        <span>כלי אבחון ומאמר עומק מבית AltruBiz</span>
+                    </div>
+                ) : (
+                    /* Quiet Meta Above H1: Only Reading Time */
+                    <motion.div 
+                        key={`meta-${article.slug}`}
+                        initial={prefersReducedMotion ? false : { opacity: 0, y: -6 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.45, delay: 0.04, ease: [0.25, 1, 0.5, 1] }}
+                        className="flex items-center gap-2 mb-2 sm:mb-3"
+                    >
+                        <span className="inline-flex items-center gap-1.5 text-xs text-slate-500 font-medium">
+                            <Clock size={13} className="text-slate-400" />
+                            <span>{article.readTime}</span>
+                        </span>
+                    </motion.div>
+                )}
 
-                {/* H1 - Immediate, Dominant and High-Legibility */}
+                {/* H1 - Immediate, Dominant and High-Legibility (Single H1 on page) */}
                 <motion.h1 
                     key={`h1-${article.slug}`}
                     initial={prefersReducedMotion ? false : { opacity: 0, y: 16 }}
@@ -1052,10 +1061,10 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                     transition={{ duration: 0.55, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
                     className="text-2xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight leading-[1.2] mb-3 sm:mb-4"
                 >
-                    {article.title}
+                    {article.diagnosticEmbed ? article.diagnosticEmbed.title : article.title}
                 </motion.h1>
 
-                {article.subtitle && (
+                {article.diagnosticEmbed ? (
                     <motion.p 
                         key={`subtitle-${article.slug}`}
                         initial={prefersReducedMotion ? false : { opacity: 0, y: 12 }}
@@ -1063,8 +1072,20 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                         transition={{ duration: 0.5, delay: 0.14, ease: [0.25, 1, 0.5, 1] }}
                         className="text-base sm:text-lg lg:text-xl text-slate-600 leading-relaxed mb-5 font-normal"
                     >
-                        {renderFormattedText(article.subtitle, onNavigate)}
+                        {article.diagnosticEmbed.subtitle}
                     </motion.p>
+                ) : (
+                    article.subtitle && (
+                        <motion.p 
+                            key={`subtitle-${article.slug}`}
+                            initial={prefersReducedMotion ? false : { opacity: 0, y: 12 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5, delay: 0.14, ease: [0.25, 1, 0.5, 1] }}
+                            className="text-base sm:text-lg lg:text-xl text-slate-600 leading-relaxed mb-5 font-normal"
+                        >
+                            {renderFormattedText(article.subtitle, onNavigate)}
+                        </motion.p>
+                    )
                 )}
 
                 {/* Contextual Knowledge Relationship (Subtle & Quiet Below H1) */}
@@ -1127,6 +1148,42 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                         variant="header"
                     />
                 </motion.div>
+
+                {/* Interactive Diagnostic Questionnaire Embed Container */}
+                {article.diagnosticEmbed && (
+                    <motion.div 
+                        id="diagnostic-tool"
+                        key={`diagnostic-embed-${article.slug}`}
+                        initial={prefersReducedMotion ? false : { opacity: 0, y: 16 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6, delay: 0.28, ease: [0.22, 1, 0.36, 1] }}
+                        className="mt-8 mb-6 bg-white border border-slate-200/90 rounded-3xl shadow-lg p-2 sm:p-4 overflow-hidden"
+                    >
+                        <iframe 
+                            src={article.diagnosticEmbed.iframeUrl}
+                            title={article.diagnosticEmbed.ariaLabel}
+                            className="w-full h-[780px] sm:h-[840px] md:h-[880px] border-0 rounded-2xl"
+                            loading="lazy"
+                            allow="camera; microphone; autoplay; encrypted-media"
+                        />
+                        <div className="pt-4 pb-2 text-center border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-3 px-4">
+                            <span className="text-xs sm:text-sm text-slate-500 font-medium">
+                                סיימתם את שאלון האבחון? התוצאות מציפות את נקודות החיכוך המרכזיות בעסק.
+                            </span>
+                            <a 
+                                href="#article-start"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    scrollToSection('article-start');
+                                }}
+                                className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-primary hover:text-secondary transition-colors"
+                            >
+                                <span>לקריאת המאמר המלא: העסק גדל. התשתית נשארה מאחור</span>
+                                <ArrowDown size={14} />
+                            </a>
+                        </div>
+                    </motion.div>
+                )}
             </header>
 
             {/* Main Article Container with Desktop Two-Column Layout (RTL: Column 1 is Right side, Column 2 is Left side) */}
@@ -1148,75 +1205,49 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                     <span>תוכן הפעולות</span>
                                 </div>
                                 <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">
-                                    {totalActions > 0 ? `${totalActions} שלבים` : 'סעיפי תוכן'}
+                                    {article.sections?.length || 0} נושאים
                                 </span>
                             </div>
 
+                            {/* Internal scrollable list for long TOCs */}
                             <div 
                                 ref={tocContainerRef}
-                                className="space-y-1 overflow-y-auto max-h-[46vh] xl:max-h-[50vh] pl-1 pr-0.5 custom-scrollbar"
+                                className="overflow-y-auto space-y-1.5 pr-1 -mr-1 max-h-[46vh] xl:max-h-[50vh] scrollbar-thin scrollbar-thumb-slate-200"
                             >
-                                {article.sections.map((sec) => {
-                                    const isActive = activeSectionId === sec.id;
+                                {article.diagnosticEmbed && (
+                                    <a
+                                        href="#diagnostic-tool"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            scrollToSection('diagnostic-tool');
+                                        }}
+                                        className="block text-xs py-1.5 px-2.5 rounded-xl font-bold transition-all text-slate-600 hover:text-primary hover:bg-slate-50 border-r-2 border-transparent"
+                                    >
+                                        שאלון אבחון חסמי צמיחה
+                                    </a>
+                                )}
+                                {article.sections && article.sections.map((section, idx) => {
+                                    const isActive = activeSectionId === section.id;
                                     return (
                                         <a
-                                            key={sec.id}
+                                            key={section.id}
                                             ref={isActive ? activeTocRef : null}
-                                            href={`#${sec.id}`}
+                                            href={`#${section.id}`}
                                             onClick={(e) => {
                                                 e.preventDefault();
-                                                scrollToSection(sec.id);
+                                                scrollToSection(section.id);
                                             }}
-                                            className={`flex items-start gap-2 p-2 rounded-xl text-xs transition-all ${
+                                            className={`block text-xs py-1.5 px-2.5 rounded-xl font-bold transition-all ${
                                                 isActive 
-                                                    ? 'bg-primary/10 text-primary font-bold border-r-4 border-primary shadow-xs' 
-                                                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                                                    ? 'bg-blue-50 text-primary border-r-2 border-primary shadow-xs' 
+                                                    : 'text-slate-600 hover:text-primary hover:bg-slate-50 border-r-2 border-transparent'
                                             }`}
                                         >
-                                            {sec.actionNumber ? (
-                                                <span className={`w-5 h-5 rounded-md flex items-center justify-center font-black flex-shrink-0 text-[10px] ${
-                                                    isActive ? 'bg-primary text-white' : 'bg-slate-100 text-slate-600'
-                                                }`}>
-                                                    0{sec.actionNumber}
-                                                </span>
-                                            ) : sec.isTenMinuteTest ? (
-                                                <span className="w-5 h-5 rounded-md bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold flex-shrink-0 text-[10px]">
-                                                    ⏱️
-                                                </span>
-                                            ) : (
-                                                <span className="w-5 h-5 rounded-md bg-slate-100 text-slate-500 flex items-center justify-center font-bold flex-shrink-0 text-[10px]">
-                                                    •
-                                                </span>
-                                            )}
-                                            <span className="line-clamp-2 leading-snug pt-0.5">
-                                                {sec.title}
-                                            </span>
+                                            <span className={`ml-1 ${isActive ? 'text-primary font-bold' : 'text-slate-500 font-normal'}`}>{idx + 1}.</span>
+                                            {section.title}
                                         </a>
                                     );
                                 })}
-
-                                {article.faqs && article.faqs.length > 0 && (
-                                    <a
-                                        href="#article-faqs"
-                                        ref={activeSectionId === 'article-faqs' ? activeTocRef : null}
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            scrollToSection('article-faqs');
-                                        }}
-                                        className={`flex items-start gap-2 p-2 rounded-xl text-xs transition-all ${
-                                            activeSectionId === 'article-faqs' 
-                                                ? 'bg-primary/10 text-primary font-bold border-r-4 border-primary shadow-xs' 
-                                                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
-                                        }`}
-                                    >
-                                        <span className="w-5 h-5 rounded-md bg-blue-100 text-primary flex items-center justify-center font-bold flex-shrink-0 text-[10px]">
-                                            ?
-                                        </span>
-                                        <span className="leading-snug pt-0.5">
-                                            שאלות נפוצות (FAQ)
-                                        </span>
-                                    </a>
-                                )}
                             </div>
 
                             <div className="pt-2.5 mt-2 border-t border-slate-100 shrink-0">
@@ -1234,7 +1265,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                         </nav>
 
                         {/* Sticky Desktop Sidebar CTA Card - Compact & Subordinate to Knowledge */}
-                        <div className="shrink-0 bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 text-white rounded-2xl p-4 shadow-lg border border-slate-800 relative overflow-hidden animate-ambient-breath">
+                        <div className="shrink-0 bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 text-white rounded-2xl p-4 shadow-lg border border-slate-800 relative overflow-hidden">
                             <div className="absolute top-0 right-0 w-32 h-32 bg-primary/20 rounded-full blur-2xl pointer-events-none" />
                             <div className="relative z-10 space-y-2">
                                 <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/30 text-[10px] font-bold">
@@ -1291,10 +1322,10 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                         )}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="w-full flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-xl bg-white/10 hover:bg-white/15 text-slate-200 border border-white/10 text-[11px] font-semibold transition-colors"
+                                        className="w-full flex items-center justify-center gap-1.5 py-2 px-3 bg-[#25D366] hover:bg-[#20bd5a] text-slate-950 font-extrabold text-xs rounded-xl shadow-xs transition-colors"
                                     >
-                                        <MessageCircle size={13} className="text-[#25D366]" />
-                                        <span>התייעצות בוואטסאפ</span>
+                                        <MessageCircle size={13} />
+                                        <span>פנייה ישירה בוואטסאפ</span>
                                     </a>
                                 </div>
                             </div>
@@ -1303,6 +1334,24 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
 
                     {/* Primary Content Column (Left Column in RTL, comfortable reading width) */}
                     <div className="min-w-0 max-w-3xl mx-auto lg:mx-0 w-full">
+                        
+                        {/* If Diagnostic Embed exists, prominent transition header for the article with H2 */}
+                        {article.diagnosticEmbed && (
+                            <div id="article-start" className="pt-2 pb-6 scroll-mt-28 mb-8 border-b border-slate-200">
+                                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-bold mb-3">
+                                    <FileText size={13} className="text-primary" />
+                                    <span>מאמר עומק ומתודולוגיה תפעולית</span>
+                                </div>
+                                <h2 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight leading-[1.25] mb-3">
+                                    {article.title}
+                                </h2>
+                                {article.subtitle && (
+                                    <p className="text-base sm:text-lg text-slate-600 leading-relaxed font-normal">
+                                        {renderFormattedText(article.subtitle, onNavigate)}
+                                    </p>
+                                )}
+                            </div>
+                        )}
                         
                         {/* Article Cover Image with Cinematic Focus Pull & Soft Ambient Radiance */}
                         {article.coverImage && (

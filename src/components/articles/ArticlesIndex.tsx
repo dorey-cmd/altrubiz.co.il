@@ -152,8 +152,8 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate, onOpen
                                     }`}
                                 >
                                     <span>{getCategoryLabel(cat)}</span>
-                                    <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold ${
-                                        isSelected ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-500'
+                                    <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-black ${
+                                        isSelected ? 'bg-white text-secondary font-black' : 'bg-slate-100 text-slate-500'
                                     }`}>
                                         {count}
                                     </span>
@@ -229,8 +229,8 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate, onOpen
                                             }`}
                                         >
                                             <span>{getCategoryLabel(cat)}</span>
-                                            <span className={`text-[10px] px-1.5 py-0.2 rounded-full ${
-                                                isSelected ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-500'
+                                            <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-black ${
+                                                isSelected ? 'bg-white text-secondary font-black' : 'bg-slate-100 text-slate-500'
                                             }`}>
                                                 {count}
                                             </span>
@@ -281,8 +281,8 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate, onOpen
                                                 }`}
                                             >
                                                 <span>{getCategoryLabel(cat)}</span>
-                                                <span className={`text-[10px] px-1 rounded-full ${
-                                                    isSelected ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-500'
+                                                <span className={`text-[10px] px-1 rounded-full font-black ${
+                                                    isSelected ? 'bg-white text-secondary font-black' : 'bg-slate-100 text-slate-500'
                                                 }`}>
                                                     {count}
                                                 </span>

@@ -151,7 +151,7 @@ tags: ["הצעת מחיר","פולואפ","פייפליין מכירות","לי�
 
 מה אמור לקרות עכשיו?
 
-אם אין תשובה, ההצעה כבר התחילה להחליק החוצה מ[הפייפליין](https://altrubiz.co.il/sales-pipeline). כדי לבדוק כמה הכנסה מצטברת שוכבת כרגע בהצעות ובלידים שלא קודמו, אפשר להיעזר ב-[מחשבון ROI ללידים](https://altrubiz.co.il/roi-calculator).
+אם אין תשובה, ההצעה כבר התחילה להחליק החוצה מ[הפייפליין](https://altrubiz.co.il/sales-pipeline). כדי לבדוק כמה הכנסה מצטברת שוכבת כרגע בהצעות ובלידים שלא קודמו, אפשר להיעזר ב-[מחשבון ROI ללידים](https://altrubiz.co.il/roi-calculator) או לבצע [אבחון מקיף לחסמי צמיחה סמויים בעסק](https://altrubiz.co.il/hidden-business-growth-barriers).
 
 ![לוח פייפליין מכירות ב-CRM עם כרטיס הצעת מחיר ופעולת המשך מתוזמנת ביומן](/images/articles/quote-pipeline-next-step.jpg)
 

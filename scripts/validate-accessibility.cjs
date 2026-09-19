@@ -42,7 +42,7 @@ const HYDRATION_SELECTOR = 'a[aria-label="פתיחת שיחת וואטסאפ ע�
  */
 async function waitForHydration(page) {
     await page.waitForSelector(HYDRATION_SELECTOR, { timeout: 10000 }).catch(() => {});
-    await page.waitForTimeout(150);
+    await page.waitForTimeout(900);
 }
 
 let failures = 0;
@@ -227,6 +227,9 @@ async function runAxe(page, context, { include, exclude } = {}) {
     }
     for (const v of seriousOrCritical) {
         fail(`axe-core [${v.impact}] ${context}: ${v.id} - ${v.help} (${v.nodes.length} node(s)) ${v.helpUrl}`);
+        for (const n of v.nodes) {
+            console.error(`      -> Node: ${n.html}\n         Selector: ${JSON.stringify(n.target)}\n         Summary: ${n.failureSummary}`);
+        }
     }
     for (const v of minorOrModerate) {
         warn(`axe-core [${v.impact || 'minor'}] ${context}: ${v.id} - ${v.help} (${v.nodes.length} node(s))`);

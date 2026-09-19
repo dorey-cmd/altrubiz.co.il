@@ -50,6 +50,7 @@
 - [אתרי פרימיום לעסקים שרוצים יותר מאתר תדמית](https://altrubiz.co.il/premium-websites.md): AltruBiz בונה אתרי פרימיום המחברים תוכן, חיפוש, AI, CRM, אוטומציה ותשתית שיווקית למערכת אחת שצוברת ידע, תנועה וסמכות עסקית לאורך זמן. (גרסת HTML קנונית: https://altrubiz.co.il/premium-websites)
 - [איך לבנות לעצמכם אתר תדמית עם AI, בלי להפוך לבוני אתרים](https://altrubiz.co.il/build-website-with-ai.md): מדריך מעשי לבניית אתר תדמית לעסק בעזרת בינה מלאכותית: מסידור המחשבות והגדרת הבריף, דרך יצירת פרומפט מלא ל-AI Studio ועד חיבור ישיר ל-CRM. (גרסת HTML קנונית: https://altrubiz.co.il/build-website-with-ai)
 - [למה אנחנו ממשיכים לעבוד בדרך שכבר ברור לנו שלא עובדת?](https://altrubiz.co.il/why-businesses-stay-stuck-in-bad-processes.md): למה בעלי עסקים ממשיכים לעבוד בתהליכים שהם כבר יודעים שלא עובדים? על הרגלים, ברירות מחדל, עבודה ידנית ואיך בונים דרך עבודה שקל יותר להתמיד בה. (גרסת HTML קנונית: https://altrubiz.co.il/why-businesses-stay-stuck-in-bad-processes)
+- [העסק גדל. התשתית נשארה מאחור](https://altrubiz.co.il/hidden-business-growth-barriers.md): יש עבודה, יש לקוחות, אבל כל צמיחה מביאה איתה עוד עומס? הכירו את חסמי הצמיחה הסמויים שגורמים ללידים ליפול, לזמן להישרף ולעסק להיות תלוי יותר מדי באנשים. (גרסת HTML קנונית: https://altrubiz.co.il/hidden-business-growth-barriers)
 
 ## קובץ ידע מלא ל-LLM (Full Context)
 - [מידע עובדתי מלא על AltruBiz ל-AI](https://altrubiz.co.il/llms-full.txt): סקירה מלאה של הפונקציונליות, התשתיות, גרף הידע, מושגי הליבה וכל גוף המאמרים בגרסת מכונה מלאה.

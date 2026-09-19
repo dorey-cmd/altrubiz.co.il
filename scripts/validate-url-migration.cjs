@@ -82,7 +82,8 @@ const EXPECTED_ARTICLES = {
     'crm-business-from-memory-guide': '/manage-business-from-memory',
     'premium-websites-guide': '/premium-websites',
     'build-website-with-ai-guide': '/build-website-with-ai',
-    'why-businesses-stay-stuck-in-bad-processes': '/why-businesses-stay-stuck-in-bad-processes'
+    'why-businesses-stay-stuck-in-bad-processes': '/why-businesses-stay-stuck-in-bad-processes',
+    'hidden-business-growth-barriers': '/hidden-business-growth-barriers'
 };
 
 const OLD_URL_REDIRECT_MAP = {

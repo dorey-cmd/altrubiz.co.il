@@ -802,8 +802,9 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
         businessObjects: ['פגישות (Appointments)', 'יומנים', 'תזכורות', 'תהליכי עבודה (Workflows)'],
         outcomes: ['חיסכון של 10-20 שעות שבועיות', 'צמצום הברזות מפגישות בלמעלה מ-70%', 'תגובה מיידית ללא מעמס אנושי'],
         relevantProducts: ['AltruBiz CRM', 'יומן תיאום פגישות אוטומטי', 'בוט AI לקביעת פגישות'],
-        recommendedNextSlugs: ['lost-leads', 'whatsapp-in-crm', 'roi-calculator', 'sales-pipeline'],
+        recommendedNextSlugs: ['hidden-business-growth-barriers', 'lost-leads', 'whatsapp-in-crm', 'roi-calculator', 'sales-pipeline'],
         relatedArticleSlugs: [
+            'hidden-business-growth-barriers',
             'why-businesses-stay-stuck-in-bad-processes',
             'automated-meeting-scheduling-guide',
             'preventing-meeting-no-shows-guide',

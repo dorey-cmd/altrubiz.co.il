@@ -230,19 +230,25 @@ ${buildFoundationHeader()}
           </span>
         </div>
 
+        ${article.diagnosticEmbed ? `
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 text-primary text-xs sm:text-sm font-bold mb-4 border border-blue-100 shadow-sm">
+            <span>כלי אבחון ומאמר עומק מבית AltruBiz</span>
+        </div>
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 tracking-tight leading-[1.25] mb-4">
+          ${escapeAttr(article.diagnosticEmbed.title)}
+        </h1>
+        <p class="text-lg sm:text-xl text-slate-600 leading-relaxed mb-6 font-normal">${escapeAttr(article.diagnosticEmbed.subtitle)}</p>
+        <div class="my-8 p-4 bg-white border border-slate-200 rounded-2xl shadow-sm text-center">
+          <p class="text-sm text-slate-600 mb-2">שאלון אבחון אינטראקטיבי: 18 שאלות לזיהוי חסמי צמיחה סמויים בעסק</p>
+          <a href="https://diagnostic.altrubiz.co.il/" target="_blank" rel="noopener noreferrer" class="inline-block bg-primary text-white font-bold px-6 py-3 rounded-xl text-sm">לפתיחת שאלון האבחון</a>
+        </div>
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 mb-4 mt-8">${escapeAttr(article.title)}</h2>
+        ` : `
         <h1 class="text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 tracking-tight leading-[1.25] mb-4">
           ${escapeAttr(article.title)}
         </h1>
-
-        ${parentHub ? `
-        <div class="mb-6">
-          <a href="${parentHub.url}" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-blue-50/90 hover:bg-blue-100 text-primary text-xs sm:text-sm font-semibold border border-blue-200/80 transition-colors">
-            <span>מוקד ידע מקושר:</span>
-            <span class="underline decoration-primary/40 underline-offset-2">${escapeAttr(parentHub.title)}</span>
-          </a>
-        </div>` : ''}
-
         ${article.subtitle ? `<p class="text-lg sm:text-xl text-slate-600 leading-relaxed mb-6 font-normal">${escapeAttr(article.subtitle)}</p>` : ''}
+        `}
 
         <div class="flex items-center gap-3 pt-6 border-t border-b border-gray-200 py-4 bg-white/60 backdrop-blur-sm rounded-2xl px-6 shadow-sm mb-8">
           <div class="w-11 h-11 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-bold text-lg shadow-md shadow-primary/20">

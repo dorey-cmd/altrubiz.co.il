@@ -219,6 +219,11 @@
             "source": "/articles/customer-handoff-context.md",
             "destination": "/customer-handoff-context.md",
             "permanent": true
+        },
+        {
+            "source": "/diagnostic",
+            "destination": "/hidden-business-growth-barriers",
+            "permanent": true
         }
     ],
     "headers": [
