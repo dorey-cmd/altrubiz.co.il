@@ -29,6 +29,7 @@ import { getRouteConfig } from './lib/routes'
 import { ContactModal } from './components/common/ContactModal'
 import { PricingModal } from './components/common/PricingModal'
 import { BookingModal } from './components/common/BookingModal'
+import { DiagnosticModal } from './components/common/DiagnosticModal'
 import { ModalPresentationOptions } from './types/attribution'
 import { resolveConversionContext } from './lib/conversionEngine'
 import { trackPageview } from './lib/analytics'
@@ -40,6 +41,7 @@ function App() {
     const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
     const [bookingModalOptions, setBookingModalOptions] = useState<ModalPresentationOptions | null>(null);
     const [isPricingModalOpen, setIsPricingModalOpen] = useState(false);
+    const [isDiagnosticModalOpen, setIsDiagnosticModalOpen] = useState(false);
 
     const originalUrlRef = useRef<string | null>(null);
     const originalTitleRef = useRef<string | null>(null);
@@ -190,7 +192,16 @@ function App() {
         setIsPricingModalOpen(false);
     }, []);
 
+    const handleOpenDiagnosticModal = useCallback(() => {
+        setIsDiagnosticModalOpen(true);
+    }, []);
+
+    const handleCloseDiagnosticModal = useCallback(() => {
+        setIsDiagnosticModalOpen(false);
+    }, []);
+
     const handleNavigate = useCallback((targetPath: string) => {
+        setIsDiagnosticModalOpen(false);
         if (isModalOpenRef.current.booking || isModalOpenRef.current.contact) {
             setIsBookingModalOpen(false);
             setIsContactModalOpen(false);
@@ -380,7 +391,11 @@ function App() {
             ) : (
                 <main id="main-content" tabIndex={-1} className="relative z-10 transition-colors focus:outline-none focus-visible:ring-4 focus-visible:ring-primary/40 focus-visible:ring-offset-0">
                     <Spotlight />
-                    <Hero onNavigate={handleNavigate} onOpenBookingModal={handleOpenBookingModal} />
+                    <Hero 
+                        onNavigate={handleNavigate} 
+                        onOpenBookingModal={handleOpenBookingModal} 
+                        onOpenDiagnosticModal={handleOpenDiagnosticModal}
+                    />
                     <Features onNavigate={handleNavigate} />
                     <HowItWorks onNavigate={handleNavigate} />
                     <Benefits onNavigate={handleNavigate} />
@@ -444,6 +459,11 @@ function App() {
                         sourceLabel: 'קביעת שיחת התאמה לבחירת חבילה'
                     }
                 })}
+            />
+            <DiagnosticModal
+                isOpen={isDiagnosticModalOpen}
+                onClose={handleCloseDiagnosticModal}
+                onNavigate={handleNavigate}
             />
         </div>
     )

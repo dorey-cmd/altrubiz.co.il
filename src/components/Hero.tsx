@@ -6,9 +6,10 @@ import { MOTION_EASINGS } from '../lib/motionTokens';
 interface HeroProps {
     onNavigate?: (path: string) => void;
     onOpenBookingModal?: () => void;
+    onOpenDiagnosticModal?: () => void;
 }
 
-export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
+export const Hero: React.FC<HeroProps> = ({ onNavigate, onOpenDiagnosticModal }) => {
     const prefersReducedMotion = usePrefersReducedMotion();
     const heroRef = useRef<HTMLElement>(null);
 
@@ -101,10 +102,16 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
                     transition={{ duration: 0.3, delay: prefersReducedMotion ? 0 : 0.16 }}
                     whileHover={prefersReducedMotion ? {} : { scale: 1.05, y: -2 }}
                     whileTap={prefersReducedMotion ? {} : { scale: 0.97 }}
-                    href="#pricing"
-                    className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-black bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-full shadow-[0_0_20px_rgba(234,179,8,0.5)] hover:shadow-[0_0_30px_rgba(234,179,8,0.75)] transition-all duration-300 animate-subtle-glow"
+                    href="/hidden-business-growth-barriers"
+                    onClick={(e) => {
+                        if (onOpenDiagnosticModal) {
+                            e.preventDefault();
+                            onOpenDiagnosticModal();
+                        }
+                    }}
+                    className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-black bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-full shadow-[0_0_20px_rgba(234,179,8,0.5)] hover:shadow-[0_0_30px_rgba(234,179,8,0.75)] transition-all duration-300 animate-subtle-glow cursor-pointer"
                 >
-                    ✨ מתחילים כאן
+                    ✨ שאלון אבחון מהיר לעסק
                 </motion.a>
 
                 {/* Pain Bar with Knowledge Gateway */}
