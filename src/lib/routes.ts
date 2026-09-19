@@ -122,6 +122,20 @@ export const STATIC_ROUTES_REGISTRY: Record<string, RouteConfig> = {
         inSitemap: false,
         noindex: true
     },
+    '/diagnostic-result': {
+        path: '/diagnostic-result',
+        title: 'דוח תוצאות אבחון חסמי צמיחה בעסק | AltruBiz',
+        description: 'דוח תוצאות מותאם אישית לחסמי צמיחה, אובדן לידים וצווארי בקבוק תפעוליים בעסק מבית AltruBiz.',
+        canonicalUrl: `${BASE_CANONICAL_DOMAIN}/diagnostic-result`,
+        schemaType: 'WebPage',
+        inSitemap: false,
+        noindex: true,
+        breadcrumbs: [
+            { name: 'דף הבית', path: '/' },
+            { name: 'אבחון חסמי צמיחה', path: '/hidden-business-growth-barriers' },
+            { name: 'דוח תוצאות מותאם', path: '/diagnostic-result' }
+        ]
+    },
     '/privacy-policy': {
         path: '/privacy-policy',
         title: 'מדיניות פרטיות | AltruBiz CRM',

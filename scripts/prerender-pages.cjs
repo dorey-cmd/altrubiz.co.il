@@ -327,6 +327,13 @@ const staticPages = [
         noindex: true
     },
     {
+        path: 'diagnostic-result',
+        title: 'דוח תוצאות אבחון חסמי צמיחה בעסק | AltruBiz',
+        description: 'דוח תוצאות מותאם אישית לחסמי צמיחה, אובדן לידים וצווארי בקבוק תפעוליים בעסק מבית AltruBiz.',
+        image: `${BASE_DOMAIN}/images/og-altrubiz-main.jpg`,
+        noindex: true
+    },
+    {
         path: 'privacy-policy',
         title: 'מדיניות פרטיות | AltruBiz CRM',
         description: 'מדיניות הפרטיות של אתר AltruBiz: אילו נתונים נאספים, לשם מה, עם אילו ספקי צד שלישי הם משותפים וכיצד לממש זכויות פרטיות.',

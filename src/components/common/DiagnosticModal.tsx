@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { X, Sparkles, ExternalLink } from 'lucide-react';
 import { useModalFocusManagement } from '../../hooks/useModalFocusManagement';
+import { DiagnosticQuestionnaire } from '../diagnostic/DiagnosticQuestionnaire';
 
 interface DiagnosticModalProps {
     isOpen: boolean;
@@ -90,17 +91,19 @@ export const DiagnosticModal: React.FC<DiagnosticModalProps> = ({
                     </button>
                 </div>
 
-                {/* Questionnaire Container */}
-                <div className="p-1 sm:p-2.5 overflow-y-auto flex-1 bg-white">
-                    <div className="bg-slate-50/50 rounded-2xl border border-slate-100 overflow-hidden">
-                        <iframe
-                            src="https://diagnostic.altrubiz.co.il/"
-                            title="שאלון אבחון: איפה העסק מאבד זמן, כסף ואנרגיה?"
-                            className="w-full h-[490px] sm:h-[520px] md:h-[540px] border-0 rounded-2xl"
-                            loading="lazy"
-                            allow="camera; microphone; autoplay; encrypted-media"
-                        />
-                    </div>
+                {/* Native Questionnaire Container */}
+                <div className="p-4 sm:p-6 overflow-y-auto flex-1 bg-white">
+                    <DiagnosticQuestionnaire
+                        onComplete={() => {
+                            onClose();
+                            if (onNavigate) {
+                                onNavigate('/diagnostic-result');
+                            } else {
+                                window.location.href = '/diagnostic-result';
+                            }
+                        }}
+                        onClose={onClose}
+                    />
                 </div>
 
                 {/* Minimal Footer */}

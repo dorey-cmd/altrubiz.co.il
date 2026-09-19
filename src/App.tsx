@@ -22,6 +22,7 @@ import { CookiePolicyPage } from './components/legal/CookiePolicyPage'
 import { AccessibilityStatementPage } from './components/legal/AccessibilityStatementPage'
 import { CookieConsentBanner } from './components/common/CookieConsentBanner'
 import { RoiCalculatorPage } from './components/RoiCalculatorPage'
+import { DiagnosticResultPage } from './components/diagnostic/DiagnosticResultPage'
 import { ROI_CALCULATOR_FAQS } from './lib/roiCalculator'
 import { SEOHead } from './components/common/SEOHead'
 import { HubPage } from './components/knowledge/HubPage'
@@ -299,6 +300,7 @@ function App() {
     const isCookiePolicy = path === '/cookie-policy';
     const isAccessibilityStatement = path === '/accessibility-statement';
     const isRoiCalculator = path === '/roi-calculator';
+    const isDiagnosticResult = path === '/diagnostic-result';
     const isKnowledgeIndex = path === '/knowledge';
 
     const routeConfig = getRouteConfig(path);
@@ -358,6 +360,15 @@ function App() {
                         onNavigate={handleNavigate}
                         onOpenContactModal={handleOpenContactModal}
                         onOpenBookingModal={handleOpenBookingModal}
+                    />
+                </main>
+            ) : isDiagnosticResult ? (
+                <main id="main-content" tabIndex={-1} className="relative z-10 focus:outline-none focus-visible:ring-4 focus-visible:ring-primary/40 focus-visible:ring-offset-0">
+                    <DiagnosticResultPage
+                        onNavigate={handleNavigate}
+                        onOpenContactModal={handleOpenContactModal}
+                        onOpenBookingModal={handleOpenBookingModal}
+                        onOpenDiagnosticModal={handleOpenDiagnosticModal}
                     />
                 </main>
             ) : isKnowledgeIndex ? (
