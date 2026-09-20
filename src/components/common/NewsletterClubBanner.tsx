@@ -132,7 +132,7 @@ export const NewsletterClubBanner: React.FC<NewsletterClubBannerProps> = ({ curr
                                         type="email"
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
-                                        placeholder="האימייל שלכם"
+                                        placeholder="Email"
                                         disabled={status === 'loading'}
                                         required
                                         className="w-full pl-4 pr-11 py-3.5 rounded-2xl bg-white/10 border border-white/20 text-white placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white/15 transition-all"
