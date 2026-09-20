@@ -23,6 +23,7 @@ import { AccessibilityStatementPage } from './components/legal/AccessibilityStat
 import { CookieConsentBanner } from './components/common/CookieConsentBanner'
 import { RoiCalculatorPage } from './components/RoiCalculatorPage'
 import { DiagnosticResultPage } from './components/diagnostic/DiagnosticResultPage'
+import { NewsletterClubBanner } from './components/common/NewsletterClubBanner'
 import { ROI_CALCULATOR_FAQS } from './lib/roiCalculator'
 import { SEOHead } from './components/common/SEOHead'
 import { HubPage } from './components/knowledge/HubPage'
@@ -417,6 +418,8 @@ function App() {
                     <ContactForm />
                 </main>
             )}
+
+            <NewsletterClubBanner currentPath={path} />
 
             <CookieConsentBanner onNavigate={handleNavigate} />
 

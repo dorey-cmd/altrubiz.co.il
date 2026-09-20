@@ -7,13 +7,13 @@ import {
     MessageCircle, 
     Calculator, 
     Calendar, 
-    BookOpen, 
     ArrowLeft, 
     RotateCcw, 
     Sparkles, 
     AlertTriangle,
     ShieldCheck,
-    CheckCircle2
+    CheckCircle2,
+    Zap
 } from 'lucide-react';
 import { Breadcrumbs } from '../common/Breadcrumbs';
 import { 
@@ -178,7 +178,7 @@ export const DiagnosticResultPage: React.FC<DiagnosticResultPageProps> = ({
                                                 פגישת מיפוי ממוקדת
                                             </h3>
                                             <p className="text-xs text-slate-300 mt-1 leading-snug">
-                                                נשב יחד על מה שעלה בשאלון ונבנה תוכנית עבודה מעשית לשחרור צווארי הבקבוק.
+                                                מיפוי משותף של מה שעלה בשאלון ובניית תוכנית עבודה מעשית לשחרור צווארי הבקבוק.
                                             </p>
                                         </div>
                                         <button
@@ -187,7 +187,7 @@ export const DiagnosticResultPage: React.FC<DiagnosticResultPageProps> = ({
                                                 if (onOpenBookingModal) {
                                                     onOpenBookingModal({
                                                         title: 'תיאום שיחת מיפוי בעקבות האבחון',
-                                                        subtitle: 'נזהה את צווארי הבקבוק שעלו בשאלון ונראה איך לבנות תשתית יציבה.',
+                                                        subtitle: 'מיפוי צווארי הבקבוק שעלו בשאלון ובניית תוכנית מעשית לתשתית יציבה.',
                                                         attribution: {
                                                             sourcePage: '/diagnostic-result',
                                                             sourceSection: 'sidebar_guided_cta',
@@ -207,48 +207,58 @@ export const DiagnosticResultPage: React.FC<DiagnosticResultPageProps> = ({
                                         </button>
                                     </div>
 
-                                    {/* CTA 2: Self-service guide */}
-                                    <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-slate-900 space-y-2.5">
+                                    {/* CTA 2: Self Implementation & Packages */}
+                                    <div className="p-4 rounded-2xl bg-gradient-to-br from-[#0c2240] via-[#122e58] to-[#0c2240] text-white shadow-md space-y-2.5 border border-blue-700/50">
                                         <div className="flex items-center justify-between">
-                                            <span className="text-[11px] font-bold text-slate-600 bg-white px-2 py-0.5 rounded-full border border-slate-200">
-                                                למידה עצמאית
+                                            <span className="text-[11px] font-bold text-amber-300 bg-amber-950/70 px-2 py-0.5 rounded-full border border-amber-400/40">
+                                                הטמעה וכלים
                                             </span>
-                                            <div className="w-8 h-8 rounded-xl bg-slate-200 text-slate-800 flex items-center justify-center font-bold">
-                                                <BookOpen size={16} />
+                                            <div className="w-8 h-8 rounded-xl bg-amber-400 text-slate-950 flex items-center justify-center font-bold">
+                                                <Zap size={16} />
                                             </div>
                                         </div>
                                         <div>
-                                            <h3 className="font-bold text-sm text-slate-900">
-                                                מדריך לבניית פייפליין ב-CRM
+                                            <h3 className="font-bold text-sm text-white">
+                                                אנחנו נדע ליישם את זה לבד
                                             </h3>
-                                            <p className="text-xs text-slate-600 mt-1 leading-snug">
-                                                מעבר מניהול לידים באקסל למערכת שעוקבת וזוכרת עבורכם.
+                                            <p className="text-xs text-slate-300 mt-1 leading-snug">
+                                                רק תנו לנו את הכלים הטכנולוגיים לזה.
                                             </p>
                                         </div>
                                         <button
                                             type="button"
-                                            onClick={() => onNavigate('/excel-to-pipeline')}
-                                            className="w-full py-2 px-3 rounded-xl font-bold text-xs text-white bg-slate-900 hover:bg-slate-800 transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                                            onClick={() => onNavigate('/#pricing')}
+                                            className="w-full py-2.5 px-3 rounded-xl font-bold text-xs text-slate-950 bg-gradient-to-r from-amber-400 to-amber-300 hover:from-amber-300 hover:to-amber-200 transition-all flex items-center justify-center gap-1.5 shadow-sm cursor-pointer"
                                         >
-                                            <span>לקריאת המדריך המעשי</span>
+                                            <span>צפייה בחבילות בעמוד הבית</span>
                                             <ArrowLeft size={14} />
                                         </button>
                                     </div>
 
-                                    {/* CTA 3: Quiet exit */}
-                                    <div className="p-3 rounded-2xl bg-white border border-slate-100 text-slate-600 space-y-1.5">
-                                        <h4 className="text-xs font-bold text-slate-800">
-                                            המשך עבודה במצב הקיים
-                                        </h4>
-                                        <p className="text-[11px] text-slate-500 leading-snug">
-                                            אם עדיין לא הזמן לשנות — הדוח יישאר זמין לשלב שבו תרצו להתחיל.
-                                        </p>
+                                    {/* CTA 3: Why businesses stay stuck */}
+                                    <div className="p-3.5 rounded-2xl bg-white border border-slate-200 text-slate-700 space-y-2 shadow-xs">
+                                        <div className="flex items-center justify-between">
+                                            <span className="text-[11px] font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-full border border-slate-200">
+                                                מצב קיים
+                                            </span>
+                                            <div className="w-7 h-7 rounded-lg bg-slate-100 text-slate-600 flex items-center justify-center">
+                                                <AlertTriangle size={14} />
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <h4 className="text-xs font-bold text-slate-900">
+                                                טוב לי לאבד כסף ולעבוד יותר
+                                            </h4>
+                                            <p className="text-[11px] text-slate-500 mt-0.5 leading-snug">
+                                                הסבר על הדפוס שגורם לעסקים להמשיך להפסיד זמן והכנסות.
+                                            </p>
+                                        </div>
                                         <button
                                             type="button"
-                                            onClick={() => onNavigate('/hidden-business-growth-barriers')}
-                                            className="text-xs font-bold text-primary hover:text-secondary inline-flex items-center gap-1 pt-1 cursor-pointer"
+                                            onClick={() => onNavigate('/why-businesses-stay-stuck-in-bad-processes')}
+                                            className="w-full py-2 px-3 rounded-xl font-bold text-xs text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
                                         >
-                                            <span>חזרה למאמר על חסמי צמיחה</span>
+                                            <span>לקריאת המאמר על תהליכים תקועים</span>
                                             <ArrowLeft size={12} />
                                         </button>
                                     </div>
@@ -495,6 +505,129 @@ export const DiagnosticResultPage: React.FC<DiagnosticResultPageProps> = ({
                                             <span>העסק ממשיך להתקדם גם כשמישהו לא נמצא.</span>
                                         </li>
                                     </ul>
+                                </div>
+                            </div>
+
+                            {/* 3 Outcome CTAs - Bottom Section */}
+                            <div className="rounded-3xl p-6 sm:p-8 bg-slate-900 text-white border border-slate-800 shadow-xl space-y-6">
+                                <div className="text-center max-w-xl mx-auto space-y-2">
+                                    <span className="text-xs font-bold text-cyan-300 bg-cyan-950/80 px-3 py-1 rounded-full border border-cyan-800/60">
+                                        מה עושים עכשיו?
+                                    </span>
+                                    <h2 className="text-xl sm:text-2xl font-black text-white">
+                                        שלוש דרכים להתקדם מפה
+                                    </h2>
+                                    <p className="text-xs sm:text-sm text-slate-300">
+                                        לבחירת הצעד שהכי מתאים לקצב ולמוכנות של העסק:
+                                    </p>
+                                </div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                    {/* Card 1: Guided Meeting */}
+                                    <div className="p-5 rounded-2xl bg-gradient-to-br from-slate-850 via-slate-800 to-slate-900 text-white shadow-md space-y-3 border border-slate-700 flex flex-col justify-between">
+                                        <div className="space-y-3">
+                                            <div className="flex items-center justify-between">
+                                                <span className="text-[11px] font-bold text-cyan-300 bg-cyan-950/70 px-2.5 py-0.5 rounded-full border border-cyan-400/30">
+                                                    המסלול המומלץ
+                                                </span>
+                                                <div className="w-8 h-8 rounded-xl bg-cyan-400 text-slate-950 flex items-center justify-center font-bold">
+                                                    <Calendar size={16} />
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <h3 className="font-bold text-base text-white">
+                                                    פגישת מיפוי ממוקדת
+                                                </h3>
+                                                <p className="text-xs text-slate-300 mt-1.5 leading-relaxed">
+                                                    מיפוי משותף של מה שעלה בשאלון ובניית תוכנית עבודה מעשית לשחרור צווארי הבקבוק.
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <button
+                                            type="button"
+                                            onClick={() => {
+                                                if (onOpenBookingModal) {
+                                                    onOpenBookingModal({
+                                                        title: 'תיאום שיחת מיפוי בעקבות האבחון',
+                                                        subtitle: 'מיפוי צווארי הבקבוק שעלו בשאלון ובניית תוכנית מעשית לתשתית יציבה.',
+                                                        attribution: {
+                                                            sourcePage: '/diagnostic-result',
+                                                            sourceSection: 'bottom_guided_cta',
+                                                            intent: 'booking',
+                                                            ctaType: 'meeting',
+                                                            sourceLabel: 'diagnostic_result_bottom_booking'
+                                                        }
+                                                    });
+                                                } else {
+                                                    window.open('https://link.altrubiz.co.il/widget/bookings/caldorey', '_blank');
+                                                }
+                                            }}
+                                            className="w-full py-2.5 px-3 rounded-xl font-bold text-xs text-slate-950 bg-gradient-to-r from-cyan-400 to-sky-400 hover:from-cyan-300 hover:to-sky-300 transition-all flex items-center justify-center gap-1.5 shadow-sm cursor-pointer mt-2"
+                                        >
+                                            <span>קביעת מועד ביומן</span>
+                                            <ArrowLeft size={14} />
+                                        </button>
+                                    </div>
+
+                                    {/* Card 2: Self Implementation & Packages */}
+                                    <div className="p-5 rounded-2xl bg-gradient-to-br from-[#0c2240] via-[#122e58] to-[#0c2240] text-white shadow-md space-y-3 border border-blue-700/50 flex flex-col justify-between">
+                                        <div className="space-y-3">
+                                            <div className="flex items-center justify-between">
+                                                <span className="text-[11px] font-bold text-amber-300 bg-amber-950/70 px-2.5 py-0.5 rounded-full border border-amber-400/40">
+                                                    הטמעה וכלים
+                                                </span>
+                                                <div className="w-8 h-8 rounded-xl bg-amber-400 text-slate-950 flex items-center justify-center font-bold">
+                                                    <Zap size={16} />
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <h3 className="font-bold text-base text-white">
+                                                    אנחנו נדע ליישם את זה לבד
+                                                </h3>
+                                                <p className="text-xs text-slate-300 mt-1.5 leading-relaxed">
+                                                    רק תנו לנו את הכלים הטכנולוגיים לזה.
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <button
+                                            type="button"
+                                            onClick={() => onNavigate('/#pricing')}
+                                            className="w-full py-2.5 px-3 rounded-xl font-bold text-xs text-slate-950 bg-gradient-to-r from-amber-400 to-amber-300 hover:from-amber-300 hover:to-amber-200 transition-all flex items-center justify-center gap-1.5 shadow-sm cursor-pointer mt-2"
+                                        >
+                                            <span>צפייה בחבילות בעמוד הבית</span>
+                                            <ArrowLeft size={14} />
+                                        </button>
+                                    </div>
+
+                                    {/* Card 3: Why businesses stay stuck */}
+                                    <div className="p-5 rounded-2xl bg-slate-800 text-white shadow-md space-y-3 border border-slate-700 flex flex-col justify-between">
+                                        <div className="space-y-3">
+                                            <div className="flex items-center justify-between">
+                                                <span className="text-[11px] font-bold text-slate-300 bg-slate-700 px-2.5 py-0.5 rounded-full">
+                                                    מצב קיים
+                                                </span>
+                                                <div className="w-8 h-8 rounded-xl bg-slate-700 text-amber-400 flex items-center justify-center font-bold">
+                                                    <AlertTriangle size={16} />
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <h3 className="font-bold text-base text-white">
+                                                    טוב לי לאבד כסף ולעבוד יותר
+                                                </h3>
+                                                <p className="text-xs text-slate-300 mt-1.5 leading-relaxed">
+                                                    הסבר על הדפוס שגורם לעסקים להמשיך להפסיד זמן והכנסות.
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <button
+                                            type="button"
+                                            onClick={() => onNavigate('/why-businesses-stay-stuck-in-bad-processes')}
+                                            className="w-full py-2.5 px-3 rounded-xl font-bold text-xs text-slate-200 bg-slate-700 hover:bg-slate-600 transition-colors flex items-center justify-center gap-1.5 cursor-pointer mt-2"
+                                        >
+                                            <span>לקריאת המאמר על תהליכים תקועים</span>
+                                            <ArrowLeft size={14} />
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
 
