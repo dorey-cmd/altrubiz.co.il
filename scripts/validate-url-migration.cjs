@@ -260,6 +260,20 @@ if (!fs.existsSync(VERCEL_JSON_PATH)) {
         }
     }
     pass('Zero redirect chains detected in vercel.json.');
+
+    // Legacy homepage aliases must be answered with a real HTTP 301 at the server,
+    // not by the client-side "unknown route -> /" script in src/main.tsx (which
+    // serves 200 first and is not a redirect for crawlers).
+    for (const legacy of ['/home', '/prsonal-system-1498']) {
+        const r = redirectMap.get(legacy);
+        if (!r) {
+            fail(`Missing server-side 301 redirect for legacy homepage alias: ${legacy}`);
+        } else if (r.destination !== '/' || r.statusCode !== 301) {
+            fail(`Legacy alias ${legacy} must redirect to "/" with statusCode 301 (found destination "${r.destination}", statusCode ${r.statusCode}, permanent ${r.permanent})`);
+        } else {
+            pass(`Redirect verified: ${legacy} -> / (HTTP 301)`);
+        }
+    }
 }
 
 // 6. Audit State A Semantic Links & Single Source of Truth
