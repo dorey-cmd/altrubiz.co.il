@@ -229,7 +229,7 @@ export const DiagnosticResultPage: React.FC<DiagnosticResultPageProps> = ({
                                         <InternalLink
                                             href="/#pricing"
                                             onNavigate={onNavigate}
-                                            className="w-full py-2.5 px-3 rounded-xl font-bold text-xs text-slate-950 bg-gradient-to-r from-amber-400 to-amber-300 hover:from-amber-300 hover:to-amber-200 transition-all flex items-center justify-center gap-1.5 shadow-sm cursor-pointer"
+                                            className="text-center w-full py-2.5 px-3 rounded-xl font-bold text-xs text-slate-950 bg-gradient-to-r from-amber-400 to-amber-300 hover:from-amber-300 hover:to-amber-200 transition-all flex items-center justify-center gap-1.5 shadow-sm cursor-pointer"
                                         >
                                             <span>צפייה בחבילות בעמוד הבית</span>
                                             <ArrowLeft size={14} />
@@ -257,7 +257,7 @@ export const DiagnosticResultPage: React.FC<DiagnosticResultPageProps> = ({
                                         <InternalLink
                                             href="/why-businesses-stay-stuck-in-bad-processes"
                                             onNavigate={onNavigate}
-                                            className="w-full py-2 px-3 rounded-xl font-bold text-xs text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                                            className="text-center w-full py-2 px-3 rounded-xl font-bold text-xs text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
                                         >
                                             <span>לקריאת המאמר על תהליכים תקועים</span>
                                             <ArrowLeft size={12} />
@@ -314,7 +314,7 @@ export const DiagnosticResultPage: React.FC<DiagnosticResultPageProps> = ({
                                 <InternalLink
                                     href="/roi-calculator"
                                     onNavigate={onNavigate}
-                                    className="w-full py-2.5 px-4 rounded-xl font-bold text-xs text-slate-950 bg-amber-400 hover:bg-amber-300 transition-colors flex items-center justify-center gap-2 shadow-sm cursor-pointer"
+                                    className="text-center w-full py-2.5 px-4 rounded-xl font-bold text-xs text-slate-950 bg-amber-400 hover:bg-amber-300 transition-colors flex items-center justify-center gap-2 shadow-sm cursor-pointer"
                                 >
                                     <Calculator size={16} />
                                     <span>למעבר למחשבון ROI ללידים</span>
@@ -593,7 +593,7 @@ export const DiagnosticResultPage: React.FC<DiagnosticResultPageProps> = ({
                                         <InternalLink
                                             href="/#pricing"
                                             onNavigate={onNavigate}
-                                            className="w-full py-2.5 px-3 rounded-xl font-bold text-xs text-slate-950 bg-gradient-to-r from-amber-400 to-amber-300 hover:from-amber-300 hover:to-amber-200 transition-all flex items-center justify-center gap-1.5 shadow-sm cursor-pointer mt-2"
+                                            className="text-center w-full py-2.5 px-3 rounded-xl font-bold text-xs text-slate-950 bg-gradient-to-r from-amber-400 to-amber-300 hover:from-amber-300 hover:to-amber-200 transition-all flex items-center justify-center gap-1.5 shadow-sm cursor-pointer mt-2"
                                         >
                                             <span>צפייה בחבילות בעמוד הבית</span>
                                             <ArrowLeft size={14} />
@@ -623,7 +623,7 @@ export const DiagnosticResultPage: React.FC<DiagnosticResultPageProps> = ({
                                         <InternalLink
                                             href="/why-businesses-stay-stuck-in-bad-processes"
                                             onNavigate={onNavigate}
-                                            className="w-full py-2.5 px-3 rounded-xl font-bold text-xs text-slate-200 bg-slate-700 hover:bg-slate-600 transition-colors flex items-center justify-center gap-1.5 cursor-pointer mt-2"
+                                            className="text-center w-full py-2.5 px-3 rounded-xl font-bold text-xs text-slate-200 bg-slate-700 hover:bg-slate-600 transition-colors flex items-center justify-center gap-1.5 cursor-pointer mt-2"
                                         >
                                             <span>לקריאת המאמר על תהליכים תקועים</span>
                                             <ArrowLeft size={14} />

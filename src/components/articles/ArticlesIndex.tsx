@@ -414,7 +414,7 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate, onOpen
                                                 <InternalLink
                                                     href={article.publicPath}
                                                     onNavigate={onNavigate}
-                                                    className="w-full sm:w-auto group/btn inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl bg-secondary hover:bg-[#006185] active:scale-[0.98] text-white text-xs sm:text-sm font-bold shadow-md shadow-secondary/20 hover:shadow-lg hover:shadow-secondary/30 transition-all duration-200"
+                                                    className="text-center w-full sm:w-auto group/btn inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl bg-secondary hover:bg-[#006185] active:scale-[0.98] text-white text-xs sm:text-sm font-bold shadow-md shadow-secondary/20 hover:shadow-lg hover:shadow-secondary/30 transition-all duration-200"
                                                 >
                                                     <span>{article.cardCta || 'איך פותרים את זה בעסק?'}</span>
                                                     <ArrowLeft size={14} className="transition-transform duration-200 group-hover/btn:-translate-x-1" />
@@ -448,7 +448,7 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate, onOpen
                             <InternalLink
                                 href="/lost-leads"
                                 onNavigate={onNavigate}
-                                className="w-full group/btn inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs sm:text-sm font-bold shadow-sm transition-all"
+                                className="text-center w-full group/btn inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs sm:text-sm font-bold shadow-sm transition-all"
                             >
                                 <span>למרכז האבחון והפתרון</span>
                                 <ArrowLeft size={14} className="group-hover/btn:-translate-x-1 transition-transform" />
@@ -474,7 +474,7 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate, onOpen
                             <InternalLink
                                 href="/whatsapp-in-crm"
                                 onNavigate={onNavigate}
-                                className="w-full group/btn inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-secondary hover:bg-[#006185] text-white text-xs sm:text-sm font-bold shadow-sm shadow-secondary/20 transition-all"
+                                className="text-center w-full group/btn inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-secondary hover:bg-[#006185] text-white text-xs sm:text-sm font-bold shadow-sm shadow-secondary/20 transition-all"
                             >
                                 <span>למדריך וואטסאפ ב-CRM</span>
                                 <ArrowLeft size={14} className="group-hover/btn:-translate-x-1 transition-transform" />

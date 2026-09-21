@@ -149,7 +149,7 @@ export const RoiCalculatorPage: React.FC<RoiCalculatorPageProps> = ({
                         <InternalLink
                             href="/lost-leads"
                             onNavigate={onNavigate}
-                            className="text-primary font-bold underline decoration-primary/30 underline-offset-4 hover:text-blue-700"
+                            className="text-center text-primary font-bold underline decoration-primary/30 underline-offset-4 hover:text-blue-700"
                         >
                             הולך לאיבוד היום
                         </InternalLink>
@@ -222,7 +222,7 @@ export const RoiCalculatorPage: React.FC<RoiCalculatorPageProps> = ({
                                 <InternalLink
                                     href="/lead-first-5-minutes"
                                     onNavigate={onNavigate}
-                                    className="inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:underline"
+                                    className="text-center inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:underline"
                                 >
                                     <span>איך לענות לליד ב-5 דקות ראשונות?</span>
                                     <ArrowLeft size={14} />
@@ -244,7 +244,7 @@ export const RoiCalculatorPage: React.FC<RoiCalculatorPageProps> = ({
                                 <InternalLink
                                     href="/missed-call-text-back"
                                     onNavigate={onNavigate}
-                                    className="inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:underline"
+                                    className="text-center inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:underline"
                                 >
                                     <span>איך מענה אוטומטי בוואטסאפ מציל שיחות?</span>
                                     <ArrowLeft size={14} />
@@ -266,7 +266,7 @@ export const RoiCalculatorPage: React.FC<RoiCalculatorPageProps> = ({
                                 <InternalLink
                                     href="/lost-leads"
                                     onNavigate={onNavigate}
-                                    className="inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:underline"
+                                    className="text-center inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:underline"
                                 >
                                     <span>מה עושים בשלב שאחרי הצעת המחיר?</span>
                                     <ArrowLeft size={14} />
@@ -288,7 +288,7 @@ export const RoiCalculatorPage: React.FC<RoiCalculatorPageProps> = ({
                                 <InternalLink
                                     href="/repetitive-manual-work"
                                     onNavigate={onNavigate}
-                                    className="inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:underline"
+                                    className="text-center inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:underline"
                                 >
                                     <span>איך לשחרר את הצוות מעבודה ידנית?</span>
                                     <ArrowLeft size={14} />

@@ -27,7 +27,7 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items, onNavigate, cla
                                 <InternalLink
                                     href={item.path}
                                     onNavigate={onNavigate}
-                                    className="hover:text-primary transition-colors font-medium focus:outline-none focus:underline"
+                                    className="text-center hover:text-primary transition-colors font-medium focus:outline-none focus:underline"
                                 >
                                     {item.name}
                                 </InternalLink>

@@ -1109,7 +1109,7 @@ export const HubPage: React.FC<HubPageProps> = ({
                                                     href={nextNode.url}
                                                     onNavigate={onNavigate}
                                                     key={slug}
-                                                    className="px-3.5 py-2 rounded-xl bg-white border border-slate-200 hover:border-slate-300 text-slate-800 font-medium text-xs flex items-center gap-1.5 hover:shadow-xs transition-all"
+                                                    className="text-center px-3.5 py-2 rounded-xl bg-white border border-slate-200 hover:border-slate-300 text-slate-800 font-medium text-xs flex items-center gap-1.5 hover:shadow-xs transition-all"
                                                 >
                                                     <Layers className="w-3.5 h-3.5 text-secondary" />
                                                     <span>{nextNode.title}</span>
@@ -1123,7 +1123,7 @@ export const HubPage: React.FC<HubPageProps> = ({
                                                     href={art.publicPath}
                                                     onNavigate={onNavigate}
                                                     key={slug}
-                                                    className="px-3.5 py-2 rounded-xl bg-white border border-slate-200 hover:border-slate-300 text-slate-800 font-medium text-xs flex items-center gap-1.5 hover:shadow-xs transition-all"
+                                                    className="text-center px-3.5 py-2 rounded-xl bg-white border border-slate-200 hover:border-slate-300 text-slate-800 font-medium text-xs flex items-center gap-1.5 hover:shadow-xs transition-all"
                                                 >
                                                     <BookOpen className="w-3.5 h-3.5 text-blue-500" />
                                                     <span>{art.title}</span>

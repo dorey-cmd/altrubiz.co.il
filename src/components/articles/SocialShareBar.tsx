@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Check, Copy, Share2, Quote, Sparkles } from 'lucide-react';
+import { isPlainPrimaryClick } from '../common/InternalLink';
 
 export interface SocialShareBarProps {
     title: string;
@@ -96,39 +97,45 @@ export const SocialShareBar: React.FC<SocialShareBarProps> = ({
         }
     };
 
-    const handleWhatsApp = () => {
+    // External share intents are real links (`<a href>`); a plain click keeps the popup behavior,
+    // while Ctrl/Cmd/middle click and "copy link address" stay native (SiteOS crawlable-link rule).
+    const whatsAppHref = () => {
         const url = getShareUrl();
         const text = encodeURIComponent(`💡 "${smartQuote}"\n\nמתוך המאמר: *${title}*\n${url}`);
-        window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank', 'noopener,noreferrer');
+        return `https://api.whatsapp.com/send?text=${text}`;
+    };
+    const handleWhatsApp = () => {
+        window.open(whatsAppHref(), '_blank', 'noopener,noreferrer');
     };
 
-    const handleFacebook = () => {
+    const facebookHref = () => {
         const url = getShareUrl();
         const quote = encodeURIComponent(`"${smartQuote}" - ${title}`);
-        window.open(
-            `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${quote}`,
-            '_blank',
-            'width=600,height=500,noopener,noreferrer'
-        );
+        return `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${quote}`;
+    };
+    const handleFacebook = () => {
+        window.open(facebookHref(), '_blank', 'width=600,height=500,noopener,noreferrer');
     };
 
-    const handleTwitter = () => {
+    const twitterHref = () => {
         const url = getShareUrl();
         const text = encodeURIComponent(`💡 "${smartQuote}"\n\nמתוך: ${title}`);
-        window.open(
-            `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${text}`,
-            '_blank',
-            'width=600,height=500,noopener,noreferrer'
-        );
+        return `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${text}`;
+    };
+    const handleTwitter = () => {
+        window.open(twitterHref(), '_blank', 'width=600,height=500,noopener,noreferrer');
     };
 
+    const linkedInHref = () => `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(getShareUrl())}`;
     const handleLinkedIn = () => {
-        const url = getShareUrl();
-        window.open(
-            `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
-            '_blank',
-            'width=600,height=600,noopener,noreferrer'
-        );
+        window.open(linkedInHref(), '_blank', 'width=600,height=600,noopener,noreferrer');
+    };
+
+    /** Plain click -> popup share dialog; modified click / context menu -> native link behavior. */
+    const openShare = (open: () => void) => (e: React.MouseEvent<HTMLAnchorElement>) => {
+        if (!isPlainPrimaryClick(e)) return;
+        e.preventDefault();
+        open();
     };
 
     const handleInstagram = async () => {
@@ -204,45 +211,57 @@ export const SocialShareBar: React.FC<SocialShareBarProps> = ({
                 )}
 
                 {/* WhatsApp */}
-                <button
-                    onClick={handleWhatsApp}
+                <a
+                    href={whatsAppHref()}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={openShare(handleWhatsApp)}
                     title="שיתוף בוואטסאפ עם ציטוט חכם"
                     aria-label="שיתוף בוואטסאפ"
                     className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-xl bg-[#25D366]/15 text-[#075E54] hover:bg-[#25D366]/25 transition-all shadow-xs active:scale-95"
                 >
                     <WhatsAppIcon />
                     <span className="hidden xs:inline">וואטסאפ</span>
-                </button>
+                </a>
 
                 {/* LinkedIn */}
-                <button
-                    onClick={handleLinkedIn}
+                <a
+                    href={linkedInHref()}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={openShare(handleLinkedIn)}
                     title="שיתוף בלינקדאין"
                     aria-label="שיתוף בלינקדאין"
                     className="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-[#0077B5]/10 text-[#0077B5] hover:bg-[#0077B5]/20 hover:scale-105 transition-all active:scale-95"
                 >
                     <LinkedInIcon />
-                </button>
+                </a>
 
                 {/* Facebook */}
-                <button
-                    onClick={handleFacebook}
+                <a
+                    href={facebookHref()}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={openShare(handleFacebook)}
                     title="שיתוף בפייסבוק"
                     aria-label="שיתוף בפייסבוק"
                     className="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-[#1877F2]/10 text-[#1877F2] hover:bg-[#1877F2]/20 hover:scale-105 transition-all active:scale-95"
                 >
                     <FacebookIcon />
-                </button>
+                </a>
 
                 {/* X (Twitter) */}
-                <button
-                    onClick={handleTwitter}
+                <a
+                    href={twitterHref()}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={openShare(handleTwitter)}
                     title="שיתוף ב-X (טוויטר)"
                     aria-label="שיתוף ב-X"
                     className="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-slate-900/10 text-slate-800 hover:bg-slate-900/20 hover:scale-105 transition-all active:scale-95"
                 >
                     <XTwitterIcon />
-                </button>
+                </a>
 
                 {/* Instagram */}
                 <button
@@ -342,44 +361,56 @@ export const SocialShareBar: React.FC<SocialShareBarProps> = ({
                 {/* Social Button Grid */}
                 <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-7 gap-2.5 pt-1">
                     {/* WhatsApp */}
-                    <button
-                        onClick={handleWhatsApp}
+                    <a
+                        href={whatsAppHref()}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={openShare(handleWhatsApp)}
                         aria-label="שיתוף בוואטסאפ"
                         className="flex items-center justify-center gap-2 py-3 px-3 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-slate-950 font-bold text-xs transition-all shadow-md shadow-[#25D366]/20 active:scale-95"
                     >
                         <WhatsAppIcon />
                         <span>וואטסאפ</span>
-                    </button>
+                    </a>
 
                     {/* LinkedIn */}
-                    <button
-                        onClick={handleLinkedIn}
+                    <a
+                        href={linkedInHref()}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={openShare(handleLinkedIn)}
                         aria-label="שיתוף בלינקדאין"
                         className="flex items-center justify-center gap-2 py-3 px-3 rounded-xl bg-[#0077B5] hover:bg-[#00669c] text-white font-bold text-xs transition-all shadow-md shadow-[#0077B5]/20 active:scale-95"
                     >
                         <LinkedInIcon />
                         <span>LinkedIn</span>
-                    </button>
+                    </a>
 
                     {/* Facebook */}
-                    <button
-                        onClick={handleFacebook}
+                    <a
+                        href={facebookHref()}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={openShare(handleFacebook)}
                         aria-label="שיתוף בפייסבוק"
                         className="flex items-center justify-center gap-2 py-3 px-3 rounded-xl bg-[#145DBF] hover:bg-[#0f4a9c] text-white font-bold text-xs transition-all shadow-md shadow-[#1877F2]/20 active:scale-95"
                     >
                         <FacebookIcon />
                         <span>פייסבוק</span>
-                    </button>
+                    </a>
 
                     {/* X (Twitter) */}
-                    <button
-                        onClick={handleTwitter}
+                    <a
+                        href={twitterHref()}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={openShare(handleTwitter)}
                         aria-label="שיתוף ב-X (טוויטר)"
                         className="flex items-center justify-center gap-2 py-3 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs transition-all border border-slate-700 active:scale-95"
                     >
                         <XTwitterIcon />
                         <span>X / טוויטר</span>
-                    </button>
+                    </a>
 
                     {/* Instagram */}
                     <button

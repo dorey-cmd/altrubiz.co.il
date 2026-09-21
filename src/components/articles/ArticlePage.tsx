@@ -1641,7 +1641,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                         <InternalLink
                                             href={parentHub.url}
                                             onNavigate={onNavigate}
-                                            className="inline-flex items-center gap-2 bg-amber-400 hover:bg-amber-300 text-slate-950 font-black px-5 py-3.5 rounded-xl transition-all text-sm sm:text-base shadow-sm"
+                                            className="text-center inline-flex items-center gap-2 bg-amber-400 hover:bg-amber-300 text-slate-950 font-black px-5 py-3.5 rounded-xl transition-all text-sm sm:text-base shadow-sm"
                                         >
                                             <Layers size={16} />
                                             <span>למרכז האבחון: {parentHub.title}</span>
@@ -1651,7 +1651,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                     <InternalLink
                                         href="/knowledge"
                                         onNavigate={onNavigate}
-                                        className="inline-flex items-center gap-2 text-white/80 hover:text-white px-5 py-3.5 rounded-xl border border-white/20 hover:border-white/40 transition-colors text-sm font-medium"
+                                        className="text-center inline-flex items-center gap-2 text-white/80 hover:text-white px-5 py-3.5 rounded-xl border border-white/20 hover:border-white/40 transition-colors text-sm font-medium"
                                     >
                                         <ChevronLeft size={16} />
                                         <span>חזרה למרכז המאמרים</span>

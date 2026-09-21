@@ -23,7 +23,8 @@ This rule complements, and never replaces, [`contextual-semantic-linking.md`](co
 | Activation does this | Element |
 | :--- | :--- |
 | Moves the visitor to another URL (page, hub, article, `/#section` on another page, breadcrumb, card, "next step", "related article") | **`<a href>`**, rendered with `InternalLink` (or `Button href`) |
-| Filters or sorts a list, toggles a disclosure, opens a modal or popover, submits a form, copies, plays, dismisses | **`<button>`** |
+| Opens an external URL only (share intents for WhatsApp / LinkedIn / Facebook / X, external tools) | **`<a href target="_blank" rel="noopener noreferrer">`**; a plain click may still open a popup, modified clicks stay native |
+| Filters or sorts a list, toggles a disclosure, opens a modal or popover, submits a form, copies to the clipboard first (Copy link, Instagram, TikTok), plays, dismisses | **`<button>`** |
 | Opens a conversion modal (`BookingModal`, `ContactModal`, `PricingModal`) whose fallback is a URL | **`<button>`** (the action is primary; the URL is only a fallback) |
 | Navigates AND has a side effect (closes a drawer or menu first) | **`<a href>`** whose handler runs the side effect only on a plain click (`isPlainPrimaryClick`) |
 
@@ -62,8 +63,8 @@ Do **not** turn every button into a link. Use a button when the job is an action
 
 ## 6. Enforcement (Automated)
 `scripts/validate-crawlable-links.cjs`:
-- **Source guard** (`npm run test:links:source`, runs inside `prebuild` and therefore blocks `npm run build` and Vercel builds): fails on any `<button>`, `<div>`, `<span>`, `<li>` or `<Button>` whose click handler only calls `onNavigate(...)`, and on `href="#"`, empty `href`, `javascript:` and `role="link"`.
-- **Rendered-DOM audit** (`npm run test:links`, part of `npm test` and `release:gate` Step 12): every article card on `/knowledge` has a real `<a href="<publicPath>">` on title and CTA; filter controls remain buttons and still filter; no empty / `#` / `javascript:` hrefs; no nested interactive elements; breadcrumb ancestors are links; a crawl over `<a href>` only reaches every `sitemap.xml` URL and gives each indexable article a contextual inbound link; a plain click navigates client-side, Ctrl+click opens a new tab, and Enter on a focused link navigates.
+- **Source guard** (`npm run test:links:source`, runs inside `prebuild` and therefore blocks `npm run build` and Vercel builds): fails on any `<button>`, `<div>`, `<span>`, `<li>` or `<Button>` whose click handler only calls `onNavigate(...)`, `window.open(...)` or assigns `window.location`, and on `href="#"`, empty `href`, `javascript:` and `role="link"`.
+- **Rendered-DOM audit** (`npm run test:links`, part of `npm test` and `release:gate` Step 12): every article card on `/knowledge` has a real `<a href="<publicPath>">` on title and CTA; filter controls remain buttons and still filter; no empty / `#` / `javascript:` hrefs; no nested interactive elements; breadcrumb ancestors are links; the article share bar's WhatsApp / LinkedIn / Facebook / X intents are real `<a target="_blank">` links; a crawl over `<a href>` only reaches every `sitemap.xml` URL and gives each indexable article a contextual inbound link; a plain click navigates client-side, Ctrl+click opens a new tab, and Enter on a focused link navigates.
 
 A change that adds navigation without a real `href` fails the build. Do not weaken or bypass the guard; fix the element.
 

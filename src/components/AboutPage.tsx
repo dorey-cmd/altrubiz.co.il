@@ -298,7 +298,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onOpenContactM
                         <InternalLink
                             href="/"
                             onNavigate={onNavigate}
-                            className="text-sky-400 hover:text-white transition-colors flex items-center gap-1 font-semibold"
+                            className="text-center text-sky-400 hover:text-white transition-colors flex items-center gap-1 font-semibold"
                         >
                             <span>חזרה לדף הבית</span>
                             <ChevronLeft size={14} />

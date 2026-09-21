@@ -59,7 +59,8 @@ function walk(dir, out = []) {
 function auditSource() {
     console.log('\n1. Source guard: navigation must be a real <a href>, not a click handler...');
     const NON_LINK_TAGS = /^(button|div|span|li|Button|motion\.[a-zA-Z]+)$/;
-    const NAV_CLICK = /onClick=\{\(\)\s*=>\s*onNavigate\(/g;
+    // A click handler whose only job is to navigate (client-side or by opening a URL).
+    const NAV_CLICK = /onClick=\{\(\)\s*=>\s*(?:onNavigate\(|window\.open\(|window\.location(?:\.href)?\s*=)/g;
     let violations = 0;
 
     for (const file of walk(SRC_DIR)) {
@@ -73,7 +74,7 @@ function auditSource() {
             const tagName = /^<([A-Za-z.]+)/.exec(src.slice(tagStart))?.[1] || '';
             if (NON_LINK_TAGS.test(tagName)) {
                 violations++;
-                fail(`${rel}:${lineOf(m.index)} <${tagName}> navigates with onClick but has no href. Use <InternalLink href=...> (or <Button href=...>).`);
+                fail(`${rel}:${lineOf(m.index)} <${tagName}> navigates with onClick but has no href. Use <InternalLink href=...> (or <Button href=...>, or <a href target="_blank"> for external URLs).`);
             }
         }
 
@@ -267,6 +268,27 @@ async function auditReachability(browser, baseUrl, articles, sitemapPaths) {
     }
 }
 
+async function auditShareLinks(browser, baseUrl, articles) {
+    console.log('\n2E. Article share bar: external share intents are real links...');
+    const page = await openPage(browser, baseUrl, articles[0].publicPath);
+    const res = await page.evaluate(() => {
+        const has = (sel) => [...document.querySelectorAll(sel)].filter((a) => a.tagName === 'A' && a.getAttribute('target') === '_blank' && /noopener/.test(a.getAttribute('rel') || '')).length;
+        return {
+            whatsapp: has('a[href^="https://api.whatsapp.com/send"]'),
+            linkedin: has('a[href^="https://www.linkedin.com/sharing"]'),
+            facebook: has('a[href^="https://www.facebook.com/sharer"]'),
+            twitter: has('a[href^="https://twitter.com/intent/tweet"]'),
+            shareButtons: [...document.querySelectorAll('button[aria-label^="שיתוף ב"]')].map((b) => b.getAttribute('aria-label')),
+        };
+    });
+    for (const k of ['whatsapp', 'linkedin', 'facebook', 'twitter']) {
+        check(res[k] >= 1, `${k} share is a real <a href target="_blank" rel="noopener">`, `${k} share is not a real link on ${articles[0].publicPath}.`);
+    }
+    const navButtons = res.shareButtons.filter((l) => /וואטסאפ|לינקדאין|פייסבוק|ב-X/.test(l));
+    check(navButtons.length === 0, 'No share <button> opens an external URL (Copy / Instagram / TikTok stay buttons)', `Share buttons still used for navigation: ${navButtons.join(', ')}`);
+    await page.close();
+}
+
 async function auditInteraction(browser, baseUrl, articles) {
     console.log('\n2D. Interaction: click, new tab, keyboard...');
     const target = articles[0].publicPath;
@@ -339,6 +361,7 @@ async function main() {
         const sample = ['/', '/knowledge', '/about', '/roi-calculator', ...hubSamples, ...articles.slice(0, 3).map((a) => a.publicPath)];
         await auditStructure(browser, baseUrl, sample);
         await auditReachability(browser, baseUrl, articles, sitemapPaths);
+        await auditShareLinks(browser, baseUrl, articles);
         await auditInteraction(browser, baseUrl, articles);
     } finally {
         if (browser) await browser.close();
