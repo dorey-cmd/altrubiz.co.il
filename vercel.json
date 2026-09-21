@@ -21,6 +21,16 @@
             "statusCode": 301
         },
         {
+            "source": "/home/",
+            "destination": "/",
+            "statusCode": 301
+        },
+        {
+            "source": "/prsonal-system-1498/",
+            "destination": "/",
+            "statusCode": 301
+        },
+        {
             "source": "/articles",
             "destination": "/knowledge",
             "permanent": true

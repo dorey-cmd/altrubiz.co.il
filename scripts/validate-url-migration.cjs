@@ -264,7 +264,8 @@ if (!fs.existsSync(VERCEL_JSON_PATH)) {
     // Legacy homepage aliases must be answered with a real HTTP 301 at the server,
     // not by the client-side "unknown route -> /" script in src/main.tsx (which
     // serves 200 first and is not a redirect for crawlers).
-    for (const legacy of ['/home', '/prsonal-system-1498']) {
+    // The trailing-slash forms are separate URLs on Vercel (they are not matched by the bare path).
+    for (const legacy of ['/home', '/home/', '/prsonal-system-1498', '/prsonal-system-1498/']) {
         const r = redirectMap.get(legacy);
         if (!r) {
             fail(`Missing server-side 301 redirect for legacy homepage alias: ${legacy}`);
