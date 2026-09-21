@@ -14,6 +14,7 @@ import {
 
 import { Breadcrumbs } from './common/Breadcrumbs';
 import { IL_MARKET } from '../siteos';
+import { InternalLink, handleClientNavClick } from './common/InternalLink';
 
 interface AboutPageProps {
     onNavigate: (path: string) => void;
@@ -82,7 +83,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onOpenContactM
                             </div>
                             <a 
                                 href="/lost-leads"
-                                onClick={(e) => { e.preventDefault(); onNavigate('/lost-leads'); }}
+                                onClick={(e) => handleClientNavClick(e, '/lost-leads', onNavigate)}
                                 className="text-xs font-bold text-primary group-hover:text-blue-700 flex items-center gap-1 mt-auto pt-3 border-t border-slate-200/60"
                             >
                                 <span>למדריך האבחון המלא לבריחת לידים</span>
@@ -103,7 +104,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onOpenContactM
                             </div>
                             <a 
                                 href="/whatsapp-in-crm"
-                                onClick={(e) => { e.preventDefault(); onNavigate('/whatsapp-in-crm'); }}
+                                onClick={(e) => handleClientNavClick(e, '/whatsapp-in-crm', onNavigate)}
                                 className="text-xs font-bold text-primary group-hover:text-blue-700 flex items-center gap-1 mt-auto pt-3 border-t border-slate-200/60"
                             >
                                 <span>למדריך המקיף לוואטסאפ ב-CRM</span>
@@ -124,7 +125,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onOpenContactM
                             </div>
                             <a 
                                 href="/lead-first-5-minutes"
-                                onClick={(e) => { e.preventDefault(); onNavigate('/lead-first-5-minutes'); }}
+                                onClick={(e) => handleClientNavClick(e, '/lead-first-5-minutes', onNavigate)}
                                 className="text-xs font-bold text-primary group-hover:text-blue-700 flex items-center gap-1 mt-auto pt-3 border-t border-slate-200/60"
                             >
                                 <span>לקריאת המדריך למענה מהיר</span>
@@ -145,7 +146,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onOpenContactM
                             </div>
                             <a 
                                 href="/unified-inbox"
-                                onClick={(e) => { e.preventDefault(); onNavigate('/unified-inbox'); }}
+                                onClick={(e) => handleClientNavClick(e, '/unified-inbox', onNavigate)}
                                 className="text-xs font-bold text-primary group-hover:text-blue-700 flex items-center gap-1 mt-auto pt-3 border-t border-slate-200/60"
                             >
                                 <span>למדריך התקשורת הרב-ערוצית</span>
@@ -166,7 +167,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onOpenContactM
                             </div>
                             <a 
                                 href="/salespeople-hate-crm"
-                                onClick={(e) => { e.preventDefault(); onNavigate('/salespeople-hate-crm'); }}
+                                onClick={(e) => handleClientNavClick(e, '/salespeople-hate-crm', onNavigate)}
                                 className="text-xs font-bold text-primary group-hover:text-blue-700 flex items-center gap-1 mt-auto pt-3 border-t border-slate-200/60"
                             >
                                 <span>למדריך אימוץ ה-CRM במכירות</span>
@@ -187,7 +188,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onOpenContactM
                             </div>
                             <a 
                                 href="/#pricing"
-                                onClick={(e) => { e.preventDefault(); onNavigate('/#pricing'); }}
+                                onClick={(e) => handleClientNavClick(e, '/#pricing', onNavigate)}
                                 className="text-xs font-bold text-primary group-hover:text-blue-700 flex items-center gap-1 mt-auto pt-3 border-t border-slate-200/60"
                             >
                                 <span>לצפייה במסלולים ובתמחור</span>
@@ -273,7 +274,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onOpenContactM
                                     <div className="flex flex-wrap items-center gap-2">
                                         <a
                                             href={IL_MARKET.legalEntity.privacyUrl}
-                                            onClick={(e) => { e.preventDefault(); onNavigate(IL_MARKET.legalEntity.privacyUrl); }}
+                                            onClick={(e) => handleClientNavClick(e, IL_MARKET.legalEntity.privacyUrl, onNavigate)}
                                             className="text-white font-bold hover:underline"
                                         >
                                             מדיניות פרטיות
@@ -281,7 +282,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onOpenContactM
                                         <span className="text-slate-600">|</span>
                                         <a
                                             href={IL_MARKET.legalEntity.termsUrl}
-                                            onClick={(e) => { e.preventDefault(); onNavigate(IL_MARKET.legalEntity.termsUrl); }}
+                                            onClick={(e) => handleClientNavClick(e, IL_MARKET.legalEntity.termsUrl, onNavigate)}
                                             className="text-white font-bold hover:underline"
                                         >
                                             תנאי שימוש
@@ -294,13 +295,14 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onOpenContactM
 
                     <div className="mt-8 pt-6 border-t border-slate-800 text-xs text-slate-400 flex items-center justify-between">
                         <span>AltruBiz CRM • כל הזכויות שמורות</span>
-                        <button
-                            onClick={() => onNavigate('/')}
+                        <InternalLink
+                            href="/"
+                            onNavigate={onNavigate}
                             className="text-sky-400 hover:text-white transition-colors flex items-center gap-1 font-semibold"
                         >
                             <span>חזרה לדף הבית</span>
                             <ChevronLeft size={14} />
-                        </button>
+                        </InternalLink>
                     </div>
                 </section>
             </div>

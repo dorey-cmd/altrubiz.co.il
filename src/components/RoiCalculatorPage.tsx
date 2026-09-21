@@ -23,6 +23,7 @@ import { SocialShareBar } from './articles/SocialShareBar';
 import { ROI_CALCULATOR_FAQS } from '../lib/roiCalculator';
 import { ModalPresentationOptions } from '../types/attribution';
 import { buildAttributedWhatsAppUrl } from '../lib/attribution';
+import { InternalLink } from './common/InternalLink';
 
 interface RoiCalculatorPageProps {
     onNavigate: (path: string) => void;
@@ -145,13 +146,13 @@ export const RoiCalculatorPage: React.FC<RoiCalculatorPageProps> = ({
 
                     <p className="text-slate-700 text-base sm:text-lg leading-relaxed">
                         המחשבון מציג שני סוגי מספרים בנפרד, בלי לערבב ביניהם: כמה כסף{' '}
-                        <button
-                            type="button"
-                            onClick={() => onNavigate('/lost-leads')}
+                        <InternalLink
+                            href="/lost-leads"
+                            onNavigate={onNavigate}
                             className="text-primary font-bold underline decoration-primary/30 underline-offset-4 hover:text-blue-700"
                         >
                             הולך לאיבוד היום
-                        </button>
+                        </InternalLink>
                         {' '}מהלידים שלא נסגרים בפועל, וכמה שווה יחד שיפור ריאלי ומדוד באחוז הסגירה בשילוב עם הזמן שנחסך מדי חודש. שני המספרים נשארים מופרדים כדי שהתמונה תישאר אמינה, שמרנית ומדויקת לעסק שלכם.
                     </p>
 
@@ -218,14 +219,14 @@ export const RoiCalculatorPage: React.FC<RoiCalculatorPageProps> = ({
                                 </p>
                             </div>
                             <div className="mt-4 pt-4 border-t border-slate-100">
-                                <button
-                                    type="button"
-                                    onClick={() => onNavigate('/lead-first-5-minutes')}
+                                <InternalLink
+                                    href="/lead-first-5-minutes"
+                                    onNavigate={onNavigate}
                                     className="inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:underline"
                                 >
                                     <span>איך לענות לליד ב-5 דקות ראשונות?</span>
                                     <ArrowLeft size={14} />
-                                </button>
+                                </InternalLink>
                             </div>
                         </div>
 
@@ -240,14 +241,14 @@ export const RoiCalculatorPage: React.FC<RoiCalculatorPageProps> = ({
                                 </p>
                             </div>
                             <div className="mt-4 pt-4 border-t border-slate-100">
-                                <button
-                                    type="button"
-                                    onClick={() => onNavigate('/missed-call-text-back')}
+                                <InternalLink
+                                    href="/missed-call-text-back"
+                                    onNavigate={onNavigate}
                                     className="inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:underline"
                                 >
                                     <span>איך מענה אוטומטי בוואטסאפ מציל שיחות?</span>
                                     <ArrowLeft size={14} />
-                                </button>
+                                </InternalLink>
                             </div>
                         </div>
 
@@ -262,14 +263,14 @@ export const RoiCalculatorPage: React.FC<RoiCalculatorPageProps> = ({
                                 </p>
                             </div>
                             <div className="mt-4 pt-4 border-t border-slate-100">
-                                <button
-                                    type="button"
-                                    onClick={() => onNavigate('/lost-leads')}
+                                <InternalLink
+                                    href="/lost-leads"
+                                    onNavigate={onNavigate}
                                     className="inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:underline"
                                 >
                                     <span>מה עושים בשלב שאחרי הצעת המחיר?</span>
                                     <ArrowLeft size={14} />
-                                </button>
+                                </InternalLink>
                             </div>
                         </div>
 
@@ -284,14 +285,14 @@ export const RoiCalculatorPage: React.FC<RoiCalculatorPageProps> = ({
                                 </p>
                             </div>
                             <div className="mt-4 pt-4 border-t border-slate-100">
-                                <button
-                                    type="button"
-                                    onClick={() => onNavigate('/repetitive-manual-work')}
+                                <InternalLink
+                                    href="/repetitive-manual-work"
+                                    onNavigate={onNavigate}
                                     className="inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:underline"
                                 >
                                     <span>איך לשחרר את הצוות מעבודה ידנית?</span>
                                     <ArrowLeft size={14} />
-                                </button>
+                                </InternalLink>
                             </div>
                         </div>
                     </div>

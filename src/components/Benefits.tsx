@@ -2,6 +2,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion';
 import { StaggerGroup, StaggerItem, HoverCard, ParallaxLayer } from './motion';
+import { handleClientNavClick } from './common/InternalLink';
 
 interface BenefitsProps {
     onNavigate?: (path: string) => void;
@@ -43,12 +44,7 @@ export const Benefits: React.FC<BenefitsProps> = ({ onNavigate }) => {
                 >
                     <a
                         href="/lead-first-5-minutes"
-                        onClick={(e) => {
-                            if (onNavigate) {
-                                e.preventDefault();
-                                onNavigate('/lead-first-5-minutes');
-                            }
-                        }}
+                        onClick={(e) => handleClientNavClick(e, '/lead-first-5-minutes', onNavigate)}
                         className="bg-gradient-to-r from-red-600 to-red-500 hover:from-red-700 hover:to-red-600 text-white px-6 sm:px-8 py-3 rounded-full text-sm sm:text-base md:text-lg font-bold shadow-lg shadow-red-500/20 flex flex-wrap sm:flex-nowrap items-center justify-center gap-2.5 transition-all group cursor-pointer text-center hover:scale-[1.01]"
                     >
                         <span className="text-xl">🛑</span>

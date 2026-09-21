@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { X, Sparkles, ExternalLink } from 'lucide-react';
 import { useModalFocusManagement } from '../../hooks/useModalFocusManagement';
 import { DiagnosticQuestionnaire } from '../diagnostic/DiagnosticQuestionnaire';
+import { isPlainPrimaryClick } from './InternalLink';
 
 interface DiagnosticModalProps {
     isOpen: boolean;
@@ -112,7 +113,7 @@ export const DiagnosticModal: React.FC<DiagnosticModalProps> = ({
                     <a
                         href="/hidden-business-growth-barriers"
                         onClick={(e) => {
-                            if (onNavigate) {
+                            if (onNavigate && isPlainPrimaryClick(e)) {
                                 e.preventDefault();
                                 onClose();
                                 onNavigate('/hidden-business-growth-barriers');

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion';
+import { handleClientNavClick } from './common/InternalLink';
 
 const logos = [
     { src: "https://storage.googleapis.com/msgsndr/knES3eSWYIsc5YSZ3YLl/media/67af641f237ce2563df82508.png", alt: "אינטגרציית WhatsApp Business עם AltruBiz CRM" },
@@ -32,12 +33,7 @@ export const Integrations: React.FC<IntegrationsProps> = ({ onNavigate }) => {
                 <div className="flex justify-center mb-8">
                     <a
                         href="/repetitive-manual-work"
-                        onClick={(e) => {
-                            if (onNavigate) {
-                                e.preventDefault();
-                                onNavigate('/repetitive-manual-work');
-                            }
-                        }}
+                        onClick={(e) => handleClientNavClick(e, '/repetitive-manual-work', onNavigate)}
                         className="bg-red-50 hover:bg-red-100/80 text-red-700 px-5 py-2 rounded-full text-xs sm:text-sm font-medium border border-red-200/80 shadow-xs hover:shadow-sm transition-all text-center inline-flex flex-wrap sm:flex-nowrap items-center justify-center gap-2 group cursor-pointer"
                     >
                         <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />

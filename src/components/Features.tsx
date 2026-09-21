@@ -3,6 +3,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion';
 import { StaggerGroup, StaggerItem, HoverCard } from './motion';
 import { getCanonicalRecognitionSituations, getFeatureKnowledgeLink } from '../data/knowledgeGraph';
+import { isPlainPrimaryClick } from './common/InternalLink';
 
 interface FeatureDef {
     key: string;
@@ -76,7 +77,7 @@ export const Features: React.FC<FeaturesProps> = ({ onNavigate }) => {
     });
 
     const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, url: string) => {
-        if (onNavigate) {
+        if (onNavigate && isPlainPrimaryClick(e)) {
             e.preventDefault();
             onNavigate(url);
         }

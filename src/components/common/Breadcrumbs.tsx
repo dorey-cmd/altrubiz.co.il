@@ -1,5 +1,6 @@
 import React from 'react';
 import { RouteBreadcrumb } from '../../lib/routes';
+import { InternalLink } from './InternalLink';
 
 interface BreadcrumbsProps {
     items: RouteBreadcrumb[];
@@ -23,12 +24,13 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items, onNavigate, cla
                                     {item.name}
                                 </span>
                             ) : (
-                                <button
-                                    onClick={() => onNavigate(item.path)}
+                                <InternalLink
+                                    href={item.path}
+                                    onNavigate={onNavigate}
                                     className="hover:text-primary transition-colors font-medium focus:outline-none focus:underline"
                                 >
                                     {item.name}
-                                </button>
+                                </InternalLink>
                             )}
                         </li>
                     );

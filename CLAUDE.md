@@ -28,5 +28,7 @@ The repository is the durable source of truth. Always comply with existing rules
 6. **Motion & Visual Storytelling** (Design OS):
    - Motion is progressive enhancement only; nothing depends on animation, JS or scroll to exist or be readable: [motion-system.md](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/rules/motion-system.md).
    - Brand images follow the witty, idea-first, clay / stop-motion visual language; declare each image's role first; style words never go in `alt`: [visual-storytelling.md](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/rules/visual-storytelling.md).
-7. **Architectural Invariant**:
+7. **Crawlable Link Semantics** ([crawlable-link-semantics.md](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/rules/crawlable-link-semantics.md)):
+   - Navigation to another URL must render a valid, crawlable `<a href>` (use `InternalLink` / `Button href`). `button` is for actions. Every page intended for indexing must receive a regular internal link from a relevant page. Enforced by `npm run test:links:source` (prebuild) and `npm run test:links` (release gate Step 12).
+8. **Architectural Invariant**:
    - Do not casually modify Site OS infrastructure, tests, or routing schemas during routine article ingestion. The Site OS automatically derives routes, sitemaps, Markdown mirrors, and LLM indices from `src/data/articles.ts` and `src/data/knowledgeGraph.ts`.

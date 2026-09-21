@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import { hasDecided, onOpenCookieSettingsRequested, setConsent } from '../../lib/consent';
 import { isAnyOverlayOpen, onOverlayCountChanged } from '../../lib/overlayCoordination';
+import { isPlainPrimaryClick } from './InternalLink';
 
 interface CookieConsentBannerProps {
     onNavigate?: (path: string) => void;
@@ -56,7 +57,7 @@ export const CookieConsentBanner: React.FC<CookieConsentBannerProps> = ({ onNavi
     };
 
     const handlePolicyClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-        if (onNavigate) {
+        if (onNavigate && isPlainPrimaryClick(e)) {
             e.preventDefault();
             onNavigate('/cookie-policy');
         }

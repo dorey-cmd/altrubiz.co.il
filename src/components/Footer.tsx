@@ -3,6 +3,7 @@ import { getApprovedPublicHubs } from '../data/knowledgeGraph';
 import { ModalPresentationOptions } from '../types/attribution';
 import { IL_MARKET } from '../siteos';
 import { openCookieSettings } from '../lib/consent';
+import { isPlainPrimaryClick } from './common/InternalLink';
 
 interface FooterProps {
     onNavigate?: (path: string) => void;
@@ -14,7 +15,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenBookingModal, 
     const approvedHubs = getApprovedPublicHubs();
 
     const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-        if (onNavigate && href.startsWith('/')) {
+        if (onNavigate && href.startsWith('/') && isPlainPrimaryClick(e)) {
             e.preventDefault();
             onNavigate(href);
         }

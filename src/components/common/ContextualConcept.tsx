@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { HelpCircle, X, BookOpen } from 'lucide-react';
 import { resolveCanonicalConcept, CanonicalConcept } from '../../data/knowledgeGraph';
+import { handleClientNavClick } from './InternalLink';
 
 interface ContextualConceptProps {
     conceptId: string;
@@ -82,12 +83,7 @@ export const ContextualConcept: React.FC<ContextualConceptProps> = ({
                 <a
                     ref={triggerRef as React.RefObject<HTMLAnchorElement>}
                     href={concept.publicDestinationUrl}
-                    onClick={(e) => {
-                        if (onNavigate) {
-                            e.preventDefault();
-                            onNavigate(concept.publicDestinationUrl!);
-                        }
-                    }}
+                    onClick={(e) => handleClientNavClick(e, concept.publicDestinationUrl!, onNavigate)}
                     target="_self"
                     title={`${concept.term}: ${concept.canonicalDefinition}`}
                     className="text-primary font-bold underline decoration-primary/60 decoration-2 underline-offset-[3px] hover:text-blue-800 hover:decoration-primary hover:bg-blue-50/70 rounded-xs px-0.5 transition-all cursor-pointer inline"

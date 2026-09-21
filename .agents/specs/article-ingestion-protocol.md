@@ -167,6 +167,7 @@ After the article exists, scan existing content and the Knowledge Graph for ever
 - **Minimal edits to approved copy.** Adding an inbound link to an existing approved article may touch only the sentence needed to carry the link; any wording change beyond that is reported to the owner before it is applied.
 - **Publication safety.** Inbound links to a `review` / non-indexable article live only on the review branch and become effective only when that article is published. Never merge a public link to a non-publicly-linkable article (`test:public-governance`, `isPubliclyLinkable`).
 - **Same-window links** (`target="_self"`) and Markdown-link rendering rules are unchanged.
+- **Real anchors only.** Every link added by this audit renders as `<a href>` in the DOM (`InternalLink` / Markdown link), never as a `<button>` or click handler. Inbound links must be crawlable from `/knowledge` or a relevant hub, not only listed in the sitemap. `npm run test:links` verifies this; see [`crawlable-link-semantics.md`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/rules/crawlable-link-semantics.md).
 
 ### 4.2.4 Required audit report (delivered with the review preview)
 1. Outbound links added (source location, target, why it helps the reader).

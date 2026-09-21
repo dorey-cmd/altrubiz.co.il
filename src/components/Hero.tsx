@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion';
 import { MOTION_EASINGS } from '../lib/motionTokens';
+import { handleClientNavClick } from './common/InternalLink';
 
 interface HeroProps {
     onNavigate?: (path: string) => void;
@@ -125,12 +126,7 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate, onOpenDiagnosticModal })
                     <div className="flex flex-col sm:flex-row items-center gap-2 shrink-0">
                         <a
                             href="/roi-calculator"
-                            onClick={(e) => {
-                                if (onNavigate) {
-                                    e.preventDefault();
-                                    onNavigate('/roi-calculator');
-                                }
-                            }}
+                            onClick={(e) => handleClientNavClick(e, '/roi-calculator', onNavigate)}
                             className="inline-flex items-center gap-1.5 text-xs sm:text-sm text-white hover:text-yellow-300 font-bold whitespace-nowrap bg-white/10 hover:bg-white/20 border border-white/20 px-3.5 py-1.5 rounded-full transition-all group cursor-pointer"
                         >
                             <span>לבדוק כמה כסף אתם מפספסים</span>
@@ -138,12 +134,7 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate, onOpenDiagnosticModal })
                         </a>
                         <a
                             href="/lost-leads"
-                            onClick={(e) => {
-                                if (onNavigate) {
-                                    e.preventDefault();
-                                    onNavigate('/lost-leads');
-                                }
-                            }}
+                            onClick={(e) => handleClientNavClick(e, '/lost-leads', onNavigate)}
                             className="inline-flex items-center gap-1.5 text-xs sm:text-sm text-yellow-400 hover:text-yellow-300 font-bold whitespace-nowrap bg-white/5 hover:bg-white/10 border border-yellow-400/25 px-3.5 py-1.5 rounded-full transition-all group cursor-pointer"
                         >
                             <span>איך עוצרים את הבריחה?</span>

@@ -1,9 +1,26 @@
 import React from 'react';
+import { InternalLink } from '../common/InternalLink';
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonBaseProps {
     variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
     size?: 'sm' | 'md' | 'lg';
 }
+
+/** Action button: filter, open a modal, submit. Renders a real `<button>`. */
+type ActionButtonProps = ButtonBaseProps &
+    React.ButtonHTMLAttributes<HTMLButtonElement> & { href?: undefined; onNavigate?: undefined };
+
+/**
+ * Navigation button: same look, but renders a crawlable `<a href>`.
+ * Use `href` whenever the control moves the visitor to another URL.
+ */
+type LinkButtonProps = ButtonBaseProps &
+    Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href'> & {
+        href: string;
+        onNavigate?: (path: string) => void;
+    };
+
+export type ButtonProps = ActionButtonProps | LinkButtonProps;
 
 export const Button: React.FC<ButtonProps> = ({
     children,
@@ -27,11 +44,20 @@ export const Button: React.FC<ButtonProps> = ({
         lg: "px-8 py-4 text-lg",
     };
 
+    const classes = `${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`;
+
+    if (typeof props.href === 'string') {
+        const { href, onNavigate, ...anchorProps } = props as LinkButtonProps;
+        return (
+            <InternalLink href={href} onNavigate={onNavigate} className={classes} {...anchorProps}>
+                {children}
+            </InternalLink>
+        );
+    }
+
+    const { href: _href, onNavigate: _onNavigate, ...buttonProps } = props as ActionButtonProps;
     return (
-        <button
-            className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`}
-            {...props}
-        >
+        <button className={classes} {...buttonProps}>
             {children}
         </button>
     );

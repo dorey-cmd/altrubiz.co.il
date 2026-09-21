@@ -33,6 +33,7 @@ import { Button } from '../ui/Button';
 import { ModalPresentationOptions } from '../../types/attribution';
 import { buildAttributedWhatsAppUrl } from '../../lib/attribution';
 import { renderFormattedText } from '../../lib/formatText';
+import { InternalLink } from '../common/InternalLink';
 
 interface HubPageProps {
     node: KnowledgeNode;
@@ -821,7 +822,8 @@ export const HubPage: React.FC<HubPageProps> = ({
                                 <Button
                                     variant="primary"
                                     size="lg"
-                                    onClick={() => onNavigate('/roi-calculator')}
+                                    href="/roi-calculator"
+                                    onNavigate={onNavigate}
                                     className="font-bold shrink-0 whitespace-nowrap"
                                 >
                                     לחשב עכשיו
@@ -875,9 +877,10 @@ export const HubPage: React.FC<HubPageProps> = ({
                                                             const art = getArticleBySlug(slug);
                                                             if (!art || !isPubliclyLinkable(deriveStateFlags(art))) return null;
                                                             return (
-                                                                <div 
-                                                                    key={slug} 
-                                                                    onClick={() => onNavigate(art.publicPath)}
+                                                                <InternalLink
+                                                                    href={art.publicPath}
+                                                                    onNavigate={onNavigate}
+                                                                    key={slug}
                                                                     className="group p-3.5 rounded-2xl bg-slate-50 border border-slate-200 hover:border-secondary/50 hover:bg-cyan-50/30 transition-all cursor-pointer flex flex-col justify-between"
                                                                 >
                                                                     <div>
@@ -893,7 +896,7 @@ export const HubPage: React.FC<HubPageProps> = ({
                                                                         <span>{art.cardCta || 'פתרון מעשי לבעיה'}</span>
                                                                         <ArrowLeft className="w-3.5 h-3.5 mr-1" />
                                                                     </div>
-                                                                </div>
+                                                                </InternalLink>
                                                             );
                                                         })}
                                                     </div>
@@ -913,9 +916,10 @@ export const HubPage: React.FC<HubPageProps> = ({
                                     </h3>
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                                         {relatedArticles.map((art) => (
-                                            <div 
-                                                key={art.slug} 
-                                                onClick={() => onNavigate(art.publicPath)}
+                                            <InternalLink
+                                                href={art.publicPath}
+                                                onNavigate={onNavigate}
+                                                key={art.slug}
                                                 className="p-3 bg-white rounded-xl border border-slate-200 hover:border-slate-300 hover:shadow-xs transition-all cursor-pointer flex items-center justify-between"
                                             >
                                                 <div className="pr-1 truncate">
@@ -924,7 +928,7 @@ export const HubPage: React.FC<HubPageProps> = ({
                                                     </h4>
                                                 </div>
                                                 <ArrowLeft className="w-3.5 h-3.5 text-slate-400 shrink-0 mr-2" />
-                                            </div>
+                                            </InternalLink>
                                         ))}
                                     </div>
                                 </div>
@@ -1101,27 +1105,29 @@ export const HubPage: React.FC<HubPageProps> = ({
                                         const nextNode = getKnowledgeNodeBySlug(slug);
                                         if (nextNode) {
                                             return (
-                                                <button
+                                                <InternalLink
+                                                    href={nextNode.url}
+                                                    onNavigate={onNavigate}
                                                     key={slug}
-                                                    onClick={() => onNavigate(nextNode.url)}
                                                     className="px-3.5 py-2 rounded-xl bg-white border border-slate-200 hover:border-slate-300 text-slate-800 font-medium text-xs flex items-center gap-1.5 hover:shadow-xs transition-all"
                                                 >
                                                     <Layers className="w-3.5 h-3.5 text-secondary" />
                                                     <span>{nextNode.title}</span>
-                                                </button>
+                                                </InternalLink>
                                             );
                                         }
                                         const art = getArticleBySlug(slug);
                                         if (art) {
                                             return (
-                                                <button
+                                                <InternalLink
+                                                    href={art.publicPath}
+                                                    onNavigate={onNavigate}
                                                     key={slug}
-                                                    onClick={() => onNavigate(art.publicPath)}
                                                     className="px-3.5 py-2 rounded-xl bg-white border border-slate-200 hover:border-slate-300 text-slate-800 font-medium text-xs flex items-center gap-1.5 hover:shadow-xs transition-all"
                                                 >
                                                     <BookOpen className="w-3.5 h-3.5 text-blue-500" />
                                                     <span>{art.title}</span>
-                                                </button>
+                                                </InternalLink>
                                             );
                                         }
                                         return null;

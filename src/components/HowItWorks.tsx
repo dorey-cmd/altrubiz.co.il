@@ -4,6 +4,7 @@ import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion';
 import { MOTION_EASINGS } from '../lib/motionTokens';
 import { ParallaxLayer } from './motion';
 import { getHowItWorksStepKnowledge } from '../data/knowledgeGraph';
+import { handleClientNavClick } from './common/InternalLink';
 
 interface StepItemDef {
     num: string;
@@ -154,12 +155,7 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ onNavigate }) => {
 
                                             <a
                                                 href={step.hubUrl}
-                                                onClick={(e) => {
-                                                    if (onNavigate) {
-                                                        e.preventDefault();
-                                                        onNavigate(step.hubUrl);
-                                                    }
-                                                }}
+                                                onClick={(e) => handleClientNavClick(e, step.hubUrl, onNavigate)}
                                                 className="inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:text-blue-700 bg-primary/5 hover:bg-primary/10 border border-primary/20 px-3.5 py-1.5 rounded-full transition-all group/link shrink-0 cursor-pointer self-end sm:self-center hover:scale-105"
                                             >
                                                 <span>{step.hubLabel}</span>

@@ -37,6 +37,7 @@ import { ModalPresentationOptions } from '../../types/attribution';
 import { buildAttributedWhatsAppUrl } from '../../lib/attribution';
 import { renderFormattedText } from '../../lib/formatText';
 import { ReviewCockpit } from '../common/ReviewCockpit';
+import { InternalLink, isPlainPrimaryClick, handleClientNavClick } from '../common/InternalLink';
 
 interface ArticlePageProps {
     article: Article;
@@ -1099,10 +1100,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                     >
                         <a
                             href={parentHub.url}
-                            onClick={(e) => {
-                                e.preventDefault();
-                                onNavigate(parentHub.url);
-                            }}
+                            onClick={(e) => handleClientNavClick(e, parentHub.url, onNavigate)}
                             className="inline-flex items-center gap-1.5 text-xs text-slate-600 hover:text-primary transition-colors font-medium bg-slate-100 hover:bg-slate-200/80 px-3 py-1 rounded-lg border border-slate-200/60"
                         >
                             <Compass size={13} className="text-primary/70 shrink-0" />
@@ -1640,24 +1638,24 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                     </button>
 
                                     {parentHub && (
-                                        <button
-                                            type="button"
-                                            onClick={() => onNavigate(parentHub.url)}
+                                        <InternalLink
+                                            href={parentHub.url}
+                                            onNavigate={onNavigate}
                                             className="inline-flex items-center gap-2 bg-amber-400 hover:bg-amber-300 text-slate-950 font-black px-5 py-3.5 rounded-xl transition-all text-sm sm:text-base shadow-sm"
                                         >
                                             <Layers size={16} />
                                             <span>למרכז האבחון: {parentHub.title}</span>
-                                        </button>
+                                        </InternalLink>
                                     )}
 
-                                    <button
-                                        type="button"
-                                        onClick={() => onNavigate('/knowledge')}
+                                    <InternalLink
+                                        href="/knowledge"
+                                        onNavigate={onNavigate}
                                         className="inline-flex items-center gap-2 text-white/80 hover:text-white px-5 py-3.5 rounded-xl border border-white/20 hover:border-white/40 transition-colors text-sm font-medium"
                                     >
                                         <ChevronLeft size={16} />
                                         <span>חזרה למרכז המאמרים</span>
-                                    </button>
+                                    </InternalLink>
                                 </div>
                             </div>
                         </div>
@@ -1774,6 +1772,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                 <a
                                     href={parentHub.url}
                                     onClick={(e) => {
+                                        if (!isPlainPrimaryClick(e)) return;
                                         e.preventDefault();
                                         setIsMobileDrawerOpen(false);
                                         onNavigate(parentHub.url);
@@ -1790,6 +1789,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                                 <a
                                     href="/knowledge"
                                     onClick={(e) => {
+                                        if (!isPlainPrimaryClick(e)) return;
                                         e.preventDefault();
                                         setIsMobileDrawerOpen(false);
                                         onNavigate('/knowledge');

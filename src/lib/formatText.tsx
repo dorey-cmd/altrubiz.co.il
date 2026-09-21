@@ -1,5 +1,6 @@
 import React from 'react';
 import { ContextualConcept } from '../components/common/ContextualConcept';
+import { handleClientNavClick } from '../components/common/InternalLink';
 
 /**
  * Parses markdown-style links [anchor text](url) and concepts [anchor text](concept:id)
@@ -49,10 +50,7 @@ export function renderFormattedText(text: string, onNavigate?: (path: string) =>
                 <a
                     key={`${linkUrl}-${matchIndex}`}
                     href={linkUrl}
-                    onClick={isInternal && onNavigate ? (e) => {
-                        e.preventDefault();
-                        onNavigate(linkUrl);
-                    } : undefined}
+                    onClick={isInternal && onNavigate ? (e) => handleClientNavClick(e, linkUrl, onNavigate) : undefined}
                     target={isInternal ? '_self' : '_blank'}
                     rel={isInternal ? undefined : 'noopener noreferrer'}
                     className="text-primary font-bold underline decoration-primary/30 hover:decoration-primary underline-offset-4 transition-colors cursor-pointer"

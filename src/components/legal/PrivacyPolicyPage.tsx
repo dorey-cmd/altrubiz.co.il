@@ -1,6 +1,7 @@
 import React from 'react';
 import { LegalPageLayout, LegalSection } from './LegalPageLayout';
 import { IL_MARKET } from '../../siteos';
+import { handleClientNavClick } from '../common/InternalLink';
 
 interface PrivacyPolicyPageProps {
     onNavigate: (path: string) => void;
@@ -58,7 +59,7 @@ export const PrivacyPolicyPage: React.FC<PrivacyPolicyPageProps> = ({ onNavigate
                         עוברים דרך שרתי אלטרוביז ואינם נשמרים אצלנו.
                     </li>
                     <li>
-                        <strong>עוגיות (Cookies):</strong> ראו את <a href="/cookie-policy" onClick={(e) => { e.preventDefault(); onNavigate('/cookie-policy'); }} className="text-primary font-semibold hover:underline">מדיניות ה-Cookies</a> המלאה שלנו.
+                        <strong>עוגיות (Cookies):</strong> ראו את <a href="/cookie-policy" onClick={(e) => handleClientNavClick(e, '/cookie-policy', onNavigate)} className="text-primary font-semibold hover:underline">מדיניות ה-Cookies</a> המלאה שלנו.
                     </li>
                 </ul>
             </LegalSection>

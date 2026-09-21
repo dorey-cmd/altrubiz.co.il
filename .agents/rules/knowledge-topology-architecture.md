@@ -95,6 +95,7 @@ Whenever new content is added to the website:
 
 ## 7. Internal Linking & CTA Standards
 - **Bidirectional Connectivity**: No orphaned or dead-end pages.
+- **Crawlable Anchors**: Every navigation link is a real `<a href>` (never a `<button>` or click handler), and every indexable page receives a regular inbound link; the sitemap is not an internal link. See [`crawlable-link-semantics.md`](crawlable-link-semantics.md).
 - **Descriptive Anchor Texts**: Never use generic "click here" or "לחצו כאן".
 - **CTA Families**: Match user intent across five primary actions: Commercial (Contact/Meeting), Diagnostic (Self-assessment), Knowledge (Deepen/clarify), Product (Solution fit), or Social (Sharing).
 - **Popup Modal Rule**: Off-homepage contact/fit CTAs must open `ContactModal` or `PricingModal` without taking the reader out of context.

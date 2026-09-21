@@ -199,6 +199,18 @@ Brand images are smart, witty, slightly humorous **illustrated storytelling in a
 ---
 
 
+## 2.16 Mandatory Crawlable Link Semantics
+**Permanent rule:** *"ניווט לכתובת אחרת חייב להפיק `<a href>` תקין וניתן לסריקה. `button` מיועד לפעולה. כל דף המיועד לאינדוקס חייב לקבל קישור פנימי רגיל מדף רלוונטי באתר."*
+- **Navigation is a link**: anything whose activation moves the visitor to another URL (article cards and titles, related articles, breadcrumbs, hub cards, "next step" and back links) renders a real `<a href>` through `InternalLink` (or `Button href`). Never `<button>`, `<div onClick>`, `<span onClick>` or `role="link"`.
+- **Action is a button**: filters, sort, disclosures, modals (`BookingModal`, `ContactModal`, `PricingModal`), form submits. Do not turn every button into a link.
+- **No** `href="#"`, empty `href`, `javascript:` URLs or nested interactive elements. SPA navigation intercepts only a plain primary click; Ctrl/Cmd/middle click (new tab) and keyboard Enter stay native.
+- **Every indexable page (every `sitemap.xml` URL) needs a regular inbound `<a href>`**; every indexable article needs a contextual one from `/knowledge` or a relevant hub. The sitemap is not an internal link. Legal and accessibility pages may be footer-linked.
+- **Enforced automatically**: `npm run test:links:source` runs in `prebuild` (blocks the build), and `npm run test:links` (rendered-DOM audit) runs in `npm test` and `release:gate` Step 12. Ingestion's inbound-linking audit (section 2.6) is complete only when the links exist as real anchors in the rendered DOM.
+- The rule improves crawlability; it does not change canonical, robots, noindex or content, and it does not guarantee indexing.
+- Always-On Rule (authoritative): [`.agents/rules/crawlable-link-semantics.md`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/rules/crawlable-link-semantics.md).
+
+---
+
 ## 3. Route & Page Creation Architecture (Single Source of Truth)
 
 ### Adding a Static Page:
@@ -232,6 +244,8 @@ Brand images are smart, witty, slightly humorous **illustrated storytelling in a
 - [`src/components/common/AnswerBox.tsx`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/src/components/common/AnswerBox.tsx): Highlighted, self-contained answer passage for LLMs.
 - [`src/components/common/ContactModal.tsx`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/src/components/common/ContactModal.tsx): Styled meeting scheduling & lead capture modal popup.
 - [`src/components/articles/ArticlePage.tsx`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/src/components/articles/ArticlePage.tsx): Dynamic article layout.
+- [`src/components/common/InternalLink.tsx`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/src/components/common/InternalLink.tsx): Crawlable internal navigation (`InternalLink`, `handleClientNavClick`, `isPlainPrimaryClick`); the only sanctioned way to navigate client-side (section 2.16).
+- [`src/components/ui/Button.tsx`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/src/components/ui/Button.tsx): Action `<button>`, or a real `<a href>` styled identically when given `href`.
 
 ---
 
@@ -240,3 +254,4 @@ Brand images are smart, witty, slightly humorous **illustrated storytelling in a
 - `npm run articles:sync-md`: Synchronize LLM markdown mirrors.
 - `npm run sitemap:generate`: Regenerate `public/sitemap.xml`.
 - `npm run build`: Full build (runs prebuild checks + TypeScript compile + Vite production bundle).
+- `npm run test:links`: Crawlable-link regression (rendered DOM, reachability, new-tab/keyboard). `npm run test:links:source`: fast source guard used by `prebuild`.

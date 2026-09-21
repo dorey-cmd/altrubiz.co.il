@@ -26,6 +26,7 @@ import {
 } from '../../data/diagnosticData';
 import { ModalPresentationOptions } from '../../types/attribution';
 import { buildAttributedWhatsAppUrl } from '../../lib/attribution';
+import { InternalLink } from '../common/InternalLink';
 
 interface DiagnosticResultPageProps {
     onNavigate: (path: string) => void;
@@ -225,14 +226,14 @@ export const DiagnosticResultPage: React.FC<DiagnosticResultPageProps> = ({
                                                 רק תנו לנו את הכלים הטכנולוגיים לזה.
                                             </p>
                                         </div>
-                                        <button
-                                            type="button"
-                                            onClick={() => onNavigate('/#pricing')}
+                                        <InternalLink
+                                            href="/#pricing"
+                                            onNavigate={onNavigate}
                                             className="w-full py-2.5 px-3 rounded-xl font-bold text-xs text-slate-950 bg-gradient-to-r from-amber-400 to-amber-300 hover:from-amber-300 hover:to-amber-200 transition-all flex items-center justify-center gap-1.5 shadow-sm cursor-pointer"
                                         >
                                             <span>צפייה בחבילות בעמוד הבית</span>
                                             <ArrowLeft size={14} />
-                                        </button>
+                                        </InternalLink>
                                     </div>
 
                                     {/* CTA 3: Why businesses stay stuck */}
@@ -253,14 +254,14 @@ export const DiagnosticResultPage: React.FC<DiagnosticResultPageProps> = ({
                                                 הסבר על הדפוס שגורם לעסקים להמשיך להפסיד זמן והכנסות.
                                             </p>
                                         </div>
-                                        <button
-                                            type="button"
-                                            onClick={() => onNavigate('/why-businesses-stay-stuck-in-bad-processes')}
+                                        <InternalLink
+                                            href="/why-businesses-stay-stuck-in-bad-processes"
+                                            onNavigate={onNavigate}
                                             className="w-full py-2 px-3 rounded-xl font-bold text-xs text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
                                         >
                                             <span>לקריאת המאמר על תהליכים תקועים</span>
                                             <ArrowLeft size={12} />
-                                        </button>
+                                        </InternalLink>
                                     </div>
                                 </div>
                             </div>
@@ -310,14 +311,14 @@ export const DiagnosticResultPage: React.FC<DiagnosticResultPageProps> = ({
                                         בדיקה כמותית במחשבון ה-ROI חושפת כמה הכנסה מצטברת נאבדת מדי חודש בגלל חוסר במעקב ובאוטומציה.
                                     </p>
                                 </div>
-                                <button
-                                    type="button"
-                                    onClick={() => onNavigate('/roi-calculator')}
+                                <InternalLink
+                                    href="/roi-calculator"
+                                    onNavigate={onNavigate}
                                     className="w-full py-2.5 px-4 rounded-xl font-bold text-xs text-slate-950 bg-amber-400 hover:bg-amber-300 transition-colors flex items-center justify-center gap-2 shadow-sm cursor-pointer"
                                 >
                                     <Calculator size={16} />
                                     <span>למעבר למחשבון ROI ללידים</span>
-                                </button>
+                                </InternalLink>
                                 <div className="text-center pt-1">
                                     <a
                                         href={whatsappDirectUrl}
@@ -589,14 +590,14 @@ export const DiagnosticResultPage: React.FC<DiagnosticResultPageProps> = ({
                                                 </p>
                                             </div>
                                         </div>
-                                        <button
-                                            type="button"
-                                            onClick={() => onNavigate('/#pricing')}
+                                        <InternalLink
+                                            href="/#pricing"
+                                            onNavigate={onNavigate}
                                             className="w-full py-2.5 px-3 rounded-xl font-bold text-xs text-slate-950 bg-gradient-to-r from-amber-400 to-amber-300 hover:from-amber-300 hover:to-amber-200 transition-all flex items-center justify-center gap-1.5 shadow-sm cursor-pointer mt-2"
                                         >
                                             <span>צפייה בחבילות בעמוד הבית</span>
                                             <ArrowLeft size={14} />
-                                        </button>
+                                        </InternalLink>
                                     </div>
 
                                     {/* Card 3: Why businesses stay stuck */}
@@ -619,14 +620,14 @@ export const DiagnosticResultPage: React.FC<DiagnosticResultPageProps> = ({
                                                 </p>
                                             </div>
                                         </div>
-                                        <button
-                                            type="button"
-                                            onClick={() => onNavigate('/why-businesses-stay-stuck-in-bad-processes')}
+                                        <InternalLink
+                                            href="/why-businesses-stay-stuck-in-bad-processes"
+                                            onNavigate={onNavigate}
                                             className="w-full py-2.5 px-3 rounded-xl font-bold text-xs text-slate-200 bg-slate-700 hover:bg-slate-600 transition-colors flex items-center justify-center gap-1.5 cursor-pointer mt-2"
                                         >
                                             <span>לקריאת המאמר על תהליכים תקועים</span>
                                             <ArrowLeft size={14} />
-                                        </button>
+                                        </InternalLink>
                                     </div>
                                 </div>
                             </div>

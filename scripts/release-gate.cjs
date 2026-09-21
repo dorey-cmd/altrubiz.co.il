@@ -18,6 +18,8 @@
  * 8. Scroll Sovereignty Integrity:  npm run test:scroll
  * 9. Runtime Semantic Link Audit:   npm run test:semantic
  * 10. Accessibility Regression:     npm run test:a11y
+ * 11. Motion System Audit:          node scripts/validate-motion-system.cjs
+ * 12. Crawlable Internal Links:     node scripts/validate-crawlable-links.cjs
  */
 
 const { execSync } = require('child_process');
@@ -70,6 +72,10 @@ const STEPS = [
     {
         name: 'Step 11: Motion System Progressive Enhancement & Reduced Motion Audit',
         cmd: 'node scripts/validate-motion-system.cjs'
+    },
+    {
+        name: 'Step 12: Crawlable Internal Links (real <a href> navigation + inbound link coverage)',
+        cmd: 'node scripts/validate-crawlable-links.cjs'
     }
 ];
 

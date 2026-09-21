@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Menu, X, BookOpen } from 'lucide-react';
 import { Button } from './ui/Button';
 import { ModalPresentationOptions } from '../types/attribution';
+import { isPlainPrimaryClick } from './common/InternalLink';
 
 interface HeaderProps {
     onNavigate?: (path: string) => void;
@@ -12,7 +13,7 @@ export const Header = ({ onNavigate, onOpenBookingModal }: HeaderProps) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-        if (onNavigate) {
+        if (onNavigate && isPlainPrimaryClick(e)) {
             e.preventDefault();
             setIsMenuOpen(false);
             onNavigate(href);
@@ -100,9 +101,16 @@ export const Header = ({ onNavigate, onOpenBookingModal }: HeaderProps) => {
                         >
                             קביעת פגישה
                         </Button>
-                        <a href="https://app.altrubiz.com/" target="_blank" rel="noopener noreferrer">
-                            <Button variant="ghost" size="sm" className="text-gray-600 hover:text-primary">התחברות</Button>
-                        </a>
+                        <Button
+                            href="https://app.altrubiz.com/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            variant="ghost"
+                            size="sm"
+                            className="text-gray-600 hover:text-primary"
+                        >
+                            התחברות
+                        </Button>
                     </div>
 
                     {/* Mobile Menu Button */}
@@ -162,11 +170,15 @@ export const Header = ({ onNavigate, onOpenBookingModal }: HeaderProps) => {
                             >
                                 קביעת פגישה
                             </Button>
-                            <a href="https://app.altrubiz.com/" target="_blank" rel="noopener noreferrer" className="block">
-                                <Button variant="ghost" className="w-full justify-center text-gray-600">
-                                    התחברות
-                                </Button>
-                            </a>
+                            <Button
+                                href="https://app.altrubiz.com/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                variant="ghost"
+                                className="w-full justify-center text-gray-600"
+                            >
+                                התחברות
+                            </Button>
                         </div>
                     </div>
                 </div>

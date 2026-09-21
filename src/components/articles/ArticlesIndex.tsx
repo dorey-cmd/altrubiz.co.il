@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { ARTICLES, Article } from '../../data/articles';
 import { Breadcrumbs } from '../common/Breadcrumbs';
+import { InternalLink } from '../common/InternalLink';
 import { deriveStateFlags, isPubliclyLinkable } from '../../siteos';
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
 
@@ -355,9 +356,11 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate, onOpen
                                     >
                                         {/* Cover Image Container */}
                                         {article.coverImage && (
-                                            <div 
-                                                onClick={() => onNavigate(article.publicPath)}
-                                                className="w-full md:w-56 lg:w-60 flex-shrink-0 cursor-pointer overflow-hidden rounded-2xl bg-slate-100 shadow-xs relative aspect-video md:aspect-auto min-h-[170px] animate-ambient-breath"
+                                            <InternalLink
+                                                href={article.publicPath}
+                                                onNavigate={onNavigate}
+                                                tabIndex={-1}
+                                                className="block w-full md:w-56 lg:w-60 flex-shrink-0 cursor-pointer overflow-hidden rounded-2xl bg-slate-100 shadow-xs relative aspect-video md:aspect-auto min-h-[170px] animate-ambient-breath"
                                             >
                                                 <img 
                                                     src={article.coverImage.src} 
@@ -366,7 +369,7 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate, onOpen
                                                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                                 />
                                                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-                                            </div>
+                                            </InternalLink>
                                         )}
 
                                         {/* Content Container */}
@@ -386,12 +389,13 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate, onOpen
                                                 </div>
 
                                                 <h2 className="text-lg sm:text-xl font-black text-slate-900 group-hover:text-secondary transition-colors mb-2 leading-snug">
-                                                    <button 
-                                                        onClick={() => onNavigate(article.publicPath)}
+                                                    <InternalLink
+                                                        href={article.publicPath}
+                                                        onNavigate={onNavigate}
                                                         className="text-right hover:underline"
                                                     >
                                                         {article.title}
-                                                    </button>
+                                                    </InternalLink>
                                                 </h2>
 
                                                 <p className="text-slate-600 text-sm leading-relaxed mb-4 line-clamp-2">
@@ -407,13 +411,14 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate, onOpen
                                                     <span>{article.author.role}</span>
                                                 </div>
 
-                                                <button
-                                                    onClick={() => onNavigate(article.publicPath)}
+                                                <InternalLink
+                                                    href={article.publicPath}
+                                                    onNavigate={onNavigate}
                                                     className="w-full sm:w-auto group/btn inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl bg-secondary hover:bg-[#006185] active:scale-[0.98] text-white text-xs sm:text-sm font-bold shadow-md shadow-secondary/20 hover:shadow-lg hover:shadow-secondary/30 transition-all duration-200"
                                                 >
                                                     <span>{article.cardCta || 'איך פותרים את זה בעסק?'}</span>
                                                     <ArrowLeft size={14} className="transition-transform duration-200 group-hover/btn:-translate-x-1" />
-                                                </button>
+                                                </InternalLink>
                                             </div>
                                         </div>
                                     </motion.div>
@@ -440,13 +445,14 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate, onOpen
                             <p className="text-slate-600 text-sm leading-relaxed mb-5 font-normal">
                                 אבחון מהיר של צווארי הבקבוק במשפך המכירות: למה מענה מתעכב, איך שיחות מתפספסות ואיך מערכת CRM פותרת את זה לצמיתות.
                             </p>
-                            <button
-                                onClick={() => onNavigate('/lost-leads')}
+                            <InternalLink
+                                href="/lost-leads"
+                                onNavigate={onNavigate}
                                 className="w-full group/btn inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs sm:text-sm font-bold shadow-sm transition-all"
                             >
                                 <span>למרכז האבחון והפתרון</span>
                                 <ArrowLeft size={14} className="group-hover/btn:-translate-x-1 transition-transform" />
-                            </button>
+                            </InternalLink>
                         </div>
 
                         {/* Topic Banner 2: WhatsApp Hub */}
@@ -465,13 +471,14 @@ export const ArticlesIndex: React.FC<ArticlesIndexProps> = ({ onNavigate, onOpen
                             <p className="text-slate-600 text-sm leading-relaxed mb-5 font-normal">
                                 איך לחבר את ערוץ התקשורת המרכזי של העסק לתיבת הודעות אחת מסודרת עם מענה ב-5 הדקות הראשונות וללא איבוד היסטוריה.
                             </p>
-                            <button
-                                onClick={() => onNavigate('/whatsapp-in-crm')}
+                            <InternalLink
+                                href="/whatsapp-in-crm"
+                                onNavigate={onNavigate}
                                 className="w-full group/btn inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-secondary hover:bg-[#006185] text-white text-xs sm:text-sm font-bold shadow-sm shadow-secondary/20 transition-all"
                             >
                                 <span>למדריך וואטסאפ ב-CRM</span>
                                 <ArrowLeft size={14} className="group-hover/btn:-translate-x-1 transition-transform" />
-                            </button>
+                            </InternalLink>
                         </div>
 
                         {/* CTA Banner: Meeting & Fit Consultation */}
