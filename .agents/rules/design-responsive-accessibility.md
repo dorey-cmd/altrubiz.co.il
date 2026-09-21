@@ -92,6 +92,6 @@ Accessibility is an integral architectural requirement of the Design OS, not an 
 ## 6. Performance-Aware Design
 
 AltruBiz balances rich, living visual aesthetics with strict technical restraint:
-1. **Video Background Overhead**: The Hero video background uses a preloaded poster image (`poster="...6893869aeedaf87c98bf84d1.png"`) to ensure zero Cumulative Layout Shift (CLS) during initial page load.
+1. **Video Background Overhead**: The Hero video is self-hosted on the same origin (`/media/hero-parallax.<hash>.mp4`: compressed, no audio, `faststart`, at most 8 MB, cached `immutable`) and has **no poster or legacy fallback image**. The hero container reserves its full size (`h-[85vh] md:h-[95vh]`) over the brand gradient, so CLS stays zero. The decorative video file is served with `X-Robots-Tag: noindex`.
 2. **Canvas Particle Animation**: `StarDust.tsx` runs an efficient, clean particle array. Future updates should throttle canvas rendering on mobile devices (`window.innerWidth < 768`) to prevent unnecessary CPU/GPU battery consumption.
 3. **Image Optimization**: Custom 3D assets and product screenshots should be served in modern compressed formats (WebP/AVIF) with explicit width/height attributes to ensure rapid Largest Contentful Paint (LCP).

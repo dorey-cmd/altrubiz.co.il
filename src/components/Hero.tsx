@@ -38,7 +38,7 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate, onOpenDiagnosticModal })
                     loop
                     preload="auto"
                 >
-                    <source src="https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/689697da649372e6d7d2b32d.mp4" type="video/mp4" />
+                    <source src="/media/hero-parallax.19b8e13e.mp4" type="video/mp4" />
                     הדפדפן אינו תומך בניגון וידאו
                 </video>
             </motion.div>

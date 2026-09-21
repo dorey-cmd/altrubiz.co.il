@@ -155,6 +155,48 @@ if (fs.existsSync(parallaxLayerPath)) {
     fail('src/components/motion/ParallaxLayer.tsx is missing!');
 }
 
+// 3b. Hero media: the video is self-hosted and light, and no legacy image flashes before React mounts
+console.log('\n3b. Auditing Hero media (self-hosted video, no legacy fallback image)...');
+{
+    const HERO_VIDEO_MAX_BYTES = 8 * 1024 * 1024;
+    const heroSrc = fs.readFileSync(path.join(ROOT_DIR, 'src', 'components', 'Hero.tsx'), 'utf8');
+    const sources = [...heroSrc.matchAll(/<source[^>]*\ssrc=["']([^"']+)["']/g)].map((m) => m[1]);
+
+    if (sources.length === 0) {
+        fail('Hero.tsx has no <video><source src> to audit.');
+    }
+    for (const src of sources) {
+        if (/^(https?:)?\/\//i.test(src)) {
+            fail('Hero video is loaded from another host (' + src + '); host it under public/media/ so it ships with the site.');
+            continue;
+        }
+        const file = path.join(ROOT_DIR, 'public', src.replace(/^\//, ''));
+        if (!fs.existsSync(file)) {
+            fail('Hero video file is missing: public' + src);
+            continue;
+        }
+        const bytes = fs.statSync(file).size;
+        if (bytes > HERO_VIDEO_MAX_BYTES) {
+            fail('Hero video is ' + (bytes / 1048576).toFixed(1) + ' MB (budget ' + (HERO_VIDEO_MAX_BYTES / 1048576) + ' MB). Re-encode it before shipping.');
+        } else {
+            pass('Hero video is same-origin (' + src + ', ' + (bytes / 1048576).toFixed(1) + ' MB, within budget)');
+        }
+    }
+
+    if (/<video[^>]*\sposter=/.test(heroSrc)) {
+        fail('Hero <video> declares a poster image; the hero uses no poster/legacy fallback image.');
+    } else {
+        pass('Hero <video> has no poster image');
+    }
+
+    const shell = fs.readFileSync(path.join(ROOT_DIR, 'index.html'), 'utf8');
+    if (/<img[^>]*absolute\s+inset-0[^>]*>/.test(shell)) {
+        fail('index.html static shell has a full-bleed background <img> (legacy hero image flashes before React mounts).');
+    } else {
+        pass('index.html static shell has no full-bleed legacy background image');
+    }
+}
+
 // 4. Live Browser Tests (No-JS and prefers-reduced-motion) using playwright-core
 function killProcessTree(pid) {
     if (!pid) return;
