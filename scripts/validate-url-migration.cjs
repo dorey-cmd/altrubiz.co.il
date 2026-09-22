@@ -261,17 +261,30 @@ if (!fs.existsSync(VERCEL_JSON_PATH)) {
     }
     pass('Zero redirect chains detected in vercel.json.');
 
-    // Legacy homepage aliases must be answered with a real HTTP 301 at the server,
-    // not by the client-side "unknown route -> /" script in src/main.tsx (which
-    // serves 200 first and is not a redirect for crawlers).
-    for (const legacy of ['/home', '/prsonal-system-1498']) {
+    // Legacy / GoHighLevel-export aliases must be answered with a real HTTP 301 at
+    // the server, not by the client-side "unknown route -> /" script in src/main.tsx
+    // (which serves 200 first and is not a redirect for crawlers). Each maps to its
+    // evidenced destination; unmapped legacy slugs consolidate to the homepage.
+    const LEGACY_ALIAS_REDIRECT_MAP = {
+        '/home': '/',
+        '/prsonal-system-1498': '/',
+        '/products': '/',
+        '/crm': '/',
+        '/carepoint': '/',
+        '/altubiz.co.il': '/',
+        '/terms': '/terms-of-use',
+        '/crm-627939-529009-764168-718501': '/',
+        '/privacy': '/privacy-policy',
+        '/product-template': '/',
+    };
+    for (const [legacy, dest] of Object.entries(LEGACY_ALIAS_REDIRECT_MAP)) {
         const r = redirectMap.get(legacy);
         if (!r) {
-            fail(`Missing server-side 301 redirect for legacy homepage alias: ${legacy}`);
-        } else if (r.destination !== '/' || r.statusCode !== 301) {
-            fail(`Legacy alias ${legacy} must redirect to "/" with statusCode 301 (found destination "${r.destination}", statusCode ${r.statusCode}, permanent ${r.permanent})`);
+            fail(`Missing server-side 301 redirect for legacy alias: ${legacy}`);
+        } else if (r.destination !== dest || r.statusCode !== 301) {
+            fail(`Legacy alias ${legacy} must redirect to "${dest}" with statusCode 301 (found destination "${r.destination}", statusCode ${r.statusCode}, permanent ${r.permanent})`);
         } else {
-            pass(`Redirect verified: ${legacy} -> / (HTTP 301)`);
+            pass(`Redirect verified: ${legacy} -> ${dest} (HTTP 301)`);
         }
     }
 }
