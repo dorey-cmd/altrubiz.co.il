@@ -186,6 +186,7 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
             'crm-quick-wins-guide',
             'quote-follow-up-guide',
             'customer-handoff-context-guide',
+            'returning-customers-retention-guide',
             'lead-qualification-guide',
             'premium-websites-guide',
             'build-website-with-ai-guide'
@@ -651,6 +652,7 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
             'crm-duplicate-contacts-prevention-guide',
             'omnichannel-communication-unified-inbox-crm-guide',
             'client-onboarding-process-guide',
+            'returning-customers-retention-guide',
             'practical-ai-for-business-guide'
         ],
         relevantNextActions: ['meeting', 'whatsapp', 'pricing', 'guide', 'assessment'],
@@ -1283,6 +1285,17 @@ export const CANONICAL_CONCEPTS: Record<string, CanonicalConcept> = {
         hasApprovedPublicDestination: false,
         primaryParentHubSlug: 'repetitive-manual-work',
         recommendedBehavior: 'progressive_definition'
+    },
+    'customer-retention': {
+        id: 'customer-retention',
+        term: 'שימור לקוחות ורכישות חוזרות (Customer Retention)',
+        synonyms: ['שימור לקוחות', 'רכישות חוזרות', 'החזרת לקוחות', 'Retention', 'Customer Retention', 'Win-back', 'לקוחות חוזרים'],
+        canonicalDefinition: 'זיהוי מוקדם של לקוחות קיימים שמתחילים להתרחק, שמירה על קשר רציף בהתאם לקצב הטבעי של העסק, והחזרת לקוחות רדומים ללא תלות בקמפיינים חדשים.',
+        maturity: 'maturing',
+        hasApprovedPublicDestination: true,
+        publicDestinationUrl: '/returning-customers',
+        primaryParentHubSlug: 'business-memory',
+        recommendedBehavior: 'contextual_link'
     }
 };
 
@@ -1327,7 +1340,12 @@ export function resolveCanonicalConcept(idOrAlias: string): CanonicalConcept | u
         'practical_ai': 'ai-adoption',
         'practical-ai': 'ai-adoption',
         'ai_in_business': 'ai-adoption',
-        'ai-in-business': 'ai-adoption'
+        'ai-in-business': 'ai-adoption',
+        'customer_retention': 'customer-retention',
+        'customer-retention': 'customer-retention',
+        'retention': 'customer-retention',
+        'win_back': 'customer-retention',
+        'win-back': 'customer-retention'
     };
     
     if (aliasMap[cleanId] && CANONICAL_CONCEPTS[aliasMap[cleanId]]) {

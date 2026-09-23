@@ -16,6 +16,46 @@
             "statusCode": 301
         },
         {
+            "source": "/products",
+            "destination": "/",
+            "statusCode": 301
+        },
+        {
+            "source": "/crm",
+            "destination": "/",
+            "statusCode": 301
+        },
+        {
+            "source": "/carepoint",
+            "destination": "/",
+            "statusCode": 301
+        },
+        {
+            "source": "/altubiz.co.il",
+            "destination": "/",
+            "statusCode": 301
+        },
+        {
+            "source": "/terms",
+            "destination": "/terms-of-use",
+            "statusCode": 301
+        },
+        {
+            "source": "/crm-627939-529009-764168-718501",
+            "destination": "/",
+            "statusCode": 301
+        },
+        {
+            "source": "/privacy",
+            "destination": "/privacy-policy",
+            "statusCode": 301
+        },
+        {
+            "source": "/product-template",
+            "destination": "/",
+            "statusCode": 301
+        },
+        {
             "source": "/prsonal-system-1498",
             "destination": "/",
             "statusCode": 301
