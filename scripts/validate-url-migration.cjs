@@ -83,7 +83,8 @@ const EXPECTED_ARTICLES = {
     'premium-websites-guide': '/premium-websites',
     'build-website-with-ai-guide': '/build-website-with-ai',
     'why-businesses-stay-stuck-in-bad-processes': '/why-businesses-stay-stuck-in-bad-processes',
-    'hidden-business-growth-barriers': '/hidden-business-growth-barriers'
+    'hidden-business-growth-barriers': '/hidden-business-growth-barriers',
+    'returning-customers-retention-guide': '/returning-customers'
 };
 
 const OLD_URL_REDIRECT_MAP = {
