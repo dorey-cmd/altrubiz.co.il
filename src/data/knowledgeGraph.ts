@@ -190,7 +190,8 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
             'lead-qualification-guide',
             'premium-websites-guide',
             'build-website-with-ai-guide',
-            'chatgpt-ads-israel-launch'
+            'chatgpt-ads-israel-launch',
+            'chatgpt-ads-intent-fit'
         ],
         recommendedNextSlugs: ['whatsapp-in-crm', 'sales-pipeline', 'roi-calculator', 'salespeople-hate-crm-adoption-guide'],
         relevantNextActions: ['meeting', 'whatsapp', 'pricing', 'guide', 'assessment'],
@@ -494,7 +495,8 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
             'crm-quick-wins-guide',
             'quote-follow-up-guide',
             'lead-qualification-guide',
-            'crm-business-from-memory-guide'
+            'crm-business-from-memory-guide',
+            'chatgpt-ads-intent-fit'
         ],
         relevantNextActions: ['meeting', 'whatsapp', 'pricing', 'guide', 'assessment'],
         availableCtas: ['meeting', 'pricing', 'whatsapp'],
@@ -590,7 +592,7 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
                         'תעדוף נכון אינו מחייב מודל מורכב או AI יקר. שילוב שתי שאלות בסיסיות (התאמה לעסק מול כוונת רכישה כרגע) מאפשר להבחין מיד בין מי שדורש מענה מיידי, מי שצריך טיפוח, ולמי להשיב בכנות שהשירות אינו מתאים.'
                     ],
                     manifestationId: 'lead-qualification-confusion',
-                    relatedArticleSlugs: ['lead-qualification-guide']
+                    relatedArticleSlugs: ['lead-qualification-guide', 'chatgpt-ads-intent-fit']
                 }
             ],
             solutionPaths: [
@@ -817,7 +819,8 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
             'ai-business-work-vs-thinking-guide',
             'premium-websites-guide',
             'build-website-with-ai-guide',
-            'chatgpt-ads-israel-launch'
+            'chatgpt-ads-israel-launch',
+            'chatgpt-ads-intent-fit'
         ],
         relevantNextActions: ['meeting', 'whatsapp', 'pricing', 'guide', 'assessment'],
         availableCtas: ['meeting', 'pricing', 'whatsapp'],
@@ -913,7 +916,7 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
                         'הדרך הנכונה אינה להתחיל מטכנולוגיה, אלא לזהות פעולה ידנית מוכרת שחוזרת על עצמה, לבחון סולם אימוץ מדורג (עוזר לי -> מכין לי -> מבצע בשבילי), ולהכניס עזרה ממוקדת של 20% בלבד לפני שמרחיבים הלאה.'
                     ],
                     manifestationId: 'ai-adoption-confusion',
-                    relatedArticleSlugs: ['why-businesses-stay-stuck-in-bad-processes', 'practical-ai-for-business-guide', 'non-technical-to-ai-automation-guide', 'ai-business-work-vs-thinking-guide', 'build-website-with-ai-guide', 'chatgpt-ads-israel-launch']
+                    relatedArticleSlugs: ['why-businesses-stay-stuck-in-bad-processes', 'practical-ai-for-business-guide', 'non-technical-to-ai-automation-guide', 'ai-business-work-vs-thinking-guide', 'build-website-with-ai-guide', 'chatgpt-ads-israel-launch', 'chatgpt-ads-intent-fit']
                 }
             ],
             solutionPaths: [
@@ -1096,7 +1099,8 @@ export const CANDIDATE_FUTURE_CONCEPTS = {
         relatedArticleSlugs: [
             'lead-qualification-guide',
             'excel-to-crm-pipeline-guide',
-            'lead-first-5-minutes-guide'
+            'lead-first-5-minutes-guide',
+            'chatgpt-ads-intent-fit'
         ]
     }
 } as const;
