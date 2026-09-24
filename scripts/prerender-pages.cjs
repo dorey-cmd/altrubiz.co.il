@@ -47,6 +47,36 @@ function escapeAttr(str) {
         .replace(/>/g, '&gt;');
 }
 
+function renderPrerenderParagraph(paragraph) {
+    if (!paragraph || typeof paragraph !== 'string') return '';
+    const trimmed = paragraph.trim();
+    if (trimmed.startsWith('|') && trimmed.includes('\n|') && trimmed.includes('---')) {
+        const lines = trimmed.split('\n').map(l => l.trim()).filter(Boolean);
+        if (lines.length >= 2) {
+            const splitRow = (line) => line.replace(/^\|/, '').replace(/\|$/, '').split('|').map(c => c.trim());
+            const headers = splitRow(lines[0]);
+            const rows = lines.slice(2).map(splitRow);
+            return `
+          <div class="my-6 overflow-x-auto rounded-2xl border border-slate-200 bg-white shadow-sm">
+            <table class="min-w-full text-right text-sm sm:text-base border-collapse">
+              <thead>
+                <tr class="bg-slate-100 border-b border-slate-200 text-slate-900 font-bold">
+                  ${headers.map(h => `<th class="py-3 px-4">${escapeAttr(h.replace(/\*\*/g, ''))}</th>`).join('')}
+                </tr>
+              </thead>
+              <tbody>
+                ${rows.map((row, rIdx) => `
+                <tr class="${rIdx % 2 === 0 ? 'bg-white' : 'bg-slate-50'} border-b border-slate-100">
+                  ${row.map(cell => `<td class="py-3 px-4 text-slate-800">${escapeAttr(cell.replace(/\*\*/g, ''))}</td>`).join('')}
+                </tr>`).join('')}
+              </tbody>
+            </table>
+          </div>`;
+        }
+    }
+    return `<p class="text-slate-700 leading-relaxed text-base sm:text-lg mb-4">${escapeAttr(paragraph.replace(/\[(.*?)\]\((.*?)\)/g, '$1'))}</p>`;
+}
+
 function buildFoundationHeader() {
     return `    <header class="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-200 shadow-sm" dir="rtl">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -275,7 +305,7 @@ ${buildFoundationHeader()}
         <section id="${escapeAttr(section.id)}" class="prose prose-slate max-w-none">
           <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-3">${escapeAttr(section.title)}</h2>
           ${section.subtitle ? `<h3 class="text-lg text-slate-600 font-medium mb-4">${escapeAttr(section.subtitle)}</h3>` : ''}
-          ${(section.content || []).map(paragraph => `<p class="text-slate-700 leading-relaxed text-base sm:text-lg mb-4">${escapeAttr(paragraph.replace(/\\[(.*?)\\]\\((.*?)\\)/g, '$1'))}</p>`).join('\n          ')}
+          ${(section.content || []).map(paragraph => renderPrerenderParagraph(paragraph)).join('\n          ')}
         </section>`).join('\n        ')}
       </main>
     </article>`;

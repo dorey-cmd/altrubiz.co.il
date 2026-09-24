@@ -199,6 +199,60 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                 ? 'שאלות נפוצות' 
                 : 'תוכן המאמר';
 
+    const isMarkdownTable = (text: string): boolean => {
+        if (!text || typeof text !== 'string') return false;
+        const trimmed = text.trim();
+        return trimmed.startsWith('|') && trimmed.includes('\n|') && trimmed.includes('---');
+    };
+
+    const renderMarkdownTable = (tableMarkdown: string, key: string | number) => {
+        const lines = tableMarkdown.trim().split('\n').map(l => l.trim()).filter(Boolean);
+        if (lines.length < 2) return null;
+
+        const splitRow = (line: string) => {
+            const clean = line.replace(/^\|/, '').replace(/\|$/, '');
+            return clean.split('|').map(cell => cell.trim());
+        };
+
+        const headers = splitRow(lines[0]);
+        const rows = lines.slice(2).map(splitRow);
+
+        return (
+            <div key={key} className="my-8 overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-sm ring-1 ring-slate-900/5">
+                <div className="overflow-x-auto">
+                    <table className="min-w-full text-right text-sm sm:text-base border-collapse">
+                        <thead>
+                            <tr className="bg-slate-100/90 border-b border-slate-200 text-slate-900 font-extrabold">
+                                {headers.map((h, i) => (
+                                    <th key={i} className="py-3.5 px-4 sm:px-6 text-right font-black text-slate-900 text-sm sm:text-base tracking-tight">
+                                        {renderFormattedText(h, onNavigate)}
+                                    </th>
+                                ))}
+                            </tr>
+                        </thead>
+                        <tbody className="divide-y divide-slate-100">
+                            {rows.map((row, rIdx) => (
+                                <tr 
+                                    key={rIdx} 
+                                    className={`${rIdx % 2 === 0 ? 'bg-white hover:bg-slate-50/70' : 'bg-slate-50/40 hover:bg-slate-50'} transition-colors`}
+                                >
+                                    {row.map((cell, cIdx) => (
+                                        <td 
+                                            key={cIdx} 
+                                            className={`py-3.5 px-4 sm:px-6 text-slate-800 leading-relaxed align-top ${cIdx === 0 ? 'font-bold text-slate-900' : 'font-normal'}`}
+                                        >
+                                            {renderFormattedText(cell, onNavigate)}
+                                        </td>
+                                    ))}
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        );
+    };
+
     const renderCallout = (callout: NonNullable<ArticleSection['callout']>) => {
         if (callout.type === 'danger') {
             return (
@@ -724,11 +778,16 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                     {/* Content Paragraphs */}
                     {section.content && section.content.length > 0 && (
                         <div className="space-y-4 text-slate-700 mb-6 text-base sm:text-lg">
-                            {section.content.map((para, pIdx) => (
-                                <p key={pIdx} className="leading-relaxed">
-                                    {renderFormattedText(para, onNavigate)}
-                                </p>
-                            ))}
+                            {section.content.map((para, pIdx) => {
+                                if (isMarkdownTable(para)) {
+                                    return renderMarkdownTable(para, `table-${section.id}-${pIdx}`);
+                                }
+                                return (
+                                    <p key={pIdx} className="leading-relaxed">
+                                        {renderFormattedText(para, onNavigate)}
+                                    </p>
+                                );
+                            })}
                         </div>
                     )}
 
@@ -848,11 +907,16 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                 {/* Paragraphs */}
                 {section.content && section.content.length > 0 && (
                     <div className="space-y-4 text-slate-700 mb-6">
-                        {section.content.map((para, pIdx) => (
-                            <p key={pIdx} className="leading-relaxed">
-                                {renderFormattedText(para, onNavigate)}
-                            </p>
-                        ))}
+                        {section.content.map((para, pIdx) => {
+                            if (isMarkdownTable(para)) {
+                                return renderMarkdownTable(para, `table-${section.id}-${pIdx}`);
+                            }
+                            return (
+                                <p key={pIdx} className="leading-relaxed">
+                                    {renderFormattedText(para, onNavigate)}
+                                </p>
+                            );
+                        })}
                     </div>
                 )}
 

@@ -15,49 +15,72 @@ import { handleClientNavClick } from '../components/common/InternalLink';
 export function renderFormattedText(text: string, onNavigate?: (path: string) => void): React.ReactNode {
     if (!text || typeof text !== 'string') return text;
     
-    // Quick bailout if no markdown link pattern exists
-    if (!text.includes('[') || !text.includes('](')) {
+    // Quick bailout if no markdown pattern exists
+    if (!text.includes('[') && !text.includes('**') && !text.includes('*')) {
         return text;
     }
 
-    const linkRegex = /\[(.*?)\]\((.*?)\)/g;
+    const tokenRegex = /(\[.*?\]\(.*?\)|\*\*.*?\*\*|\*[^*]+?\*)/g;
     const parts: React.ReactNode[] = [];
     let lastIndex = 0;
     let match: RegExpExecArray | null;
 
-    while ((match = linkRegex.exec(text)) !== null) {
-        const [fullMatch, linkText, linkUrl] = match;
+    while ((match = tokenRegex.exec(text)) !== null) {
+        const fullMatch = match[0];
         const matchIndex = match.index;
 
         if (matchIndex > lastIndex) {
             parts.push(text.substring(lastIndex, matchIndex));
         }
 
-        if (linkUrl.startsWith('concept:')) {
-            const conceptId = linkUrl.replace('concept:', '');
+        if (fullMatch.startsWith('[') && fullMatch.includes('](')) {
+            const linkMatch = /^\[(.*?)\]\((.*?)\)$/.exec(fullMatch);
+            if (linkMatch) {
+                const [, linkText, linkUrl] = linkMatch;
+                if (linkUrl.startsWith('concept:')) {
+                    const conceptId = linkUrl.replace('concept:', '');
+                    parts.push(
+                        <ContextualConcept
+                            key={`concept-${conceptId}-${matchIndex}`}
+                            conceptId={conceptId}
+                            displayText={linkText}
+                            onNavigate={onNavigate}
+                        />
+                    );
+                } else {
+                    const isInternal = linkUrl.startsWith('/');
+                    parts.push(
+                        <a
+                            key={`${linkUrl}-${matchIndex}`}
+                            href={linkUrl}
+                            onClick={isInternal && onNavigate ? (e) => handleClientNavClick(e, linkUrl, onNavigate) : undefined}
+                            target={isInternal ? '_self' : '_blank'}
+                            rel={isInternal ? undefined : 'noopener noreferrer'}
+                            className="text-primary font-bold underline decoration-primary/30 hover:decoration-primary underline-offset-4 transition-colors cursor-pointer"
+                        >
+                            {linkText}
+                        </a>
+                    );
+                }
+            } else {
+                parts.push(fullMatch);
+            }
+        } else if (fullMatch.startsWith('**') && fullMatch.endsWith('**')) {
+            const innerText = fullMatch.slice(2, -2);
             parts.push(
-                <ContextualConcept
-                    key={`concept-${conceptId}-${matchIndex}`}
-                    conceptId={conceptId}
-                    displayText={linkText}
-                    onNavigate={onNavigate}
-                />
+                <strong key={`bold-${matchIndex}`} className="font-bold text-slate-900">
+                    {renderFormattedText(innerText, onNavigate)}
+                </strong>
+            );
+        } else if (fullMatch.startsWith('*') && fullMatch.endsWith('*')) {
+            const innerText = fullMatch.slice(1, -1);
+            parts.push(
+                <em key={`italic-${matchIndex}`} className="italic">
+                    {renderFormattedText(innerText, onNavigate)}
+                </em>
             );
         } else {
-            const isInternal = linkUrl.startsWith('/');
-
-            parts.push(
-                <a
-                    key={`${linkUrl}-${matchIndex}`}
-                    href={linkUrl}
-                    onClick={isInternal && onNavigate ? (e) => handleClientNavClick(e, linkUrl, onNavigate) : undefined}
-                    target={isInternal ? '_self' : '_blank'}
-                    rel={isInternal ? undefined : 'noopener noreferrer'}
-                    className="text-primary font-bold underline decoration-primary/30 hover:decoration-primary underline-offset-4 transition-colors cursor-pointer"
-                >
-                    {linkText}
-                </a>
-            );
+            parts.push(fullMatch);
         }
 
         lastIndex = matchIndex + fullMatch.length;
