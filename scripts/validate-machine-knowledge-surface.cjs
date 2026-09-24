@@ -296,11 +296,11 @@ if (fs.existsSync(LLMS_FULL_PATH)) {
         pass(`llms-full.txt contains ZERO legacy "/topics/" paths.`);
     }
 
-    // Check for legacy HTML /articles/ links (ignoring /images/articles/)
+    // Check for legacy HTML /articles/ links (ignoring /images/articles/ and external third-party links)
     const lines = fullContent.split('\n');
     let legacyArticleLinks = 0;
     for (const line of lines) {
-        if (line.includes('/articles/') && !line.includes('/images/articles/')) {
+        if ((line.includes('](/articles/') || line.includes(`${DOMAIN}/articles/`)) && !line.includes('/images/articles/')) {
             legacyArticleLinks++;
             fail(`llms-full.txt contains legacy HTML /articles/ link: ${line}`);
         }

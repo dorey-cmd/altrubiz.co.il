@@ -189,7 +189,8 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
             'returning-customers-retention-guide',
             'lead-qualification-guide',
             'premium-websites-guide',
-            'build-website-with-ai-guide'
+            'build-website-with-ai-guide',
+            'chatgpt-ads-israel-launch'
         ],
         recommendedNextSlugs: ['whatsapp-in-crm', 'sales-pipeline', 'roi-calculator', 'salespeople-hate-crm-adoption-guide'],
         relevantNextActions: ['meeting', 'whatsapp', 'pricing', 'guide', 'assessment'],
@@ -815,7 +816,8 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
             'practical-ai-for-business-guide',
             'ai-business-work-vs-thinking-guide',
             'premium-websites-guide',
-            'build-website-with-ai-guide'
+            'build-website-with-ai-guide',
+            'chatgpt-ads-israel-launch'
         ],
         relevantNextActions: ['meeting', 'whatsapp', 'pricing', 'guide', 'assessment'],
         availableCtas: ['meeting', 'pricing', 'whatsapp'],
@@ -911,7 +913,7 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
                         'הדרך הנכונה אינה להתחיל מטכנולוגיה, אלא לזהות פעולה ידנית מוכרת שחוזרת על עצמה, לבחון סולם אימוץ מדורג (עוזר לי -> מכין לי -> מבצע בשבילי), ולהכניס עזרה ממוקדת של 20% בלבד לפני שמרחיבים הלאה.'
                     ],
                     manifestationId: 'ai-adoption-confusion',
-                    relatedArticleSlugs: ['why-businesses-stay-stuck-in-bad-processes', 'practical-ai-for-business-guide', 'non-technical-to-ai-automation-guide', 'ai-business-work-vs-thinking-guide', 'build-website-with-ai-guide']
+                    relatedArticleSlugs: ['why-businesses-stay-stuck-in-bad-processes', 'practical-ai-for-business-guide', 'non-technical-to-ai-automation-guide', 'ai-business-work-vs-thinking-guide', 'build-website-with-ai-guide', 'chatgpt-ads-israel-launch']
                 }
             ],
             solutionPaths: [

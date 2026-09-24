@@ -84,7 +84,8 @@ const EXPECTED_ARTICLES = {
     'build-website-with-ai-guide': '/build-website-with-ai',
     'why-businesses-stay-stuck-in-bad-processes': '/why-businesses-stay-stuck-in-bad-processes',
     'hidden-business-growth-barriers': '/hidden-business-growth-barriers',
-    'returning-customers-retention-guide': '/returning-customers'
+    'returning-customers-retention-guide': '/returning-customers',
+    'chatgpt-ads-israel-launch': '/chatgpt-ads-israel-launch'
 };
 
 const OLD_URL_REDIRECT_MAP = {
