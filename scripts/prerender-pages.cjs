@@ -367,7 +367,14 @@ const staticPages = [
         path: '10x4lead',
         title: 'תודה, קיבלנו את הפנייה שלך | AltruBiz CRM',
         description: 'הפנייה שלך הגיעה אלינו כמו שצריך ב-AltruBiz CRM, ואנחנו כבר מטפלים בה. נחזור אליך בהקדם.',
-        image: `${BASE_DOMAIN}/images/og-altrubiz-main.jpg`,
+        image: `${BASE_DOMAIN}/images/thank-you-lead.jpg`,
+        noindex: true
+    },
+    {
+        path: '10x4meet',
+        title: 'Your meeting has been scheduled | AltruBiz CRM',
+        description: 'תודה שקבעת פגישה עם AltruBiz! הפגישה נקבעה בהצלחה ואפשר להוסיף אותה ישירות ליומן Google, Outlook או iCloud.',
+        image: `${BASE_DOMAIN}/images/thank-you-meet.jpg`,
         noindex: true
     },
     {

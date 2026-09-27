@@ -23,6 +23,110 @@ declare global {
 export const OPENAI_PIXEL_ID = IL_MARKET.analytics.openAiPixelId || 'VhQDWuEErwuNe33qTVu24K';
 
 /**
+ * Checks whether a given URL points to a WhatsApp destination.
+ * Matches wa.me, api.whatsapp.com, web.whatsapp.com, or whatsapp:// scheme.
+ */
+export function isWhatsAppUrl(url: string | null | undefined): boolean {
+    if (!url || typeof url !== 'string') return false;
+    const lower = url.toLowerCase();
+    return (
+        lower.includes('wa.me') ||
+        lower.includes('api.whatsapp.com') ||
+        lower.includes('web.whatsapp.com') ||
+        lower.startsWith('whatsapp://')
+    );
+}
+
+/**
+ * Fires the exact OpenAI custom event for WhatsApp clicks:
+ * oaiq("measure", "custom", { type: "custom" }, { custom_event_name: "whatsup" });
+ * 
+ * Safe fail-open: Never allows a tracking error to disrupt user interaction.
+ */
+export function trackWhatsAppClick(): void {
+    if (typeof window === 'undefined') return;
+    try {
+        window.oaiq = window.oaiq || function (...args: any[]) {
+            (window.oaiq!.q = window.oaiq!.q || []).push(args);
+        };
+        window.oaiq(
+            'measure',
+            'custom',
+            { type: 'custom' },
+            { custom_event_name: 'whatsup' }
+        );
+    } catch {
+        // Safe fail-open: Never allow a tracking issue to break visitor click
+    }
+}
+
+let isGlobalWhatsAppTrackerInitialized = false;
+let lastWhatsAppClickTime = 0;
+
+/**
+ * Global delegated listener for WhatsApp interactions across all pages,
+ * including client-side SPA navigations and dynamically rendered components.
+ * 
+ * Intercepts clicks on <a> elements pointing to WhatsApp as well as
+ * programmatic window.open calls to WhatsApp URLs.
+ */
+export function initGlobalWhatsAppTracker(): void {
+    if (typeof window === 'undefined' || isGlobalWhatsAppTrackerInitialized) return;
+    isGlobalWhatsAppTrackerInitialized = true;
+
+    // 1. Delegated click listener on document (capture phase to run before navigation)
+    document.addEventListener(
+        'click',
+        (event: MouseEvent) => {
+            try {
+                const target = event.target as Element | null;
+                if (!target) return;
+
+                const anchor = target.closest('a');
+                if (anchor) {
+                    const href = anchor.getAttribute('href') || anchor.href;
+                    if (isWhatsAppUrl(href)) {
+                        const now = Date.now();
+                        // Deduplicate clicks occurring within 400ms on the same action
+                        if (now - lastWhatsAppClickTime > 400) {
+                            lastWhatsAppClickTime = now;
+                            trackWhatsAppClick();
+                        }
+                    }
+                }
+            } catch {
+                // Fail open
+            }
+        },
+        { capture: true, passive: true }
+    );
+
+    // 2. Wrap window.open to intercept programmatic WhatsApp triggers (e.g. popups)
+    try {
+        const originalOpen = window.open;
+        if (typeof originalOpen === 'function') {
+            window.open = function (url?: string | URL, target?: string, features?: string) {
+                try {
+                    const urlString = typeof url === 'string' ? url : url?.toString();
+                    if (isWhatsAppUrl(urlString)) {
+                        const now = Date.now();
+                        if (now - lastWhatsAppClickTime > 400) {
+                            lastWhatsAppClickTime = now;
+                            trackWhatsAppClick();
+                        }
+                    }
+                } catch {
+                    // Fail open
+                }
+                return originalOpen.call(this, url, target, features);
+            };
+        }
+    } catch {
+        // Fail open
+    }
+}
+
+/**
  * Initializes the OpenAI Ads Measurement queue and pixel instance.
  * Safe to call multiple times (idempotent).
  */
@@ -36,6 +140,7 @@ export function initOpenAiPixel(customPixelId?: string) {
     };
 
     window.oaiq('init', { pixelId });
+    initGlobalWhatsAppTracker();
 }
 
 /**

@@ -135,6 +135,19 @@ export const STATIC_ROUTES_REGISTRY: Record<string, RouteConfig> = {
             { name: 'תודה רבה', path: '/10x4lead' }
         ]
     },
+    '/10x4meet': {
+        path: '/10x4meet',
+        title: 'Your meeting has been scheduled | AltruBiz CRM',
+        description: 'תודה שקבעת פגישה עם AltruBiz! הפגישה נקבעה בהצלחה ואפשר להוסיף אותה ישירות ליומן Google, Outlook או iCloud.',
+        canonicalUrl: `${BASE_CANONICAL_DOMAIN}/10x4meet`,
+        schemaType: 'WebPage',
+        inSitemap: false,
+        noindex: true,
+        breadcrumbs: [
+            { name: 'דף הבית', path: '/' },
+            { name: 'אישור פגישה', path: '/10x4meet' }
+        ]
+    },
     '/diagnostic-result': {
         path: '/diagnostic-result',
         title: 'דוח תוצאות אבחון חסמי צמיחה בעסק | AltruBiz',

@@ -24,6 +24,7 @@ import { CookieConsentBanner } from './components/common/CookieConsentBanner'
 import { RoiCalculatorPage } from './components/RoiCalculatorPage'
 import { DiagnosticResultPage } from './components/diagnostic/DiagnosticResultPage'
 import { ThankYouLeadPage } from './components/ThankYouLeadPage'
+import { ThankYouMeetPage } from './components/ThankYouMeetPage'
 import { NewsletterClubBanner } from './components/common/NewsletterClubBanner'
 import { ROI_CALCULATOR_FAQS } from './lib/roiCalculator'
 import { SEOHead } from './components/common/SEOHead'
@@ -305,6 +306,7 @@ function App() {
     const isDiagnosticResult = path === '/diagnostic-result';
     const isKnowledgeIndex = path === '/knowledge';
     const isThankYouLead = path === '/10x4lead';
+    const isThankYouMeet = path === '/10x4meet';
 
     const routeConfig = getRouteConfig(path);
     const currentArticle = routeConfig?.article || null;
@@ -377,6 +379,10 @@ function App() {
             ) : isThankYouLead ? (
                 <main id="main-content" tabIndex={-1} className="relative z-10 focus:outline-none focus-visible:ring-4 focus-visible:ring-primary/40 focus-visible:ring-offset-0">
                     <ThankYouLeadPage onNavigate={handleNavigate} />
+                </main>
+            ) : isThankYouMeet ? (
+                <main id="main-content" tabIndex={-1} className="relative z-10 focus:outline-none focus-visible:ring-4 focus-visible:ring-primary/40 focus-visible:ring-offset-0">
+                    <ThankYouMeetPage onNavigate={handleNavigate} />
                 </main>
             ) : isKnowledgeIndex ? (
                 <main id="main-content" tabIndex={-1} className="relative z-10 focus:outline-none focus-visible:ring-4 focus-visible:ring-primary/40 focus-visible:ring-offset-0">
