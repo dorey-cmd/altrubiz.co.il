@@ -70,7 +70,7 @@ export const SEOHead: React.FC<SEOHeadProps> = ({ routeConfig, article, faqs }) 
 
         // 4. Robots Directives
         if (routeConfig.noindex) {
-            setMeta('name', 'robots', 'noindex, nofollow');
+            setMeta('name', 'robots', 'noindex, follow');
         } else {
             removeElement('meta[name="robots"]');
         }

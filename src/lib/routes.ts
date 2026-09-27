@@ -122,6 +122,19 @@ export const STATIC_ROUTES_REGISTRY: Record<string, RouteConfig> = {
         inSitemap: false,
         noindex: true
     },
+    '/10x4lead': {
+        path: '/10x4lead',
+        title: 'תודה, קיבלנו את הפנייה שלך | AltruBiz CRM',
+        description: 'הפנייה שלך הגיעה אלינו כמו שצריך ב-AltruBiz CRM, ואנחנו כבר מטפלים בה. נחזור אליך בהקדם.',
+        canonicalUrl: `${BASE_CANONICAL_DOMAIN}/10x4lead`,
+        schemaType: 'WebPage',
+        inSitemap: false,
+        noindex: true,
+        breadcrumbs: [
+            { name: 'דף הבית', path: '/' },
+            { name: 'תודה רבה', path: '/10x4lead' }
+        ]
+    },
     '/diagnostic-result': {
         path: '/diagnostic-result',
         title: 'דוח תוצאות אבחון חסמי צמיחה בעסק | AltruBiz',

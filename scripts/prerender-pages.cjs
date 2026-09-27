@@ -364,6 +364,13 @@ const staticPages = [
         noindex: true
     },
     {
+        path: '10x4lead',
+        title: 'תודה, קיבלנו את הפנייה שלך | AltruBiz CRM',
+        description: 'הפנייה שלך הגיעה אלינו כמו שצריך ב-AltruBiz CRM, ואנחנו כבר מטפלים בה. נחזור אליך בהקדם.',
+        image: `${BASE_DOMAIN}/images/og-altrubiz-main.jpg`,
+        noindex: true
+    },
+    {
         path: 'privacy-policy',
         title: 'מדיניות פרטיות | AltruBiz CRM',
         description: 'מדיניות הפרטיות של אתר AltruBiz: אילו נתונים נאספים, לשם מה, עם אילו ספקי צד שלישי הם משותפים וכיצד לממש זכויות פרטיות.',

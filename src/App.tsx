@@ -23,6 +23,7 @@ import { AccessibilityStatementPage } from './components/legal/AccessibilityStat
 import { CookieConsentBanner } from './components/common/CookieConsentBanner'
 import { RoiCalculatorPage } from './components/RoiCalculatorPage'
 import { DiagnosticResultPage } from './components/diagnostic/DiagnosticResultPage'
+import { ThankYouLeadPage } from './components/ThankYouLeadPage'
 import { NewsletterClubBanner } from './components/common/NewsletterClubBanner'
 import { ROI_CALCULATOR_FAQS } from './lib/roiCalculator'
 import { SEOHead } from './components/common/SEOHead'
@@ -303,6 +304,7 @@ function App() {
     const isRoiCalculator = path === '/roi-calculator';
     const isDiagnosticResult = path === '/diagnostic-result';
     const isKnowledgeIndex = path === '/knowledge';
+    const isThankYouLead = path === '/10x4lead';
 
     const routeConfig = getRouteConfig(path);
     const currentArticle = routeConfig?.article || null;
@@ -371,6 +373,10 @@ function App() {
                         onOpenBookingModal={handleOpenBookingModal}
                         onOpenDiagnosticModal={handleOpenDiagnosticModal}
                     />
+                </main>
+            ) : isThankYouLead ? (
+                <main id="main-content" tabIndex={-1} className="relative z-10 focus:outline-none focus-visible:ring-4 focus-visible:ring-primary/40 focus-visible:ring-offset-0">
+                    <ThankYouLeadPage onNavigate={handleNavigate} />
                 </main>
             ) : isKnowledgeIndex ? (
                 <main id="main-content" tabIndex={-1} className="relative z-10 focus:outline-none focus-visible:ring-4 focus-visible:ring-primary/40 focus-visible:ring-offset-0">
