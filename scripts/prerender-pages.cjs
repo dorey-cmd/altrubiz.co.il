@@ -378,6 +378,13 @@ const staticPages = [
         noindex: true
     },
     {
+        path: '10x4order',
+        title: 'התשלום התקבל בהצלחה | AltruBiz CRM',
+        description: 'תודה! התשלום עבר כמו שצריך ב-AltruBiz ואנחנו כבר ממשיכים מכאן. הכול מסודר.',
+        image: `${BASE_DOMAIN}/images/thank-you-order.jpg`,
+        noindex: true
+    },
+    {
         path: 'privacy-policy',
         title: 'מדיניות פרטיות | AltruBiz CRM',
         description: 'מדיניות הפרטיות של אתר AltruBiz: אילו נתונים נאספים, לשם מה, עם אילו ספקי צד שלישי הם משותפים וכיצד לממש זכויות פרטיות.',
