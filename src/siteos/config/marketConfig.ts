@@ -43,6 +43,7 @@ export interface MarketAnalyticsConfig {
     ga4MeasurementId: string;
     clarityProjectId: string;
     openAiPixelId?: string;
+    metaPixelId?: string;
 }
 
 export interface MarketConfig {

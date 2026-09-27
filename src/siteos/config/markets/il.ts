@@ -61,5 +61,6 @@ export const IL_MARKET: MarketConfig = {
         ga4MeasurementId: 'G-YHP284ETF9',
         clarityProjectId: 'yj55u92ks2',
         openAiPixelId: 'VhQDWuEErwuNe33qTVu24K',
+        metaPixelId: '2123722128574429',
     },
 };

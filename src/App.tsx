@@ -38,6 +38,7 @@ import { DiagnosticModal } from './components/common/DiagnosticModal'
 import { ModalPresentationOptions } from './types/attribution'
 import { resolveConversionContext } from './lib/conversionEngine'
 import { trackPageview } from './lib/analytics'
+import { trackMetaPageview } from './lib/metaPixel'
 
 function App() {
     const [path, setPath] = useState(window.location.pathname);
@@ -275,10 +276,11 @@ function App() {
         return () => window.removeEventListener('popstate', handleLocationChange);
     }, [restoreOriginalState]);
 
-    // GA4 pageview per client-side route change (runs after SEOHead's title
+    // GA4 and Meta Pixel pageview per client-side route change (runs after SEOHead's title
     // effect, so document.title reflects the destination route).
     useEffect(() => {
         trackPageview(path, document.title);
+        trackMetaPageview(path);
     }, [path]);
 
     // Accessibility: on every real SPA route change (not modal opens, which

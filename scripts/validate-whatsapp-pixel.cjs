@@ -57,6 +57,7 @@ async function ensureServer() {
             console.log(`✔ Preview server ready on http://localhost:${TEST_PORT}`);
             return {
                 baseUrl: `http://localhost:${TEST_PORT}`,
+                pid: serverProcess.pid,
                 close: () => {
                     try { serverProcess.kill(); } catch {}
                 }
@@ -300,16 +301,22 @@ async function runBrowserTests() {
         fail(`Browser test error: ${err.message}`);
     } finally {
         if (browser) await browser.close();
-        if (server) server.close();
+        if (server) {
+            try {
+                if (process.platform === 'win32' && server.pid) {
+                    const { execSync } = require('child_process');
+                    execSync(`taskkill /F /T /PID ${server.pid}`, { stdio: 'ignore' });
+                }
+            } catch {}
+            server.close();
+        }
     }
 
     console.log('\n\x1b[1m========================================================\x1b[0m');
     console.log(`WhatsApp Pixel Audit: ${passed} passed, ${failed} failed`);
     console.log('\x1b[1m========================================================\x1b[0m\n');
 
-    if (failed > 0) {
-        process.exit(1);
-    }
+    process.exit(failed > 0 ? 1 : 0);
 }
 
 runBrowserTests();

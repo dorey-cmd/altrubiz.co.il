@@ -65,6 +65,12 @@ export const CookiePolicyPage: React.FC<CookiePolicyPageProps> = ({ onNavigate }
                                 <td className="py-2.5 text-slate-600">בכפוף להסכמה</td>
                             </tr>
                             <tr>
+                                <td className="py-2.5 pr-1 font-semibold">Meta Pixel (Facebook)</td>
+                                <td className="py-2.5 text-slate-600">אנליטיקה, שיווק ומדידה</td>
+                                <td className="py-2.5 text-slate-600">מדידת חשיפות, אופטימיזציה לקמפיינים של מטא ומדידת אפקטיביות פרסום</td>
+                                <td className="py-2.5 text-slate-600">בכפוף להסכמה</td>
+                            </tr>
+                            <tr>
                                 <td className="py-2.5 pr-1 font-semibold">Google Fonts</td>
                                 <td className="py-2.5 text-slate-600">תפעולית</td>
                                 <td className="py-2.5 text-slate-600">טעינת גופנים מעוצבים לאתר משרתי Google (לא עוגיית מעקב, אך כרוכה בפנייה לשרת חיצוני)</td>
