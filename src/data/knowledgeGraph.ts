@@ -191,7 +191,8 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
             'premium-websites-guide',
             'build-website-with-ai-guide',
             'chatgpt-ads-israel-launch',
-            'chatgpt-ads-intent-fit'
+            'chatgpt-ads-intent-fit',
+            'how-many-sales-follow-ups'
         ],
         recommendedNextSlugs: ['whatsapp-in-crm', 'sales-pipeline', 'roi-calculator', 'salespeople-hate-crm-adoption-guide'],
         relevantNextActions: ['meeting', 'whatsapp', 'pricing', 'guide', 'assessment'],
@@ -496,7 +497,8 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
             'quote-follow-up-guide',
             'lead-qualification-guide',
             'crm-business-from-memory-guide',
-            'chatgpt-ads-intent-fit'
+            'chatgpt-ads-intent-fit',
+            'how-many-sales-follow-ups'
         ],
         relevantNextActions: ['meeting', 'whatsapp', 'pricing', 'guide', 'assessment'],
         availableCtas: ['meeting', 'pricing', 'whatsapp'],
@@ -581,7 +583,7 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
                         'בניית מנגנון פולואפ שיטתי ב-CRM המשלב משימות נציג עם הודעות WhatsApp עדינות מבטיחה נוכחות מקצועית עד לקבלת החלטה סופית.'
                     ],
                     manifestationId: 'forgotten-follow-up',
-                    relatedArticleSlugs: ['follow-up-tasks-crm-guide', 'quote-follow-up-guide']
+                    relatedArticleSlugs: ['follow-up-tasks-crm-guide', 'quote-follow-up-guide', 'how-many-sales-follow-ups']
                 },
                 {
                     id: 'lead-qualification-prioritization',

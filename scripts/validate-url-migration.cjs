@@ -86,7 +86,8 @@ const EXPECTED_ARTICLES = {
     'hidden-business-growth-barriers': '/hidden-business-growth-barriers',
     'returning-customers-retention-guide': '/returning-customers',
     'chatgpt-ads-israel-launch': '/chatgpt-ads-israel-launch',
-    'chatgpt-ads-intent-fit': '/chatgpt-ads-intent-fit'
+    'chatgpt-ads-intent-fit': '/chatgpt-ads-intent-fit',
+    'how-many-sales-follow-ups': '/how-many-sales-follow-ups'
 };
 
 const OLD_URL_REDIRECT_MAP = {
