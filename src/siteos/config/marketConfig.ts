@@ -44,6 +44,7 @@ export interface MarketAnalyticsConfig {
     clarityProjectId: string;
     openAiPixelId?: string;
     metaPixelId?: string;
+    googleTagId?: string;
 }
 
 export interface MarketConfig {

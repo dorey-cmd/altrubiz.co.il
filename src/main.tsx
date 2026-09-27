@@ -8,13 +8,15 @@ import { initClarity } from './lib/clarity'
 import { initAnalytics } from './lib/analytics'
 import { initOpenAiPixel } from './lib/openaiPixel'
 import { initMetaPixel } from './lib/metaPixel'
+import { initGoogleTag } from './lib/googleTag'
 
-// Site-wide tracking (Microsoft Clarity, Google Analytics 4, OpenAI Ads Pixel, Meta Pixel)
+// Site-wide tracking (Microsoft Clarity, Google Analytics 4, OpenAI Ads Pixel, Meta Pixel, Google Tag)
 // registered once at the app's single entry point.
 initClarity()
 initAnalytics()
 initOpenAiPixel()
 initMetaPixel()
+initGoogleTag()
 
 // Client-side redirect logic for external shortlinks
 const currentPath = window.location.pathname;
