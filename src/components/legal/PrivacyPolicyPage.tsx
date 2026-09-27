@@ -84,6 +84,7 @@ export const PrivacyPolicyPage: React.FC<PrivacyPolicyPageProps> = ({ onNavigate
                     <li><strong>ספק תשתית לטפסים, יומן פגישות ותקשורת אוטומטית</strong> - מפעיל את טפסי יצירת הקשר, יומן הפגישות והאינטגרציה עם WhatsApp באתר.</li>
                     <li><strong>Google (Google Analytics 4, Google Fonts)</strong> - ניתוח שימוש באתר (בכפוף להסכמה) וטעינת גופנים.</li>
                     <li><strong>Microsoft (Clarity)</strong> - ניתוח התנהגות גולשים, כולל הקלטות מסך אנונימיות של גלישה באתר (בכפוף להסכמה).</li>
+                    <li><strong>OpenAI (OpenAI Ads)</strong> - מדידת המרות ואפקטיביות פרסום (בכפוף להסכמה).</li>
                     <li><strong>Invoice4U</strong> - סליקת תשלומים והפקת חשבוניות עבור מנויי AltruBiz CRM.</li>
                     <li><strong>Meta / WhatsApp</strong> - כאשר אתם פונים אלינו דרך WhatsApp, ההתכתבות מתבצעת בפלטפורמת WhatsApp בכפוף למדיניות הפרטיות שלה.</li>
                 </ul>

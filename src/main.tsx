@@ -6,15 +6,13 @@ import './index.css'
 import { getRouteConfig } from './lib/routes'
 import { initClarity } from './lib/clarity'
 import { initAnalytics } from './lib/analytics'
+import { initOpenAiPixel } from './lib/openaiPixel'
 
-// Site-wide Microsoft Clarity + Google Analytics — registered once at the
-// app's single entry point, so every current and future route (static pages,
-// articles, knowledge hubs) automatically inherits both without per-page
-// wiring. Neither actually loads until the visitor opts in via the cookie
-// consent banner (src/components/common/CookieConsentBanner.tsx) — see
-// src/lib/consent.ts.
+// Site-wide tracking (Microsoft Clarity, Google Analytics 4, OpenAI Ads Pixel)
+// registered once at the app's single entry point.
 initClarity()
 initAnalytics()
+initOpenAiPixel()
 
 // Client-side redirect logic for external shortlinks
 const currentPath = window.location.pathname;

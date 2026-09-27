@@ -42,6 +42,7 @@ export interface MarketLegalEntity {
 export interface MarketAnalyticsConfig {
     ga4MeasurementId: string;
     clarityProjectId: string;
+    openAiPixelId?: string;
 }
 
 export interface MarketConfig {

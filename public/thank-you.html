@@ -58,6 +58,14 @@
             z-index: 10;
         }
     </style>
+
+    <!-- OpenAI Ads Measurement Pixel (GPT_pix_1) -->
+    <script>
+        window.oaiq = window.oaiq || function () { (window.oaiq.q = window.oaiq.q || []).push(arguments); };
+        oaiq("init", { pixelId: "VhQDWuEErwuNe33qTVu24K" });
+        oaiq("measure", "order_created", { type: "contents", currency: "ILS" }, { event_id: "order_" + Date.now() });
+    </script>
+    <script async src="https://bzrcdn.openai.com/sdk/oaiq.min.js"></script>
 </head>
 <body class="min-h-screen flex flex-col items-center hero-pattern text-slate-800">
     <!-- Canvas for stardust effect -->

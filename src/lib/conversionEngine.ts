@@ -14,6 +14,7 @@ import { Article, ARTICLES } from '../data/articles';
 import { getParentHubForArticle } from '../data/knowledgeGraph';
 import { trackConversion as trackConversionGA } from './analytics';
 import { trackConversion as trackConversionClarity } from './clarity';
+import { trackConversion as trackConversionOpenAi } from './openaiPixel';
 import { captureInboundAttribution } from './attribution';
 
 interface DomainDefaultContext {
@@ -296,6 +297,7 @@ export function resolveConversionContext(params: ResolveConversionParams): Conve
     // through, so it needs no per-button wiring.
     trackConversionGA(attribution);
     trackConversionClarity(attribution);
+    trackConversionOpenAi(attribution);
 
     return {
         conversionType,

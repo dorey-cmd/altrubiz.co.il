@@ -59,6 +59,12 @@ export const CookiePolicyPage: React.FC<CookiePolicyPageProps> = ({ onNavigate }
                                 <td className="py-2.5 text-slate-600">בכפוף להסכמה</td>
                             </tr>
                             <tr>
+                                <td className="py-2.5 pr-1 font-semibold">OpenAI Ads (oaiq)</td>
+                                <td className="py-2.5 text-slate-600">אנליטיקה והמרות</td>
+                                <td className="py-2.5 text-slate-600">מדידת אפקטיביות קמפיינים והמרות משתמשים (פיקסל מדידה)</td>
+                                <td className="py-2.5 text-slate-600">בכפוף להסכמה</td>
+                            </tr>
+                            <tr>
                                 <td className="py-2.5 pr-1 font-semibold">Google Fonts</td>
                                 <td className="py-2.5 text-slate-600">תפעולית</td>
                                 <td className="py-2.5 text-slate-600">טעינת גופנים מעוצבים לאתר משרתי Google (לא עוגיית מעקב, אך כרוכה בפנייה לשרת חיצוני)</td>
@@ -87,9 +93,9 @@ export const CookiePolicyPage: React.FC<CookiePolicyPageProps> = ({ onNavigate }
 
             <LegalSection title="3. כלי אנליטיקה ומעקב - הרחבה">
                 <p>
-                    Google Analytics 4 ו-Microsoft Clarity הם הכלים היחידים באתר שנועדו למעקב אחר התנהגות גולשים, והם נטענים <strong>אך ורק</strong>{' '}
+                    Google Analytics 4, Microsoft Clarity ופיקסל המדידה של OpenAI Ads הם הכלים באתר שנועדו למעקב אחר התנהגות גולשים ומדידת המרות, והם נטענים <strong>אך ורק</strong>{' '}
                     לאחר שאישרתם זאת מפורשות בבאנר ה-Cookies. אם תבחרו באפשרות &quot;רק מה שצריך&quot;, כלים אלו לא ייטענו כלל בדפדפן שלכם, ולא
-                    יאספו נתוני שימוש או הקלטות גלישה.
+                    יאספו נתוני שימוש, המרות או הקלטות גלישה.
                 </p>
             </LegalSection>
 

@@ -1,5 +1,6 @@
 import { trackConversion as trackConversionGA } from '../lib/analytics';
 import { trackConversion as trackConversionClarity } from '../lib/clarity';
+import { trackConversion as trackConversionOpenAi } from '../lib/openaiPixel';
 import { IL_MARKET } from '../siteos';
 
 // SiteOS Phase 3: phone number sourced from IL_MARKET (MarketConfig)
@@ -18,6 +19,7 @@ export const WhatsAppFloat = () => {
         };
         trackConversionGA(attribution);
         trackConversionClarity(attribution);
+        trackConversionOpenAi(attribution);
     };
 
     return (
