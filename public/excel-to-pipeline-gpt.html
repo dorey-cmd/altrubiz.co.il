@@ -10,6 +10,48 @@
   <meta name="bingbot" content="noindex,nofollow,noarchive,nosnippet" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <meta name="theme-color" content="#2563eb" />
+
+  <!-- AltruBiz Analytics & Advertising Measurement -->
+  <!-- GA4 + Google Ads use one gtag.js loader and configure both destinations. -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-YHP284ETF9"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-YHP284ETF9');
+    gtag('config', 'AW-16832680902');
+  </script>
+
+  <!-- Microsoft Clarity -->
+  <script>
+    (function(c,l,a,r,i,t,y){
+      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);t.async=1;t.src='https://www.clarity.ms/tag/'+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window,document,'clarity','script','yj55u92ks2');
+  </script>
+
+  <!-- OpenAI Ads Measurement Pixel -->
+  <script>
+    window.oaiq = window.oaiq || function () { (window.oaiq.q = window.oaiq.q || []).push(arguments); };
+    oaiq("init", { pixelId: "VhQDWuEErwuNe33qTVu24K" });
+  </script>
+  <script async src="https://bzrcdn.openai.com/sdk/oaiq.min.js"></script>
+
+  <!-- Meta Pixel Code -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '2123722128574429');
+  fbq('track', 'PageView');
+  </script>
+  <!-- End Meta Pixel Code -->
   <style>
     /*
       Conversion-first landing page for the ChatGPT Ads campaign.
@@ -328,6 +370,8 @@
   </style>
 </head>
 <body>
+  <!-- Meta Pixel noscript fallback -->
+  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=2123722128574429&ev=PageView&noscript=1" alt="" /></noscript>
   <header class="wrap topbar">
     <a rel="nofollow" href="https://altrubiz.co.il/" aria-label="AltruBiz">
       <img class="official-logo" src="https://storage.googleapis.com/msgsndr/O8tlYEQIUn4z3qPCt1FX/media/688019c09a4c2d4b4398bf3c.png" alt="לוגו AltruBiz CRM" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" />
@@ -570,6 +614,23 @@
         frame.src = 'about:blank';
       });
     })();
+
+    // Match the main site's OpenAI Ads measurement for WhatsApp intent.
+    // This records the custom "whatsup" event only and does not count it as a lead conversion.
+    document.addEventListener('click', function (event) {
+      try {
+        const target = event.target instanceof Element ? event.target.closest('a[href]') : null;
+        if (!target) return;
+        const href = (target.getAttribute('href') || '').toLowerCase();
+        if (href.includes('wa.me') || href.includes('api.whatsapp.com') || href.includes('web.whatsapp.com') || href.startsWith('whatsapp://')) {
+          if (typeof window.oaiq === 'function') {
+            window.oaiq('measure', 'custom', { type: 'custom' }, { custom_event_name: 'whatsup' });
+          }
+        }
+      } catch (e) {
+        // Tracking must never block the visitor's action.
+      }
+    }, { capture: true, passive: true });
 
     // Low-friction diagnostic. This is engagement only, not a lead conversion.
     // GPT Pixel conversion events should fire only after a real form submission or confirmed booking.
