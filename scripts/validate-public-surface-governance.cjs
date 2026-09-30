@@ -43,7 +43,8 @@ function fail(msg) {
 // Known, explicitly-governed static HTML files that are NOT ToolNodes --
 // each entry must name why it's allowed to exist ungoverned by a ToolNode.
 const KNOWN_STATIC_PAGES = {
-    'thank-you.html': 'Governed via robots.txt Disallow (Phase 1 finding, intentional design) -- not a Tool, a post-conversion confirmation page.'
+    'thank-you.html': 'Governed via robots.txt Disallow (Phase 1 finding, intentional design) -- not a Tool, a post-conversion confirmation page.',
+    'excel-to-pipeline-gpt.html': 'Standalone paid-campaign landing page. Intentionally outside SiteOS/content topology; protected with noindex,nofollow metadata and X-Robots-Tag headers.'
 };
 
 function walk(dir, results) {
