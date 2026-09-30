@@ -140,6 +140,13 @@ function buildMarkdownFromArticle(article) {
                 parts.push(`> ⚡ **Quick Win (מה אפשר לעשות עכשיו):** ${transformText(section.quickWin.text)}\n`);
             }
 
+            if (section.diagram === 'omnichannel-flow') {
+                parts.push(`> 📊 **דיאגרמת זרימת מידע רב-ערוצית:** ערוצי כניסה (WhatsApp, Facebook, Instagram, Google, טפסים, Email, SMS, שיחות טלפון) ➔ AltruBiz CRM (תמונת לקוח אחודה, Timeline, שלב, משימות) ➔ איש המכירות בחזית עם הקשר מלא.\n\n`);
+            }
+            if (section.diagram === 'before-after-context') {
+                parts.push(`> ⚖️ **השוואת לפני ואחרי:** לפני – שיחות מפוזרות ודיג מידע מאפס; אחרי – כל הערוצים מתנקזים לכרטיס לקוח אחד והמשך שיחה רציף.\n\n`);
+            }
+
             if (section.image) {
                 parts.push(`![${section.image.alt}](${section.image.src})\n`);
                 if (section.image.caption) {

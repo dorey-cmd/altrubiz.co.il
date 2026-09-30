@@ -37,6 +37,7 @@ import { ModalPresentationOptions } from '../../types/attribution';
 import { buildAttributedWhatsAppUrl } from '../../lib/attribution';
 import { renderFormattedText } from '../../lib/formatText';
 import { ReviewCockpit } from '../common/ReviewCockpit';
+import { OmnichannelFlowDiagram, OmnichannelBeforeAfterDiagram } from './diagrams/OmnichannelContextDiagrams';
 import { InternalLink, isPlainPrimaryClick, handleClientNavClick } from '../common/InternalLink';
 
 interface ArticlePageProps {
@@ -919,6 +920,10 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                         })}
                     </div>
                 )}
+
+                {/* Diagrams */}
+                {section.diagram === 'omnichannel-flow' && <OmnichannelFlowDiagram />}
+                {section.diagram === 'before-after-context' && <OmnichannelBeforeAfterDiagram />}
 
                 {/* Ordered Items */}
                 {section.orderedItems && section.orderedItems.length > 0 && (

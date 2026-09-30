@@ -88,7 +88,8 @@ const EXPECTED_ARTICLES = {
     'chatgpt-ads-israel-launch': '/chatgpt-ads-israel-launch',
     'chatgpt-ads-intent-fit': '/chatgpt-ads-intent-fit',
     'how-many-sales-follow-ups': '/how-many-sales-follow-ups',
-    'client-onboarding-automation': '/client-onboarding-automation'
+    'client-onboarding-automation': '/client-onboarding-automation',
+    'omnichannel-crm-customer-context': '/omnichannel-crm-customer-context'
 };
 
 const OLD_URL_REDIRECT_MAP = {

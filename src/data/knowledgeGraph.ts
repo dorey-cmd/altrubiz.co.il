@@ -1085,7 +1085,8 @@ export const CANDIDATE_FUTURE_CONCEPTS = {
         relatedArticleSlugs: [
             'omnichannel-communication-unified-inbox-crm-guide',
             'whatsapp-messaging-guidelines',
-            'missed-call-text-back-guide'
+            'missed-call-text-back-guide',
+            'omnichannel-crm-customer-context'
         ]
     },
     'crm-data-hygiene': {
