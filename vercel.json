@@ -285,12 +285,34 @@
                     "value": "noindex, follow"
                 }
             ]
+        },
+        {
+            "source": "/excel-to-pipeline-gpt",
+            "headers": [
+                {
+                    "key": "X-Robots-Tag",
+                    "value": "noindex, nofollow, noarchive, nosnippet"
+                }
+            ]
+        },
+        {
+            "source": "/excel-to-pipeline-gpt.html",
+            "headers": [
+                {
+                    "key": "X-Robots-Tag",
+                    "value": "noindex, nofollow, noarchive, nosnippet"
+                }
+            ]
         }
     ],
     "rewrites": [
         {
             "source": "/thank-you",
             "destination": "/thank-you.html"
+        },
+        {
+            "source": "/excel-to-pipeline-gpt",
+            "destination": "/excel-to-pipeline-gpt.html"
         },
         {
             "source": "/(.*)",
