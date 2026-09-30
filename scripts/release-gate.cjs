@@ -76,6 +76,10 @@ const STEPS = [
     {
         name: 'Step 12: Crawlable Internal Links (real <a href> navigation + inbound link coverage)',
         cmd: 'node scripts/validate-crawlable-links.cjs'
+    },
+    {
+        name: 'Step 13: Meta Pixel Integration & Event Architecture Audit',
+        cmd: 'node scripts/validate-meta-pixel.cjs'
     }
 ];
 
