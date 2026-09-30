@@ -87,7 +87,8 @@ const EXPECTED_ARTICLES = {
     'returning-customers-retention-guide': '/returning-customers',
     'chatgpt-ads-israel-launch': '/chatgpt-ads-israel-launch',
     'chatgpt-ads-intent-fit': '/chatgpt-ads-intent-fit',
-    'how-many-sales-follow-ups': '/how-many-sales-follow-ups'
+    'how-many-sales-follow-ups': '/how-many-sales-follow-ups',
+    'client-onboarding-automation': '/client-onboarding-automation'
 };
 
 const OLD_URL_REDIRECT_MAP = {

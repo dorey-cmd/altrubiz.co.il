@@ -657,6 +657,7 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
             'crm-duplicate-contacts-prevention-guide',
             'omnichannel-communication-unified-inbox-crm-guide',
             'client-onboarding-process-guide',
+            'client-onboarding-automation',
             'returning-customers-retention-guide',
             'practical-ai-for-business-guide'
         ],
@@ -815,6 +816,7 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
             'automated-meeting-scheduling-guide',
             'preventing-meeting-no-shows-guide',
             'client-onboarding-process-guide',
+            'client-onboarding-automation',
             'non-technical-to-ai-automation-guide',
             'customer-reviews-reputation-crm-guide',
             'practical-ai-for-business-guide',
@@ -1062,6 +1064,7 @@ export const CANDIDATE_FUTURE_CONCEPTS = {
         primaryPain: 'business-memory',
         relatedArticleSlugs: [
             'client-onboarding-process-guide',
+            'client-onboarding-automation',
             'customer-reviews-reputation-crm-guide',
             'business-memory-crm-guide'
         ]
