@@ -101,11 +101,14 @@ async function ensureServer() {
     if (process.env.TARGET_URL) {
         return { baseUrl: process.env.TARGET_URL, close: () => {} };
     }
-    const TEST_PORT = 4191;
-    const isUp = await checkServer(`http://localhost:${TEST_PORT}/`);
-    if (isUp) {
-        return { baseUrl: `http://localhost:${TEST_PORT}`, close: () => {} };
+    const activePorts = [4173, 4191, 4192, 5173];
+    for (const port of activePorts) {
+        if (await checkServer(`http://localhost:${port}/`)) {
+            console.log(`✔ Connected to existing server on http://localhost:${port}`);
+            return { baseUrl: `http://localhost:${port}`, close: () => {} };
+        }
     }
+    const TEST_PORT = 4191;
     console.log(`Starting preview server on http://localhost:${TEST_PORT}...`);
     const serverProcess = spawn('npx', ['vite', 'preview', '--port', `${TEST_PORT}`], {
         shell: true,

@@ -80,6 +80,10 @@ const STEPS = [
     {
         name: 'Step 13: Meta Pixel Integration & Event Architecture Audit',
         cmd: 'node scripts/validate-meta-pixel.cjs'
+    },
+    {
+        name: 'Step 14: Google Tag (gtag.js) Integration & Conversion Architecture Audit',
+        cmd: 'node scripts/validate-google-tag.cjs'
     }
 ];
 
