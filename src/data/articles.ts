@@ -18,7 +18,7 @@ export interface ArticleSection {
         scene: string;
         caption: string;
     };
-    diagram?: 'omnichannel-flow' | 'before-after-context';
+    diagram?: 'omnichannel-flow' | 'before-after-context' | 'mp4-container-breakdown' | 'render-flow-diagram';
     image?: {
         src: string;
         alt: string;
@@ -9664,7 +9664,8 @@ export const ARTICLES: Article[] = [
                 content: [
                     'הפיתוי הגדול הוא להפוך הכול לאוטומטי: לקוח שילם? מייל Welcome מיידי, אחרי שעה SMS, למחרת תזכורת, יומיים אחר כך עוד תזכורת. אבל המטרה אינה לגרום ללקוח להרגיש שהוא נכנס למכבסה רובוטית.',
                     '[אוטומציה עסקית](concept:automation) מצטיינת בפעולות צפויות ושגרתיות: יצירת משימות לצוות, שליחת מידע מסודר, תזכורות לפני פגישות, עדכון סטטוס ב-CRM, וקביעת פגישות ביומן.',
-                    'אבל יש רגעים שבהם מגע אנושי שווה פי עשרה: לקוח שמתלבט, ציפייה לא ברורה, עיכוב חריג, בעיה בהרשאות או חשש שעולה. שם לא צריך עוד [וורקפלואו](concept:workflow) אוטומטי - צריך אדם שמרים טלפון ומדבר ישירות. הכלל המנחה פשוט: תנו לאוטומציה לנהל את הצפוי כדי שהצוות האנושי יתפנה לטפל בחריג.'
+                    'אבל יש רגעים שבהם מגע אנושי שווה פי עשרה: לקוח שמתלבט, ציפייה לא ברורה, עיכוב חריג, בעיה בהרשאות או חשש שעולה. שם לא צריך עוד [וורקפלואו](concept:workflow) אוטומטי - צריך אדם שמרים טלפון ומדבר ישירות. הכלל המנחה פשוט: תנו לאוטומציה לנהל את הצפוי כדי שהצוות האנושי יתפנה לטפל בחריג.',
+                    'אם משלבים סרטון הסבר או סרטון היכרות אישי ב-WhatsApp, חשוב לוודא שהוא עובר [התאמת סרטון לאוטומציית WhatsApp](/whatsapp-video-renderer) כדי שלא ייחסם על ידי מגבלות קידוד ומשקל של ה-API.'
                 ],
                 inlineCta: {
                     variant: 'pricing',
@@ -10041,8 +10042,250 @@ export const ARTICLES: Article[] = [
             }
         ]
     }
+,
+    {
+        publicationStatus: 'published',
+        indexable: true,
+        id: 'pub_whatsapp-video-renderer',
+        slug: 'whatsapp-video-renderer',
+        publicPath: '/whatsapp-video-renderer',
+        canonicalUrl: 'https://altrubiz.co.il/whatsapp-video-renderer',
+        markdownUrl: '/whatsapp-video-renderer.md',
+        heroSummary: 'סרטון נראה מצוין בטלפון ובמחשב, אך כשמנסים לשלוח אותו באוטומציית WhatsApp מקבלים שגיאה. הסיבה: WhatsApp Business API דורש קידוד וידאו H.264 ספציפי, אודיו AAC ומגבלת משקל של 16MB. כלי AltruBiz Render מבצע את ההתאמה המדויקת ישירות בדפדפן בחינם.',
+        keyTakeaway: 'סיומת MP4 היא רק המעטפת (Container). WhatsApp Business API בודק את הקידוד הפנימי, סוג האודיו וגודל הקובץ. במקום להסתבך עם הגדרות קידוד, AltruBiz Render ממיר כל סרטון לפורמט תואם ישירות בדפדפן.',
+        heroBadge: 'כלי חינמי ל-WhatsApp Business',
+        cardCta: 'איך להתאים סרטון לאוטומציית WhatsApp בחינם',
+        coverImage: {
+            src: '/images/articles/whatsapp-video-renderer-hero.jpg',
+            alt: 'אדם מנסה להעביר קובץ וידאו דרך כניסת WhatsApp Business אך נתקל בסירוב טכני'
+        },
+        title: 'הסרטון עובד. WhatsApp לא מתרשם. אז בנינו כלי.',
+        subtitle: 'בנינו ללקוחות AltruBiz כלי קטן שפותר אחת התקלות המעצבנות באוטומציות WhatsApp. עכשיו פתחנו אותו לכולם. בחינם.',
+        seoTitle: 'התאמת סרטון ל-WhatsApp Business: כלי חינמי להמרת וידאו לאוטומציות | AltruBiz',
+        description: 'סרטון וידאו לא נשלח באוטומציית WhatsApp Business? AltruBiz Render ממיר ומתאים כל קובץ וידאו (MP4, MOV, MKV ועוד) לקידוד H.264 ו-AAC בדפדפן ללא עלות.',
+        keywords: [
+            'התאמת סרטון ל-WhatsApp Business',
+            'המרת וידאו ל-WhatsApp',
+            'סרטון לא נשלח ב-WhatsApp Business',
+            'WhatsApp Business API video',
+            'MP4 ל-WhatsApp',
+            'סרטון לאוטומציה ב-WhatsApp',
+            'AltruBiz Render',
+            'H.264 WhatsApp',
+            'AAC WhatsApp',
+            'המרת MOV ל-MP4',
+            'אוטומציות WhatsApp'
+        ],
+        category: 'WhatsApp Business',
+        tags: [
+            'WhatsApp Business',
+            'AltruBiz Render',
+            'אוטומציה עסקית',
+            'וידאו',
+            'CRM',
+            'כלים חינמיים'
+        ],
+        datePublished: '2026-10-01',
+        dateModified: '2026-10-01',
+        readTime: '4 דקות קריאה',
+        author: {
+            name: 'צוות AltruBiz',
+            role: 'מומחי אוטומציה עסקית ותקשורת WhatsApp',
+            },
+        conversionConfig: {
+            contextSlug: 'whatsapp-video-renderer',
+            primaryProblem: 'סרטוני וידאו נדחים או נכשלים בשליחה באוטומציות WhatsApp Business עקב קידוד לא תואם',
+            primaryPromise: 'המרת כל סרטון ל-MP4 תקני בקידוד H.264 ו-AAC ישירות בדפדפן בחינם',
+            badge: 'כלי חינמי מבית AltruBiz',
+            bookingTitle: 'רוצים לראות מה עוד אפשר לעשות עם WhatsApp ואוטומציות בעסק?',
+            bookingDescription: 'נשמח להראות לכם איך לחבר את WhatsApp, הלידים והאוטומציות למערכת CRM אחת חכמה.'
+        },
+        sections: [
+            {
+                id: 'the-problem-video-works-whatsapp-refuses',
+                title: 'הסרטון מוכן, נפתח בכל מכשיר – ורק WhatsApp מסרב',
+                content: [
+                    'יש תקלות גדולות.',
+                    'ויש את הסוג השני.',
+                    'אלה שגונבות עשרים דקות מהחיים דווקא כשאין לכם עשרים דקות לתת להן.',
+                    'הסרטון מוכן.',
+                    'הוא נראה מצוין.',
+                    'נפתח בטלפון.',
+                    'נפתח במחשב.',
+                    'שלחתם אותו לעצמכם והוא עובד.',
+                    'עכשיו רק נשאר להכניס אותו לאוטומציית WhatsApp ולסיים.',
+                    'ואז WhatsApp אומר:',
+                    'לא.',
+                    'למה?',
+                    'כי כנראה לא הקרבתם את הקורבן הנכון לאלוהי הווידאו.',
+                    'או, בגרסה הפחות דרמטית:',
+                    'קובץ שנראה לנו כמו סרטון רגיל לא בהכרח נראה כך ל-WhatsApp Business API.'
+                ],
+                image: {
+                    src: '/images/articles/whatsapp-video-renderer-hero.jpg',
+                    alt: 'אדם מנסה להעביר קובץ וידאו דרך כניסת WhatsApp Business אך נתקל בסירוב טכני',
+                    caption: 'הסרטון עובד מצוין בנגן המקומי, אבל שרת ה-API של WhatsApp דורש קידוד פנימי מדויק.'
+                }
+            },
+            {
+                id: 'mp4-is-not-the-whole-story',
+                title: 'אבל כתוב עליו MP4',
+                content: [
+                    'נכון.',
+                    'וזה החלק המעצבן.',
+                    'MP4 הוא לא כל הסיפור.',
+                    'הסיומת אומרת לנו באיזה Container הקובץ נמצא.',
+                    'בתוך אותו Container עדיין יכולים להיות וידאו ואודיו שמקודדים בדרכים שונות.',
+                    '[WhatsApp Business Platform](/whatsapp-messaging-guidelines), למשל, לא מקבלת כל דבר שפשוט מסתיים ב-.mp4.',
+                    'יש לה דרישות לגבי הקידוד, סוג האודיו וגודל הקובץ.',
+                    'ולכן יכול לקרות מצב קצת אבסורדי:',
+                    'אתם מסתכלים על הסרטון.',
+                    'הוא עובד.',
+                    'המחשב מסתכל עליו.',
+                    'גם מבחינתו הכול בסדר.',
+                    'הטלפון מנגן אותו בלי למצמץ.',
+                    'ורק האוטומציה עומדת בצד עם ידיים שלובות ואומרת:',
+                    'לא מכירה.'
+                ],
+                diagram: 'mp4-container-breakdown'
+            },
+            {
+                id: 'manual-conversion-frustration',
+                title: 'אפשר כמובן לפתור את זה',
+                content: [
+                    'מורידים תוכנת המרה.',
+                    'פותחים אתר.',
+                    'מחפשים איזה Codec צריך.',
+                    'מנסים Export אחר.',
+                    'מקטינים.',
+                    'מנסים שוב.',
+                    'מגלים שהקובץ עדיין גדול מדי.',
+                    'מנסים עוד פעם.',
+                    'ואז נזכרים שכל מה שרצינו לעשות היה לשלוח סרטון של 37 שניות ב-WhatsApp.',
+                    'גם אנחנו היינו שם.',
+                    'יותר מפעם אחת.'
+                ]
+            },
+            {
+                id: 'we-built-a-tool-altrubiz-render',
+                title: 'אז בנינו לעצמנו כלי',
+                content: [
+                    'לא סטארטאפ.',
+                    'לא "פלטפורמת וידאו מבוססת AI".',
+                    'כלי.',
+                    'משהו שעושה עבודה אחת מעצבנת במקומנו.',
+                    'מעלים סרטון.',
+                    'הוא מתאים אותו לפורמט הנכון.',
+                    'לגודל המתאים.',
+                    'לרזולוציה המתאימה.',
+                    'ומחזיר MP4 שמוכן לשימוש באוטומציית WhatsApp.',
+                    'זה הכול.',
+                    'קראנו לו: AltruBiz Render.',
+                    'והתחלנו להשתמש בו.',
+                    'אחר כך גם הלקוחות שלנו השתמשו בו.',
+                    'ואז הגענו למסקנה המתבקשת: למה בעצם שרק הלקוחות שלנו יסבלו פחות?',
+                    'אז פתחנו אותו לכולם.'
+                ],
+                inlineCta: {
+                    variant: 'box',
+                    badge: 'כלי חינמי לשימוש מיידי',
+                    title: 'יש לכם סרטון שאתם רוצים לשלוח באוטומציית WhatsApp?',
+                    description: 'גררו אותו ל-AltruBiz Render וקבלו גרסה מוכנה לשימוש תוך שניות, ישירות מהדפדפן וללא עלות.',
+                    buttonText: 'להתאים את הסרטון ל-WhatsApp',
+                    actionUrl: 'https://render.altrubiz.co.il/'
+                }
+            },
+            {
+                id: 'supported-formats-and-specs',
+                title: 'מה אפשר להעלות?',
+                content: [
+                    'אפשר לגרור לכלי סרטון אחד או יותר.',
+                    'הוא יודע לקבל מגוון פורמטים נפוצים, בהם: MP4, MOV, MKV, WEBM ועוד.',
+                    'אפשר להעלות קובצי מקור של עד 500MB לקובץ.',
+                    'הכלי מבצע את העיבוד בדפדפן ומחזיר גרסה מותאמת לשימוש ב-[אוטומציות WhatsApp](/whatsapp-in-crm).',
+                    'לא צריך לדעת מה זה H.264.',
+                    'לא צריך לפתוח FFmpeg.',
+                    'לא צריך לזכור איזה Codec נמצא בתוך איזה Container.',
+                    'זה בדיוק הרעיון.'
+                ],
+                diagram: 'render-flow-diagram'
+            },
+            {
+                id: 'good-tool-makes-problem-disappear',
+                title: 'כי כלי טוב לא אמור ללמד אתכם את הבעיה',
+                content: [
+                    'הוא אמור להעלים אותה.',
+                    'אנחנו אוהבים טכנולוגיה.',
+                    'בכל זאת, בנינו עסק שלם סביב [CRM, אוטומציות ו-AI](/).',
+                    'אבל יש משהו קצת מצחיק בעולם הטכנולוגיה: לפעמים אנחנו בונים מערכת שלמה כדי לחסוך לבעל עסק [עבודה ידנית שחוזרת על עצמה](/repetitive-manual-work)... ואז מבקשים ממנו ללמוד איך לקודד קובץ וידאו.',
+                    'זה מפספס את הרעיון.',
+                    'אם פעולה חוזרת על עצמה, אם היא טכנית, ואם אין שום סיבה שבעל העסק יעשה אותה בעצמו – בדיוק בשביל הדברים האלה יש כלים.'
+                ],
+                image: {
+                    src: '/images/articles/whatsapp-render-workshop.jpg',
+                    alt: 'שולחן עבודה וסדנת פיתוח באלטרוביז עם דלת פתוחה לשימוש חופשי של כולם בכלי הווידאו',
+                    caption: 'כלי עבודה פנימי שנבנה במקור עבור הלקוחות שלנו, ועכשיו פתוח לשימוש חופשי של כולם.'
+                }
+            },
+            {
+                id: 'automation-is-many-working-parts',
+                title: 'וזה נכון הרבה מעבר לסרטונים',
+                content: [
+                    'אוטומציה טובה מורכבת מהרבה דברים קטנים שעובדים.',
+                    'הטופס צריך להיכנס.',
+                    'הליד צריך להגיע לאדם הנכון.',
+                    'הודעת ה-WhatsApp צריכה לצאת.',
+                    'המשימה צריכה להיווצר.',
+                    'הפגישה צריכה להיקבע.',
+                    'וכן, אם החלטנו לשלוח סרטון – גם הסרטון צריך לעבוד.',
+                    'אף אחד מהדברים האלה בפני עצמו לא נשמע מרגש במיוחד.',
+                    'אבל כשהם עובדים יחד, קורה משהו שכן מרגש: העסק פשוט עובד. בלי שמישהו צריך לעמוד מאחור ולדחוף כל גלגל ביד.',
+                    'וכשמחברים את זה עם [רציפות ההיכרות עם הלקוח מכל הערוצים](/omnichannel-crm-customer-context), התקשורת מרגישה טבעית, מקצועית ומדויקת.'
+                ]
+            },
+            {
+                id: 'take-it-altrubiz-render-is-open',
+                title: 'אז הנה. קחו.',
+                content: [
+                    'AltruBiz Render פתוח עכשיו לשימוש של כולם.',
+                    'יש לכם MOV מהטלפון? סרטון שיצא מתוכנת עריכה? WEBM? קובץ MP4 ש-WhatsApp החליט שהוא לא מספיק MP4 בשבילו?',
+                    'גררו אותו פנימה.',
+                    'תנו לכלי לעשות את העבודה המלוכלכת. וקחו בחזרה קובץ שמוכן להיכנס לאוטומציה.',
+                    'בנינו אותו כי היינו צריכים אותו. פתחנו אותו כי אין שום סיבה שאתם תצטרכו לבנות אחד משלכם.',
+                    'התאמת סרטון ל-WhatsApp Business:',
+                    '[פתחו את AltruBiz Render בכתובת https://render.altrubiz.co.il/](https://render.altrubiz.co.il/)'
+                ],
+                inlineCta: {
+                    variant: 'box',
+                    badge: 'AltruBiz Render • חינם לחלוטין',
+                    title: 'בנינו אותו כי היינו צריכים אותו. עכשיו הוא שלכם.',
+                    description: 'AltruBiz Render פתוח לשימוש חופשי ישירות מהדפדפן, ללא הרשמה וללא שמירת קבצים בשרת.',
+                    buttonText: 'פתחו את AltruBiz Render',
+                    secondaryButtonText: 'רוצים לראות מה עוד אפשר לעשות עם WhatsApp ואוטומציות?',
+                    actionUrl: 'https://render.altrubiz.co.il/'
+                }
+            }
+        ],
+        faqs: [
+            {
+                question: 'למה סרטון MP4 רגיל נדחה לעיתים ב-WhatsApp Business API?',
+                answer: 'סיומת MP4 היא רק מעטפת (Container). WhatsApp Business Platform דורשת קידוד וידאו H.264 ספציפי, קידוד אודיו AAC, וגודל של עד 16MB עבור Cloud API. סרטונים המקודדים ב-HEVC, VP9 או בעלי אודיו AC3 נדחים אוטומטית על ידי השרת.'
+            },
+            {
+                question: 'האם הסרטונים שלי נשמרים בשרת בעת השימוש ב-AltruBiz Render?',
+                answer: 'לא. העיבוד מתבצע כולו מקומית בדפדפן באמצעות טכנולוגיית WebAssembly (WASM). הקבצים שלכם לעולם אינם נשלחים לשרת חיצוני ונשארים פרטיים ובטוחים לחלוטין במכשיר שלכם.'
+            },
+            {
+                question: 'אילו פורמטי וידאו ניתן להעלות לכלי?',
+                answer: 'הכלי מקבל קבצי MP4, MOV (ממכשירי אפל), MKV, WEBM ופורמטים נוספים עד למשקל של 500MB לקובץ מקור, וממיר אותם ל-MP4 מותאם וממוטב.'
+            },
+            {
+                question: 'האם הכלי כרוך בתשלום או בהרשמה?',
+                answer: 'לא, AltruBiz Render הוא כלי פתוח וחינמי לחלוטין שנבנה במקור לשימוש פנימי ושל לקוחות AltruBiz, ופתוח כעת לכל בעל עסק או מפתח.'
+            }
+        ]
+    }
 ];
-
 
 export function getArticleBySlug(slug: string): Article | undefined {
     return ARTICLES.find(a => a.slug === slug);

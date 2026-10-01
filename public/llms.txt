@@ -57,6 +57,7 @@
 - [80% מהעסקאות נסגרות אחרי 5 פולואפים? הלכנו לחפש את המחקר. מצאנו את 1942](https://altrubiz.co.il/how-many-sales-follow-ups.md): כולם מצטטים ש-80% מהמכירות נסגרות רק אחרי 5-12 מגעים. יצאנו לבדוק מאיפה הנתון הגיע, מה המחקרים באמת מצאו, וכמה Follow-ups באמת צריך כדי לסגור עסקה. (גרסת HTML קנונית: https://altrubiz.co.il/how-many-sales-follow-ups)
 - [מזל טוב, הלקוח אמר כן. עכשיו מתחיל החלק שבו הכי קל לאכזב אותו](https://altrubiz.co.il/client-onboarding-automation.md): סגרתם לקוח חדש? כך בונים תהליך קליטת לקוח מסודר - מתשלום וחתימה ועד איסוף חומרים, פגישת פתיחה, משימות ועדכונים - בלי לרדוף אחרי הלקוח ובלי לשכוח שום דבר. (גרסת HTML קנונית: https://altrubiz.co.il/client-onboarding-automation)
 - [📞 היי, זה אני מה שלומך?... (רגע... תזכיר לי מי זה?)](https://altrubiz.co.il/omnichannel-crm-customer-context.md): הלקוח כבר סיפר לכם מי הוא ומה הוא צריך. CRM רב-ערוצי טוב מרכז את ההיסטוריה, השיחות והשלב בתהליך כדי שאיש המכירות ימשיך בדיוק מהמקום שבו הלקוח עצר. (גרסת HTML קנונית: https://altrubiz.co.il/omnichannel-crm-customer-context)
+- [הסרטון עובד. WhatsApp לא מתרשם. אז בנינו כלי.](https://altrubiz.co.il/whatsapp-video-renderer.md): סרטון וידאו לא נשלח באוטומציית WhatsApp Business? AltruBiz Render ממיר ומתאים כל קובץ וידאו (MP4, MOV, MKV ועוד) לקידוד H.264 ו-AAC בדפדפן ללא עלות. (גרסת HTML קנונית: https://altrubiz.co.il/whatsapp-video-renderer)
 
 ## קובץ ידע מלא ל-LLM (Full Context)
 - [מידע עובדתי מלא על AltruBiz ל-AI](https://altrubiz.co.il/llms-full.txt): סקירה מלאה של הפונקציונליות, התשתיות, גרף הידע, מושגי הליבה וכל גוף המאמרים בגרסת מכונה מלאה.

@@ -146,6 +146,12 @@ function buildMarkdownFromArticle(article) {
             if (section.diagram === 'before-after-context') {
                 parts.push(`> ⚖️ **השוואת לפני ואחרי:** לפני – שיחות מפוזרות ודיג מידע מאפס; אחרי – כל הערוצים מתנקזים לכרטיס לקוח אחד והמשך שיחה רציף.\n\n`);
             }
+            if (section.diagram === 'mp4-container-breakdown') {
+                parts.push(`> 🎬 **אנטומיה של קובץ וידאו ל-WhatsApp Business:** עטיפת Container חיצונית (.mp4) כוללת קידוד וידאו (חובה H.264), קידוד אודיו (חובה AAC), ומגבלת משקל של 16MB עבור Cloud API. סרטונים בקידוד HEVC או אודיו שאינו AAC נדחים אוטומטית.\n\n`);
+            }
+            if (section.diagram === 'render-flow-diagram') {
+                parts.push(`> ⚡ **זרימת העבודה של AltruBiz Render:** קובץ מקור (MOV, MKV, WEBM, MP4 עד 500MB) ➔ AltruBiz Render (עיבוד פרטי מקומי בדפדפן ב-WASM ➔ המרה ל-H.264 + AAC + 720p) ➔ קובץ MP4 תקני שמוכן לשליחה חלקה באוטומציות WhatsApp Business ללא שגיאות.\n\n`);
+            }
 
             if (section.image) {
                 parts.push(`![${section.image.alt}](${section.image.src})\n`);

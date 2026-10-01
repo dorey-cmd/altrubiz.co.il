@@ -57,6 +57,7 @@ const EXPECTED_HUBS = [
 ];
 
 const EXPECTED_ARTICLES = {
+    'whatsapp-video-renderer': '/whatsapp-video-renderer',
     'whatsapp-messaging-guidelines': '/whatsapp-messaging-guidelines',
     'crm-quick-wins-guide': '/crm-quick-wins',
     'lead-first-5-minutes-guide': '/lead-first-5-minutes',

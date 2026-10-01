@@ -38,6 +38,7 @@ import { buildAttributedWhatsAppUrl } from '../../lib/attribution';
 import { renderFormattedText } from '../../lib/formatText';
 import { ReviewCockpit } from '../common/ReviewCockpit';
 import { OmnichannelFlowDiagram, OmnichannelBeforeAfterDiagram } from './diagrams/OmnichannelContextDiagrams';
+import { MP4ContainerBreakdownDiagram, RenderFlowDiagram } from './diagrams/WhatsAppRenderDiagrams';
 import { InternalLink, isPlainPrimaryClick, handleClientNavClick } from '../common/InternalLink';
 
 interface ArticlePageProps {
@@ -924,6 +925,8 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                 {/* Diagrams */}
                 {section.diagram === 'omnichannel-flow' && <OmnichannelFlowDiagram />}
                 {section.diagram === 'before-after-context' && <OmnichannelBeforeAfterDiagram />}
+                {section.diagram === 'mp4-container-breakdown' && <MP4ContainerBreakdownDiagram />}
+                {section.diagram === 'render-flow-diagram' && <RenderFlowDiagram />}
 
                 {/* Ordered Items */}
                 {section.orderedItems && section.orderedItems.length > 0 && (

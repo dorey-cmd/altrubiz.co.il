@@ -348,6 +348,7 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
         relatedMicroHubSlugs: ['lost-leads'],
         relatedArticleSlugs: [
             'whatsapp-messaging-guidelines',
+            'whatsapp-video-renderer',
             'lead-first-5-minutes-guide',
             'missed-call-text-back-guide',
             'omnichannel-communication-unified-inbox-crm-guide',
@@ -410,7 +411,8 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
                     subtitle: 'איך לפעול נכון בלי לסכן את המספר העסקי שלכם',
                     content: [
                         'Meta מחמירה מאוד בנוגע לאיכות התקשורת בוואטסאפ. שליחת הודעות לא רלוונטיות, דיווחים מצד נמענים או היעדר אפשרות הסרה עלולים להוביל להורדת דירוג האיכות של המספר עד לחסימתו המלאה.',
-                        'במדריך המלא שלנו ריכזנו את כל הכללים: שמירה על Opt-in מפורש, עבודה עם תבניות מאושרות, ומרווחי זמן נכונים ששומרים על המספר שלכם בטוח לחלוטין.'
+                        'במדריך המלא שלנו ריכזנו את כל הכללים: שמירה על Opt-in מפורש, עבודה עם תבניות מאושרות, ומרווחי זמן נכונים ששומרים על המספר שלכם בטוח לחלוטין.',
+                    'בנוסף, שליחת קבצי מדיה ווידאו כבדים או בקידוד שאינו נתמך נדחית אוטומטית על ידי ה-API. כדי להבטיח מעבר חלק, ניתן להשתמש ב-[כלי חינמי להתאמת סרטונים ל-WhatsApp](/whatsapp-video-renderer) הממיר את הקובץ ישירות בדפדפן למפרט הנדרש.'
                     ],
                     relatedArticleSlugs: ['whatsapp-messaging-guidelines']
                 },
@@ -1076,6 +1078,15 @@ export const CANDIDATE_FUTURE_CONCEPTS = {
         relatedArticleSlugs: [
             'automated-meeting-scheduling-guide',
             'preventing-meeting-no-shows-guide'
+        ]
+    },
+    'whatsapp-video-compatibility': {
+        slug: 'whatsapp-video-compatibility',
+        title: 'תאימות וידאו ומדיה באוטומציות WhatsApp Business',
+        primaryPain: 'scattered-customer-communication',
+        relatedArticleSlugs: [
+            'whatsapp-video-renderer',
+            'whatsapp-messaging-guidelines'
         ]
     },
     'unified-inbox-architecture': {
