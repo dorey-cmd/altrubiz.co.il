@@ -39,7 +39,8 @@ No merged branch is kept "just in case".
 4. **Delete on GitHub:** `git push origin --delete <branch>`.
 5. **Prune:** `git fetch --prune` (and `git worktree prune` if a worktree was used).
 6. **Sweep:** list `git branch -a --merged master`. Delete any other fully merged, non-protected branch that this work created. Report (do not delete) any branch that is unmerged or of unknown origin.
-7. **Report cleanup** in the post-merge summary: which local and remote branches were removed, and that `git branch -a` shows only protected branches plus any branch with unmerged work.
+7. **Prune Vercel deployments:** every push stores a full copy of the site against the Hobby 10 GB deployment-storage quota. Run `npm run vercel:prune` (dry run), check the list, then `npm run vercel:prune -- --apply`. It keeps the current production deployment and the newest preview of each branch that still exists, and deletes everything else (old production versions, previews of merged or deleted branches). Needs a logged-in Vercel CLI.
+8. **Report cleanup** in the post-merge summary: which local and remote branches were removed, how many deployments were pruned, and that `git branch -a` shows only protected branches plus any branch with unmerged work.
 
 ### A.4 Exceptions (the only branches that may remain)
 - `master`.
