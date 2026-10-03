@@ -40,9 +40,14 @@ import { resolveConversionContext } from './lib/conversionEngine'
 import { trackPageview } from './lib/analytics'
 import { trackMetaPageview } from './lib/metaPixel'
 import { trackGooglePageview } from './lib/googleTag'
+import { getOrInitSessionAttribution } from './lib/newsletterNoteBuilder'
 
 function App() {
     const [path, setPath] = useState(window.location.pathname);
+
+    useEffect(() => {
+        getOrInitSessionAttribution();
+    }, []);
     const [isContactModalOpen, setIsContactModalOpen] = useState(false);
     const [contactModalOptions, setContactModalOptions] = useState<ModalPresentationOptions | null>(null);
     const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);

@@ -84,6 +84,10 @@ const STEPS = [
     {
         name: 'Step 14: Google Tag (gtag.js) Integration & Conversion Architecture Audit',
         cmd: 'node scripts/validate-google-tag.cjs'
+    },
+    {
+        name: 'Step 15: Newsletter Club Consent & Webhook Note Audit',
+        cmd: 'node scripts/validate-newsletter-consent.cjs'
     }
 ];
 

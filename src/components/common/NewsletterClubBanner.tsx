@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Mail, ArrowLeft, CheckCircle2, Sparkles, Loader2 } from 'lucide-react';
+import { NEWSLETTER_CONSENT_CONFIG } from '../../data/newsletterConsent';
+import { buildNewsletterNote, generateSubmissionId } from '../../lib/newsletterNoteBuilder';
 
 interface NewsletterClubBannerProps {
     currentPath?: string;
@@ -9,6 +11,7 @@ const WEBHOOK_URL = 'https://services.leadconnectorhq.com/hooks/O8tlYEQIUn4z3qPC
 
 export const NewsletterClubBanner: React.FC<NewsletterClubBannerProps> = ({ currentPath }) => {
     const [email, setEmail] = useState('');
+    const [consentChecked, setConsentChecked] = useState(false);
     const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
     const [errorMessage, setErrorMessage] = useState('');
 
@@ -35,14 +38,41 @@ export const NewsletterClubBanner: React.FC<NewsletterClubBannerProps> = ({ curr
             return;
         }
 
+        // Strict consent enforcement: no submission without explicit manual opt-in
+        if (!consentChecked) {
+            setErrorMessage('יש לסמן את תיבת ההסכמה לקבלת עדכונים כדי להמשיך');
+            return;
+        }
+
         setStatus('loading');
 
+        const submissionId = generateSubmissionId();
+        let noteContent = '';
+        try {
+            noteContent = buildNewsletterNote({
+                email: trimmedEmail,
+                sourcePagePath: pathname,
+                pageTitle: typeof document !== 'undefined' ? document.title : 'AltruBiz CRM',
+                submissionId,
+                consentConfirmed: consentChecked,
+                componentLocation: 'מועדון המהלך הבא (Footer Banner)'
+            });
+        } catch (err) {
+            console.error('[NewsletterClubBanner] Error building note string:', err);
+            // Resilient fallback note if an unexpected error occurs so payload is never corrupted
+            noteContent = `--------------------------------\nNEWSLETTER SIGNUP - מועדון המהלך הבא\n--------------------------------\n\nSubmission ID:\n${submissionId}\n\nConsent:\nYES - checkbox manually selected by user\n\nConsent version:\n${NEWSLETTER_CONSENT_CONFIG.consentVersion}\n\nConsent text:\n"${NEWSLETTER_CONSENT_CONFIG.consentText}"\n\nSignup time UTC:\n${new Date().toISOString()}\n\nEmail:\n${trimmedEmail}\n\nPath:\n${pathname}\n--------------------------------`;
+        }
+
         const payload = {
-          email: trimmedEmail,
-          source: 'מועדון המהלך הבא',
-          sourcePage: pathname,
-          pageTitle: typeof document !== 'undefined' ? document.title : 'AltruBiz CRM',
-          submittedAt: new Date().toISOString()
+            email: trimmedEmail,
+            source: 'מועדון המהלך הבא',
+            sourcePage: pathname,
+            pageTitle: typeof document !== 'undefined' ? document.title : 'AltruBiz CRM',
+            submittedAt: new Date().toISOString(),
+            consent: true,
+            consent_version: NEWSLETTER_CONSENT_CONFIG.consentVersion,
+            submission_id: submissionId,
+            note: noteContent
         };
 
         try {
@@ -55,6 +85,7 @@ export const NewsletterClubBanner: React.FC<NewsletterClubBannerProps> = ({ curr
             });
             setStatus('success');
             setEmail('');
+            setConsentChecked(false);
         } catch {
             // Fallback for CORS restrictions on webhook endpoints
             try {
@@ -66,6 +97,7 @@ export const NewsletterClubBanner: React.FC<NewsletterClubBannerProps> = ({ curr
             // Delivery attempt dispatched
             setStatus('success');
             setEmail('');
+            setConsentChecked(false);
         }
     };
 
@@ -122,7 +154,7 @@ export const NewsletterClubBanner: React.FC<NewsletterClubBannerProps> = ({ curr
                             </p>
                         </div>
                     ) : (
-                        <form onSubmit={handleSubmit} className="max-w-lg mx-auto space-y-3">
+                        <form onSubmit={handleSubmit} noValidate className="max-w-lg mx-auto space-y-3.5">
                             <div className="flex flex-col sm:flex-row gap-2.5">
                                 <div className="relative flex-1">
                                     <div className="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-slate-400">
@@ -157,6 +189,52 @@ export const NewsletterClubBanner: React.FC<NewsletterClubBannerProps> = ({ curr
                                         </>
                                     )}
                                 </button>
+                            </div>
+
+                            {/* Mandatory Explicit Consent Checkbox */}
+                            <div className="pt-1 text-right">
+                                <div className="flex items-start gap-2.5">
+                                    <input
+                                        type="checkbox"
+                                        id="newsletter-club-consent"
+                                        name="newsletter-club-consent"
+                                        checked={consentChecked}
+                                        onChange={(e) => {
+                                            setConsentChecked(e.target.checked);
+                                            if (e.target.checked) setErrorMessage('');
+                                        }}
+                                        required
+                                        disabled={status === 'loading'}
+                                        className="mt-1 w-4 h-4 rounded border-white/30 bg-white/10 text-amber-400 focus:ring-amber-400 focus:ring-offset-0 focus:ring-2 cursor-pointer flex-shrink-0 accent-amber-400"
+                                        aria-required="true"
+                                    />
+                                    <label
+                                        htmlFor="newsletter-club-consent"
+                                        className="text-[12px] sm:text-[13px] text-slate-300 leading-relaxed cursor-pointer select-none"
+                                    >
+                                        אני מאשר/ת לקבל מ-AltruBiz עדכונים, מידע ותוכן חשוב ורלוונטי. פרטיי לא יימסרו לצדדים שלישיים לצורכי שיווק שלהם, והשימוש בהם ייעשה בהתאם ל
+                                        <a
+                                            href={NEWSLETTER_CONSENT_CONFIG.privacyUrl}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="text-amber-300 hover:text-amber-200 underline font-semibold mx-1 inline-block"
+                                            onClick={(e) => e.stopPropagation()}
+                                        >
+                                            {NEWSLETTER_CONSENT_CONFIG.privacyLinkText}
+                                        </a>
+                                        ול
+                                        <a
+                                            href={NEWSLETTER_CONSENT_CONFIG.termsUrl}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="text-amber-300 hover:text-amber-200 underline font-semibold mx-1 inline-block"
+                                            onClick={(e) => e.stopPropagation()}
+                                        >
+                                            {NEWSLETTER_CONSENT_CONFIG.termsLinkText}
+                                        </a>
+                                        .
+                                    </label>
+                                </div>
                             </div>
 
                             {errorMessage && (
