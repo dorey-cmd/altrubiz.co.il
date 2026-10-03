@@ -21,3 +21,4 @@ export * from './config/gateway';
 export * from './compat/articleToPublication';
 export * from './compat/knowledgeNodeToEntity';
 export * from './compat/canonicalConceptToDefinition';
+export * from '../data/ctaRegistry';

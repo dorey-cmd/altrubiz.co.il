@@ -121,6 +121,7 @@ export interface Article {
     sections: ArticleSection[];
     faqs?: FAQItem[];
     conversionConfig?: ArticleConversionConfig;
+    recommendedCtas?: string[];
     diagnosticEmbed?: {
         title: string;
         subtitle: string;
@@ -8324,6 +8325,7 @@ export const ARTICLES: Article[] = [
         id: 'pub_chatgpt-ads-israel-launch',
         slug: 'chatgpt-ads-israel-launch',
         publicPath: '/chatgpt-ads-israel-launch',
+        recommendedCtas: ['gpt-playbook'],
         publicationStatus: 'published',
         indexable: true,
         title: 'פרסום ב-ChatGPT הגיע לישראל. זה החלק הפחות מעניין בסיפור',
@@ -8630,6 +8632,7 @@ export const ARTICLES: Article[] = [
         id: 'pub_chatgpt-ads-intent-fit',
         slug: 'chatgpt-ads-intent-fit',
         publicPath: '/chatgpt-ads-intent-fit',
+        recommendedCtas: ['gpt-playbook'],
         publicationStatus: 'published',
         indexable: true,
         title: 'על שניהם שילמנו. רק לאחד היה סיכוי מלכתחילה',

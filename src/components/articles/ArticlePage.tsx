@@ -40,6 +40,8 @@ import { ReviewCockpit } from '../common/ReviewCockpit';
 import { OmnichannelFlowDiagram, OmnichannelBeforeAfterDiagram } from './diagrams/OmnichannelContextDiagrams';
 import { MP4ContainerBreakdownDiagram, RenderFlowDiagram } from './diagrams/WhatsAppRenderDiagrams';
 import { InternalLink, isPlainPrimaryClick, handleClientNavClick } from '../common/InternalLink';
+import { resolveCtaForArticle } from '../../data/ctaRegistry';
+import { ManagedCtaBlock } from '../common/ManagedCtaBlock';
 
 interface ArticlePageProps {
     article: Article;
@@ -85,6 +87,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
     useModalFocusManagement(mobileDrawerRef, isMobileDrawerOpen);
 
     const parentHub = getParentHubForArticle(article.slug);
+    const managedExternalCta = resolveCtaForArticle(article);
 
     // SiteOS Phase 3: single authoritative breadcrumb builder, shared with
     // the BreadcrumbList Schema.org output in src/lib/routes.ts, so the
@@ -1581,6 +1584,11 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                         {/* Article Body Sections */}
                         <div className="space-y-12 text-slate-800 leading-relaxed text-base sm:text-lg">
                             {article.sections.map((section, idx) => renderSection(section, idx))}
+
+                            {/* Managed External Placement (e.g. GPT Playbook) */}
+                            {managedExternalCta && managedExternalCta.position === 'end' && (
+                                <ManagedCtaBlock placement={managedExternalCta} />
+                            )}
 
                             {/* Featured Social Share Card */}
                             <SocialShareBar

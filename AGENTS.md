@@ -211,6 +211,16 @@ Brand images are smart, witty, slightly humorous **illustrated storytelling in a
 
 ---
 
+## 2.17 Mandatory Central Handbook & Outbound CTA Management
+All links to `https://handbook.altrubiz.co.il/join` (GPT Playbook) and strategic external touchpoints are strictly governed by the central CTA and Placement Registry (`src/data/ctaRegistry.ts`).
+- **No Scattered Links**: Zero hardcoded links to the Handbook in body text, components or templates.
+- **Single Source of Truth**: Destination URL changes and global master toggle (`enabled: false`) are managed in one location.
+- **Deduplication Law**: Manual Placement > Content Recommendation > Auto Rule.
+- **Audit Tool**: `npm run audit:handbook-links` verifies that all active placements are governed and detects any rogue occurrences.
+- Full specification: [`.agents/rules/handbook-cta-management.md`](file:///c:/Users/Dorey/Documents/Vibe/altrubiz.co.il/.agents/rules/handbook-cta-management.md).
+
+---
+
 ## 3. Route & Page Creation Architecture (Single Source of Truth)
 
 ### Adding a Static Page:
