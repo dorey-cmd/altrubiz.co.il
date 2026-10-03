@@ -279,6 +279,16 @@
       "source": "/articles/whatsapp-video-renderer",
       "destination": "/whatsapp-video-renderer",
       "permanent": true
+    },
+    {
+      "source": "/articles/learn-by-doing-business",
+      "destination": "/learn-by-doing-business",
+      "permanent": true
+    },
+    {
+      "source": "/articles/learn-by-doing-business.md",
+      "destination": "/learn-by-doing-business.md",
+      "permanent": true
     }
   ],
   "headers": [

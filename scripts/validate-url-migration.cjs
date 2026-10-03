@@ -90,7 +90,8 @@ const EXPECTED_ARTICLES = {
     'chatgpt-ads-intent-fit': '/chatgpt-ads-intent-fit',
     'how-many-sales-follow-ups': '/how-many-sales-follow-ups',
     'client-onboarding-automation': '/client-onboarding-automation',
-    'omnichannel-crm-customer-context': '/omnichannel-crm-customer-context'
+    'omnichannel-crm-customer-context': '/omnichannel-crm-customer-context',
+    'learn-by-doing-business': '/learn-by-doing-business'
 };
 
 const OLD_URL_REDIRECT_MAP = {

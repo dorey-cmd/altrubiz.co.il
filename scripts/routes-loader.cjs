@@ -52,7 +52,41 @@ function loadRoutes(forceReload = false) {
     return cachedExports;
 }
 
+
+let cachedCtaRegistry = null;
+
+function loadCtaRegistry(forceReload = false) {
+    if (cachedCtaRegistry && !forceReload) {
+        return cachedCtaRegistry;
+    }
+
+    const ctaRegistryTsPath = path.resolve(__dirname, '../src/data/ctaRegistry.ts');
+    const buildResult = esbuild.buildSync({
+        entryPoints: [ctaRegistryTsPath],
+        bundle: true,
+        format: 'cjs',
+        platform: 'node',
+        write: false,
+        sourcemap: false,
+        target: 'node18'
+    });
+
+    if (!buildResult.outputFiles || buildResult.outputFiles.length === 0) {
+        throw new Error(`Failed to compile ${ctaRegistryTsPath} with esbuild.`);
+    }
+
+    const code = buildResult.outputFiles[0].text;
+    const moduleScope = { exports: {} };
+    const wrapper = new Function('module', 'exports', 'require', '__dirname', '__filename', code);
+    wrapper(moduleScope, moduleScope.exports, require, path.dirname(ctaRegistryTsPath), ctaRegistryTsPath);
+
+    cachedCtaRegistry = moduleScope.exports;
+    return cachedCtaRegistry;
+}
+
 module.exports = {
+    loadCtaRegistry,
+    getCtaDestination: (id, placementId) => loadCtaRegistry().getCtaDestination(id, placementId),
     loadRoutes,
     getRoutesRegistry: () => loadRoutes().getRoutesRegistry(),
     getAllPublicRoutes: () => loadRoutes().getAllPublicRoutes(),

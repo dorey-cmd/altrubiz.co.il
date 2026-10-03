@@ -192,6 +192,7 @@ export const KNOWLEDGE_NODES: Record<string, KnowledgeNode> = {
             'build-website-with-ai-guide',
             'chatgpt-ads-israel-launch',
             'chatgpt-ads-intent-fit',
+            'learn-by-doing-business',
             'how-many-sales-follow-ups'
         ],
         recommendedNextSlugs: ['whatsapp-in-crm', 'sales-pipeline', 'roi-calculator', 'salespeople-hate-crm-adoption-guide'],

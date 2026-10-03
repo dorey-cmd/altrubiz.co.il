@@ -150,6 +150,23 @@ export const CTA_DEFINITIONS: Record<string, CtaDefinition> = {
                 description: 'בלי לנחש מילות מפתח: איך לכוון את ה-AI בדיוק לשיחות ולצרכים שהעסק שלכם פותר.',
                 buttonText: 'למדריך המלא ב-Playbook ←'
             },
+            'learn-by-doing-inline': {
+                id: 'learn-by-doing-inline',
+                name: 'באנר עדין - ניסוי ראשון אחראי',
+                badge: 'הניסוי הראשון שלכם',
+                title: 'רוצים לעשות את הניסוי הראשון בלי להיכנס עיוורים?',
+                description: 'בדיוק בשביל זה בנינו את ChatGPT Ads Playbook – מדריך עבודה שמתקדם איתכם תוך כדי בניית הקמפיין.',
+                buttonText: 'להכיר את המדריך ←'
+            },
+            'start-responsible-experiment': {
+                id: 'start-responsible-experiment',
+                name: 'סיום מאמר - לא צריך לדעת הכול כדי להתחיל',
+                badge: 'מדריך עבודה מעשי',
+                title: 'לא צריך לדעת הכול כדי להתחיל. צריך דרך טובה להתחיל.',
+                description: 'ChatGPT Ads Playbook נבנה כדי לעבוד לצדכם בזמן שאתם עושים: שלב אחר שלב, מהתכנון ועד המדידה והשיפור.',
+                buttonText: 'ל-ChatGPT Ads Playbook ←',
+                secondaryButtonText: 'לקריאת סדרת ChatGPT Ads'
+            },
             'compact-strip': {
                 id: 'compact-strip',
                 name: 'פס עדין מקוצר',
@@ -179,6 +196,21 @@ export const CTA_PLACEMENTS: CtaPlacementRecord[] = [
         placementType: 'box',
         position: 'end',
         copyVariant: 'practical-next-step',
+        source: 'manual',
+        enabled: true
+    },
+    {
+        id: 'gpt-playbook-learn-by-doing-end',
+        ctaId: 'gpt-playbook',
+        target: {
+            page: '/learn-by-doing-business',
+            contentId: 'learn-by-doing-business'
+        },
+        context: 'סיום מאמר עוד קצת ללמוד ואז אתחיל - מדריך עבודה מעשי תוך כדי עשייה',
+        relevance: 'high',
+        placementType: 'box',
+        position: 'end',
+        copyVariant: 'start-responsible-experiment',
         source: 'manual',
         enabled: true
     },

@@ -17,7 +17,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { getIndexableArticles, resolveCanonicalConcept, BASE_CANONICAL_DOMAIN } = require('./routes-loader.cjs');
+const { getIndexableArticles, resolveCanonicalConcept, BASE_CANONICAL_DOMAIN, getCtaDestination } = require('./routes-loader.cjs');
 
 const ROOT_DIR = path.resolve(__dirname, '..');
 const PUBLIC_DIR = path.join(ROOT_DIR, 'public');
@@ -84,6 +84,11 @@ function buildMarkdownFromArticle(article) {
             return anchor;
         });
 
+        // Resolve cta:* outbound links from registry
+        transformed = transformed.replace(/\[([^\]]+)\]\(cta:([a-z0-9-_]+)\)/g, (match, anchor, ctaId) => {
+            return `[${anchor}](${getCtaDestination(ctaId)})`;
+        });
+
         // Ensure no raw concept: remains
         if (/concept:[a-z0-9-_]+/i.test(transformed)) {
             throw new Error(`[CRITICAL] Raw concept:* pseudo-link leaked in transformed text: "${transformed}"`);
@@ -148,6 +153,21 @@ function buildMarkdownFromArticle(article) {
             }
             if (section.diagram === 'mp4-container-breakdown') {
                 parts.push(`> 🎬 **אנטומיה של קובץ וידאו ל-WhatsApp Business:** עטיפת Container חיצונית (.mp4) כוללת קידוד וידאו (חובה H.264), קידוד אודיו (חובה AAC), ומגבלת משקל של 16MB עבור Cloud API. סרטונים בקידוד HEVC או אודיו שאינו AAC נדחים אוטומטית.\n\n`);
+            }
+                        if (section.diagram === 'two-types-of-knowledge') {
+                parts.push(`> 📊 **שני סוגי הידע בעסק:** ידע לפני הפעולה (עקרונות, מסגרת עבודה, תיאוריה) ➔ פעולה מעשית ➔ ידע שנוצר מתוך הפעולה (תגובת לקוחות, נתונים, דיוק הצעת הערך, ניסיון מצטבר).\n\n`);
+            }
+            if (section.diagram === 'business-learning-loop') {
+                parts.push(`> 🔄 **מעגל הלמידה בעסק:** לומדים מספיק ➔ עושים ➔ מודדים ➔ מבינים ➔ משנים ➔ עושים שוב.\n\n`);
+            }
+            if (section.diagram === 'first-budget-card') {
+                parts.push(`> 💰 **מבחן התקציב הראשון: קונים מידע בזול:** מה שילמנו (תקציב ניסוי מבוקר, זמן מוגדר) מול מה קיבלנו (איזה מסר עובד, מי הקהל המגיב, איכות לידים, איפה התהליך נתקע ומה לשפר).\n\n`);
+            }
+            if (section.diagram === 'post-click-data-flow') {
+                parts.push(`> 📈 **זרימת נתונים אחרי הקליק:** מודעה ➔ קליק ➔ דף נחיתה ➔ ליד ➔ CRM ➔ פגישה ➔ עסקה ➔ למידה ודיוק הקמפיין הבא.\n\n`);
+            }
+            if (section.diagram === 'five-rules-recap') {
+                parts.push(`> 🧭 **חמשת הכללים לכניסה לשטח חדש בעסק:** 1. אל תחכו להרגיש מוכנים. 2. התחילו בניסוי שאפשר להרשות לעצמכם לטעות בו. 3. הגדירו מראש מה אתם רוצים ללמוד. 4. אל תמסרו לאחרים משהו שאתם לא מבינים בכלל. 5. התחילו לצבור ניסיון לפני שהוא הופך לחובה.\n\n`);
             }
             if (section.diagram === 'render-flow-diagram') {
                 parts.push(`> ⚡ **זרימת העבודה של AltruBiz Render:** קובץ מקור (MOV, MKV, WEBM, MP4 עד 500MB) ➔ AltruBiz Render (עיבוד פרטי מקומי בדפדפן ב-WASM ➔ המרה ל-H.264 + AAC + 720p) ➔ קובץ MP4 תקני שמוכן לשליחה חלקה באוטומציות WhatsApp Business ללא שגיאות.\n\n`);

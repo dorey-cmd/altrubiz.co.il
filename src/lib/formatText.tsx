@@ -1,6 +1,7 @@
 import React from 'react';
 import { ContextualConcept } from '../components/common/ContextualConcept';
 import { handleClientNavClick } from '../components/common/InternalLink';
+import { getCtaDestination } from '../data/ctaRegistry';
 
 /**
  * Parses markdown-style links [anchor text](url) and concepts [anchor text](concept:id)
@@ -37,7 +38,21 @@ export function renderFormattedText(text: string, onNavigate?: (path: string) =>
             const linkMatch = /^\[(.*?)\]\((.*?)\)$/.exec(fullMatch);
             if (linkMatch) {
                 const [, linkText, linkUrl] = linkMatch;
-                if (linkUrl.startsWith('concept:')) {
+                if (linkUrl.startsWith('cta:')) {
+                    const ctaId = linkUrl.replace('cta:', '');
+                    const resolvedUrl = getCtaDestination(ctaId);
+                    parts.push(
+                        <a
+                            key={`cta-${ctaId}-${matchIndex}`}
+                            href={resolvedUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-primary font-bold underline decoration-primary/30 hover:decoration-primary underline-offset-4 transition-colors cursor-pointer"
+                        >
+                            {linkText}
+                        </a>
+                    );
+                } else if (linkUrl.startsWith('concept:')) {
                     const conceptId = linkUrl.replace('concept:', '');
                     parts.push(
                         <ContextualConcept

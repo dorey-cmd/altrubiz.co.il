@@ -39,8 +39,9 @@ import { renderFormattedText } from '../../lib/formatText';
 import { ReviewCockpit } from '../common/ReviewCockpit';
 import { OmnichannelFlowDiagram, OmnichannelBeforeAfterDiagram } from './diagrams/OmnichannelContextDiagrams';
 import { MP4ContainerBreakdownDiagram, RenderFlowDiagram } from './diagrams/WhatsAppRenderDiagrams';
+import { TwoTypesOfKnowledgeDiagram, BusinessLearningLoopDiagram, FirstBudgetInformationCard, PostClickDataFlowDiagram, FiveRulesRecapCard } from './diagrams/LearnByDoingDiagrams';
 import { InternalLink, isPlainPrimaryClick, handleClientNavClick } from '../common/InternalLink';
-import { resolveCtaForArticle } from '../../data/ctaRegistry';
+import { resolveCtaForArticle, getCtaDestination } from '../../data/ctaRegistry';
 import { ManagedCtaBlock } from '../common/ManagedCtaBlock';
 
 interface ArticlePageProps {
@@ -330,7 +331,16 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                     </div>
 
                     <div className="flex items-center gap-2 flex-shrink-0 w-full sm:w-auto justify-end">
-                        {isWhatsApp ? (
+                        {inlineCta.actionUrl ? (
+                            <a
+                                href={inlineCta.actionUrl.startsWith('cta:') ? getCtaDestination(inlineCta.actionUrl.replace('cta:', '')) : inlineCta.actionUrl}
+                                target={inlineCta.actionUrl.startsWith('http') || inlineCta.actionUrl.startsWith('cta:') ? '_blank' : '_self'}
+                                rel={inlineCta.actionUrl.startsWith('http') || inlineCta.actionUrl.startsWith('cta:') ? 'noopener noreferrer' : undefined}
+                                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-primary hover:bg-secondary text-white font-extrabold px-4 py-2.5 rounded-xl shadow-xs transition-all text-xs sm:text-sm"
+                            >
+                                <span>{inlineCta.buttonText || 'להכיר את המדריך'}</span>
+                            </a>
+                        ) : isWhatsApp ? (
                             <a
                                 href={buildAttributedWhatsAppUrl(
                                     inlineCta.whatsappText || `שלום צוות AltruBiz, קראתי את המאמר "${article.title}" ואשמח להתייעץ.`,
@@ -930,6 +940,11 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({
                 {section.diagram === 'before-after-context' && <OmnichannelBeforeAfterDiagram />}
                 {section.diagram === 'mp4-container-breakdown' && <MP4ContainerBreakdownDiagram />}
                 {section.diagram === 'render-flow-diagram' && <RenderFlowDiagram />}
+                {section.diagram === 'two-types-of-knowledge' && <TwoTypesOfKnowledgeDiagram />}
+                {section.diagram === 'business-learning-loop' && <BusinessLearningLoopDiagram />}
+                {section.diagram === 'first-budget-card' && <FirstBudgetInformationCard />}
+                {section.diagram === 'post-click-data-flow' && <PostClickDataFlowDiagram />}
+                {section.diagram === 'five-rules-recap' && <FiveRulesRecapCard />}
 
                 {/* Ordered Items */}
                 {section.orderedItems && section.orderedItems.length > 0 && (
