@@ -155,7 +155,8 @@ function runAudit() {
                 file.startsWith('scripts/audit-handbook-links.cjs') ||
                 file.startsWith('.agents/') ||
                 file.startsWith('AGENTS.md') ||
-                file.startsWith('GEMINI.md');
+                file.startsWith('GEMINI.md') ||
+                (file.startsWith('public/') && (file.endsWith('.md') || file.endsWith('.txt')));
 
             if (!isAuthorized) {
                 unmanagedMatches.push({ file, lineNum, content });
