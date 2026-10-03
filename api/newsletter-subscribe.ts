@@ -2,15 +2,27 @@
  * Vercel Serverless Function: Newsletter Club Signup
  *
  * Secure server-side boundary for "מועדון המהלך הבא". The browser never talks
- * to the CRM webhook directly. Every signup is checked here (origin, honeypot,
- * fill time, rate limit, Cloudflare Turnstile) and only then forwarded to the
- * CRM together with a signed double opt-in confirmation link.
+ * to the CRM directly. Every signup is checked here (origin, honeypot, fill
+ * time, rate limit, Cloudflare Turnstile) and only then written to the CRM
+ * through its API as a pending contact, followed by a double opt-in
+ * confirmation email carrying a signed link.
  *
  * Required environment variables (server-side only):
- * - NEWSLETTER_WEBHOOK_URL       CRM inbound webhook for pending signups
+ * - GHL_API_TOKEN                CRM Private Integration token
  * - NEWSLETTER_CONFIRM_SECRET    Signing secret for confirmation links
  * - TURNSTILE_SECRET_KEY         Cloudflare Turnstile secret (mandatory in production)
  */
+
+import {
+    CLUB_TAG,
+    PENDING_TAG,
+    addContactNote,
+    addContactTags,
+    isCrmConfigured,
+    sendContactEmail,
+    upsertContactByEmail
+} from './_crm.js';
+import { CONFIRM_EMAIL_SUBJECT, confirmEmailHtml } from './_newsletterEmail.js';
 
 import {
     NEWSLETTER_SOURCE,
@@ -93,10 +105,9 @@ export default async function handler(req: any, res: any) {
 
         // Fail-Closed Invariant:
         // The live form must NOT pretend success when its server configuration is incomplete.
-        const webhookUrl = process.env.NEWSLETTER_WEBHOOK_URL;
         const confirmSecret = process.env.NEWSLETTER_CONFIRM_SECRET;
         const turnstileSecret = getTurnstileSecret();
-        if (!webhookUrl || !confirmSecret || !turnstileSecret) {
+        if (!isCrmConfigured() || !confirmSecret || !turnstileSecret) {
             console.error('[Newsletter] Signup endpoint is not fully configured');
             return res.status(503).json({
                 success: false,
@@ -117,8 +128,6 @@ export default async function handler(req: any, res: any) {
 
         const submissionId = asString(body.submission_id, 64) || `srv-${Date.now()}`;
         const consentVersion = asString(body.consent_version, 64);
-        const submittedAt = new Date().toISOString();
-
         const confirmToken = createConfirmToken({ email, submissionId, consentVersion }, confirmSecret);
         const confirmUrl = `${getPublicBaseUrl(req)}/api/newsletter-confirm?token=${encodeURIComponent(confirmToken)}`;
 
@@ -140,49 +149,24 @@ export default async function handler(req: any, res: any) {
             `${Math.round(fillTimeMs / 1000)} seconds`,
             '',
             'Double opt-in:',
-            'PENDING - confirmation link sent, awaiting click',
+            'PENDING - confirmation email sent, awaiting click',
             '--------------------------------'
         ].join('\n');
-
-        const payload = {
-            email,
-            source: NEWSLETTER_SOURCE,
-            sourcePage: asString(body.sourcePage, 500),
-            pageTitle: asString(body.pageTitle, 300),
-            submittedAt,
-            consent: true,
-            consent_version: consentVersion,
-            submission_id: submissionId,
-            double_opt_in: 'pending',
-            confirm_url: confirmUrl,
-            ip,
-            ip_country: country,
-            note: asString(body.note, MAX_NOTE_LENGTH) + serverNote
-        };
+        const note = asString(body.note, MAX_NOTE_LENGTH) + serverNote;
 
         try {
-            const webhookRes = await fetch(webhookUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'User-Agent': 'AltruBiz-SiteOS-Newsletter/1.0'
-                },
-                body: JSON.stringify(payload)
-            });
-
-            if (!webhookRes.ok) {
-                console.error('[Newsletter] CRM webhook rejected signup:', webhookRes.status);
-                return res.status(502).json({
-                    success: false,
-                    code: 'CRM_DISPATCH_FAILED',
-                    message: 'לא הצלחנו להשלים את ההרשמה. אפשר לנסות שוב בעוד רגע.'
-                });
+            const contact = await upsertContactByEmail(email, NEWSLETTER_SOURCE);
+            // Existing club members keep their status; everyone else waits for confirmation.
+            if (!contact.tags.includes(CLUB_TAG)) {
+                await addContactTags(contact.contactId, [PENDING_TAG]);
             }
+            await addContactNote(contact.contactId, note);
+            await sendContactEmail(contact.contactId, CONFIRM_EMAIL_SUBJECT, confirmEmailHtml(confirmUrl));
         } catch (err: any) {
-            console.error('[Newsletter] CRM webhook unreachable:', err?.message);
+            console.error('[Newsletter] CRM signup dispatch failed:', err?.message);
             return res.status(502).json({
                 success: false,
-                code: 'CRM_UNREACHABLE',
+                code: 'CRM_DISPATCH_FAILED',
                 message: 'לא הצלחנו להשלים את ההרשמה. אפשר לנסות שוב בעוד רגע.'
             });
         }

@@ -9,7 +9,7 @@
  * - Signed double opt-in confirmation tokens (HMAC-SHA256)
  *
  * Security Invariant:
- * The CRM webhook URLs, the Turnstile secret and the confirmation signing
+ * The CRM API token, the Turnstile secret and the confirmation signing
  * secret exist ONLY in server-side environment variables. Zero credentials
  * leak into client bundles.
  */

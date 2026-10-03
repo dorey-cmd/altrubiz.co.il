@@ -4,14 +4,24 @@
  * Target of the confirmation link sent by email after a signup.
  * - GET  renders a confirmation page with a single button. Nothing is confirmed
  *        on GET, so mail scanners that pre-open links cannot confirm for anyone.
- * - POST verifies the signed token and notifies the CRM that the subscriber
- *        confirmed. Only then does the CRM add the club tag and send the welcome.
+ * - POST verifies the signed token and adds the club tag to the contact through
+ *        the CRM API. The tag is what triggers the welcome workflow in the CRM,
+ *        and it fires once: re-confirming an already tagged contact does nothing.
  *
  * Required environment variables (server-side only):
- * - NEWSLETTER_CONFIRM_SECRET          Signing secret for confirmation links
- * - NEWSLETTER_CONFIRMED_WEBHOOK_URL   CRM inbound webhook for confirmed signups
+ * - NEWSLETTER_CONFIRM_SECRET   Signing secret for confirmation links
+ * - GHL_API_TOKEN               CRM Private Integration token
  */
 
+import {
+    CLUB_TAG,
+    PENDING_TAG,
+    addContactNote,
+    addContactTags,
+    isCrmConfigured,
+    removeContactTags,
+    upsertContactByEmail
+} from './_crm.js';
 import { NEWSLETTER_SOURCE, PRODUCTION_ORIGIN, getClientIp, verifyConfirmToken } from './_newsletterGuard.js';
 
 function escapeHtml(value: string): string {
@@ -73,8 +83,7 @@ export default async function handler(req: any, res: any) {
     }
 
     const confirmSecret = process.env.NEWSLETTER_CONFIRM_SECRET;
-    const confirmedWebhookUrl = process.env.NEWSLETTER_CONFIRMED_WEBHOOK_URL;
-    if (!confirmSecret || !confirmedWebhookUrl) {
+    if (!confirmSecret || !isCrmConfigured()) {
         console.error('[Newsletter] Confirmation endpoint is not fully configured');
         return sendPage(
             res,
@@ -146,26 +155,14 @@ export default async function handler(req: any, res: any) {
     ].join('\n');
 
     try {
-        const webhookRes = await fetch(confirmedWebhookUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'User-Agent': 'AltruBiz-SiteOS-Newsletter/1.0'
-            },
-            body: JSON.stringify({
-                email,
-                source: NEWSLETTER_SOURCE,
-                submission_id: submissionId,
-                consent_version: consentVersion,
-                double_opt_in: 'confirmed',
-                confirmedAt,
-                ip,
-                note
-            })
-        });
-
-        if (!webhookRes.ok) {
-            throw new Error(`CRM webhook responded ${webhookRes.status}`);
+        const contact = await upsertContactByEmail(email, NEWSLETTER_SOURCE);
+        const alreadyMember = contact.tags.includes(CLUB_TAG);
+        if (!alreadyMember) {
+            await addContactTags(contact.contactId, [CLUB_TAG]);
+            await addContactNote(contact.contactId, note);
+        }
+        if (contact.tags.includes(PENDING_TAG)) {
+            await removeContactTags(contact.contactId, [PENDING_TAG]);
         }
     } catch (err: any) {
         console.error('[Newsletter] Failed to dispatch confirmation:', err?.message);

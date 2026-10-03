@@ -25,7 +25,8 @@
  * 4. Server-side signup guard (api/newsletter-subscribe.ts, api/newsletter-confirm.ts):
  *    - Origin allow-list, consent, honeypot, fill time, rate limit, Turnstile
  *    - Fail closed when the server configuration is incomplete
- *    - Signed double opt-in confirmation link (GET never confirms, POST does)
+ *    - Pending contact, note and confirmation email written through the CRM API (no webhooks)
+ *    - Signed double opt-in confirmation link (GET never confirms, POST adds the club tag once)
  */
 
 const esbuild = require('esbuild');
@@ -461,8 +462,9 @@ async function runServerGuardTests() {
     const confirm = loadTsModule('api/newsletter-confirm.ts').default;
     const guard = loadTsModule('api/_newsletterGuard.ts');
 
-    const SUBSCRIBE_HOOK = 'https://crm.test/hooks/pending';
-    const CONFIRMED_HOOK = 'https://crm.test/hooks/confirmed';
+    const CRM_API = 'https://services.leadconnectorhq.com';
+    const CLUB_TAG = 'מועדון המהלך הבא';
+    const PENDING_TAG = 'מועדון - ממתין לאישור';
     const savedEnv = { ...process.env };
     const savedFetch = global.fetch;
     const savedWarn = console.warn;
@@ -470,22 +472,38 @@ async function runServerGuardTests() {
     console.warn = () => {};
     console.error = () => {};
 
+    // In-memory CRM double: one contact per email, with tags
     let crmCalls = [];
+    let crmContacts = {};
     let turnstileCalls = [];
     let turnstilePasses = true;
     global.fetch = async (url, options = {}) => {
-        if (String(url).includes('challenges.cloudflare.com')) {
+        const target = String(url);
+        if (target.includes('challenges.cloudflare.com')) {
             turnstileCalls.push(options.body);
             return { ok: true, json: async () => ({ success: turnstilePasses, 'error-codes': turnstilePasses ? [] : ['invalid-input-response'] }) };
         }
-        crmCalls.push({ url: String(url), payload: JSON.parse(options.body) });
-        return { ok: true, status: 200, json: async () => ({}) };
+        const path = target.replace(CRM_API, '');
+        const body = JSON.parse(options.body);
+        crmCalls.push({ method: options.method, path, body, auth: options.headers.Authorization });
+        let response = {};
+        if (path === '/contacts/upsert') {
+            const isNew = !crmContacts[body.email];
+            if (isNew) crmContacts[body.email] = { id: `contact-${Object.keys(crmContacts).length + 1}`, tags: [] };
+            const c = crmContacts[body.email];
+            response = { new: isNew, contact: { id: c.id, tags: [...c.tags] } };
+        } else if (path.endsWith('/tags')) {
+            const c = Object.values(crmContacts).find((x) => path.includes(x.id));
+            if (options.method === 'DELETE') c.tags = c.tags.filter((t) => !body.tags.includes(t));
+            else c.tags = [...new Set([...c.tags, ...body.tags])];
+        }
+        return { ok: true, status: 200, text: async () => JSON.stringify(response) };
     };
+    const callsTo = (suffix, method = 'POST') => crmCalls.filter((c) => c.method === method && c.path.endsWith(suffix));
 
     const configure = () => {
         process.env.VERCEL_ENV = 'production';
-        process.env.NEWSLETTER_WEBHOOK_URL = SUBSCRIBE_HOOK;
-        process.env.NEWSLETTER_CONFIRMED_WEBHOOK_URL = CONFIRMED_HOOK;
+        process.env.GHL_API_TOKEN = 'unit-test-crm-token';
         process.env.NEWSLETTER_CONFIRM_SECRET = 'unit-test-signing-secret';
         process.env.TURNSTILE_SECRET_KEY = 'unit-test-turnstile-secret';
     };
@@ -534,7 +552,7 @@ async function runServerGuardTests() {
         await subscribe(signupReq({ turnstile_token: '' }, freshIp()), res);
         check(res.statusCode === 403 && crmCalls.length === 0, 'Missing bot check token is rejected (403)', `Missing token not rejected: ${res.statusCode}`);
 
-        for (const missing of ['NEWSLETTER_WEBHOOK_URL', 'NEWSLETTER_CONFIRM_SECRET', 'TURNSTILE_SECRET_KEY']) {
+        for (const missing of ['GHL_API_TOKEN', 'NEWSLETTER_CONFIRM_SECRET', 'TURNSTILE_SECRET_KEY']) {
             configure();
             delete process.env[missing];
             res = createRes();
@@ -543,53 +561,78 @@ async function runServerGuardTests() {
         }
         configure();
 
-        // Happy path
+        // Happy path: pending contact + note + confirmation email, all through the CRM API
         res = createRes();
         await subscribe(signupReq({}, freshIp()), res);
-        const forwarded = crmCalls[0];
-        check(res.statusCode === 200 && crmCalls.length === 1 && forwarded.url === SUBSCRIBE_HOOK, 'Verified signup is forwarded to the pending-signup CRM webhook', `Verified signup not forwarded: ${res.statusCode}`);
+        const contact = crmContacts['client@example.com'];
+        check(res.statusCode === 200 && !!contact && callsTo('/contacts/upsert').length === 1, 'Verified signup upserts the contact through the CRM API', `Verified signup not written to CRM: ${res.statusCode}`);
 
-        if (forwarded) {
-            const fp = forwarded.payload;
-            check(fp.email === 'client@example.com' && fp.source === 'מועדון המהלך הבא' && fp.consent === true && fp.consent_version === 'newsletter-consent-v1',
-                'Forwarded payload preserves legacy fields and consent flags', 'Forwarded payload lost legacy fields');
-            check(fp.double_opt_in === 'pending' && typeof fp.confirm_url === 'string' && fp.confirm_url.startsWith('https://altrubiz.co.il/api/newsletter-confirm?token='),
-                'Forwarded payload carries a canonical-domain confirmation link (double opt-in pending)', `Unexpected confirm_url: ${fp.confirm_url}`);
-            check(fp.note.startsWith('CLIENT NOTE') && fp.note.includes('Cloudflare Turnstile passed') && fp.note.includes('IP address:\n198.51.100.') && fp.note.includes('PENDING'),
+        if (contact) {
+            check(crmCalls.every((c) => c.auth === 'Bearer unit-test-crm-token') && crmCalls.every((c) => !c.path.includes('/hooks/')),
+                'CRM is reached only through the authenticated API (no inbound webhooks)', 'CRM call without API token or through a webhook');
+            check(contact.tags.includes(PENDING_TAG) && !contact.tags.includes(CLUB_TAG),
+                'New signup is tagged as pending and does NOT get the club tag before confirming', `Unexpected tags before confirmation: ${contact.tags.join(', ')}`);
+            const sourceCall = crmCalls.find((c) => c.method === 'PUT');
+            check(!!sourceCall && sourceCall.body.source === 'מועדון המהלך הבא', 'Source is set on the newly created contact', 'Source not set on new contact');
+
+            const noteCall = callsTo('/notes')[0];
+            check(!!noteCall && noteCall.body.body.startsWith('CLIENT NOTE') && noteCall.body.body.includes('Cloudflare Turnstile passed') && noteCall.body.body.includes('IP address:\n198.51.100.') && noteCall.body.body.includes('PENDING'),
                 'Note is enriched server-side with bot check result, IP and opt-in status', 'Server note enrichment missing');
-            check(!JSON.stringify(res.body).includes('token') && !JSON.stringify(res.body).includes('crm.test'),
-                'Browser response exposes neither the confirmation token nor the CRM webhook', 'Browser response leaks confirmation token or webhook');
 
-            // Double opt-in confirmation
-            const token = new URL(fp.confirm_url).searchParams.get('token');
-            crmCalls = [];
+            const emailCall = callsTo('/conversations/messages')[0];
+            const linkMatch = emailCall && emailCall.body.html.match(/href="(https:\/\/altrubiz\.co\.il\/api\/newsletter-confirm\?token=[^"]+)"/);
+            check(!!emailCall && emailCall.body.type === 'Email' && emailCall.body.contactId === contact.id && emailCall.body.subject.includes('לאשר') && !!linkMatch,
+                'Confirmation email is sent through the CRM API with a canonical-domain confirmation link', 'Confirmation email missing or without confirmation link');
+            check(!JSON.stringify(res.body).includes('token') && !JSON.stringify(res.body).includes('contact-'),
+                'Browser response exposes neither the confirmation token nor CRM identifiers', 'Browser response leaks confirmation token or CRM data');
 
-            res = createRes();
-            await confirm({ method: 'GET', headers: {}, query: { token } }, res);
-            check(res.statusCode === 200 && crmCalls.length === 0 && String(res.body).includes('method="post"') && String(res.body).includes('client@example.com'),
-                'Confirmation link (GET) shows a confirm button and confirms nothing by itself', 'GET on confirmation link confirmed the signup or rendered no form');
-            check(res.headers['X-Robots-Tag'] === 'noindex, nofollow', 'Confirmation page is served noindex, nofollow', 'Confirmation page missing noindex header');
+            if (linkMatch) {
+                const token = new URL(linkMatch[1].replace(/&amp;/g, '&')).searchParams.get('token');
+                crmCalls = [];
 
-            res = createRes();
-            await confirm({ method: 'POST', headers: { 'x-forwarded-for': '203.0.113.77', 'user-agent': 'UnitTest' }, body: { token } }, res);
-            const confirmedCall = crmCalls[0];
-            check(res.statusCode === 200 && crmCalls.length === 1 && confirmedCall.url === CONFIRMED_HOOK && confirmedCall.payload.email === 'client@example.com' && confirmedCall.payload.double_opt_in === 'confirmed' && confirmedCall.payload.submission_id === 'test-submission-id',
-                'Confirm button (POST) notifies the confirmed-signup CRM webhook', `POST confirmation not dispatched: ${res.statusCode}`);
+                res = createRes();
+                await confirm({ method: 'GET', headers: {}, query: { token } }, res);
+                check(res.statusCode === 200 && crmCalls.length === 0 && String(res.body).includes('method="post"') && String(res.body).includes('client@example.com'),
+                    'Confirmation link (GET) shows a confirm button and confirms nothing by itself', 'GET on confirmation link confirmed the signup or rendered no form');
+                check(res.headers['X-Robots-Tag'] === 'noindex, nofollow', 'Confirmation page is served noindex, nofollow', 'Confirmation page missing noindex header');
 
-            crmCalls = [];
-            res = createRes();
-            await confirm({ method: 'POST', headers: {}, body: { token: token.slice(0, -3) + 'abc' } }, res);
-            check(res.statusCode === 400 && crmCalls.length === 0, 'Tampered confirmation token is rejected (400)', `Tampered token accepted: ${res.statusCode}`);
+                res = createRes();
+                await confirm({ method: 'POST', headers: { 'x-forwarded-for': '203.0.113.77', 'user-agent': 'UnitTest' }, body: { token } }, res);
+                check(res.statusCode === 200 && contact.tags.includes(CLUB_TAG) && !contact.tags.includes(PENDING_TAG),
+                    'Confirm button (POST) adds the club tag and removes the pending tag', `Tags after confirmation: ${contact.tags.join(', ')}`);
+                check(callsTo('/notes').length === 1 && callsTo('/notes')[0].body.body.includes('DOUBLE OPT-IN CONFIRMED'),
+                    'Confirmation is recorded as a note on the contact', 'Confirmation note missing');
+                check(callsTo('/conversations/messages').length === 0,
+                    'Confirmation sends no email itself (the welcome is owned by the CRM tag workflow)', 'Confirmation endpoint sent an email');
 
-            const forgedBody = Buffer.from(JSON.stringify({ email: 'victim@example.com', submissionId: 'x', consentVersion: 'v', expiresAt: Date.now() + 100000 })).toString('base64url');
-            res = createRes();
-            await confirm({ method: 'POST', headers: {}, body: { token: `${forgedBody}.${token.split('.')[1]}` } }, res);
-            check(res.statusCode === 400 && crmCalls.length === 0, 'Confirmation token cannot be re-pointed at another email (400)', `Forged token accepted: ${res.statusCode}`);
+                crmCalls = [];
+                res = createRes();
+                await confirm({ method: 'POST', headers: {}, body: { token } }, res);
+                check(res.statusCode === 200 && callsTo('/tags').length === 0 && callsTo('/notes').length === 0,
+                    'Confirming twice does not re-add the tag, so the welcome workflow fires once', 'Second confirmation re-tagged the contact');
 
-            const expired = guard.createConfirmToken({ email: 'client@example.com', submissionId: 's', consentVersion: 'v' }, 'unit-test-signing-secret', Date.now() - 8 * 24 * 60 * 60 * 1000);
-            res = createRes();
-            await confirm({ method: 'POST', headers: {}, body: { token: expired } }, res);
-            check(res.statusCode === 400 && crmCalls.length === 0, 'Expired confirmation token is rejected (400)', `Expired token accepted: ${res.statusCode}`);
+                crmCalls = [];
+                res = createRes();
+                await confirm({ method: 'POST', headers: {}, body: { token: token.slice(0, -3) + 'abc' } }, res);
+                check(res.statusCode === 400 && crmCalls.length === 0, 'Tampered confirmation token is rejected (400)', `Tampered token accepted: ${res.statusCode}`);
+
+                const forgedBody = Buffer.from(JSON.stringify({ email: 'victim@example.com', submissionId: 'x', consentVersion: 'v', expiresAt: Date.now() + 100000 })).toString('base64url');
+                res = createRes();
+                await confirm({ method: 'POST', headers: {}, body: { token: `${forgedBody}.${token.split('.')[1]}` } }, res);
+                check(res.statusCode === 400 && crmCalls.length === 0, 'Confirmation token cannot be re-pointed at another email (400)', `Forged token accepted: ${res.statusCode}`);
+
+                const expired = guard.createConfirmToken({ email: 'client@example.com', submissionId: 's', consentVersion: 'v' }, 'unit-test-signing-secret', Date.now() - 8 * 24 * 60 * 60 * 1000);
+                res = createRes();
+                await confirm({ method: 'POST', headers: {}, body: { token: expired } }, res);
+                check(res.statusCode === 400 && crmCalls.length === 0, 'Expired confirmation token is rejected (400)', `Expired token accepted: ${res.statusCode}`);
+
+                // An existing member who signs up again is not demoted to pending
+                crmCalls = [];
+                res = createRes();
+                await subscribe(signupReq({}, freshIp()), res);
+                check(res.statusCode === 200 && !contact.tags.includes(PENDING_TAG) && contact.tags.includes(CLUB_TAG) && !crmCalls.some((c) => c.method === 'PUT'),
+                    'Existing member signing up again keeps the club tag, and the contact source is not overwritten', 'Existing member was demoted or overwritten');
+            }
         }
 
         // Rate limit: a single IP is braked after 5 signups within the window
@@ -600,7 +643,7 @@ async function runServerGuardTests() {
             await subscribe(signupReq({ email: `burst${i}@example.com` }, { 'x-forwarded-for': '192.0.2.200' }), res);
             lastStatus = res.statusCode;
         }
-        check(lastStatus === 429 && crmCalls.length === 5, 'Sixth signup from one IP within the window is rate limited (429)', `Rate limit not enforced: status ${lastStatus}, forwarded ${crmCalls.length}`);
+        check(lastStatus === 429 && callsTo('/contacts/upsert').length === 5, 'Sixth signup from one IP within the window is rate limited (429)', `Rate limit not enforced: status ${lastStatus}, written ${callsTo('/contacts/upsert').length}`);
     } catch (err) {
         fail(`Server guard test error: ${err.message}`);
     } finally {
