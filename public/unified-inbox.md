@@ -14,7 +14,7 @@ tags: ["Omnichannel","WhatsApp CRM","Instagram CRM","Unified Inbox","שירות 
 
 *למה הלקוחות שלכם מנהלים שיחה אחת בעוד העסק מנהל חמש – ואיך מרכזים ערוצי תקשורת ב-CRM אחוד*
 
-![לקוח המנהל שיחה אחת מול עסק שמתפצל לחמישה ערוצי תקשורת נפרדים ללא סנכרון](/images/articles/customer-single-thread-omnichannel.jpg)
+![לקוח המנהל שיחה אחת מול עסק שמתפצל לחמישה ערוצי תקשורת נפרדים ללא סנכרון](/images/articles/customer-single-thread-omnichannel.webp)
 
 ## תקציר ומטרה
 
@@ -37,7 +37,7 @@ tags: ["Omnichannel","WhatsApp CRM","Instagram CRM","Unified Inbox","שירות 
 
 אבל אם כל ערוץ חי במערכת נפרדת, מבחינת העסק נוצרות שלוש שיחות מנותקות לחלוטין. ואז מגיע המשפט המביך שהלקוחות כל כך "אוהבים": "תוכלו להסביר לנו שוב מההתחלה?".
 
-![לקוח המנהל שיחה אחת מול עסק שמתפצל לחמישה ערוצי תקשורת נפרדים ללא סנכרון](/images/articles/customer-single-thread-omnichannel.jpg)
+![לקוח המנהל שיחה אחת מול עסק שמתפצל לחמישה ערוצי תקשורת נפרדים ללא סנכרון](/images/articles/customer-single-thread-omnichannel.webp)
 
 *💡 מבחינת הלקוח זו שיחה אחת – הפיצול לערוצים נפרדים יוצר נתק וחוסר סנכרון בעסק.*
 
@@ -88,7 +88,7 @@ tags: ["Omnichannel","WhatsApp CRM","Instagram CRM","Unified Inbox","שירות 
 
 זו לא רק בעיית יעילות פנימית – זו פגיעה ישירה בחוויית הלקוח. מבחינת הלקוח הוא לא דיבר עם עובד בודד, הוא דיבר עם העסק שלכם.
 
-![צוות מוקד מכירות המחפש היסטוריית שיחות והודעות של לקוח בערוצים שונים ללא CRM אחוד](/images/articles/crm-csi-detective-investigation.jpg)
+![צוות מוקד מכירות המחפש היסטוריית שיחות והודעות של לקוח בערוצים שונים ללא CRM אחוד](/images/articles/crm-csi-detective-investigation.webp)
 
 *💡 כשאין תיעוד מרכזי, כל שיחת בירור הופכת לתחקיר CSI שגוזל זמן ומביך מול הלקוח.*
 
@@ -171,7 +171,7 @@ tags: ["Omnichannel","WhatsApp CRM","Instagram CRM","Unified Inbox","שירות 
 
 ה-AI אינו מחליף את השיחה האנושית – הוא מאפשר לאדם להגיע אליה כשהוא מוכן, מעודכן ומקצועי. וזה שימוש מצוין בבינה מלאכותית.
 
-![סיכום אינטראקציות והיסטוריית לקוח מרובת ערוצים באמצעות בינה מלאכותית ב-CRM](/images/articles/ai-summary-message-mountain.jpg)
+![סיכום אינטראקציות והיסטוריית לקוח מרובת ערוצים באמצעות בינה מלאכותית ב-CRM](/images/articles/ai-summary-message-mountain.webp)
 
 *💡 במקום לנבור בעשרות הודעות מפוזרות – סיכום תמונת הלקוח מרוכז במקום אחד.*
 

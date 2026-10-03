@@ -68,7 +68,7 @@ export const ThankYouOrderPage: React.FC<ThankYouOrderPageProps> = ({ onNavigate
                 {/* Hero Illustration */}
                 <div className="mb-10 overflow-hidden rounded-3xl border border-slate-200/80 shadow-xl bg-white max-w-lg mx-auto">
                     <img
-                        src="/images/thank-you-order.jpg"
+                        src="/images/thank-you-order.webp"
                         alt="איש מחויך מסמן שהתשלום הושלם והכול מסודר"
                         className="w-full h-auto object-cover"
                         width="800"

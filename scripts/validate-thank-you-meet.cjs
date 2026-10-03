@@ -215,7 +215,7 @@ async function runBrowserTests() {
 
         // Test E: Image & Alt text
         console.log('\n  [Test E: Illustration & Alt Text]');
-        const img = page.locator('img[src="/images/thank-you-meet.jpg"]');
+        const img = page.locator('img[src="/images/thank-you-meet.webp"]');
         if (await img.count() > 0) {
             const alt = await img.getAttribute('alt');
             if (alt && alt.includes('איש ידידותי מאשר שהפגישה נקבעה ומחכה למפגש הקרוב')) {
@@ -224,7 +224,7 @@ async function runBrowserTests() {
                 fail(`Image alt text mismatch: "${alt}"`);
             }
         } else {
-            fail('Image /images/thank-you-meet.jpg not found on page');
+            fail('Image /images/thank-you-meet.webp not found on page');
         }
 
         // Test F: Robots Meta Tag

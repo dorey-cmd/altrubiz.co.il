@@ -44,7 +44,7 @@ export const ThankYouLeadPage: React.FC<ThankYouLeadPageProps> = ({ onNavigate }
                 {/* Hero Illustration */}
                 <div className="mb-8 overflow-hidden rounded-3xl border border-slate-200/80 shadow-xl bg-white max-w-lg mx-auto">
                     <img
-                        src="/images/thank-you-lead.jpg"
+                        src="/images/thank-you-lead.webp"
                         alt="איש מחויך מאשר שהפנייה התקבלה ושכבר מטפלים בה"
                         className="w-full h-auto object-cover"
                         width="800"

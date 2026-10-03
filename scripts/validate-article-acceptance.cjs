@@ -74,7 +74,7 @@ function makeFixture(state) {
         markdownUrl: `/synthetic-acceptance-${state}.md`,
         heroSummary: 'כתבה סינתטית לבדיקת הצינור.',
         keyTakeaway: 'כתבה סינתטית לבדיקת הצינור.',
-        coverImage: { src: '/images/articles/quick-win-speed-lead.jpg', alt: 'תמונה קיימת לבדיקת נתיב נכס תקין' },
+        coverImage: { src: '/images/articles/quick-win-speed-lead.webp', alt: 'תמונה קיימת לבדיקת נתיב נכס תקין' },
         sections: [
             { id: 'overview', title: 'סקירה', content: ['פסקת תוכן סינתטית לבדיקת מבנה הסעיפים.'] }
         ]

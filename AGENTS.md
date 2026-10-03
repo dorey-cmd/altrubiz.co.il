@@ -264,4 +264,5 @@ All links to `https://handbook.altrubiz.co.il/join` (GPT Playbook) and strategic
 - `npm run articles:sync-md`: Synchronize LLM markdown mirrors.
 - `npm run sitemap:generate`: Regenerate `public/sitemap.xml`.
 - `npm run build`: Full build (runs prebuild checks + TypeScript compile + Vite production bundle).
+- `npm run images:optimize`: Convert new content JPG/PNG images to WebP and update references (required; the build fails on legacy formats).
 - `npm run test:links`: Crawlable-link regression (rendered DOM, reachability, new-tab/keyboard). `npm run test:links:source`: fast source guard used by `prebuild`.

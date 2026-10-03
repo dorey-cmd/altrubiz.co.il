@@ -248,6 +248,20 @@ if (publishedRouteConfig.canonicalUrl === 'https://altrubiz.co.il/simulated-ai-g
 // -------------------------------------------------------------
 // Summary
 // -------------------------------------------------------------
+// 4. Modern image formats (AGENTS.md / design-responsive-accessibility.md section 6.3)
+console.log('\n\x1b[36m4. Auditing content image formats (WebP, no heavyweight JPG/PNG)...\x1b[0m');
+{
+    const { findLegacyImages } = require('./optimize-images.cjs');
+    const legacy = findLegacyImages();
+    if (legacy.length === 0) {
+        pass('All content images under public/images are modern WebP (social OG JPEGs excluded by design).');
+    } else {
+        for (const img of legacy) {
+            fail(img.rel + ' (' + (img.bytes / 1024).toFixed(0) + ' KB) is a legacy JPG/PNG. Run "npm run images:optimize" to convert it to WebP and update references.');
+        }
+    }
+}
+
 console.log('\n--------------------------------------------------------');
 console.log(`Article Readiness Audit Complete: \x1b[32m${passed} passed\x1b[0m, \x1b[31m${failed} failed\x1b[0m.`);
 console.log('--------------------------------------------------------\n');

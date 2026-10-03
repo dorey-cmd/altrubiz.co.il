@@ -67,7 +67,7 @@ export const ThankYouMeetPage: React.FC<ThankYouMeetPageProps> = ({ onNavigate }
                 {/* Hero Illustration */}
                 <div className="mb-10 overflow-hidden rounded-3xl border border-slate-200/80 shadow-xl bg-white max-w-lg mx-auto">
                     <img
-                        src="/images/thank-you-meet.jpg"
+                        src="/images/thank-you-meet.webp"
                         alt="איש ידידותי מאשר שהפגישה נקבעה ומחכה למפגש הקרוב"
                         className="w-full h-auto object-cover"
                         width="800"

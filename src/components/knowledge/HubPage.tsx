@@ -54,35 +54,35 @@ interface HubVisualMeta {
 
 const HUB_VISUAL_ASSETS: Record<string, HubVisualMeta> = {
     'sales-pipeline': {
-        imageSrc: '/images/articles/visual-pipeline-deals.jpg',
+        imageSrc: '/images/articles/visual-pipeline-deals.webp',
         imageAlt: 'פייפליין מכירות חזותי לניהול שלבי עסקאות והזדמנויות ב-CRM',
         caption: 'פייפליין מכירות חזותי מאפשר לראות בכל רגע נתון איפה כל לקוח עומד, איפה עסקאות נתקעות, ומה הצעד הבא.',
         diagramTitle: 'מפת שלבי מכירה חכמה: איך נראה תהליך שמייצר עסקאות',
         diagramType: 'pipeline'
     },
     'business-memory': {
-        imageSrc: '/images/articles/thailand-vacation-business-memory.jpg',
+        imageSrc: '/images/articles/thailand-vacation-business-memory.webp',
         imageAlt: 'ניהול עסק מכל מקום ללא תלות בזיכרון של עובדים יחידים',
         caption: 'כשהזיכרון הארגוני שמור במערכת ולא בראש של עובדים או בוואטסאפ פרטי, העסק ממשיך לפעול גם בחופשות ובחילופי צוות.',
         diagramTitle: 'המעבר ממידע מפוזר לציר זמן לקוח מרכזי (Single Timeline)',
         diagramType: 'timeline'
     },
     'repetitive-manual-work': {
-        imageSrc: '/images/articles/conveyor-lead-automation.jpg',
+        imageSrc: '/images/articles/conveyor-lead-automation.webp',
         imageAlt: 'אוטומציה של משימות ידניות שחוזרות על עצמן וחיסכון בזמן ניהולי',
         caption: 'החלפת משימות העתקה, תיאומי יומן ותזכורות ידניות באוטומציות חכמות שחוסכות עשרות שעות ניהול בחודש.',
         diagramTitle: '5 משימות ידניות שוחקות שהופכות לפעולה אוטומטית שקטה',
         diagramType: 'automation'
     },
     'lost-leads': {
-        imageSrc: '/images/articles/lead-waiting-doorbell.jpg',
+        imageSrc: '/images/articles/lead-waiting-doorbell.webp',
         imageAlt: 'מענה מהיר ללידים שמתעניינים בעסק ב-5 הדקות הראשונות',
         caption: '78% מהעסקאות נסגרות מול העסק הראשון שחוזר לליד ומספק מענה מקצועי. מענה תוך 5 דקות מגדיל את סיכויי הסגירה פי 9.',
         diagramTitle: 'ציר הזמן של אובדן לידים: מדוע מהירות המענה קובעת את התוצאה',
         diagramType: 'lost-leads'
     },
     'whatsapp-in-crm': {
-        imageSrc: '/images/articles/customer-single-thread-omnichannel.jpg',
+        imageSrc: '/images/articles/customer-single-thread-omnichannel.webp',
         imageAlt: 'תיבת הודעות וואטסאפ ואינבוקס לקוחות מרכזי אחד ב-CRM',
         caption: 'איחוד כל שיחות הוואטסאפ של העסק לתיבת הודעות צוותית אחת מונע שיחות אבודות ומאפשר עבודה משותפת חלקה.',
         diagramTitle: 'וואטסאפ בטלפונים אישיים מול תיבת הודעות עסקית אחודה',

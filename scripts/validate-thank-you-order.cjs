@@ -235,7 +235,7 @@ async function runBrowserTests() {
 
         // Test F: Image & Alt text
         console.log('\n  [Test F: Illustration & Alt Text]');
-        const img = page.locator('img[src="/images/thank-you-order.jpg"]');
+        const img = page.locator('img[src="/images/thank-you-order.webp"]');
         if (await img.count() > 0) {
             const alt = await img.getAttribute('alt');
             if (alt && alt.includes('איש מחויך מסמן שהתשלום הושלם והכול מסודר')) {
@@ -244,7 +244,7 @@ async function runBrowserTests() {
                 fail(`Image alt text mismatch: "${alt}"`);
             }
         } else {
-            fail('Image /images/thank-you-order.jpg not found on page');
+            fail('Image /images/thank-you-order.webp not found on page');
         }
 
         // Test G: Robots Meta Tag

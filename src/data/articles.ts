@@ -166,7 +166,7 @@ export const ARTICLES: Article[] = [
         keyTakeaway: 'מומלץ לשלוח הודעות WhatsApp אך ורק לאנשים שמכירים את העסק, מצפים לשמוע ממנו ונתנו הסכמה מתאימה לקבל הודעות ב-WhatsApp. אם עולה השאלה "האם האנשים האלה באמת יצפו לקבל מאיתנו את ההודעה הזאת?" ויש ספק - עדיף לא לשלוח.',
         cardCta: 'כללי שימוש בטוח בוואטסאפ ללא חסימות',
         coverImage: {
-            src: '/images/articles/smart-routing-switch.jpg',
+            src: '/images/articles/smart-routing-switch.webp',
             alt: 'ניתוב הודעות חכם ומניעת חסימות בדיוור וואטסאפ לעסקים ב-WhatsApp Business API במערכת AltruBiz CRM'
         },
         sections: [
@@ -193,7 +193,7 @@ export const ARTICLES: Article[] = [
                     'נמען שאינו מזהה אתכם או מופתע לקבל פנייה הוא הנמען שלוחץ על "דווח כספאם" או "חסום". כמה לחיצות בודדות כאלו עלולות להוריד את דירוג האיכות (Quality Rating) של המספר העסקי שלכם מיידית.'
                 ],
                 image: {
-                    src: '/images/articles/smart-routing-switch.jpg',
+                    src: '/images/articles/smart-routing-switch.webp',
                     alt: 'ניתוב בטוח של הודעות דיוור בוואטסאפ ועמידה בהנחיות ומדיניות Meta ו-WhatsApp Business Platform',
                     caption: 'כמו מסוט רכבת שמכוון למסילה הנכונה: שמירה על תבניות מאושרות ושיעור חסימות נמוך מבטיחה עבודה רציפה מול Meta.',
                     layout: 'side'
@@ -382,7 +382,7 @@ export const ARTICLES: Article[] = [
         heroBadge: 'לא צריך ללמוד את כל המערכת - מתחילים מ-Quick Win אחד',
         cardCta: '10 פעולות מהירות לייצור ערך מיידי ב-CRM',
         coverImage: {
-            src: '/images/articles/quick-win-speed-lead.jpg',
+            src: '/images/articles/quick-win-speed-lead.webp',
             alt: 'מענה מהיר ללידים חדשים בתוך 60 שניות, פעולות Quick Win ב-CRM ואוטומציה עסקית שחוסכת זמן'
         },
         interactiveTheme: true,
@@ -409,7 +409,7 @@ export const ARTICLES: Article[] = [
                     text: 'חיבור טופס הפנייה – בין אם מתוך [אתר תדמית שנבנה עם AI](/build-website-with-ai) או מעמוד נחיתה קיים – לשליחת הודעת WhatsApp אישית קצרה: "שלום [שם פרטי], תודה על הפנייה לגבי [השירות]! אנחנו זמינים כאן להתכתבות קצרה ונוחה, או שנתאם שיחה טלפונית?".'
                 },
                 image: {
-                    src: '/images/articles/quick-win-speed-lead.jpg',
+                    src: '/images/articles/quick-win-speed-lead.webp',
                     alt: 'מענה מהיר בוואטסאפ לליד חדש בתוך 60 שניות ומניעת אובדן פניות במערכת AltruBiz CRM',
                     caption: 'ליד שנשאר לחכות שעות הופך לגוש קרח. מענה ב-60 שניות תופס אותו כשהוא עדיין לוהט!',
                     layout: 'full'
@@ -454,7 +454,7 @@ export const ARTICLES: Article[] = [
                     text: 'סינון ברשימת הלידים של כל מי שהביעו התעניינות לפני 30-45 יום ולא רכשו, ושליחת פנייה אישית קצרה: "שלום [שם], פנייה קצרה לבדיקה – האם הנושא של [השירות או המוצר] עדיין רלוונטי עבורכם בימים אלו?".'
                 },
                 image: {
-                    src: '/images/articles/reignite-cold-leads.jpg',
+                    src: '/images/articles/reignite-cold-leads.webp',
                     alt: 'החייאת לידים קרים וחימום לקוחות ישנים באוטומציה עסקית ללא הגדלת תקציב פרסום ב-CRM',
                     caption: 'הם לא מתים, הם פשוט קפואים! כוס קפה חמה (או הודעה אחת מותאמת) מחזירה אותם מייד לחיים.',
                     layout: 'side'
@@ -514,7 +514,7 @@ export const ARTICLES: Article[] = [
                     text: 'יצירת שלב פייפליין ייעודי בשם "פולואפ עוד 3 ימים" – כל לקוח שמקבל הצעת מחיר מועבר לשם, והמערכת מתזמנת משימה אוטומטית לחיוג או הודעה קצרה.'
                 },
                 image: {
-                    src: '/images/articles/visual-pipeline-deals.jpg',
+                    src: '/images/articles/visual-pipeline-deals.webp',
                     alt: 'לוח פייפליין מכירות חזותי לניהול עסקאות, כרטיסי לקוח ומעקב פולואפ שוטף ב-CRM',
                     caption: 'סדר ויזואלי מחסל את השכחה: כל עסקה מתקדמת בשלב שלה עד לסגירה המושלמת.',
                     layout: 'full'
@@ -582,7 +582,7 @@ export const ARTICLES: Article[] = [
                     text: 'הוספת שאלת בחירה אחת בטופס הלידים ("איזה תחום מעניין אותך?") והגדרת ניתוב ישיר ב-CRM ששולח התראת וואטסאפ מיידית ישירות לצוות האחראי על התחום.'
                 },
                 image: {
-                    src: '/images/articles/smart-routing-switch.jpg',
+                    src: '/images/articles/smart-routing-switch.webp',
                     alt: 'חלוקת לידים חכמה וניתוב פניות אוטומטי בין נציגי מכירות במערכת AltruBiz CRM',
                     caption: 'כמו מסוט רכבת משומן: כל פנייה מגיעה בדיוק לנציג המתאים בלי פקקים ובלי תחנות ביניים.',
                     layout: 'side'
@@ -685,7 +685,7 @@ export const ARTICLES: Article[] = [
         heroBadge: 'מדריך מהיר לקליטת לידים',
         cardCta: 'מענה מהיר לליד בתוך 5 דקות',
         coverImage: {
-            src: '/images/articles/lead-waiting-doorbell.jpg',
+            src: '/images/articles/lead-waiting-doorbell.webp',
             alt: 'לקוח מצלצל וממתין למענה: קליטת לידים חדשים ומענה מהיר ב-5 הדקות הראשונות במערכת CRM'
         },
         interactiveTheme: true,
@@ -729,7 +729,7 @@ export const ARTICLES: Article[] = [
                     text: 'יוצרים ב-AltruBiz הודעת אישור אחת שנשלחת אוטומטית לאחר השארת פרטים: קצרה, אנושית, בלי נאום מכירות ובלי ניסוחים מסורבלים. בן אדם השאיר פרטים – מדברים אליו כמו בן אדם.'
                 },
                 image: {
-                    src: '/images/articles/lead-waiting-doorbell.jpg',
+                    src: '/images/articles/lead-waiting-doorbell.webp',
                     alt: 'אישור קבלת פנייה מיידי בוואטסאפ ומניעת נטישת לידים וזליגה למתחרים כשהעסק עסוק',
                     caption: 'הוא כבר דפק בדלת. לפחות תגידו ששמעתם: מענה מיידי תוך 10 שניות משאיר את הלקוח אצלכם במקום שיעבור למתחרים.',
                     layout: 'side'
@@ -776,7 +776,7 @@ export const ARTICLES: Article[] = [
                     text: 'שואלים: מה הפעולה הבאה שהיינו רוצים שהליד יעשה? אם הוא יכול לבצע אותה בעצמו – מאפשרים לו לעשות זאת כבר בהודעה הראשונה באמצעות קישור ליומן AltruBiz.'
                 },
                 image: {
-                    src: '/images/articles/conveyor-lead-automation.jpg',
+                    src: '/images/articles/conveyor-lead-automation.webp',
                     alt: 'קביעת פגישות עצמאית ביומן דיגיטלי מסונכרן וקידום ליד מקליטה מיידית לפגישה מתואמת ב-CRM',
                     caption: 'אתם עסוקים? הלקוח יכול להתקדם בינתיים: פנייה ← אישור ← יומן ← פגישה מתואמת בנחת ובאוטונומיה מלאה.',
                     layout: 'side'
@@ -823,7 +823,7 @@ export const ARTICLES: Article[] = [
                     text: 'בכל Follow-up שבונים ב-AltruBiz, שואלים: "מה צריך לגרום לתהליך הזה לעצור?". הגדרת Stop Condition אחת נכונה שווה יותר משלוש הודעות נוספות.'
                 },
                 image: {
-                    src: '/images/articles/chatty-robot-pause.jpg',
+                    src: '/images/articles/chatty-robot-pause.webp',
                     alt: 'עצירת בוטים והודעות אוטומטיות מיד כשנציג אנושי מתחיל לשוחח עם הלקוח ב-CRM',
                     caption: 'גם לאוטומציה צריך לדעת מתי לסתום: כשאדם אמיתי נכנס לתמונה, הבוט עובר מיד למצב שקט.',
                     layout: 'side'
@@ -999,7 +999,7 @@ export const ARTICLES: Article[] = [
         heroBadge: 'מדריך שיחות שלא נענו',
         cardCta: 'הצלת לידים משיחות טלפון שלא נענו',
         coverImage: {
-            src: '/images/articles/missed-call-relay-race.jpg',
+            src: '/images/articles/missed-call-relay-race.webp',
             alt: 'טלפון מצלצל ללא מענה ולקוח פונה למתחרים: שחזור שיחות שלא נענו עם הודעת Missed Call Text Back ב-CRM'
         },
         interactiveTheme: true,
@@ -1027,7 +1027,7 @@ export const ARTICLES: Article[] = [
                     text: 'פותחים את היסטוריית השיחות מהשבוע האחרון וסופרים כמה שיחות ממספרים לא מוכרים לא נענו. עכשיו שואלים: לכמה מהן באמת חזרנו בזמן? המספר שמתקבל הוא בדרך כלל נקודת פתיחה מאירת עיניים.'
                 },
                 image: {
-                    src: '/images/articles/missed-call-relay-race.jpg',
+                    src: '/images/articles/missed-call-relay-race.webp',
                     alt: 'מה קורה כשמפספסים שיחה של לקוח בעסק ואיך מונעים עזיבה למתחרים באמצעות מענה אוטומטי',
                     caption: 'הוא לא נעלב, הוא פשוט המשיך: כשהטלפון מצלצל על ריק, הלקוח ממשיך בריצה ישרה לעסק הבא.',
                     layout: 'side'
@@ -1074,7 +1074,7 @@ export const ARTICLES: Article[] = [
                     text: 'שומרים על ניסוח שיחתי, אנושי וקצר. שואלים שאלה פתוחה אחת בלבד שמעודדת את הלקוח להשיב בקלות.'
                 },
                 image: {
-                    src: '/images/articles/missed-call-text-door.jpg',
+                    src: '/images/articles/missed-call-text-door.webp',
                     alt: 'שליחת הודעת וואטסאפ אוטומטית מיד לאחר שיחה שלא נענתה ופתיחת ערוץ שיחה ישיר עם הלקוח',
                     caption: 'פותחים מחדש את הדלת: במקום לעמוד מול שלט "סגור", הודעת מענה מיידית מחזירה את הלקוח לשיחה.',
                     layout: 'side'
@@ -1177,7 +1177,7 @@ export const ARTICLES: Article[] = [
                     text: 'מגדירים תנאי עצירה ברורים: מענה מהלקוח, קביעת פגישה ביומן או עדכון שלב ב-Pipeline מפסיקים באופן מיידי כל הודעת המשך.'
                 },
                 image: {
-                    src: '/images/articles/read-the-room-robot.jpg',
+                    src: '/images/articles/read-the-room-robot.webp',
                     alt: 'מניעת הודעות אוטומטיות מביכות בזמן שיחה חיה: תנאי עצירה חכמים לתקשורת אוטומטית ב-CRM',
                     caption: 'קרא את החדר, רובוט: כשהשיחה האמיתית מתקיימת, האוטומציה חייבת לדעת לפנות את הבמה מיד.',
                     layout: 'side'
@@ -1311,7 +1311,7 @@ export const ARTICLES: Article[] = [
         heroBadge: 'מדריך מעבר מ-Excel ל-Pipeline',
         cardCta: 'מעבר מניהול לידים באקסל לפייפליין חזותי',
         coverImage: {
-            src: '/images/articles/excel-shrugging-manager.jpg',
+            src: '/images/articles/excel-shrugging-manager.webp',
             alt: 'מעבר מניהול לידים בטבלאות אקסל לפייפליין מכירות חזותי וניהול עסקאות חכם ב-CRM'
         },
         interactiveTheme: true,
@@ -1339,7 +1339,7 @@ export const ARTICLES: Article[] = [
                     text: 'שואלים שאלה פשוטה: "האם ניתן לפתוח את הקובץ עכשיו ובתוך 10 שניות לדעת מי צריך מאיתנו פעולה היום?". אם כן – מצוין. אם לא – סימן שהגיע הזמן להתקדם.'
                 },
                 image: {
-                    src: '/images/articles/excel-shrugging-manager.jpg',
+                    src: '/images/articles/excel-shrugging-manager.webp',
                     alt: 'למה טבלאות אקסל שומרות נתונים יבשים אך אינן מסוגלות לנהל תהליך מכירה פעיל ומעקב לקוחות',
                     caption: 'הוא שומר מידע, אל תצפו ממנו לנהל אתכם: אקסל שומר שורות, אבל לא יודע להגיד מה הפעולה הבאה שצריך לבצע.',
                     layout: 'side'
@@ -1402,7 +1402,7 @@ export const ARTICLES: Article[] = [
                     text: 'מגבילים את ה-Pipeline הראשוני ל-5 שלבים עיקריים לכל היותר. תמיד ניתן לפצל ולהוסיף שלבים בהמשך, אך פשטות היא הסוד להצלחה בהטמעה.'
                 },
                 image: {
-                    src: '/images/articles/nasa-control-room-pipeline.jpg',
+                    src: '/images/articles/nasa-control-room-pipeline.webp',
                     alt: 'בניית שלבי פייפליין מכירות פשוטים ויעילים ב-CRM במקום סיבוך תהליכים ועומס מערכות',
                     caption: 'חמש עמודות מספיקות: אל תהפכו את ניהול המכירות לשיגור חללית. פשטות מנצחת תמיד.',
                     layout: 'side'
@@ -1473,7 +1473,7 @@ export const ARTICLES: Article[] = [
                     text: 'מתחילים לעבוד ב-CRM עם המידע הקיים. שיפורים, דיוק שדות וניקיונות נעשים תוך כדי תנועה על לקוחות פעילים.'
                 },
                 image: {
-                    src: '/images/articles/toothbrush-cleaning-excel.jpg',
+                    src: '/images/articles/toothbrush-cleaning-excel.webp',
                     alt: 'ייבוא לידים פעילים למערכת CRM ומעבר מהיר לעבודה במקום ניקוי אינסופי של טבלאות אקסל ישנות',
                     caption: 'לא חייבים לנקות את המחסן לפני שעוברים לבית: מתחילים מהלידים החיים והפעילים במקום לקרצף שורות מ-2017.',
                     layout: 'side'
@@ -1624,7 +1624,7 @@ export const ARTICLES: Article[] = [
         heroBadge: 'מדריך מעשי לזיכרון ארגוני ומניעת תלות',
         cardCta: 'שימור הזיכרון הארגוני והיסטוריית הלקוח',
         coverImage: {
-            src: '/images/articles/thailand-vacation-business-memory.jpg',
+            src: '/images/articles/thailand-vacation-business-memory.webp',
             alt: 'עובדת יוצאת לחופשה והמידע נשאר בעסק: שימור הזיכרון הארגוני, תיעוד שיחות וכרטיס לקוח מרכזי ב-AltruBiz CRM'
         },
         interactiveTheme: true,
@@ -1944,7 +1944,7 @@ export const ARTICLES: Article[] = [
         heroBadge: 'מדריך מעשי להחייאת לידים ישנים',
         cardCta: 'הערת לידים רדומים לעסקאות חדשות',
         coverImage: {
-            src: '/images/articles/reignite-cold-leads.jpg',
+            src: '/images/articles/reignite-cold-leads.webp',
             alt: 'החייאת לידים קרים מתוך רשימות קודמות ואקסלים ישנים באמצעות פניות מותאמות אישית ב-CRM'
         },
         interactiveTheme: true,
@@ -1984,7 +1984,7 @@ export const ARTICLES: Article[] = [
                     'לכן ליד שלא נסגר הוא לא בהכרח ליד אבוד. לעיתים קרובות הוא פשוט שיחה שנעצרה באמצע.'
                 ],
                 image: {
-                    src: '/images/articles/reignite-cold-leads.jpg',
+                    src: '/images/articles/reignite-cold-leads.webp',
                     alt: 'חידוש קשר עם מתעניינים ישנים והפשרת לידים רדומים לקראת סגירת עסקאות ב-CRM',
                     caption: 'ליד שלא נסגר הוא לא בהכרח ליד אבוד – לעיתים קרובות מדובר פשוט בשיחה שנעצרה באמצע.',
                     layout: 'side'
@@ -2054,7 +2054,7 @@ export const ARTICLES: Article[] = [
                     'זה הכול. בלי טריקים, בלי לחץ, בלי "רק היום במבצע מיוחד!". המטרה בהודעה הראשונה אינה לסגור עסקה, אלא רק לבדוק האם יש בכלל שיחה שמעניין להמשיך.'
                 ],
                 image: {
-                    src: '/images/articles/excel-archaeologist-dust.jpg',
+                    src: '/images/articles/excel-archaeologist-dust.webp',
                     alt: 'איתור הזדמנויות מכירה בדאטה הקיימת של העסק והפקת עסקאות מלידים ישנים לפני הגדלת תקציב פרסום',
                     caption: 'לפני שמגדילים תקציבי שיווק: חפירה קצרה בדאטה הקיימת מגלה עסקאות שכבר מוכנות להבשיל.',
                     layout: 'side'
@@ -2210,7 +2210,7 @@ export const ARTICLES: Article[] = [
         heroBadge: 'מדריך מעשי לניהול פולואפ ומשימות',
         cardCta: 'מנגנון פולואפ שיטתי שלא מפספס אף לקוח',
         coverImage: {
-            src: '/images/articles/brain-sticky-notes-overload.jpg',
+            src: '/images/articles/brain-sticky-notes-overload.webp',
             alt: 'הורדת עומס קוגניטיבי מבעלי עסקים: ניהול פולואפ ומשימות מכירה מסודרות בכרטיס לקוח ב-CRM'
         },
         interactiveTheme: true,
@@ -2234,7 +2234,7 @@ export const ARTICLES: Article[] = [
                     'אם במהלך יום העבודה אתם אומרים לעצמכם שוב ושוב "אני חייב לזכור לחזור ל...", מצאתם את הנקודה המדויקת שלא צריכה להיות בראש שלכם.'
                 ],
                 image: {
-                    src: '/images/articles/brain-sticky-notes-overload.jpg',
+                    src: '/images/articles/brain-sticky-notes-overload.webp',
                     alt: 'שחרור עומס מהראש בעזרת תזכורות מובנות ומשימות פולואפ אוטומטיות ב-AltruBiz CRM',
                     caption: 'במקום להעמיס על המוח עשרות תזכורות יומיומיות: מעבירים את המשימות למערכת ומפנים מקום למחשבה וליצירה.',
                     layout: 'side'
@@ -2315,7 +2315,7 @@ export const ARTICLES: Article[] = [
                     'המטרה היא תמיד לפשט את יום העבודה – לא לבנות מפעל תעשייתי מסובך ללא צורך.'
                 ],
                 image: {
-                    src: '/images/articles/conveyor-lead-automation.jpg',
+                    src: '/images/articles/conveyor-lead-automation.webp',
                     alt: 'בחירה בין תזכורת ידנית מהירה לאוטומציית משימות מותאמת אישית לניהול תהליכי שירות ומכירה',
                     caption: 'לא כל פעולה דורשת אוטומציה מורכבת – לפעמים תזכורת אחת מדויקת בזמן הנכון עושה את כל ההבדל.',
                     layout: 'side'
@@ -2467,7 +2467,7 @@ export const ARTICLES: Article[] = [
         heroBadge: 'מדריך מעשי לתיאום פגישות חכם',
         cardCta: 'תיאום פגישות אוטומטי ללא פינג-פונג הודעות',
         coverImage: {
-            src: '/images/articles/calendar-tennis-match.jpg',
+            src: '/images/articles/calendar-tennis-match.webp',
             alt: 'סיום פינג-פונג תיאומים: תיאום פגישות אוטומטי בוואטסאפ וסנכרון יומנים בזמן אמת ב-CRM'
         },
         interactiveTheme: true,
@@ -2491,7 +2491,7 @@ export const ARTICLES: Article[] = [
                     'הבעיה בדברים קטנים היא שהם נראים זניחים בכל פעם שהם קורים. רק כשמכפילים אותם בשנה שלמה מגלים כמה זמן ומשאבים הם גוזלים.'
                 ],
                 image: {
-                    src: '/images/articles/calendar-tennis-match.jpg',
+                    src: '/images/articles/calendar-tennis-match.webp',
                     alt: 'חיסכון בשעות תיאום שבועיות באמצעות שליחת קישור לתיאום פגישה ישיר ביומן הדיגיטלי',
                     caption: 'במקום משחק טניס אינסופי של "מתי נוח לך?": שולחים קישור פשוט ליומן שחוסך 50 שעות בשנה.',
                     layout: 'side'
@@ -2550,7 +2550,7 @@ export const ARTICLES: Article[] = [
                     'כל שאר השאלות והבירורים יכולים להמתין לשיחה עצמה.'
                 ],
                 image: {
-                    src: '/images/articles/bureaucracy-forms-clerk.jpg',
+                    src: '/images/articles/bureaucracy-forms-clerk.webp',
                     alt: 'שאלון סינון קצר וממוקד בתיאום פגישות להכנת הפגישה ללא סרבול בירוקרטי ומריחת זמן',
                     caption: 'טופס קביעת פגישה לא צריך להיראות כמו חקירה: שואלים רק את מה שהכרחי כדי לקיים שיחה מצוינת.',
                     layout: 'side'
@@ -2723,7 +2723,7 @@ export const ARTICLES: Article[] = [
         heroBadge: 'מדריך מעשי לניהול דאטה נקייה',
         cardCta: 'מניעת אנשי קשר כפולים ושמירה על כרטיס לקוח אחיד',
         coverImage: {
-            src: '/images/articles/yossi-cohen-duplicates.jpg',
+            src: '/images/articles/yossi-cohen-duplicates.webp',
             alt: 'מניעת כפילויות אנשי קשר, איחוד כרטיסי לקוח וניהול דאטה נקייה ומדויקת ב-AltruBiz CRM'
         },
         interactiveTheme: true,
@@ -2747,7 +2747,7 @@ export const ARTICLES: Article[] = [
                     'עכשיו מתחיל הבלגן: רונית עלולה לקבל שוב הודעת Welcome, איש מכירות אחר יתקשר אליה בלי להכיר את ההצעה שכבר נשלחה, ה-Pipeline יציג שתי עסקאות מנופחות, וההיסטוריה מתפצלת. פתאום השאלה הפשוטה "מה קורה עם רונית?" דורשת מחקר מעמיק.'
                 ],
                 image: {
-                    src: '/images/articles/yossi-cohen-duplicates.jpg',
+                    src: '/images/articles/yossi-cohen-duplicates.webp',
                     alt: 'מניעת כרטיסי לקוח כפולים, סדר בהיסטוריית השיחות ומניעת פניות סותרות מנציגים שונים',
                     caption: 'להיות מסודרים 3 פעמים לגבי אותו אדם: כפילויות ב-CRM מייצרות עבודה כפולה ומבלבלות את הצוות.',
                     layout: 'side'
@@ -2794,7 +2794,7 @@ export const ARTICLES: Article[] = [
                     'המטרה המרכזית היא לפתוח כרטיס אחד ולהבין מיד מה קרה עם הלקוח – לא לפתוח כרטיס, לחשוד שיש לו "תאום", לחפש אותו ולנסות לגלות מי מהם הוא יוסי האמיתי.'
                 ],
                 image: {
-                    src: '/images/articles/detective-crm-duplicates.jpg',
+                    src: '/images/articles/detective-crm-duplicates.webp',
                     alt: 'איחוד היסטוריית לקוח מפוצלת מטלפונים, מיילים וטפסים שונים לכרטיס לקוח אחד מאוחד',
                     caption: 'המטרה של CRM היא לפתוח כרטיס אחד ולהבין מה קרה, ולא לנהל חקירת משטרה סביב כרטיסים כפולים.',
                     layout: 'side'
@@ -2999,7 +2999,7 @@ export const ARTICLES: Article[] = [
         heroBadge: 'מדריך מעשי להטמעה ואימוץ מערכות',
         cardCta: 'הטמעת CRM שהצוות מעדכן בעקביות',
         coverImage: {
-            src: '/images/articles/crm-supermarket-shopper.jpg',
+            src: '/images/articles/crm-supermarket-shopper.webp',
             alt: 'הטמעת CRM פשוטה ואימוץ מערכות מוצלח בעסק: בחירת תוכנה ממוקדת צרכים במקום עודף פיצ\'רים מסרבלים'
         },
         interactiveTheme: true,
@@ -3023,7 +3023,7 @@ export const ARTICLES: Article[] = [
                     'וזאת הבחנה קריטית: משתמש שניהל 150 לידים ב-Google Sheets סיפר שהכול עבד סביר, עד שפספס שני Follow-ups בחודש אחד, כולל ליד חם שהתקרר. כשהתחיל לחפש CRM, הוא לא שאל על AI עתידני. הוא שאל שלוש שאלות פשוטות: מה אני באמת צריך? כמה זה באמת יעלה? וכמה זמן ייקח עד שהעבודה תרגיש טבעית? אלה שאלות של מי שרוצה לעבוד – לא של מי שאוסף פיצ\'רים.'
                 ],
                 image: {
-                    src: '/images/articles/crm-supermarket-shopper.jpg',
+                    src: '/images/articles/crm-supermarket-shopper.webp',
                     alt: 'בחירת מערכת CRM המותאמת לצרכי הצוות בעסק למניעת נטישה וחזרה לטבלאות אקסל',
                     caption: 'במקום לאסוף עשרות פיצ\'רים יקרים: מתמקדים במה שהעסק שלכם באמת צריך כדי לפעול בשקט ובסדר.',
                     layout: 'side'
@@ -3151,7 +3151,7 @@ export const ARTICLES: Article[] = [
                     'AI אינו תחליף לתהליך עבודה מוגדר; הוא מגביר תהליך קיים. כשהתהליך מסודר, AI עושה פלאים; כשהתהליך מבולגן, AI פשוט מייצר כאוס מהר יותר.'
                 ],
                 image: {
-                    src: '/images/articles/ai-robot-driving-car.jpg',
+                    src: '/images/articles/ai-robot-driving-car.webp',
                     alt: 'הטמעת כלי AI ואוטומציה על גבי תהליך מכירה קיים ויציב כדי להשיג תוצאות עסקיות מדידות',
                     caption: 'לפני שמפעילים סוכני AI ואוטומציות: מגדירים במדויק את התהליך האנושי ואת חוקי העבודה של העסק.',
                     layout: 'side'
@@ -3288,7 +3288,7 @@ export const ARTICLES: Article[] = [
         heroBadge: 'ניהול מוניטין וביקורות',
         cardCta: 'איסוף ביקורות חיוביות בגוגל מלקוחות מרוצים',
         coverImage: {
-            src: '/images/articles/reviews-framed-whatsapp-wall.jpg',
+            src: '/images/articles/reviews-framed-whatsapp-wall.webp',
             alt: 'איסוף ביקורות בגוגל וניהול מוניטין חיובי מלקוחות מרוצים באמצעות אוטומציה ב-CRM'
         },
         interactiveTheme: true,
@@ -3321,7 +3321,7 @@ export const ARTICLES: Article[] = [
                     caption: 'המוניטין שלכם חי וקיים, אך הוא נעול בתוך הטלפון הפרטי במקום להיות מוצג ללקוח הבא שמחפש אתכם ברשת.'
                 },
                 image: {
-                    src: '/images/articles/reviews-framed-whatsapp-wall.jpg',
+                    src: '/images/articles/reviews-framed-whatsapp-wall.webp',
                     alt: 'הפיכת מחמאות בוואטסאפ לביקורות 5 כוכבים פומביות ב-Google Business Profile באופן אוטומטי',
                     caption: 'יש לכם ביקורות מעולות. הן פשוט צריכות לעבור מהוואטסאפ הפרטי לגוגל.'
                 }
@@ -3378,7 +3378,7 @@ export const ARTICLES: Article[] = [
                     caption: 'אוטומציה עיוורת שלא בודקת את מצב הלקוח מייצרת נזק במקום מוניטין.'
                 },
                 image: {
-                    src: '/images/articles/technician-flooded-office-bad-timing.jpg',
+                    src: '/images/articles/technician-flooded-office-bad-timing.webp',
                     alt: 'תזמון נכון לבקשת ביקורת: שליחת בקשת דירוג ברגע שהלקוח מרוצה ולא באמצע תקלה או לחץ',
                     caption: 'הרגע שבו מבקשים חשוב לא פחות ממה שמבקשים.'
                 },
@@ -3443,7 +3443,7 @@ export const ARTICLES: Article[] = [
                     caption: 'מענה שקול ומכבד הופך ביקורת שלילית להוכחה של בגרות ושירותיות.'
                 },
                 image: {
-                    src: '/images/articles/boxing-ring-negative-review-coffee.jpg',
+                    src: '/images/articles/boxing-ring-negative-review-coffee.webp',
                     alt: 'טיפול מקצועי בביקורות שליליות בגוגל, פתרון בעיות שירות והפיכת לקוח מאוכזב לשגריר',
                     caption: 'לא כל ביקורת היא הזמנה לקרב. תגובה מכבדת מרשימה את הלקוחות הבאים.'
                 },
@@ -3499,7 +3499,7 @@ export const ARTICLES: Article[] = [
                     caption: 'לפעמים מחקר השוק החשוב ביותר כבר נעשה. פשוט צריך לעצור ולקרוא אותו.'
                 },
                 image: {
-                    src: '/images/articles/boardroom-meeting-differentiator-reviews.jpg',
+                    src: '/images/articles/boardroom-meeting-differentiator-reviews.webp',
                     alt: 'שימוש בהמלצות וביקורות לקוחות אותנטיות כבידול תחרותי חזק שסוגר עסקאות חדשות',
                     caption: 'הבידול שלכם כבר נמצא במילים שהלקוחות כותבים בביקורות.'
                 },
@@ -3612,7 +3612,7 @@ export const ARTICLES: Article[] = [
         heroBadge: 'מדריך מניעת No-Show וניהול פגישות',
         cardCta: 'עצירת ביטולי פגישות והיעדרויות No-Show',
         coverImage: {
-            src: '/images/articles/zoom-alone-empty-chair-no-show.jpg',
+            src: '/images/articles/zoom-alone-empty-chair-no-show.webp',
             alt: 'מניעת No-Show בפגישות זום וביומן: תזכורות אוטומטיות בוואטסאפ והעלאת אחוזי ההגעה לפגישות'
         },
         interactiveTheme: true,
@@ -3646,7 +3646,7 @@ export const ARTICLES: Article[] = [
                     caption: 'Booked ≠ Showed: היעדרות אינה תמיד זלזול, אלא תוצאה של שגרת יום עמוסה.'
                 },
                 image: {
-                    src: '/images/articles/zoom-alone-empty-chair-no-show.jpg',
+                    src: '/images/articles/zoom-alone-empty-chair-no-show.webp',
                     alt: 'התמודדות עם ביטולי פגישות ברגע האחרון ואי הגעת לקוחות באמצעות תהליך הכנה ואישור ב-CRM',
                     caption: 'פגישה שנקבעה היא רק תחילת הדרך – המטרה היא לגרום ללקוח להגיע.'
                 }
@@ -3708,7 +3708,7 @@ export const ARTICLES: Article[] = [
                     caption: 'תזכורת מדויקת אינה לחץ, אלא שירות שקופץ בדיוק כשהלקוח עמוס.'
                 },
                 image: {
-                    src: '/images/articles/reminder-overwhelmed-client-bubbles.jpg',
+                    src: '/images/articles/reminder-overwhelmed-client-bubbles.webp',
                     alt: 'תזכורת חכמה בוואטסאפ לפני פגישה עסקית לשמירה על סדר יום ומניעת שכחה מצד הלקוח',
                     caption: 'לפעמים כל האוטומציה היא פשוט "אה, נכון": תזכורת מתוזמנת מחזירה את הפגישה לראש סדר העדיפויות.'
                 },
@@ -3774,7 +3774,7 @@ export const ARTICLES: Article[] = [
                     caption: 'הודעת התאוששות שקטה ומכבדת הופכת No-Show להזדמנות שנייה.'
                 },
                 image: {
-                    src: '/images/articles/door-no-show-recovery-welcome.jpg',
+                    src: '/images/articles/door-no-show-recovery-welcome.webp',
                     alt: 'הודעת התאוששות אוטומטית לאחר No-Show לתיאום מועד חדש ושמירה על קשר חיובי עם הלקוח',
                     caption: 'דלת פתוחה מנצחת כעס: אל תסגרו את הדלת בפני לקוח שלא הגיע – תנו לו דרך קלה לחזור.'
                 },
@@ -3835,7 +3835,7 @@ export const ARTICLES: Article[] = [
                     caption: 'אוטומציה טובה נמדדת באופן שבו היא מטפלת בשינויים ובביטולים, לא רק בתרחיש האידיאלי.'
                 },
                 image: {
-                    src: '/images/articles/confused-client-contradictory-messages.jpg',
+                    src: '/images/articles/confused-client-contradictory-messages.webp',
                     alt: 'מניעת הודעות תזכורת סותרות ביומן ועדכון סטטוס פגישה מסונכרן בזמן אמת במערכת CRM',
                     caption: 'ה-Workflow עובד, בערך: בדיקת כל תרחישי הקצה מבטיחה שהלקוח יקבל רק הודעות רלוונטיות.'
                 },
@@ -3969,7 +3969,7 @@ export const ARTICLES: Article[] = [
         keyTakeaway: 'אנשים אינם "לא טכנולוגיים" – הם פשוט לא רוצים להרגיש מבולבלים במשך שבועות לפני שהם רואים תוצאה ראשונה. הטמעה נכונה מתחילה בפתרון כאב אחד קונקרטי שמעניק ערך מיידי בלי לדרוש לימוד מורכב; כשיש שקט נפשי וערך, הסקרנות והיוזמה העצמאית מגיעות מעצמן.',
         cardCta: 'חיבור אוטומציות ו-AI לעסק ללא ידע טכני',
         coverImage: {
-            src: '/images/articles/split-screen-tech-fear-to-ai.jpg',
+            src: '/images/articles/split-screen-tech-fear-to-ai.webp',
             alt: 'המעבר מבעל עסק שחושש מטכנולוגיה ומערכות מורכבות לבעל מקצוע שנהנה לבנות תהליכי אוטומציה ו-AI במערכת AltruBiz CRM'
         },
         cta: {
@@ -4037,7 +4037,7 @@ export const ARTICLES: Article[] = [
                     caption: 'השינוי מתחיל ברגע שהטכנולוגיה מפסיקה לאיים והופכת לשותפה שמייצרת שקט בעסק.'
                 },
                 image: {
-                    src: '/images/articles/split-screen-tech-fear-to-ai.jpg',
+                    src: '/images/articles/split-screen-tech-fear-to-ai.webp',
                     alt: 'השוואה בין תחושת הצפה וחשש מטכנולוגיה מורכבת לבין שליטה מלאה בבניית תהליכי אוטומציה ו-AI ב-AltruBiz CRM',
                     caption: 'מפחד מכפתורים והגדרות – לשליטה מלאה: ברגע שמקבלים ערך מיידי, הסקרנות הטבעית פורצת החוצה.',
                     layout: 'full'
@@ -4131,7 +4131,7 @@ export const ARTICLES: Article[] = [
                     caption: 'אתם לא צריכים להפוך לאנשי טכנולוגיה. אתם צריכים עוד כמה כלים בארגז.'
                 },
                 image: {
-                    src: '/images/articles/business-owner-digital-toolbox.jpg',
+                    src: '/images/articles/business-owner-digital-toolbox.webp',
                     alt: 'ארגז כלים דיגיטלי מודרני המשלב מערכת AltruBiz CRM, אוטומציות עסקיות ובינה מלאכותית המעצימים את בעל המקצוע בעסק',
                     caption: 'לא צריך תואר במדעי המחשב: רק להוסיף לארגז הכלים כלי CRM ו-AI שעושים את העבודה השחורה במקומכם.',
                     layout: 'full'
@@ -4240,7 +4240,7 @@ export const ARTICLES: Article[] = [
         keyTakeaway: 'הרושם הראשון אחרי המכירה חשוב לא פחות מהרושם שלפניה. תהליך Onboarding איכותי אינו טופס בודד, אלא ניהול חכם של מה שכבר התקבל מול מה שעדיין חסר להתחלת העבודה – תוך שימוש באוטומציה שמפנה זמן למגע אישי.',
         cardCta: 'בניית מסע קליטת לקוח (Onboarding) מסודר ושקט',
         coverImage: {
-            src: '/images/articles/onboarding-wedding-clipboard.jpg',
+            src: '/images/articles/onboarding-wedding-clipboard.webp',
             alt: 'תהליך קליטת לקוח חדש וניהול Onboarding מסודר ב-CRM במקום הצפת טפסים ובירוקרטיה'
         },
         sections: [
@@ -4316,7 +4316,7 @@ export const ARTICLES: Article[] = [
                     caption: 'אוטומציה מתחילה לפעמים פשוט מלהפסיק לשאול פעמיים את אותו הדבר.'
                 },
                 image: {
-                    src: '/images/articles/onboarding-wedding-clipboard.jpg',
+                    src: '/images/articles/onboarding-wedding-clipboard.webp',
                     alt: 'איסוף מסמכים וטפסים מרוכז ב-CRM במקום טרטור הלקוח בבקשות חוזרות',
                     caption: 'טופס Onboarding חכם שואב אוטומטית את הפרטים שכבר קיימים ב-CRM ושואל רק את מה שבאמת חסר.',
                     layout: 'side'
@@ -4374,7 +4374,7 @@ export const ARTICLES: Article[] = [
                     'זו נקודה קריטית: Automation טובה מגיבה למצב, לא רק לשעון.'
                 ],
                 image: {
-                    src: '/images/articles/bureaucracy-forms-clerk.jpg',
+                    src: '/images/articles/bureaucracy-forms-clerk.webp',
                     alt: 'תזכורות אוטומטיות מבוססות מצב ב-CRM שמונעות בלבול ופניות שגויות ללקוח',
                     caption: 'מערכת חכמה יודעת מה הלקוח כבר ביצע, ועוצרת תזכורות אוטומטית מיד עם קבלת המידע.',
                     layout: 'side'
@@ -4521,7 +4521,7 @@ export const ARTICLES: Article[] = [
         keyTakeaway: 'אנשי מכירות לא מעדכנים CRM כשהוא נבנה ככלי ביקורת ומעקב עבור ההנהלה. הפתרון הוא לעבור את "מבחן 30 השניות": לתת למערכת להזין אוטומטית את מה שהיא כבר יודעת, לצמצם שדות מיותרים, ולהפוך את העדכון של אתמול לרשימת המשימות הרווחית של היום.',
         cardCta: 'בניית CRM שמקצר תהליכים לאנשי המכירות',
         coverImage: {
-            src: '/images/articles/salesperson-marathon-crm.jpg',
+            src: '/images/articles/salesperson-marathon-crm.webp',
             alt: 'איש מכירות שמסיים שיחה ונדרש למלא טפסי CRM ארוכים במקום לקבל כלי שעוזר לו למכור'
         },
         sections: [
@@ -4614,7 +4614,7 @@ export const ARTICLES: Article[] = [
                     caption: 'אל תשתמשו באדם בתור אינטגרציה. תנו למערכת להזין אוטומטית את מה שהיא כבר יודעת.'
                 },
                 image: {
-                    src: '/images/articles/robot-drinking-coffee-salesperson.jpg',
+                    src: '/images/articles/robot-drinking-coffee-salesperson.webp',
                     alt: 'אוטומציית נתונים ב-CRM במקום הזנה ידנית כפולה ומייגעת על ידי איש המכירות',
                     caption: 'המערכת צריכה לעבוד בשביל איש המכירות ולא להפך: כל נתון שהמערכת כבר יודעת צריך להסתנכרן אוטומטית.',
                     layout: 'side'
@@ -4770,7 +4770,7 @@ export const ARTICLES: Article[] = [
         keyTakeaway: 'הלקוח אינו מבדיל בין ערוצי התקשורת ורואה בכל פנייה שיחה אחת רציפה. ריכוז WhatsApp, אינסטגרם, מייל וטלפון ב-Unified Inbox של CRM מונע אובדן הקשר, מונע מענה כפול ומאפשר לצוות להגיב במהירות עם התמונה המלאה.',
         cardCta: 'ריכוז כל ערוצי התקשורת באינבוקס אחוד',
         coverImage: {
-            src: '/images/articles/customer-single-thread-omnichannel.jpg',
+            src: '/images/articles/customer-single-thread-omnichannel.webp',
             alt: 'לקוח המנהל שיחה אחת מול עסק שמתפצל לחמישה ערוצי תקשורת נפרדים ללא סנכרון'
         },
         sections: [
@@ -4791,7 +4791,7 @@ export const ARTICLES: Article[] = [
                     caption: 'מבחינת הלקוח זו שיחה אחת רציפה – פיצול הערוצים בעסק יוצר חוסר סנכרון ואיבוד מידע.'
                 },
                 image: {
-                    src: '/images/articles/customer-single-thread-omnichannel.jpg',
+                    src: '/images/articles/customer-single-thread-omnichannel.webp',
                     alt: 'לקוח המנהל שיחה אחת מול עסק שמתפצל לחמישה ערוצי תקשורת נפרדים ללא סנכרון',
                     caption: 'מבחינת הלקוח זו שיחה אחת – הפיצול לערוצים נפרדים יוצר נתק וחוסר סנכרון בעסק.',
                     layout: 'full'
@@ -4856,7 +4856,7 @@ export const ARTICLES: Article[] = [
                     caption: 'לא כל שיחת לקוח צריכה להפוך לחקירה משטרתית מסורבלת. תיעוד אחוד ב-CRM מציג את התמונה תוך שניות.'
                 },
                 image: {
-                    src: '/images/articles/crm-csi-detective-investigation.jpg',
+                    src: '/images/articles/crm-csi-detective-investigation.webp',
                     alt: 'צוות מוקד מכירות המחפש היסטוריית שיחות והודעות של לקוח בערוצים שונים ללא CRM אחוד',
                     caption: 'כשאין תיעוד מרכזי, כל שיחת בירור הופכת לתחקיר CSI שגוזל זמן ומביך מול הלקוח.',
                     layout: 'full'
@@ -4955,7 +4955,7 @@ export const ARTICLES: Article[] = [
                     caption: 'במקום לטבוע בערימות של הודעות מפוזרות – AI מרכז תמצית חדה של תמונת הלקוח.'
                 },
                 image: {
-                    src: '/images/articles/ai-summary-message-mountain.jpg',
+                    src: '/images/articles/ai-summary-message-mountain.webp',
                     alt: 'סיכום אינטראקציות והיסטוריית לקוח מרובת ערוצים באמצעות בינה מלאכותית ב-CRM',
                     caption: 'במקום לנבור בעשרות הודעות מפוזרות – סיכום תמונת הלקוח מרוכז במקום אחד.',
                     layout: 'full'
@@ -5051,7 +5051,7 @@ export const ARTICLES: Article[] = [
         heroBadge: 'ניהול פולואפ ומניעת אובדן עסקאות',
         cardCta: 'איך לבנות פולואפ חכם שלא משאיר הצעות מחיר למזל',
         coverImage: {
-            src: '/images/articles/quote-follow-up.jpg',
+            src: '/images/articles/quote-follow-up.webp',
             alt: 'בעל עסק במוזיאון הצעות מחיר ישנות שנתקעו ללא פולואפ ותהליך מעקב ב-CRM'
         },
         conversionConfig: {
@@ -5114,7 +5114,7 @@ export const ARTICLES: Article[] = [
                     'ואם הלקוח אומר: *"אני אחזור אליך כשאסיים לעבור עליה"*? אפשר לענות בחיוך: *"מצוין. אם לא נספיק לדבר עד יום שני, זה בסדר שאבדוק איתך איפה הדברים עומדים?"*. כמעט אף אדם סביר לא ייעלב מהשאלה הזו. קיבלתם רשות (Permission) – לא רשות להציף בהודעות, אלא רשות להמשיך להוביל את התהליך העסקי באחריות.'
                 ],
                 image: {
-                    src: '/images/articles/quote-ball-in-court.jpg',
+                    src: '/images/articles/quote-ball-in-court.webp',
                     alt: 'איש מכירות שמעביר את כדור המכירה ללקוח לאחר שליחת הצעת מחיר ללא קביעת מועד לפעולת המשך',
                     caption: '💡 העברת הכדור ללא מועד מוסכם: ברגע שההצעה נשלחת באמירה "תעדכן אותי", השליטה על תהליך המכירה אובדת והעסקה נתקעת בשקט.',
                     layout: 'full'
@@ -5204,7 +5204,7 @@ export const ARTICLES: Article[] = [
                     'פייפליין שמציג 300,000 ש"ח בהצעות פתוחות נשמע מבטיח על הנייר. אבל אם מחצית מההצעות הללו לא קיבלו מענה כבר שלושה חודשים, אין לכם פייפליין של 300,000 ש"ח. יש לכם מוזיאון הצעות מחיר.'
                 ],
                 image: {
-                    src: '/images/articles/quote-pipeline-museum.jpg',
+                    src: '/images/articles/quote-pipeline-museum.webp',
                     alt: 'פייפליין מכירות שמסתיים בהצעות מחיר תקועות ללא תאריך מעקב וללא פעולה הבאה',
                     caption: '💡 פייפליין או מוזיאון הצעות? צבירת עסקאות ישנות ללא פעולת המשך יוצרת אשליה של הכנסות צפויות ומסתירה את תמונת המצב האמיתית.',
                     layout: 'full'
@@ -5334,7 +5334,7 @@ export const ARTICLES: Article[] = [
         heroBadge: 'שימור הקשר ורצף שיחה בין ערוצים',
         cardCta: 'איך לשמור על רצף שיחה בלי להתחיל מאפס בכל פעם',
         coverImage: {
-            src: '/images/articles/customer-handoff-context.jpg',
+            src: '/images/articles/customer-handoff-context.webp',
             alt: 'שמירה על רצף שיחה והעברת הקשר הלקוח בין ערוצי תקשורת ואנשי צוות שונים ב-CRM'
         },
         conversionConfig: {
@@ -5430,7 +5430,7 @@ export const ARTICLES: Article[] = [
                     'אבל אם יחד עם הפעולה לא עבר הסיפור שמאחוריה, מי שממשיך את הטיפול מתחיל כמעט מאפס.'
                 ],
                 image: {
-                    src: '/images/articles/customer-handoff-timeline.jpg',
+                    src: '/images/articles/customer-handoff-timeline.webp',
                     alt: 'רצף מסע לקוח המחבר אינסטגרם, וואטסאפ, מייל ושיחה לתיק לקוח מרכזי אחד ב-CRM',
                     caption: 'מסע לקוח רציף: כל ערוצי התקשורת מתנקזים לתיק לקוח אחד ששומר על ההקשר במעבר בין שלבים ואנשי צוות.',
                     layout: 'full'
@@ -5657,7 +5657,7 @@ export const ARTICLES: Article[] = [
         heroBadge: 'סינון ותעדוף לידים',
         cardCta: 'למדריך המלא לתעדוף לידים',
         coverImage: {
-            src: '/images/articles/lead-qualification.jpg',
+            src: '/images/articles/lead-qualification.webp',
             alt: 'שולחן עבודה עמוס בפניות של לקוחות הממתינות למיון וסדר כדי לדעת למי לחזור קודם'
         },
         interactiveTheme: true,
@@ -5733,7 +5733,7 @@ export const ARTICLES: Article[] = [
                     'יותר לידים לא בהכרח אומר יותר הזדמנויות. לפעמים זה פשוט אומר יותר דברים שדורשים תשומת לב וגוזלים משאבים.'
                 ],
                 image: {
-                    src: '/images/articles/lead-qualification-queue.jpg',
+                    src: '/images/articles/lead-qualification-queue.webp',
                     alt: 'מיון וסינון פניות נכנסות לפי דחיפות והתאמה עסקית ב-CRM במקום תור אחיד',
                     caption: 'הפרדת התור האחיד: מיון מוקדם מחלק את הפניות למסלול מיידי, מסלול טיפוח ומענה מנומס – ומציל את הלידים הבשלים מלהמתין שעות.',
                     layout: 'full'
@@ -5903,7 +5903,7 @@ export const ARTICLES: Article[] = [
                     'זה לא מודל מדעי מסובך – וזו בדיוק הסיבה שהוא שימושי. אפשר להתחיל ליישם אותו מחר בבוקר.'
                 ],
                 image: {
-                    src: '/images/articles/lead-qualification-matrix.jpg',
+                    src: '/images/articles/lead-qualification-matrix.webp',
                     alt: 'מטריצת התאמה מול כוונה לסינון ותעדוף לידים בעסק ב-CRM',
                     caption: 'מטריצת Fit × Intent: שילוב בין התאמה עסקית לכוונת רכישה מייצרת מפת החלטות ברורה – למי לחזור עכשיו, מי זקוק לטיפוח ואיפה לא לבזבז זמן.',
                     layout: 'side'
@@ -6018,7 +6018,7 @@ export const ARTICLES: Article[] = [
         heroBadge: 'AI מעשי לעסקים',
         cardCta: 'למדריך המעשי לאימוץ AI',
         coverImage: {
-            src: '/images/articles/practical-ai-business.jpg',
+            src: '/images/articles/practical-ai-business.webp',
             alt: 'בעל עסק בוחן משימה ידנית מוגדרת אחת כדי לבדוק כיצד להיעזר בבינה מלאכותית'
         },
         interactiveTheme: true,
@@ -6060,7 +6060,7 @@ export const ARTICLES: Article[] = [
                     'אלה לא "פרויקטי AI" – אלה דברים שכבר קורים בעסק. וזו נקודת פתיחה עסקית מצוינת.'
                 ],
                 image: {
-                    src: '/images/articles/ai-repetition-symptoms.jpg',
+                    src: '/images/articles/ai-repetition-symptoms.webp',
                     alt: 'מיפוי פעולות שגרתיות שחוזרות על עצמן בעסק לצורך בדיקת יישום בינה מלאכותית ראשון',
                     caption: '💡 לא צריך לבחור AI: בוחרים פעולה שגרתית אחת שכבר מכירים, ונותנים לטכנולוגיה להוריד עבודה.'
                 },
@@ -6106,7 +6106,7 @@ export const ARTICLES: Article[] = [
                     text: 'בחרו משהו שכבר כתבתם שלוש פעמים השבוע: מייל פולואפ, תשובה לשאלה נפוצה, סיכום שיחה או הצעת מחיר. אל תבקשו מה-AI "לעזור לעסק" – תנו לו את הטקסט הספציפי ובקשו ממנו לנסח גרסה תמציתית. מדדו דבר אחד בלבד: האם זה חסך לכם 10 דקות? אם כן, מצאתם נקודת פתיחה מצוינת.'
                 },
                 image: {
-                    src: '/images/articles/ai-summary-message-mountain.jpg',
+                    src: '/images/articles/ai-summary-message-mountain.webp',
                     alt: 'סיכום פניות והודעות ארוכות באמצעות בינה מלאכותית לחיסכון בזמן עבודה יומיומי',
                     caption: '💡 בהתחלה הוא מכין – אתם מגישים: ה-AI מקצר עבודה ידנית כפולה, בעוד השליטה המלאה נשארת אצלכם.'
                 }
@@ -6161,7 +6161,7 @@ export const ARTICLES: Article[] = [
                     'זה כל הסוד: **עוזר ← מכין ← מבצע ← מנהל שגרה.** לא צריך לקפוץ ארבע מדרגות ביום הראשון.'
                 ],
                 image: {
-                    src: '/images/articles/ai-adoption-ladder.jpg',
+                    src: '/images/articles/ai-adoption-ladder.webp',
                     alt: 'סולם ארבעת שלבי אימוץ בינה מלאכותית בעסק החל מסיוע נקודתי ועד לניהול שגרה',
                     caption: '💡 סולם האימוץ המדורג: עוזר ← מכין ← מבצע ← מנהל שגרה, תוך שמירה מתמדת על שיקול דעת אנושי.'
                 },
@@ -6233,7 +6233,7 @@ export const ARTICLES: Article[] = [
                     'לכן הגדירו לעצמכם כלל זהב שקל לזכור תמיד: **AI מטפל בשגרה המונוטונית. האדם מטפל בשיקול הדעת.** בהמשך, כשתראו שהמערכת מדויקת בעקביות, תוכלו להזיז את הגבול – אך לעולם אל תעשו זאת ביום הראשון.'
                 ],
                 image: {
-                    src: '/images/articles/ai-robot-driving-car.jpg',
+                    src: '/images/articles/ai-robot-driving-car.webp',
                     alt: 'הגדרת גבולות ברורים לפעולות בינה מלאכותית בעסק מול שיקול דעת אנושי',
                     caption: '💡 את השגרה המשעממת למכונה, את שיקול הדעת המורכב לבן אדם: לא נותנים ל-AI לנהוג לבד במצבים קריטיים.'
                 }
@@ -6392,7 +6392,7 @@ export const ARTICLES: Article[] = [
         heroBadge: "AI ואוטומציה מעשית",
         cardCta: "למדריך: מתי להשתמש ב-AI ומתי באוטומציה",
         coverImage: {
-            src: "/images/articles/ai-work-vs-thinking-hero.jpg",
+            src: "/images/articles/ai-work-vs-thinking-hero.webp",
             alt: "בעלת עסק בוחנת בממשק דיגיטלי את ההפרדה המעשית בין אוטומציה ביצועית, בינה מלאכותית להבנת מידע, ושיקול דעת אנושי לקבלת החלטות"
         },
         interactiveTheme: true,
@@ -6450,7 +6450,7 @@ export const ARTICLES: Article[] = [
                     text: "אם אתם יכולים להסביר בדיוק מה צריך לקרות – תנו לאוטומציה לבצע. אם צריך להבין מה קורה כדי לדעת מה לעשות – תכניסו AI. ואם טעות יכולה לעלות הרבה כסף, אמון או התחייבות – תכניסו אדם."
                 },
                 image: {
-                    src: "/images/articles/ten-second-ai-test.jpg",
+                    src: "/images/articles/ten-second-ai-test.webp",
                     alt: "מפת תהליכים עסקית להפרדה בין משימות שגרתיות לאוטומציה, ניתוח מידע מילולי בבינה מלאכותית ואישור אנושי לפעולות רגישות",
                     caption: "💡 מבחן 10 השניות: אוטומציה מבצעת חוקים ברורים, בינה מלאכותית מפרשת תוכן מורכב, ואדם מקבל החלטות בעלות משקל עסקי."
                 }
@@ -6592,7 +6592,7 @@ export const ARTICLES: Article[] = [
                     "מערכת חכמה באמת אינה תובעת תשומת לב; היא מחזירה לכם זמן עבודה יקר."
                 ],
                 image: {
-                    src: "/images/articles/tuesday-test-crm.jpg",
+                    src: "/images/articles/tuesday-test-crm.webp",
                     alt: "מנהלת עסק מתעדכנת ברוגע מול ציר זמן מרוכז ב-CRM בשעת עומס עסקית במקום לתחזק דשבורדים מרובים",
                     caption: "💡 מבחן יום שלישי: מערכת AI ו-CRM מעולה נמדדת ברגעי העומס של שגרת העבודה – כשהיא מורידה עומס ולא דורשת תחזוקה."
                 }
@@ -6728,7 +6728,7 @@ export const ARTICLES: Article[] = [
         keyTakeaway: "הכלל המוביל לפייפליין מכירות חי: לעסקה פתוחה אסור להישאר ללא פעולה עתידית מוגדרת. אל תמדדו את ה-CRM לפי כמות הנתונים שנאגרים בו, אלא לפי מספר הפעולות שהוא מונע מכם לשכוח. ודאו שלכל ליד פעיל יש בעלים אחד, פעולה ברורה (Next Action) ותאריך ביצוע.",
         cardCta: "מערכת פשוטה לפולואפ ופעולה הבאה ב-CRM",
         coverImage: {
-            src: "/images/articles/forgotten-lead-desk.jpg",
+            src: "/images/articles/forgotten-lead-desk.webp",
             alt: "שולחן עבודה עם פתקים ושיחות שלא נענו ומעבר לניהול פולואפ ומשימות מובנה ב-CRM"
         },
         interactiveTheme: true,
@@ -6803,7 +6803,7 @@ export const ARTICLES: Article[] = [
                     "עכשיו העסק אינו צריך להחזיק את דני בזיכרון. המערכת מחזיקה אותו ודואגת להציף אותו ברגע המדויק. זהו הבדל תפעולי עצום."
                 ],
                 image: {
-                    src: "/images/articles/three-deal-action-fields.jpg",
+                    src: "/images/articles/three-deal-action-fields.webp",
                     alt: "שלושת שדות המפתח לכל עסקה חיה ב-CRM: איש צוות אחראי, פעולה הבאה ותאריך יעד",
                     caption: "💡 שדות הפעולה הבאה: איש צוות אחראי, מה הפעולה הבאה ומתי היא צריכה לקרות – אלו השדות שמפרידים בין מחסן נתונים לבין מערכת שמנהלת עבודה."
                 },
@@ -6835,7 +6835,7 @@ export const ARTICLES: Article[] = [
                     "אפילו \"כרגע לא רלוונטי, אולי בינואר\" – זו פעולה: ינואר, בדיקה מחדש. פתאום ה-CRM מפסיק להיות ארכיון היסטורי והופך למנוע הזיכרון העתידי של העסק."
                 ],
                 image: {
-                    src: "/images/articles/pipeline-next-action-graveyard.jpg",
+                    src: "/images/articles/pipeline-next-action-graveyard.webp",
                     alt: "פייפליין מכירות המציג עסקאות תקועות בשלב הצעה נשלחה לעומת הגדרת פעולה הבאה ותאריך יעד ב-CRM",
                     caption: "💡 בית קברות לעסקאות: כרטיסים שנשארים ללא פעולה הבאה עתידית ותאריך יעד הופכים את הפייפליין למצגת של העבר במקום מנוע לעתיד."
                 },
@@ -7033,7 +7033,7 @@ export const ARTICLES: Article[] = [
         heroSummary: "אנחנו בונים אתרי פרימיום לעסקים שרוצים שהאתר יהיה חלק אמיתי ממערך השיווק, התוכן והמכירות שלהם – החלק הקדמי של המכונה העסקית.",
         keyTakeaway: "אנחנו בונים את החלק הקדמי של המכונה: אתר שאינו עומד לבד אלא מחובר לתוכן, מנועי חיפוש, AI, CRM ואוטומציות.",
         coverImage: {
-            src: "/images/articles/premium-business-website-engine.jpg",
+            src: "/images/articles/premium-business-website-engine.webp",
             alt: "עמדת עבודה עסקית מודרנית עם מסך רחב המציג אתר פרימיום המחובר למנוע ידע, CRM ואוטומציה"
         },
         cta: {
@@ -7067,7 +7067,7 @@ export const ARTICLES: Article[] = [
                     "לא תמצאו כאן הבטחות שווא וסיסמאות יהירות. הבחירה שלנו נובעת מההיגיון התפעולי עצמו: אם האתר שלכם אינו מחובר למה שקורה בעסק אחרי שהלקוח לוחץ על כפתור, הוא בסך הכל עלון מודפס שהועלה לרשת."
                 ],
                 image: {
-                    src: "/images/articles/frontend-business-machine-diagram.jpg",
+                    src: "/images/articles/frontend-business-machine-diagram.webp",
                     alt: "דיאגרמת ארכיטקטורה עסקית המציגה את האתר כחלק הקדמי של המכונה המחובר למנוע ידע ו-CRM",
                     caption: "💡 החלק הקדמי של המכונה: האתר קולט תנועה, מעביר נתונים ישירות ל-CRM ומפעיל אוטומציות ללא ניתוקים."
                 }
@@ -7290,7 +7290,7 @@ export const ARTICLES: Article[] = [
         heroSummary: "בעבר הקמת אתר הייתה פרויקט מורכב, ארוך ויקר. היום אפשר לבנות אתר תדמית נקי ומקצועי בעזרת בינה מלאכותית – בלי ללמוד תכנות, בלי להסתבך במונחים טכניים, ועם חיבור מובנה למערכות המידע של העסק.",
         keyTakeaway: "בניית אתר עם AI מתחילה בהסבר מדויק של העסק ולא בטכנולוגיה: מגדירים מה רוצים לראות בסוף, מרכזים את הכל לפרומפט מובנה אחד ב-AI Studio, ומחברים את הטפסים ישירות ל-CRM.",
         coverImage: {
-            src: "/images/articles/ai-website-builder-clay-cover.jpg",
+            src: "/images/articles/ai-website-builder-clay-cover.webp",
             alt: "בעל עסק בונה אתר תדמית מקצועי באמצעות בינה מלאכותית ומחשב נייד המחובר למערכת ניהול לקוחות"
         },
         cta: {
@@ -7330,7 +7330,7 @@ export const ARTICLES: Article[] = [
                     "וזו בדיוק הדרך הנכונה לחשוב על בניית אתר עם בינה מלאכותית: לא מתחילים מהטכנולוגיה, אלא ממה שרוצים לראות בסוף."
                 ],
                 image: {
-                    src: "/images/articles/ai-website-builder-clay-workflow.jpg",
+                    src: "/images/articles/ai-website-builder-clay-workflow.webp",
                     alt: "השוואה בין בניית אתרים ידנית ומורכבת עם ספרי תכנות וכבלים לבין בניית אתר פשוטה וממוקדת באמצעות בינה מלאכותית וחיבור ל-CRM",
                     caption: "💡 המעבר מעולם ישן של תוספים ותלות טכנית לבנייה מונחית בינה מלאכותית המחוברת ישירות למערכת הניהול."
                 }
@@ -7535,7 +7535,7 @@ export const ARTICLES: Article[] = [
         heroBadge: "תהליכים והרגלים בעסק",
         cardCta: "איך לשנות הרגלים ותהליכים תקועים בעסק",
         coverImage: {
-            src: "/images/articles/why-stuck-hero-path.jpg",
+            src: "/images/articles/why-stuck-hero-path.webp",
             alt: "בעל עסק הולך במסלול שחוק שחוזר על עצמו בתוך משרד, כשדרך קצרה ופשוטה יותר נמצאת לידו"
         },
         interactiveTheme: true,
@@ -7606,7 +7606,7 @@ export const ARTICLES: Article[] = [
                     "> **זה שמשהו מרגיש נורמלי לא אומר שהוא הגיוני. לפעמים הוא פשוט נמצא שם מספיק זמן.**"
                 ],
                 image: {
-                    src: "/images/articles/why-stuck-rube-goldberg.jpg",
+                    src: "/images/articles/why-stuck-rube-goldberg.webp",
                     alt: "תהליך משרדי מורכב בצורה מופרזת מבצע פעולה פשוטה בזמן שהעובדים כבר רגילים אליו",
                     caption: "💡 כשנוהל עבודה מסורבל חוזר מספיק פעמים, הוא מפסיק לעורר שאלות והופך לשגרה מובנת מאליה שהצוות פשוט מקבל כעובדת חיים.",
                     layout: "full"
@@ -7626,7 +7626,7 @@ export const ARTICLES: Article[] = [
                     "והמחיר אולי הכי מעניין: כל עוד אתם עסוקים בלתחזק את הדרך הישנה, אין לכם זמן לבנות את הדרך החדשה. כך נוצר מעגל סגור: אין זמן לשפר את התהליך כי התהליך הגרוע לוקח יותר מדי זמן."
                 ],
                 image: {
-                    src: "/images/articles/why-stuck-water-drip.jpg",
+                    src: "/images/articles/why-stuck-water-drip.webp",
                     alt: "עובד מטפל בטיפה קטנה שחוזרת שוב ושוב, בזמן שכמות גדולה כבר הצטברה מאחוריו",
                     caption: "💡 משימות ידניות קטנות נראות זניחות ברגע הבודד, אך כמו טפטוף מים עקבי, הן מצטברות למאות שעות עבודה אבודות בשנה.",
                     layout: "full"
@@ -7687,7 +7687,7 @@ export const ARTICLES: Article[] = [
                     "לפעמים הפתרון הוא אוטומציה. לפעמים CRM. לפעמים תזכורת. לפעמים נוהל של שלוש שורות. ולפעמים הפתרון הכי חכם הוא פשוט להפסיק לעשות משהו שאף אחד כבר לא יודע למה עושים אותו."
                 ],
                 image: {
-                    src: "/images/articles/why-stuck-easier-path.jpg",
+                    src: "/images/articles/why-stuck-easier-path.webp",
                     alt: "אדם ניצב מול שתי דרכי עבודה כאשר הדרך החדשה הפכה לפשוטה וקלה יותר מהמסלול הישן",
                     caption: "💡 שינוי התנהגות בר-קיימא נובע מעיצוב תשתית שמפחיתה חיכוך מהפעולה הרצויה, ולא ממאבק מתמיד בכוח רצון.",
                     layout: "full"
@@ -7819,7 +7819,7 @@ export const ARTICLES: Article[] = [
         heroBadge: "אבחון תפעולי ומאמר עומק",
         cardCta: "לשאלון האבחון וקריאת המאמר המלא",
         coverImage: {
-            src: "/images/articles/growth-bottleneck-hero.jpg",
+            src: "/images/articles/growth-bottleneck-hero.webp",
             alt: "עסק פעיל שבו העבודה מצטברת סביב צוואר בקבוק תפעולי שמגביל את הצמיחה."
         },
         diagnosticEmbed: {
@@ -7848,7 +7848,7 @@ export const ARTICLES: Article[] = [
                     "**חסם צמיחה סמוי הוא מצב שבו לעסק יש ביקוש ויכולת למכור, אבל תהליך, מידע, עבודה ידנית או תלות באדם מסוים מגבילים את יכולתו לקלוט יותר פעילות בצורה יציבה.** והדבר המבלבל ביותר בחסמים האלה הוא שהם בדרך כלל לא נראים כמו חסמים – הם נראים כמו יום עבודה רגיל."
                 ],
                 image: {
-                    src: "/images/articles/growth-bottleneck-hero.jpg",
+                    src: "/images/articles/growth-bottleneck-hero.webp",
                     alt: "עסק פעיל שבו העבודה מצטברת סביב צוואר בקבוק תפעולי שמגביל את הצמיחה.",
                     caption: "💡 עסק בריא וצומח שקולט שפע פניות – אך כולן מתנקזות אל צוואר בקבוק תפעולי צר שמגביל את קצב הצמיחה ומייצר עומס מיותר."
                 }
@@ -7883,7 +7883,7 @@ export const ARTICLES: Article[] = [
                 id: "six-hidden-growth-barriers",
                 title: "שישה חסמי צמיחה שקל מאוד להתרגל אליהם",
                 image: {
-                    src: "/images/articles/growth-small-tasks-traffic-jam.jpg",
+                    src: "/images/articles/growth-small-tasks-traffic-jam.webp",
                     alt: "משימות קטנות ויומיומיות שמצטברות יחד והופכות לחסם תפעולי בעסק.",
                     caption: "💡 עשרות פתקים, תזכורות ופעולות של שתי דקות – כל אחת שולית בפני עצמה, אך יחד הן יוצרות פקק תפעולי שמאיט את כל העסק."
                 },
@@ -7918,7 +7918,7 @@ export const ARTICLES: Article[] = [
                 id: "owner-dependency-friction",
                 title: "למה כל כך קשה לראות את זה?",
                 image: {
-                    src: "/images/articles/growth-owner-as-the-system.jpg",
+                    src: "/images/articles/growth-owner-as-the-system.webp",
                     alt: "עסק שבו מידע והחלטות רבות חייבים לעבור דרך אדם אחד לפני שהעבודה יכולה להתקדם.",
                     caption: "💡 כאשר כל שיחה, עדכון ומסמך חייבים לעבור דרך בעל העסק, הוא הופך שלא במתכוון למרכזיית המידע ולצוואר הבקבוק המרכזי של הפעילות."
                 },
@@ -7953,7 +7953,7 @@ export const ARTICLES: Article[] = [
                 id: "healthy-growth-blueprint",
                 title: "אז איך נראית צמיחה בריאה יותר?",
                 image: {
-                    src: "/images/articles/growth-calm-operational-flow.jpg",
+                    src: "/images/articles/growth-calm-operational-flow.webp",
                     alt: "עסק עם תהליכים ברורים שבו העבודה ממשיכה בצורה מסודרת ללא תלות בכל פעולה בבעל העסק.",
                     caption: "💡 תשתית תפעולית בהירה המאפשרת לעבודה לזרום ישירות בין התחנות והצוות – בשקט תפעולי ובלי שכל החלטה תלויה בבעל העסק."
                 },
@@ -8084,7 +8084,7 @@ export const ARTICLES: Article[] = [
         heroBadge: "שימור לקוחות ורכישות חוזרות",
         cardCta: "למדריך המעשי לשימור לקוחות",
         coverImage: {
-            src: "/images/articles/returning-customers-hero.jpg",
+            src: "/images/articles/returning-customers-hero.webp",
             alt: "בעל עסק שרץ אחרי לידים חדשים בפרסום בזמן שלקוחות קיימים שכבר קנו ממנו נשארים ללא מענה ושימור"
         },
         sections: [
@@ -8139,7 +8139,7 @@ export const ARTICLES: Article[] = [
                 id: "going-quiet",
                 title: "הקבוצה המעניינת ביותר שלכם נמצאת באמצע",
                 image: {
-                    src: "/images/articles/customer-churn-stages.jpg",
+                    src: "/images/articles/customer-churn-stages.webp",
                     alt: "ארבעת שלבי דעיכת לקוח מפעיל ועד אבוד וזיהוי מוקדם של לקוחות שנחלשים במערכת CRM",
                     caption: "💡 הלקוח לא נעלם ביום אחד: המעבר מפעיל לשקט, רדום ואבוד קורה בהדרגה. השער המרכזי לפעולה יעילה נמצא בטווח שבין פעיל לרדום."
                 },
@@ -8268,7 +8268,7 @@ export const ARTICLES: Article[] = [
                 id: "bathtub-drain",
                 title: "לפני שמעלים את תקציב הפרסום – סוגרים את הפקק באמבטיה",
                 image: {
-                    src: "/images/articles/marketing-bathtub-leak.jpg",
+                    src: "/images/articles/marketing-bathtub-leak.webp",
                     alt: "אמבטיית שיווק שמאבדת לקוחות קיימים בגלל פקק פתוח והיעדר תהליך שימור לקוחות",
                     caption: "💡 אמבטיית השיווק: הגדלת זרם הלידים החדשים בעוד הפקק בתחתית פתוח גורמת לדליפת הכנסות בלתי פוסקת. לפעמים הצעד הרווחי ביותר הוא פשוט לסגור את הפקק."
                 },
@@ -8360,7 +8360,7 @@ export const ARTICLES: Article[] = [
         heroBadge: 'ניתוח עומק | פרסום ב-AI בישראל',
         cardCta: 'לקריאת הניתוח המלא על ChatGPT Ads',
         coverImage: {
-            src: '/images/articles/chatgpt-ads-israel-launch.jpg',
+            src: '/images/articles/chatgpt-ads-israel-launch.webp',
             alt: 'אדם בוחן אפשרויות במהלך תהליך קבלת החלטה בעזרת כלי AI'
         },
         sections: [
@@ -8459,7 +8459,7 @@ export const ARTICLES: Article[] = [
                     'אבל זו התנהגות שונה מספיק כדי להצדיק תשומת לב.'
                 ],
                 image: {
-                    src: '/images/articles/chatgpt-ads-query-to-conversation.jpg',
+                    src: '/images/articles/chatgpt-ads-query-to-conversation.webp',
                     alt: 'תהליך שבו בקשה כללית הופכת להחלטה עשירה יותר ככל שמתווסף הקשר',
                     caption: '💡 אותה שאלה, הרבה יותר הקשר: המעבר משאילתת חיפוש בודדת לרצף שיחה שבו מוגדרים צרכים, אילוצים ותקציב.'
                 }
@@ -8537,7 +8537,7 @@ export const ARTICLES: Article[] = [
                 id: 'crm-and-measurement',
                 title: 'ומה OpenAI עושה באותו זמן? מחברת את הפרסום ל-CRM',
                 image: {
-                    src: '/images/articles/chatgpt-ads-click-to-crm-journey.jpg',
+                    src: '/images/articles/chatgpt-ads-click-to-crm-journey.webp',
                     alt: 'מסלול של לקוח שמתחיל מחשיפה לפרסום וממשיך דרך מעקב, שיחה והחלטה עסקית',
                     caption: '💡 הקליק הוא רק הכניסה: מסלול הלקוח מתחיל בחשיפה וממשיך דרך קליטה ב-CRM, מעקב מהיר והמשכיות עסקית.'
                 },
@@ -8668,7 +8668,7 @@ export const ARTICLES: Article[] = [
         heroBadge: 'ניתוח אסטרטגי | ChatGPT Ads ו-Intent',
         cardCta: 'לקריאת המאמר על כוונה והתאמה בפרסום',
         coverImage: {
-            src: '/images/articles/chatgpt-ads-intent-fit.jpg',
+            src: '/images/articles/chatgpt-ads-intent-fit.webp',
             alt: 'שני בעלי עסקים שנראים כמו אותו קהל יעד אך רק אחד נמצא במצב שבו הפתרון רלוונטי לו'
         },
         sections: [
@@ -8764,7 +8764,7 @@ export const ARTICLES: Article[] = [
                 id: 'audience-intent-fit-layers',
                 title: 'קהל, כוונה והתאמה הם לא אותו דבר',
                 image: {
-                    src: '/images/articles/chatgpt-ads-audience-intent-fit.jpg',
+                    src: '/images/articles/chatgpt-ads-audience-intent-fit.webp',
                     alt: 'המחשה של המעבר מקהל כללי להבנת הכוונה וההתאמה של הלקוח',
                     caption: '💡 קהל, כוונה והתאמה: המעבר מנתונים דמוגרפיים כלליים להבנה של הצורך, האילוצים ומידת ההתאמה האמיתית של הפתרון.'
                 },
@@ -8926,7 +8926,7 @@ export const ARTICLES: Article[] = [
                 id: 'after-the-click-smart-crm',
                 title: 'ואז מגיע החלק שבו לא משנה כמה חכם היה הפרסום',
                 image: {
-                    src: '/images/articles/chatgpt-ads-beyond-click-journey.jpg',
+                    src: '/images/articles/chatgpt-ads-beyond-click-journey.webp',
                     alt: 'לקוח שממשיך ממגע פרסומי דרך תהליך מעקב ושיחה עד להחלטה עסקית',
                     caption: '💡 אחרי הקליק: הפרסום פותח את הדלת, אך מערכת ה-CRM והתהליך האנושי בעסק הם שמובילים את הכוונה לעסקה.'
                 },
@@ -8986,7 +8986,7 @@ export const ARTICLES: Article[] = [
                 id: 'practical-exercise-trigger-moments',
                 title: 'רוצים לקחת משהו מהכתבה בלי להוציא שקל על ChatGPT Ads?',
                 image: {
-                    src: '/images/articles/chatgpt-ads-trigger-moment.jpg',
+                    src: '/images/articles/chatgpt-ads-trigger-moment.webp',
                     alt: 'בעל עסק ברגע שבו צמיחה או שינוי בעסק הופכים פתרון שהיה מיותר בעבר לרלוונטי',
                     caption: '💡 רגע הטריגר: צמיחה, עובד חדש או עומס הופכים פתרון שהיה בגדר "מעניין" אתמול לדבר שחובה לפתור היום.'
                 },
@@ -9108,7 +9108,7 @@ export const ARTICLES: Article[] = [
         heroBadge: 'תחקיר מכירות | בדיקת מקורות',
         cardCta: 'לקריאת התחקיר: כמה פולואפים באמת צריך',
         coverImage: {
-            src: '/images/articles/how-many-sales-follow-ups.jpg',
+            src: '/images/articles/how-many-sales-follow-ups.webp',
             alt: 'בעל עסק מודרני מגלה שעצת מכירות פופולרית מבוססת על מחקר ישן מאוד'
         },
         conversionConfig: {
@@ -9207,7 +9207,7 @@ export const ARTICLES: Article[] = [
                 id: 'touchpoints-vs-followups',
                 title: 'ואז מגיעים ל-31 Touchpoints',
                 image: {
-                    src: '/images/articles/sales-touchpoints-vs-followups.jpg',
+                    src: '/images/articles/sales-touchpoints-vs-followups.webp',
                     alt: 'המחשה לכך שעשרות נקודות מגע במסע לקוח אינן עשרות הודעות Follow-up',
                     caption: '💡 נקודת מגע מול פולואפ: 31 מגעים לאורך מסע לקוח כוללים תוכן, אתר ופגישות – ולא עשרות הודעות חוזרות מאיש המכירות.'
                 },
@@ -9253,7 +9253,7 @@ export const ARTICLES: Article[] = [
                 id: 'sales-lead-black-hole',
                 title: 'אבל אז מצאנו את הבעיה האמיתית',
                 image: {
-                    src: '/images/articles/sales-lead-black-hole.jpg',
+                    src: '/images/articles/sales-lead-black-hole.webp',
                     alt: 'לידים עסקיים שנעלמים כאשר אין תהליך מסודר להמשך טיפול',
                     caption: '💡 החור השחור של הלידים: הזדמנויות עסקיות נעלמות לעיתים קרובות פשוט משום שאף אחד בארגון לא המשיך לטפל בהן.'
                 },
@@ -9350,7 +9350,7 @@ export const ARTICLES: Article[] = [
                 id: 'crm-not-memory',
                 title: 'ופה ה-CRM מתחיל להיות מעניין',
                 image: {
-                    src: '/images/articles/sales-follow-up-buried-reminder.jpg',
+                    src: '/images/articles/sales-follow-up-buried-reminder.webp',
                     alt: 'תזכורת לחזור לליד שנעלמת בתוך עומס העבודה היומיומי',
                     caption: '💡 תזכורת שנקברת בעומס: הבטחה לחזור ביום חמישי נשכחת כשאין משימה מוגדרת ב-CRM ורצף העבודה השוטף משתלט.'
                 },
@@ -9380,7 +9380,7 @@ export const ARTICLES: Article[] = [
                 id: 'continuity-altrubiz-crm',
                 title: 'בדיוק בשביל זה בנינו את AltruBiz כמו שבנינו אותו',
                 image: {
-                    src: '/images/articles/sales-crm-continuity-system.jpg',
+                    src: '/images/articles/sales-crm-continuity-system.webp',
                     alt: 'תהליך מסודר ששומר על המשך הטיפול בלידים גם כשהצוות עסוק',
                     caption: '💡 המשכיות עסקית: סיסטם מסודר ב-CRM מחזיק את שלבי הטיפול, התזכורות והאחריות גם כשהצוות מוצף במשימות שוטפות.'
                 },
@@ -9496,7 +9496,7 @@ export const ARTICLES: Article[] = [
         heroBadge: 'קליטת לקוחות | אוטומציה עסקית',
         cardCta: 'מדריך מעשי: בניית תהליך Onboarding מסודר ב-CRM',
         coverImage: {
-            src: '/images/articles/onboarding-chaos-welcome.jpg',
+            src: '/images/articles/onboarding-chaos-welcome.webp',
             alt: 'לקוח חדש שנכנס לתהליך קליטה ומקבל מבול טפסים ובקשות מפוזרות במקום מסלול Onboarding מסודר'
         },
         conversionConfig: {
@@ -9598,7 +9598,7 @@ export const ARTICLES: Article[] = [
                 id: 'piecemeal',
                 title: 'שלב 4 - הפסיקו לבקש דברים בטפטופים',
                 image: {
-                    src: '/images/articles/onboarding-detective-board.jpg',
+                    src: '/images/articles/onboarding-detective-board.webp',
                     alt: 'חיפוש ידני של קבצים וחומרים בין וואטסאפ למייל ולדרייב כשתהליך קליטת הלקוח אינו מרוכז במקום אחד',
                     caption: '💡 כשהחומרים מגיעים בטפטופים, העובדים מבזבזים שעות כבלשים במקום להתחיל לעבוד.'
                 },
@@ -9628,7 +9628,7 @@ export const ARTICLES: Article[] = [
                 id: 'first-win',
                 title: 'שלב 6 - תכננו את ה-First Win',
                 image: {
-                    src: '/images/articles/onboarding-first-win.jpg',
+                    src: '/images/articles/onboarding-first-win.webp',
                     alt: 'מתן ניצחון ראשון וערך מהיר ללקוח כבר בימים הראשונים לקליטה ב-CRM',
                     caption: '💡 First Win: הוכחת ערך מהירה בימים הראשונים מחזקת את תחושת הביטחון של הלקוח.'
                 },
@@ -9780,7 +9780,7 @@ export const ARTICLES: Article[] = [
         heroBadge: 'רציפות היכרות והקשר מכירה',
         cardCta: 'איך לדעת בדיוק מי הלקוח שמולך עוד לפני שעונים לטלפון',
         coverImage: {
-            src: '/images/articles/omnichannel-sales-context-hero.jpg',
+            src: '/images/articles/omnichannel-sales-context-hero.webp',
             alt: 'איש מכירות מדבר בטלפון ומנסה להיזכר בפרטי הלקוח מתוך מידע מפוזר'
         },
         conversionConfig: {
@@ -9837,7 +9837,7 @@ export const ARTICLES: Article[] = [
                 title: 'קאט. אותו עולם. חוויה אחרת לגמרי',
                 subtitle: 'איך נראית אותה שיחה כשהנציגה מקבלת את כל ההקשר עוד לפני החיוג',
                 image: {
-                    src: '/images/articles/omnichannel-cut-scene.jpg',
+                    src: '/images/articles/omnichannel-cut-scene.webp',
                     alt: 'פנייה מלקוח עוברת מהטופס דרך AltruBiz אל אשת המכירות עם ההקשר המלא',
                     caption: 'כשהפנייה וההעדפות מתועדות מיד, השיחה הראשונה מתחילה מנקודת יתרון – לא מחקירה מביכה מול הלקוח.'
                 },
@@ -9953,7 +9953,7 @@ export const ARTICLES: Article[] = [
                 title: 'מערכת טובה לא מחליפה איש מכירות טוב',
                 subtitle: 'היא מורידה ממנו שטויות ונותנת לו את הכלים להתנהג כמו יועץ אמיתי',
                 image: {
-                    src: '/images/articles/omnichannel-system-behind-you.jpg',
+                    src: '/images/articles/omnichannel-system-behind-you.webp',
                     alt: 'איש מכירות משוחח עם לקוח בזמן שהמערכת מרכזת עבורו את ההיסטוריה, המשימות והשלב בתהליך',
                     caption: 'המערכת מחזיקה את התשתית מאחור, כדי שאיש המכירות יוכל להיות מרוכז ב-100% באדם שמולו.'
                 },
@@ -10059,7 +10059,7 @@ export const ARTICLES: Article[] = [
         heroBadge: 'כלי חינמי ל-WhatsApp Business',
         cardCta: 'איך להתאים סרטון לאוטומציית WhatsApp בחינם',
         coverImage: {
-            src: '/images/articles/whatsapp-video-renderer-hero.jpg',
+            src: '/images/articles/whatsapp-video-renderer-hero.webp',
             alt: 'אדם מנסה להעביר קובץ וידאו דרך כניסת WhatsApp Business אך נתקל בסירוב טכני'
         },
         title: 'הסרטון עובד. WhatsApp לא מתרשם. אז בנינו כלי.',
@@ -10125,7 +10125,7 @@ export const ARTICLES: Article[] = [
                     'קובץ שנראה לנו כמו סרטון רגיל לא בהכרח נראה כך ל-WhatsApp Business API.'
                 ],
                 image: {
-                    src: '/images/articles/whatsapp-video-renderer-hero.jpg',
+                    src: '/images/articles/whatsapp-video-renderer-hero.webp',
                     alt: 'אדם מנסה להעביר קובץ וידאו דרך כניסת WhatsApp Business אך נתקל בסירוב טכני',
                     caption: 'הסרטון עובד מצוין בנגן המקומי, אבל שרת ה-API של WhatsApp דורש קידוד פנימי מדויק.'
                 }
@@ -10225,7 +10225,7 @@ export const ARTICLES: Article[] = [
                     'אם פעולה חוזרת על עצמה, אם היא טכנית, ואם אין שום סיבה שבעל העסק יעשה אותה בעצמו – בדיוק בשביל הדברים האלה יש כלים.'
                 ],
                 image: {
-                    src: '/images/articles/whatsapp-render-workshop.jpg',
+                    src: '/images/articles/whatsapp-render-workshop.webp',
                     alt: 'שולחן עבודה וסדנת פיתוח באלטרוביז עם דלת פתוחה לשימוש חופשי של כולם בכלי הווידאו',
                     caption: 'כלי עבודה פנימי שנבנה במקור עבור הלקוחות שלנו, ועכשיו פתוח לשימוש חופשי של כולם.'
                 }
@@ -10333,7 +10333,7 @@ export const ARTICLES: Article[] = [
         keyTakeaway: 'אל תחכו להרגיש מוכנים. קמפיין או ניסוי ראשון בעסק אינו רק מבחן רווח אלא מבחן למידה שנועד לקנות מידע אמיתי בזול – כשהיתרון התחרותי האמיתי הוא הניסיון המצטבר שאי אפשר להוריד משום אתר.',
         cardCta: 'איך להתחיל משהו חדש בעסק לפני שמרגישים מוכנים',
         coverImage: {
-            src: '/images/articles/learn-by-doing-business-hero.jpg',
+            src: '/images/articles/learn-by-doing-business-hero.webp',
             alt: 'בעל עסק מוקף במדריכים והכנות בזמן שהמשימה עצמה עדיין מחכה שיתחיל'
         },
         sections: [
@@ -10433,7 +10433,7 @@ export const ARTICLES: Article[] = [
                     'הרעיון הוא לא להמר. הרעיון הוא לקנות מידע בזול. זו דרך אחרת לגמרי לחשוב על התקציב הראשון: לא רק "כמה כסף אני הולך לעשות מהקמפיין הראשון?", אלא גם: "מה אני הולך לדעת אחרי הקמפיין הראשון שאני לא יודע היום?".'
                 ],
                 image: {
-                    src: '/images/articles/small-bet-stepping-stone.jpg',
+                    src: '/images/articles/small-bet-stepping-stone.webp',
                     alt: 'דמות הולכת על אבני דריכה יציבות ובטוחות לבדיקת צעד קטן ומדוד בשטח חדש',
                     caption: 'צעד קטן ומבוקר בשטח חדש מאפשר לטעות בבטחה, ללמוד מהר ולבנות מסלול יציב קדימה.'
                 },
@@ -10499,7 +10499,7 @@ export const ARTICLES: Article[] = [
                     'המטרה אינה להפוך אתכם לאנשי PPC, והיא גם לא להבטיח לכם שקמפיין ראשון יהיה הצלחה מסחררת. המטרה היא לתת לכם מספיק מסגרת, מספיק ידע ומספיק כלים כדי להיכנס לטריטוריה החדשה הזאת בלי ללכת לאיבוד בתוכה – ולהתחיל לצבור את הדבר שאף מדריך לא יכול לתת לכם מראש: ניסיון על העסק שלכם.'
                 ],
                 image: {
-                    src: '/images/articles/doing-and-guiding-screens.jpg',
+                    src: '/images/articles/doing-and-guiding-screens.webp',
                     alt: 'סביבת עבודה עם מסך ביצוע מעשי ולצדו מדריך עבודה מלווה שלב אחר שלב',
                     caption: 'מדריך עבודה אמיתי מונח לצד העשייה השוטפת, ומלווה כל צעד בהגדרות ובמדידה בזמן אמת.'
                 }
@@ -10515,7 +10515,7 @@ export const ARTICLES: Article[] = [
                     'לשם בדיוק בנינו את המדריך: לא כדי שתדעו הכול לפני שתתחילו, אלא כדי שתוכלו להתחיל נכון – ולדעת יותר בכל סיבוב.'
                 ],
                 image: {
-                    src: '/images/articles/accumulated-experience-advantage.jpg',
+                    src: '/images/articles/accumulated-experience-advantage.webp',
                     alt: 'שכבות של ניסיון מעשי, נתונים ותובנות שנצברו לאורך זמן כנכס בלעדי של העסק',
                     caption: 'ניסיון מעשי מצטבר נבנה שכבה אחר שכבה כנכס בלעדי של העסק ששום מתחרה לא יכול להוריד או להעתיק.'
                 }

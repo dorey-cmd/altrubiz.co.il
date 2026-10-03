@@ -14,7 +14,7 @@ tags: ["WhatsApp","Meta","דיוור לעסקים","חוק הספאם","אוטו
 
 *כללי האצבע, מדיניות Meta, והנחיות מעשיות למניעת חסימות והגבלות בחשבון העסקי*
 
-![ניתוב הודעות חכם ומניעת חסימות בדיוור וואטסאפ לעסקים ב-WhatsApp Business API במערכת AltruBiz CRM](/images/articles/smart-routing-switch.jpg)
+![ניתוב הודעות חכם ומניעת חסימות בדיוור וואטסאפ לעסקים ב-WhatsApp Business API במערכת AltruBiz CRM](/images/articles/smart-routing-switch.webp)
 
 ## תקציר ומטרה
 
@@ -41,7 +41,7 @@ Meta קובעת את כללי השימוש ב-WhatsApp Business, רשאית לש
 
 נמען שאינו מזהה אתכם או מופתע לקבל פנייה הוא הנמען שלוחץ על "דווח כספאם" או "חסום". כמה לחיצות בודדות כאלו עלולות להוריד את דירוג האיכות (Quality Rating) של המספר העסקי שלכם מיידית.
 
-![ניתוב בטוח של הודעות דיוור בוואטסאפ ועמידה בהנחיות ומדיניות Meta ו-WhatsApp Business Platform](/images/articles/smart-routing-switch.jpg)
+![ניתוב בטוח של הודעות דיוור בוואטסאפ ועמידה בהנחיות ומדיניות Meta ו-WhatsApp Business Platform](/images/articles/smart-routing-switch.webp)
 
 *💡 כמו מסוט רכבת שמכוון למסילה הנכונה: שמירה על תבניות מאושרות ושיעור חסימות נמוך מבטיחה עבודה רציפה מול Meta.*
 

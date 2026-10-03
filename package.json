@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "og:generate": "node scripts/generate-og-images.cjs",
+    "images:optimize": "node scripts/optimize-images.cjs",
     "articles:sync-md": "node scripts/sync-articles-md.cjs",
     "llms:generate": "node scripts/generate-llms-txt.cjs",
     "sitemap:generate": "node scripts/generate-sitemap.cjs",

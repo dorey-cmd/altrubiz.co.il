@@ -14,7 +14,7 @@ tags: ["WhatsApp Business","AltruBiz Render","אוטומציה עסקית","וי
 
 *בנינו ללקוחות AltruBiz כלי קטן שפותר אחת התקלות המעצבנות באוטומציות WhatsApp. עכשיו פתחנו אותו לכולם. בחינם.*
 
-![אדם מנסה להעביר קובץ וידאו דרך כניסת WhatsApp Business אך נתקל בסירוב טכני](/images/articles/whatsapp-video-renderer-hero.jpg)
+![אדם מנסה להעביר קובץ וידאו דרך כניסת WhatsApp Business אך נתקל בסירוב טכני](/images/articles/whatsapp-video-renderer-hero.webp)
 
 ## תקציר ומטרה
 
@@ -55,7 +55,7 @@ tags: ["WhatsApp Business","AltruBiz Render","אוטומציה עסקית","וי
 
 קובץ שנראה לנו כמו סרטון רגיל לא בהכרח נראה כך ל-WhatsApp Business API.
 
-![אדם מנסה להעביר קובץ וידאו דרך כניסת WhatsApp Business אך נתקל בסירוב טכני](/images/articles/whatsapp-video-renderer-hero.jpg)
+![אדם מנסה להעביר קובץ וידאו דרך כניסת WhatsApp Business אך נתקל בסירוב טכני](/images/articles/whatsapp-video-renderer-hero.webp)
 
 *💡 הסרטון עובד מצוין בנגן המקומי, אבל שרת ה-API של WhatsApp דורש קידוד פנימי מדויק.*
 
@@ -189,7 +189,7 @@ MP4 הוא לא כל הסיפור.
 
 אם פעולה חוזרת על עצמה, אם היא טכנית, ואם אין שום סיבה שבעל העסק יעשה אותה בעצמו – בדיוק בשביל הדברים האלה יש כלים.
 
-![שולחן עבודה וסדנת פיתוח באלטרוביז עם דלת פתוחה לשימוש חופשי של כולם בכלי הווידאו](/images/articles/whatsapp-render-workshop.jpg)
+![שולחן עבודה וסדנת פיתוח באלטרוביז עם דלת פתוחה לשימוש חופשי של כולם בכלי הווידאו](/images/articles/whatsapp-render-workshop.webp)
 
 *💡 כלי עבודה פנימי שנבנה במקור עבור הלקוחות שלנו, ועכשיו פתוח לשימוש חופשי של כולם.*
 

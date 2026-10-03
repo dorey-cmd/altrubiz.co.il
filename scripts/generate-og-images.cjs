@@ -36,7 +36,7 @@ async function processImages() {
 
     for (const article of articles) {
         const slug = article.slug;
-        const coverSrc = article.coverImage?.src || '/images/articles/smart-routing-switch.jpg';
+        const coverSrc = article.coverImage?.src || '/images/articles/smart-routing-switch.webp';
         const cleanCoverSrc = coverSrc.startsWith('/') ? coverSrc.slice(1) : coverSrc;
         const sourcePath = path.join(PUBLIC_DIR, cleanCoverSrc);
         const targetPath = path.join(OG_DIR, `${slug}.jpg`);

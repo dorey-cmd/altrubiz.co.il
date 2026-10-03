@@ -121,27 +121,27 @@ function replaceRootContent(html, content) {
 
 const HUB_VISUAL_ASSETS = {
     'sales-pipeline': {
-        imageSrc: '/images/articles/visual-pipeline-deals.jpg',
+        imageSrc: '/images/articles/visual-pipeline-deals.webp',
         imageAlt: 'פייפליין מכירות חזותי לניהול שלבי עסקאות והזדמנויות ב-CRM',
         caption: 'פייפליין מכירות חזותי מאפשר לראות בכל רגע נתון איפה כל לקוח עומד, איפה עסקאות נתקעות, ומה הצעד הבא.'
     },
     'business-memory': {
-        imageSrc: '/images/articles/thailand-vacation-business-memory.jpg',
+        imageSrc: '/images/articles/thailand-vacation-business-memory.webp',
         imageAlt: 'ניהול עסק מכל מקום ללא תלות בזיכרון של עובדים יחידים',
         caption: 'כשהזיכרון הארגוני שמור במערכת ולא בראש של עובדים או בוואטסאפ פרטי, העסק ממשיך לפעול גם בחופשות ובחילופי צוות.'
     },
     'repetitive-manual-work': {
-        imageSrc: '/images/articles/conveyor-lead-automation.jpg',
+        imageSrc: '/images/articles/conveyor-lead-automation.webp',
         imageAlt: 'אוטומציה של משימות ידניות שחוזרות על עצמן וחיסכון בזמן ניהולי',
         caption: 'החלפת משימות העתקה, תיאומי יומן ותזכורות ידניות באוטומציות חכמות שחוסכות עשרות שעות ניהול בחודש.'
     },
     'lost-leads': {
-        imageSrc: '/images/articles/lead-waiting-doorbell.jpg',
+        imageSrc: '/images/articles/lead-waiting-doorbell.webp',
         imageAlt: 'מענה מהיר ללידים שמתעניינים בעסק ב-5 הדקות הראשונות',
         caption: '78% מהעסקאות נסגרות מול העסק הראשון שחוזר לליד ומספק מענה מקצועי. מענה תוך 5 דקות מגדיל את סיכויי הסגירה פי 9.'
     },
     'whatsapp-in-crm': {
-        imageSrc: '/images/articles/customer-single-thread-omnichannel.jpg',
+        imageSrc: '/images/articles/customer-single-thread-omnichannel.webp',
         imageAlt: 'תיבת הודעות וואטסאפ ואינבוקס לקוחות מרכזי אחד ב-CRM',
         caption: 'איחוד כל שיחות הוואטסאפ של העסק לתיבת הודעות צוותית אחת מונע שיחות אבודות ומאפשר עבודה משותפת חלקה.'
     }
@@ -167,6 +167,8 @@ for (const article of articles) {
     const ogFileRel = `/images/articles/og/${slug}.jpg`;
     const hasDedicatedOg = fs.existsSync(path.join(PUBLIC_DIR, 'images', 'articles', 'og', `${slug}.jpg`));
     const absoluteOgImage = `${BASE_DOMAIN}${ogFileRel}`;
+    // Social cards always use the dedicated JPEG (declared image/jpeg, 1200x630). Article covers are WebP.
+    const socialImage = hasDedicatedOg ? absoluteOgImage : (/\.jpe?g(\?|$)/i.test(absoluteImage) ? absoluteImage : `${BASE_DOMAIN}/images/og-altrubiz-main.jpg`);
 
     let html = baseTemplate;
 
@@ -179,9 +181,9 @@ for (const article of articles) {
     // 3. Replace Canonical & image_src
     html = html.replace(/<link rel="canonical"[^>]*>/i, `<link rel="canonical" href="${canonicalUrl}" />`);
     if (html.includes('rel="image_src"')) {
-        html = html.replace(/<link rel="image_src"[^>]*>/i, `<link rel="image_src" href="${absoluteImage}" />`);
+        html = html.replace(/<link rel="image_src"[^>]*>/i, `<link rel="image_src" href="${socialImage}" />`);
     } else {
-        html = html.replace('</head>', `  <link rel="image_src" href="${absoluteImage}" />\n</head>`);
+        html = html.replace('</head>', `  <link rel="image_src" href="${socialImage}" />\n</head>`);
     }
 
     // 4. Replace Meta Description & Robots Meta
@@ -204,13 +206,13 @@ for (const article of articles) {
   <meta property="og:url" content="${canonicalUrl}" />
   <meta property="og:title" content="${escapeAttr(title)}" />
   <meta property="og:description" content="${escapeAttr(smartSummary)}" />
-  <meta property="og:image" content="${absoluteImage}" />
-  <meta property="og:image:secure_url" content="${absoluteImage}" />
+  <meta property="og:image" content="${socialImage}" />
+  <meta property="og:image:secure_url" content="${socialImage}" />
   <meta property="og:image:type" content="image/jpeg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:image:alt" content="${escapeAttr(imageAlt)}" />
-${hasDedicatedOg && absoluteOgImage !== absoluteImage ? `  <meta property="og:image" content="${absoluteOgImage}" />\n  <meta property="og:image:secure_url" content="${absoluteOgImage}" />\n` : ''}  <meta property="article:published_time" content="${article.datePublished}" />
+${hasDedicatedOg && absoluteOgImage !== socialImage ? `  <meta property="og:image" content="${absoluteOgImage}" />\n  <meta property="og:image:secure_url" content="${absoluteOgImage}" />\n` : ''}  <meta property="article:published_time" content="${article.datePublished}" />
   <meta property="article:modified_time" content="${article.dateModified}" />
   <meta property="article:author" content="${escapeAttr(article.author.name)}" />
   <meta property="article:section" content="${escapeAttr(article.category)}" />
@@ -222,7 +224,7 @@ ${tagsMeta}
   <meta name="twitter:url" content="${canonicalUrl}" />
   <meta name="twitter:title" content="${escapeAttr(title)}" />
   <meta name="twitter:description" content="${escapeAttr(smartSummary)}" />
-  <meta name="twitter:image" content="${absoluteImage}" />
+  <meta name="twitter:image" content="${socialImage}" />
   <meta name="twitter:image:alt" content="${escapeAttr(imageAlt)}" />`;
 
     // Replace the OG & Twitter blocks from baseTemplate
@@ -367,21 +369,21 @@ const staticPages = [
         path: '10x4lead',
         title: 'תודה, קיבלנו את הפנייה שלך | AltruBiz CRM',
         description: 'הפנייה שלך הגיעה אלינו כמו שצריך ב-AltruBiz CRM, ואנחנו כבר מטפלים בה. נחזור אליך בהקדם.',
-        image: `${BASE_DOMAIN}/images/thank-you-lead.jpg`,
+        image: `${BASE_DOMAIN}/images/thank-you-lead.webp`,
         noindex: true
     },
     {
         path: '10x4meet',
         title: 'Your meeting has been scheduled | AltruBiz CRM',
         description: 'תודה שקבעת פגישה עם AltruBiz! הפגישה נקבעה בהצלחה ואפשר להוסיף אותה ישירות ליומן Google, Outlook או iCloud.',
-        image: `${BASE_DOMAIN}/images/thank-you-meet.jpg`,
+        image: `${BASE_DOMAIN}/images/thank-you-meet.webp`,
         noindex: true
     },
     {
         path: '10x4order',
         title: 'התשלום התקבל בהצלחה | AltruBiz CRM',
         description: 'תודה! התשלום עבר כמו שצריך ב-AltruBiz ואנחנו כבר ממשיכים מכאן. הכול מסודר.',
-        image: `${BASE_DOMAIN}/images/thank-you-order.jpg`,
+        image: `${BASE_DOMAIN}/images/thank-you-order.webp`,
         noindex: true
     },
     {
