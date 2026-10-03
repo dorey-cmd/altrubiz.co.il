@@ -28,7 +28,7 @@
  */
 
 const { chromium } = require('playwright-core');
-const { spawn } = require('child_process');
+const { spawn, execSync } = require('child_process');
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
@@ -114,7 +114,15 @@ async function ensureServer() {
     for (let i = 0; i < 40; i++) {
         await new Promise((r) => setTimeout(r, 500));
         if (await checkServer('http://localhost:4191/')) {
-            return { baseUrl: 'http://localhost:4191', close: () => { try { proc.kill(); } catch { /* noop */ } } };
+            return {
+                baseUrl: 'http://localhost:4191',
+                close: () => {
+                    try {
+                        if (process.platform === 'win32') execSync(`taskkill /pid ${proc.pid} /T /F`, { stdio: 'ignore' });
+                        else proc.kill('SIGTERM');
+                    } catch { /* already gone */ }
+                }
+            };
         }
     }
     throw new Error('Failed to start preview server (run `npm run build` first).');
@@ -376,6 +384,7 @@ async function main() {
         process.exit(1);
     }
     console.log('\x1b[32m✔ All crawlable-link checks passed.\x1b[0m\n');
+    process.exit(0);
 }
 
 main().catch((err) => {
