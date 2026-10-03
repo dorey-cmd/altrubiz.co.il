@@ -20,6 +20,13 @@
  *    - Webhook payload structure verification (all legacy fields + note + consent)
  *    - Note content verification in payload
  *    - Privacy and Terms links have target="_blank" and rel="noopener noreferrer"
+ *    - The browser posts to the server endpoint and never to the CRM webhook
+ *    - Honeypot field, fill time and bot check token travel with the payload
+ * 4. Server-side signup guard (api/newsletter-subscribe.ts, api/newsletter-confirm.ts):
+ *    - Origin allow-list, consent, honeypot, fill time, rate limit, Turnstile
+ *    - Fail closed when the server configuration is incomplete
+ *    - Pending contact, note and confirmation email written through the CRM API (no webhooks)
+ *    - Signed double opt-in confirmation link (GET never confirms, POST adds the club tag once)
  */
 
 const esbuild = require('esbuild');
@@ -33,6 +40,7 @@ const executablePath = fs.existsSync(CHROME_PATH) ? CHROME_PATH : EDGE_PATH;
 
 const ROOT_DIR = path.resolve(__dirname, '..');
 const PREVIEW_URL = 'http://localhost:4173';
+const STUB_TURNSTILE_TOKEN = 'stub-turnstile-token';
 
 console.log('\n========================================================');
 console.log('   AltruBiz Newsletter Consent & Webhook Note Audit     ');
@@ -181,7 +189,26 @@ async function runBrowserTests() {
         let webhookFired = false;
         let interceptedPayload = null;
 
+        let directCrmCall = false;
         await page.route('**/services.leadconnectorhq.com/hooks/**', async (route) => {
+            directCrmCall = true;
+            await route.abort();
+        });
+
+        // Hermetic bot check: replace the Cloudflare script with a stub that issues a token
+        await page.route('**/challenges.cloudflare.com/turnstile/**', async (route) => {
+            await route.fulfill({
+                status: 200,
+                contentType: 'application/javascript',
+                body: `window.turnstile = {
+                    render: function (el, opts) { setTimeout(function () { opts.callback('${STUB_TURNSTILE_TOKEN}'); }, 50); return 'stub-widget'; },
+                    reset: function () {},
+                    remove: function () {}
+                };`
+            });
+        });
+
+        await page.route('**/api/newsletter-subscribe', async (route) => {
             webhookFired = true;
             const postData = route.request().postData();
             interceptedPayload = JSON.parse(postData || '{}');
@@ -271,7 +298,32 @@ async function runBrowserTests() {
         await page.waitForTimeout(1200);
 
         if (webhookFired && interceptedPayload) {
-            pass('Positive Test PASS: Webhook dispatched successfully after consent confirmation');
+            pass('Positive Test PASS: Signup dispatched to the server endpoint after consent confirmation');
+
+            if (!directCrmCall) {
+                pass('Browser never calls the CRM webhook directly');
+            } else {
+                fail('Browser called the CRM webhook directly! Signups must go through /api/newsletter-subscribe');
+            }
+
+            if (interceptedPayload.turnstile_token === STUB_TURNSTILE_TOKEN) {
+                pass('Payload carries the bot check token');
+            } else {
+                fail(`Payload bot check token mismatch: ${interceptedPayload.turnstile_token}`);
+            }
+
+            if (interceptedPayload.contact_me_by_fax_only === '' && typeof interceptedPayload.form_elapsed_ms === 'number') {
+                pass('Payload carries an empty honeypot field and the form fill time');
+            } else {
+                fail('Payload missing honeypot field or form fill time');
+            }
+
+            const successText = await page.$eval('section[aria-label="הרשמה למועדון המהלך הבא"] h3', el => el.textContent).catch(() => '');
+            if (successText && successText.includes('לאשר במייל')) {
+                pass(`Success state asks to confirm by email: "${successText.trim()}"`);
+            } else {
+                fail('Success state does not ask the visitor to confirm by email');
+            }
 
             // Verify payload schema
             if (interceptedPayload.email === 'test-user@altrubiz.co.il') {
@@ -324,6 +376,39 @@ async function runBrowserTests() {
             fail('Positive Test FAIL: Webhook was NOT dispatched after checking consent checkbox');
         }
 
+        // Honeypot must be invisible to visitors and assistive technology
+        const honeypotState = await page.evaluate(() => {
+            const el = document.querySelector('input[name="contact_me_by_fax_only"]');
+            if (!el) return null;
+            const rect = el.parentElement.getBoundingClientRect();
+            return {
+                ariaHidden: el.parentElement.getAttribute('aria-hidden'),
+                tabIndex: el.tabIndex,
+                width: rect.width,
+                height: rect.height
+            };
+        });
+        // The success state replaces the form, so reload to inspect the honeypot
+        if (honeypotState === null) {
+            await page.reload({ waitUntil: 'domcontentloaded' });
+        }
+        const honeypot = honeypotState || await page.evaluate(() => {
+            const el = document.querySelector('input[name="contact_me_by_fax_only"]');
+            if (!el) return null;
+            const rect = el.parentElement.getBoundingClientRect();
+            return {
+                ariaHidden: el.parentElement.getAttribute('aria-hidden'),
+                tabIndex: el.tabIndex,
+                width: rect.width,
+                height: rect.height
+            };
+        });
+        if (honeypot && honeypot.ariaHidden === 'true' && honeypot.tabIndex === -1 && honeypot.width <= 1 && honeypot.height <= 1) {
+            pass('Honeypot field is hidden from visitors, keyboard and assistive technology');
+        } else {
+            fail(`Honeypot field missing or exposed: ${JSON.stringify(honeypot)}`);
+        }
+
     } catch (err) {
         fail(`Browser test error: ${err.message}`);
     } finally {
@@ -331,7 +416,248 @@ async function runBrowserTests() {
     }
 }
 
-runBrowserTests().then(() => {
+// --- 4. Server-Side Signup Guard ---
+function createRes() {
+    return {
+        statusCode: 200,
+        headers: {},
+        body: undefined,
+        setHeader(key, value) { this.headers[key] = value; },
+        status(code) { this.statusCode = code; return this; },
+        json(payload) { this.body = payload; return this; },
+        send(payload) { this.body = payload; return this; }
+    };
+}
+
+function signupReq(bodyOverrides = {}, headerOverrides = {}) {
+    return {
+        method: 'POST',
+        headers: {
+            origin: 'https://altrubiz.co.il',
+            host: 'altrubiz.co.il',
+            'x-forwarded-for': '203.0.113.10',
+            'x-vercel-ip-country': 'IL',
+            ...headerOverrides
+        },
+        body: {
+            email: 'client@example.com',
+            consent: true,
+            consent_version: 'newsletter-consent-v1',
+            submission_id: 'test-submission-id',
+            sourcePage: '/',
+            pageTitle: 'AltruBiz',
+            note: 'CLIENT NOTE',
+            contact_me_by_fax_only: '',
+            form_elapsed_ms: 12000,
+            turnstile_token: 'valid-token',
+            ...bodyOverrides
+        }
+    };
+}
+
+async function runServerGuardTests() {
+    console.log('\n4. Auditing Server-Side Signup Guard (api/newsletter-*.ts)...');
+
+    const subscribe = loadTsModule('api/newsletter-subscribe.ts').default;
+    const confirm = loadTsModule('api/newsletter-confirm.ts').default;
+    const guard = loadTsModule('api/_newsletterGuard.ts');
+
+    const CRM_API = 'https://services.leadconnectorhq.com';
+    const CLUB_TAG = 'מועדון המהלך הבא';
+    const PENDING_TAG = 'מועדון - ממתין לאישור';
+    const savedEnv = { ...process.env };
+    const savedFetch = global.fetch;
+    const savedWarn = console.warn;
+    const savedError = console.error;
+    console.warn = () => {};
+    console.error = () => {};
+
+    // In-memory CRM double: one contact per email, with tags
+    let crmCalls = [];
+    let crmContacts = {};
+    let turnstileCalls = [];
+    let turnstilePasses = true;
+    global.fetch = async (url, options = {}) => {
+        const target = String(url);
+        if (target.includes('challenges.cloudflare.com')) {
+            turnstileCalls.push(options.body);
+            return { ok: true, json: async () => ({ success: turnstilePasses, 'error-codes': turnstilePasses ? [] : ['invalid-input-response'] }) };
+        }
+        const path = target.replace(CRM_API, '');
+        const body = JSON.parse(options.body);
+        crmCalls.push({ method: options.method, path, body, auth: options.headers.Authorization });
+        let response = {};
+        if (path === '/contacts/upsert') {
+            const isNew = !crmContacts[body.email];
+            if (isNew) crmContacts[body.email] = { id: `contact-${Object.keys(crmContacts).length + 1}`, tags: [] };
+            const c = crmContacts[body.email];
+            response = { new: isNew, contact: { id: c.id, tags: [...c.tags] } };
+        } else if (path.endsWith('/tags')) {
+            const c = Object.values(crmContacts).find((x) => path.includes(x.id));
+            if (options.method === 'DELETE') c.tags = c.tags.filter((t) => !body.tags.includes(t));
+            else c.tags = [...new Set([...c.tags, ...body.tags])];
+        }
+        return { ok: true, status: 200, text: async () => JSON.stringify(response) };
+    };
+    const callsTo = (suffix, method = 'POST') => crmCalls.filter((c) => c.method === method && c.path.endsWith(suffix));
+
+    const configure = () => {
+        process.env.VERCEL_ENV = 'production';
+        process.env.GHL_API_TOKEN = 'unit-test-crm-token';
+        process.env.NEWSLETTER_CONFIRM_SECRET = 'unit-test-signing-secret';
+        process.env.TURNSTILE_SECRET_KEY = 'unit-test-turnstile-secret';
+    };
+    const check = (condition, okMsg, failMsg) => (condition ? pass(okMsg) : fail(failMsg));
+    let ipCounter = 0;
+    const freshIp = () => ({ 'x-forwarded-for': `198.51.100.${++ipCounter}` });
+
+    try {
+        configure();
+
+        let res = createRes();
+        await subscribe({ method: 'GET', headers: {} }, res);
+        check(res.statusCode === 405, 'Signup endpoint rejects non-POST requests (405)', `Expected 405 for GET, got ${res.statusCode}`);
+
+        res = createRes();
+        await subscribe(signupReq({}, { origin: 'https://evil.example', ...freshIp() }), res);
+        check(res.statusCode === 403 && crmCalls.length === 0, 'Foreign origin is rejected (403) and nothing reaches the CRM', `Foreign origin not rejected: ${res.statusCode}`);
+
+        res = createRes();
+        await subscribe(signupReq({}, { origin: 'https://altrubiz-preview.vercel.app', ...freshIp() }), res);
+        check(res.statusCode === 403, 'Preview origins are not accepted by the production endpoint', `Preview origin accepted in production: ${res.statusCode}`);
+
+        res = createRes();
+        await subscribe(signupReq({ consent: false }, freshIp()), res);
+        check(res.statusCode === 400 && crmCalls.length === 0, 'Signup without consent is rejected server-side (400)', `Missing consent not rejected: ${res.statusCode}`);
+
+        res = createRes();
+        await subscribe(signupReq({ email: 'not-an-email' }, freshIp()), res);
+        check(res.statusCode === 400, 'Invalid email is rejected server-side (400)', `Invalid email not rejected: ${res.statusCode}`);
+
+        res = createRes();
+        await subscribe(signupReq({ contact_me_by_fax_only: 'http://spam.example' }, freshIp()), res);
+        check(res.statusCode === 200 && crmCalls.length === 0 && turnstileCalls.length === 0, 'Filled honeypot is dropped silently; nothing reaches the CRM', 'Honeypot submission was forwarded');
+
+        res = createRes();
+        await subscribe(signupReq({ form_elapsed_ms: 900 }, freshIp()), res);
+        check(res.statusCode === 200 && crmCalls.length === 0, 'Sub-3-second form fill is dropped silently; nothing reaches the CRM', 'Instant submission was forwarded');
+
+        turnstilePasses = false;
+        res = createRes();
+        await subscribe(signupReq({}, freshIp()), res);
+        check(res.statusCode === 403 && res.body.code === 'BOT_CHECK_FAILED' && crmCalls.length === 0, 'Failed bot check is rejected (403) and nothing reaches the CRM', `Failed bot check not rejected: ${res.statusCode}`);
+        turnstilePasses = true;
+
+        res = createRes();
+        await subscribe(signupReq({ turnstile_token: '' }, freshIp()), res);
+        check(res.statusCode === 403 && crmCalls.length === 0, 'Missing bot check token is rejected (403)', `Missing token not rejected: ${res.statusCode}`);
+
+        for (const missing of ['GHL_API_TOKEN', 'NEWSLETTER_CONFIRM_SECRET', 'TURNSTILE_SECRET_KEY']) {
+            configure();
+            delete process.env[missing];
+            res = createRes();
+            await subscribe(signupReq({}, freshIp()), res);
+            check(res.statusCode === 503 && crmCalls.length === 0, `Fails closed in production when ${missing} is missing (503)`, `Did not fail closed without ${missing}: ${res.statusCode}`);
+        }
+        configure();
+
+        // Happy path: pending contact + note + confirmation email, all through the CRM API
+        res = createRes();
+        await subscribe(signupReq({}, freshIp()), res);
+        const contact = crmContacts['client@example.com'];
+        check(res.statusCode === 200 && !!contact && callsTo('/contacts/upsert').length === 1, 'Verified signup upserts the contact through the CRM API', `Verified signup not written to CRM: ${res.statusCode}`);
+
+        if (contact) {
+            check(crmCalls.every((c) => c.auth === 'Bearer unit-test-crm-token') && crmCalls.every((c) => !c.path.includes('/hooks/')),
+                'CRM is reached only through the authenticated API (no inbound webhooks)', 'CRM call without API token or through a webhook');
+            check(contact.tags.includes(PENDING_TAG) && !contact.tags.includes(CLUB_TAG),
+                'New signup is tagged as pending and does NOT get the club tag before confirming', `Unexpected tags before confirmation: ${contact.tags.join(', ')}`);
+            const sourceCall = crmCalls.find((c) => c.method === 'PUT');
+            check(!!sourceCall && sourceCall.body.source === 'מועדון המהלך הבא', 'Source is set on the newly created contact', 'Source not set on new contact');
+
+            const noteCall = callsTo('/notes')[0];
+            check(!!noteCall && noteCall.body.body.startsWith('CLIENT NOTE') && noteCall.body.body.includes('Cloudflare Turnstile passed') && noteCall.body.body.includes('IP address:\n198.51.100.') && noteCall.body.body.includes('PENDING'),
+                'Note is enriched server-side with bot check result, IP and opt-in status', 'Server note enrichment missing');
+
+            const emailCall = callsTo('/conversations/messages')[0];
+            const linkMatch = emailCall && emailCall.body.html.match(/href="(https:\/\/altrubiz\.co\.il\/api\/newsletter-confirm\?token=[^"]+)"/);
+            check(!!emailCall && emailCall.body.type === 'Email' && emailCall.body.contactId === contact.id && emailCall.body.subject.includes('לאשר') && !!linkMatch,
+                'Confirmation email is sent through the CRM API with a canonical-domain confirmation link', 'Confirmation email missing or without confirmation link');
+            check(!JSON.stringify(res.body).includes('token') && !JSON.stringify(res.body).includes('contact-'),
+                'Browser response exposes neither the confirmation token nor CRM identifiers', 'Browser response leaks confirmation token or CRM data');
+
+            if (linkMatch) {
+                const token = new URL(linkMatch[1].replace(/&amp;/g, '&')).searchParams.get('token');
+                crmCalls = [];
+
+                res = createRes();
+                await confirm({ method: 'GET', headers: {}, query: { token } }, res);
+                check(res.statusCode === 200 && crmCalls.length === 0 && String(res.body).includes('method="post"') && String(res.body).includes('client@example.com'),
+                    'Confirmation link (GET) shows a confirm button and confirms nothing by itself', 'GET on confirmation link confirmed the signup or rendered no form');
+                check(res.headers['X-Robots-Tag'] === 'noindex, nofollow', 'Confirmation page is served noindex, nofollow', 'Confirmation page missing noindex header');
+
+                res = createRes();
+                await confirm({ method: 'POST', headers: { 'x-forwarded-for': '203.0.113.77', 'user-agent': 'UnitTest' }, body: { token } }, res);
+                check(res.statusCode === 200 && contact.tags.includes(CLUB_TAG) && !contact.tags.includes(PENDING_TAG),
+                    'Confirm button (POST) adds the club tag and removes the pending tag', `Tags after confirmation: ${contact.tags.join(', ')}`);
+                check(callsTo('/notes').length === 1 && callsTo('/notes')[0].body.body.includes('DOUBLE OPT-IN CONFIRMED'),
+                    'Confirmation is recorded as a note on the contact', 'Confirmation note missing');
+                check(callsTo('/conversations/messages').length === 0,
+                    'Confirmation sends no email itself (the welcome is owned by the CRM tag workflow)', 'Confirmation endpoint sent an email');
+
+                crmCalls = [];
+                res = createRes();
+                await confirm({ method: 'POST', headers: {}, body: { token } }, res);
+                check(res.statusCode === 200 && callsTo('/tags').length === 0 && callsTo('/notes').length === 0,
+                    'Confirming twice does not re-add the tag, so the welcome workflow fires once', 'Second confirmation re-tagged the contact');
+
+                crmCalls = [];
+                res = createRes();
+                await confirm({ method: 'POST', headers: {}, body: { token: token.slice(0, -3) + 'abc' } }, res);
+                check(res.statusCode === 400 && crmCalls.length === 0, 'Tampered confirmation token is rejected (400)', `Tampered token accepted: ${res.statusCode}`);
+
+                const forgedBody = Buffer.from(JSON.stringify({ email: 'victim@example.com', submissionId: 'x', consentVersion: 'v', expiresAt: Date.now() + 100000 })).toString('base64url');
+                res = createRes();
+                await confirm({ method: 'POST', headers: {}, body: { token: `${forgedBody}.${token.split('.')[1]}` } }, res);
+                check(res.statusCode === 400 && crmCalls.length === 0, 'Confirmation token cannot be re-pointed at another email (400)', `Forged token accepted: ${res.statusCode}`);
+
+                const expired = guard.createConfirmToken({ email: 'client@example.com', submissionId: 's', consentVersion: 'v' }, 'unit-test-signing-secret', Date.now() - 8 * 24 * 60 * 60 * 1000);
+                res = createRes();
+                await confirm({ method: 'POST', headers: {}, body: { token: expired } }, res);
+                check(res.statusCode === 400 && crmCalls.length === 0, 'Expired confirmation token is rejected (400)', `Expired token accepted: ${res.statusCode}`);
+
+                // An existing member who signs up again is not demoted to pending
+                crmCalls = [];
+                res = createRes();
+                await subscribe(signupReq({}, freshIp()), res);
+                check(res.statusCode === 200 && !contact.tags.includes(PENDING_TAG) && contact.tags.includes(CLUB_TAG) && !crmCalls.some((c) => c.method === 'PUT'),
+                    'Existing member signing up again keeps the club tag, and the contact source is not overwritten', 'Existing member was demoted or overwritten');
+            }
+        }
+
+        // Rate limit: a single IP is braked after 5 signups within the window
+        crmCalls = [];
+        let lastStatus = 0;
+        for (let i = 0; i < 6; i++) {
+            res = createRes();
+            await subscribe(signupReq({ email: `burst${i}@example.com` }, { 'x-forwarded-for': '192.0.2.200' }), res);
+            lastStatus = res.statusCode;
+        }
+        check(lastStatus === 429 && callsTo('/contacts/upsert').length === 5, 'Sixth signup from one IP within the window is rate limited (429)', `Rate limit not enforced: status ${lastStatus}, written ${callsTo('/contacts/upsert').length}`);
+    } catch (err) {
+        fail(`Server guard test error: ${err.message}`);
+    } finally {
+        global.fetch = savedFetch;
+        console.warn = savedWarn;
+        console.error = savedError;
+        for (const key of Object.keys(process.env)) {
+            if (!(key in savedEnv)) delete process.env[key];
+        }
+        Object.assign(process.env, savedEnv);
+    }
+}
+
+runBrowserTests().then(runServerGuardTests).then(() => {
     console.log('\n========================================================');
     console.log(`Audit Summary: ${passed} passed, ${failed} failed`);
     console.log('========================================================\n');
