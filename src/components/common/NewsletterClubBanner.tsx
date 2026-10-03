@@ -1,19 +1,91 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Mail, ArrowLeft, CheckCircle2, Sparkles, Loader2 } from 'lucide-react';
 import { NEWSLETTER_CONSENT_CONFIG } from '../../data/newsletterConsent';
 import { buildNewsletterNote, generateSubmissionId } from '../../lib/newsletterNoteBuilder';
+import { TURNSTILE_SITE_KEY, loadTurnstile } from '../../lib/turnstile';
 
 interface NewsletterClubBannerProps {
     currentPath?: string;
 }
 
-const WEBHOOK_URL = 'https://services.leadconnectorhq.com/hooks/O8tlYEQIUn4z3qPCt1FX/webhook-trigger/ad603078-9b7e-4e14-9e1e-69a68cddf2fd';
+// Server-side boundary: the CRM webhook is never called from the browser.
+const SUBSCRIBE_ENDPOINT = '/api/newsletter-subscribe';
+const BOT_CHECK_TIMEOUT_MS = 15000;
+const GENERIC_ERROR_MESSAGE = 'לא הצלחנו להשלים את ההרשמה. אפשר לנסות שוב בעוד רגע.';
 
 export const NewsletterClubBanner: React.FC<NewsletterClubBannerProps> = ({ currentPath }) => {
     const [email, setEmail] = useState('');
     const [consentChecked, setConsentChecked] = useState(false);
     const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
     const [errorMessage, setErrorMessage] = useState('');
+    // Honeypot: invisible to visitors, filled only by automated form fillers
+    const [honeypot, setHoneypot] = useState('');
+
+    const mountedAtRef = useRef(Date.now());
+    const botCheckContainerRef = useRef<HTMLDivElement>(null);
+    const botCheckWidgetIdRef = useRef<string | null>(null);
+    const botCheckTokenRef = useRef<string | null>(null);
+    const botCheckWaitersRef = useRef<Array<(token: string | null) => void>>([]);
+
+    const settleBotCheck = (token: string | null) => {
+        botCheckTokenRef.current = token;
+        const waiters = botCheckWaitersRef.current;
+        botCheckWaitersRef.current = [];
+        waiters.forEach((resolve) => resolve(token));
+    };
+
+    // Loads the bot check on first interaction with the form, never on page load
+    const startBotCheck = useCallback(async () => {
+        if (botCheckWidgetIdRef.current || !botCheckContainerRef.current) return;
+        try {
+            const turnstile = await loadTurnstile();
+            if (botCheckWidgetIdRef.current || !botCheckContainerRef.current) return;
+            botCheckWidgetIdRef.current = turnstile.render(botCheckContainerRef.current, {
+                sitekey: TURNSTILE_SITE_KEY,
+                appearance: 'interaction-only',
+                theme: 'dark',
+                language: 'he',
+                action: 'newsletter_signup',
+                callback: (token) => settleBotCheck(token),
+                'error-callback': () => settleBotCheck(null),
+                'expired-callback': () => {
+                    botCheckTokenRef.current = null;
+                }
+            });
+        } catch (err) {
+            console.warn('[NewsletterClubBanner] Bot check failed to load', err);
+            settleBotCheck(null);
+        }
+    }, []);
+
+    const waitForBotCheckToken = (): Promise<string | null> => {
+        if (botCheckTokenRef.current) return Promise.resolve(botCheckTokenRef.current);
+        return new Promise((resolve) => {
+            const timer = window.setTimeout(() => resolve(null), BOT_CHECK_TIMEOUT_MS);
+            botCheckWaitersRef.current.push((token) => {
+                window.clearTimeout(timer);
+                resolve(token);
+            });
+            void startBotCheck();
+        });
+    };
+
+    // Tokens are single-use: request a fresh one after every submission attempt
+    const resetBotCheck = () => {
+        botCheckTokenRef.current = null;
+        if (botCheckWidgetIdRef.current && window.turnstile) {
+            window.turnstile.reset(botCheckWidgetIdRef.current);
+        }
+    };
+
+    useEffect(() => {
+        return () => {
+            if (botCheckWidgetIdRef.current && window.turnstile) {
+                window.turnstile.remove(botCheckWidgetIdRef.current);
+                botCheckWidgetIdRef.current = null;
+            }
+        };
+    }, []);
 
     const pathname = currentPath || (typeof window !== 'undefined' ? window.location.pathname : '/');
 
@@ -72,32 +144,45 @@ export const NewsletterClubBanner: React.FC<NewsletterClubBannerProps> = ({ curr
             consent: true,
             consent_version: NEWSLETTER_CONSENT_CONFIG.consentVersion,
             submission_id: submissionId,
-            note: noteContent
+            note: noteContent,
+            contact_me_by_fax_only: honeypot,
+            form_elapsed_ms: Date.now() - mountedAtRef.current,
+            turnstile_token: ''
         };
 
+        const botCheckToken = await waitForBotCheckToken();
+        if (!botCheckToken) {
+            resetBotCheck();
+            setStatus('idle');
+            setErrorMessage('האימות לא הושלם. אפשר לרענן את העמוד ולנסות שוב.');
+            return;
+        }
+        payload.turnstile_token = botCheckToken;
+
         try {
-            await fetch(WEBHOOK_URL, {
+            const response = await fetch(SUBSCRIBE_ENDPOINT, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(payload)
             });
+
+            if (!response.ok) {
+                const result = await response.json().catch(() => null);
+                resetBotCheck();
+                setStatus('idle');
+                setErrorMessage(typeof result?.message === 'string' ? result.message : GENERIC_ERROR_MESSAGE);
+                return;
+            }
+
             setStatus('success');
             setEmail('');
             setConsentChecked(false);
         } catch {
-            // Fallback for CORS restrictions on webhook endpoints
-            try {
-                const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' });
-                navigator.sendBeacon(WEBHOOK_URL, blob);
-            } catch (beaconErr) {
-                console.warn('Beacon delivery failed', beaconErr);
-            }
-            // Delivery attempt dispatched
-            setStatus('success');
-            setEmail('');
-            setConsentChecked(false);
+            resetBotCheck();
+            setStatus('idle');
+            setErrorMessage(GENERIC_ERROR_MESSAGE);
         }
     };
 
@@ -147,10 +232,10 @@ export const NewsletterClubBanner: React.FC<NewsletterClubBannerProps> = ({ curr
                                 <CheckCircle2 size={24} />
                             </div>
                             <h3 className="font-bold text-base text-white">
-                                תודה על ההרשמה!
+                                נשאר רק לאשר במייל
                             </h3>
-                            <p className="text-xs text-emerald-200">
-                                המהלך הבא יישלח ישירות אל תיבת הדואר שלכם.
+                            <p className="text-xs text-emerald-200 leading-relaxed">
+                                שלחנו מייל עם קישור לאישור ההרשמה. לחיצה עליו תשלים את ההצטרפות. אם המייל לא הגיע, כדאי לבדוק גם בתיבת הספאם.
                             </p>
                         </div>
                     ) : (
@@ -164,6 +249,7 @@ export const NewsletterClubBanner: React.FC<NewsletterClubBannerProps> = ({ curr
                                         type="email"
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
+                                        onFocus={() => void startBotCheck()}
                                         placeholder="Email"
                                         aria-label="כתובת אימייל"
                                         disabled={status === 'loading'}
@@ -191,6 +277,20 @@ export const NewsletterClubBanner: React.FC<NewsletterClubBannerProps> = ({ curr
                                 </button>
                             </div>
 
+                            {/* Honeypot field: hidden from visitors and assistive technology */}
+                            <div className="sr-only" aria-hidden="true">
+                                <label htmlFor="newsletter-club-fax">Fax</label>
+                                <input
+                                    type="text"
+                                    id="newsletter-club-fax"
+                                    name="contact_me_by_fax_only"
+                                    value={honeypot}
+                                    onChange={(e) => setHoneypot(e.target.value)}
+                                    tabIndex={-1}
+                                    autoComplete="off"
+                                />
+                            </div>
+
                             {/* Mandatory Explicit Consent Checkbox */}
                             <div className="pt-1 text-right">
                                 <div className="flex items-start gap-2.5">
@@ -202,6 +302,7 @@ export const NewsletterClubBanner: React.FC<NewsletterClubBannerProps> = ({ curr
                                         onChange={(e) => {
                                             setConsentChecked(e.target.checked);
                                             if (e.target.checked) setErrorMessage('');
+                                            void startBotCheck();
                                         }}
                                         required
                                         disabled={status === 'loading'}
@@ -236,6 +337,9 @@ export const NewsletterClubBanner: React.FC<NewsletterClubBannerProps> = ({ curr
                                     </label>
                                 </div>
                             </div>
+
+                            {/* Bot check widget: renders only when a challenge is required */}
+                            <div ref={botCheckContainerRef} className="flex justify-center" />
 
                             {errorMessage && (
                                 <p className="text-xs font-semibold text-rose-300 text-right pr-2">
